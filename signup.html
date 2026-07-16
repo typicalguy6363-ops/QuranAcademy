@@ -6,6 +6,166 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+    <title>Sign Up | QuranAcademy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="navbar">
+        <a class="logo" href="index.html">QuranAcademy</a>
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="navigation" id="navigation">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="reader.html">Reader</a></li>
+            </ul>
+
+            <div class="account-buttons">
+                <a class="button button-outline" href="signin.html">Sign In</a>
+                <a class="button button-primary active-account" href="signup.html">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="auth-page">
+    <div class="auth-layout reveal">
+
+        <section class="auth-intro">
+            <p class="eyebrow">Start learning</p>
+            <h1>Join <span class="rainbow-text">QuranAcademy.</span></h1>
+            <p>
+                Create an account later to save bookmarks and progress.
+                The Quran reader itself stays available without signing up.
+            </p>
+
+            <div class="auth-benefits">
+                <div><span>📚</span><p>Save your favorite surahs</p></div>
+                <div><span>⚙️</span><p>Keep your reciter and speed settings</p></div>
+                <div><span>🌟</span><p>Build your learning experience</p></div>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <div class="auth-card-icon">📖</div>
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">A simple account page for now.</p>
+
+            <form id="signUpForm" novalidate>
+                <div class="form-group">
+                    <label for="signUpName">First name</label>
+                    <input
+                        type="text"
+                        id="signUpName"
+                        placeholder="Your name"
+                        required
+                    >
+                    <p class="form-error" id="signUpNameError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="signUpEmail">Email</label>
+                    <input
+                        type="email"
+                        id="signUpEmail"
+                        placeholder="you@example.com"
+                        required
+                    >
+                    <p class="form-error" id="signUpEmailError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="signUpPassword">Password</label>
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="signUpPassword"
+                            placeholder="At least 6 characters"
+                            required
+                        >
+                        <button
+                            class="password-toggle"
+                            type="button"
+                            data-password-toggle="signUpPassword"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                    <p class="form-error" id="signUpPasswordError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm password</label>
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Enter password again"
+                            required
+                        >
+                        <button
+                            class="password-toggle"
+                            type="button"
+                            data-password-toggle="confirmPassword"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                    <p class="form-error" id="confirmPasswordError"></p>
+                </div>
+
+                <button class="button button-primary form-submit" type="submit">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="auth-switch">
+                Already have an account?
+                <a href="signin.html">Sign in</a>
+            </p>
+
+            <p class="auth-note">
+                Or <a href="reader.html">use the Quran Reader now</a>.
+            </p>
+        </section>
+    </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
     <title>Sign In | QuranAcademy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
