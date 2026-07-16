@@ -1,988 +1,880 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+const QURAN_API = "https://api.alquran.cloud/v1";
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+const AUDIO_CDN =
+    "https://cdn.islamic.network/quran";
 
-    <meta
-        name="description"
-        content="Learn the Arabic alphabet with QuranAcademy."
-    >
+const RECITER_SETTINGS = {
+    "ar.alafasy": {
+        bitrate: 128
+    },
 
-    <title>Level 1: Arabic Alphabet | QuranAcademy</title>
+    "ar.husary": {
+        bitrate: 128
+    },
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    "ar.minshawi": {
+        bitrate: 128
+    },
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    "ar.shuraim": {
+        bitrate: 128
+    },
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    "ar.sudais": {
+        bitrate: 192
+    },
 
-    <link rel="stylesheet" href="style.css">
+    "ar.abdulbasit": {
+        bitrate: 192
+    }
+};
 
-    <style>
-        .alphabet-page {
-            min-height: calc(100vh - 76px);
-            padding: 65px 7% 90px;
+document.addEventListener("DOMContentLoaded", () => {
+    initializeQuranReader();
+});
+
+async function initializeQuranReader() {
+    const surahSelect =
+        document.getElementById("surahSelect");
+
+    const reciterSelect =
+        document.getElementById("reciterSelect");
+
+    const speedSelect =
+        document.getElementById("speedSelect");
+
+    const loadSurahButton =
+        document.getElementById("loadSurahButton");
+
+    const previousSurahButton =
+        document.getElementById("previousSurahButton");
+
+    const nextSurahButton =
+        document.getElementById("nextSurahButton");
+
+    const playSurahButton =
+        document.getElementById("playSurahButton");
+
+    const pauseAudioButton =
+        document.getElementById("pauseAudioButton");
+
+    const restartAudioButton =
+        document.getElementById("restartAudioButton");
+
+    const stopAudioButton =
+        document.getElementById("stopAudioButton");
+
+    const quranAudio =
+        document.getElementById("quranAudio");
+
+    const surahTitle =
+        document.getElementById("surahTitle");
+
+    const surahSubtitle =
+        document.getElementById("surahSubtitle");
+
+    const readerStatus =
+        document.getElementById("readerStatus");
+
+    const ayahCount =
+        document.getElementById("ayahCount");
+
+    const ayahContainer =
+        document.getElementById("ayahContainer");
+
+    if (
+        !surahSelect ||
+        !reciterSelect ||
+        !speedSelect ||
+        !loadSurahButton ||
+        !previousSurahButton ||
+        !nextSurahButton ||
+        !playSurahButton ||
+        !pauseAudioButton ||
+        !restartAudioButton ||
+        !stopAudioButton ||
+        !quranAudio ||
+        !surahTitle ||
+        !surahSubtitle ||
+        !readerStatus ||
+        !ayahCount ||
+        !ayahContainer
+    ) {
+        console.error(
+            "The Quran Reader is missing one or more required elements."
+        );
+
+        return;
+    }
+
+    let surahList = [];
+    let currentSurah = null;
+    let currentAudioMode = "surah";
+    let currentAyahCard = null;
+
+    function setStatus(message, type = "") {
+        readerStatus.textContent = message;
+
+        readerStatus.classList.remove(
+            "success",
+            "error"
+        );
+
+        if (type) {
+            readerStatus.classList.add(type);
         }
+    }
 
-        .alphabet-header {
-            width: min(1120px, 100%);
-            margin: 0 auto 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px;
-        }
+    function showLoading(message) {
+        ayahContainer.innerHTML = "";
 
-        .alphabet-header h1 {
-            margin-top: 10px;
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            line-height: 1.04;
-        }
+        const loadingBox =
+            document.createElement("div");
 
-        .alphabet-header p:last-child {
-            margin-top: 12px;
-            color: var(--muted);
-            line-height: 1.8;
-        }
+        loadingBox.className =
+            "reader-loading";
 
-        .alphabet-progress-card {
-            width: 290px;
-            flex-shrink: 0;
-            padding: 23px;
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            background: white;
-            box-shadow: var(--small-shadow);
-        }
+        const spinner =
+            document.createElement("div");
 
-        .alphabet-progress-row {
-            display: flex;
-            justify-content: space-between;
-            color: var(--navy);
-            font-size: 0.84rem;
-            font-weight: 700;
-        }
+        spinner.className =
+            "reader-spinner";
 
-        .alphabet-progress-track {
-            height: 12px;
-            margin-top: 12px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #e2efeb;
-        }
+        const text =
+            document.createElement("p");
 
-        .alphabet-progress-fill {
-            width: 0;
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(
-                90deg,
-                var(--green),
-                #22c55e,
-                var(--gold)
-            );
-            transition: width 0.35s ease;
-        }
+        text.textContent = message;
 
-        .alphabet-layout {
-            width: min(1120px, 100%);
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 330px 1fr;
-            gap: 26px;
-            align-items: start;
-        }
+        loadingBox.appendChild(spinner);
+        loadingBox.appendChild(text);
 
-        .alphabet-list-card,
-        .alphabet-lesson-card {
-            border: 1px solid var(--border);
-            border-radius: 27px;
-            background: white;
-            box-shadow: var(--small-shadow);
-        }
+        ayahContainer.appendChild(
+            loadingBox
+        );
+    }
 
-        .alphabet-list-card {
-            padding: 18px;
-        }
+    function showError(message) {
+        ayahContainer.innerHTML = "";
 
-        .alphabet-list-card h2 {
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: 1.7rem;
-        }
+        const errorBox =
+            document.createElement("div");
 
-        .alphabet-list-card > p {
-            margin-top: 3px;
-            color: var(--muted);
-            font-size: 0.78rem;
-        }
+        errorBox.className =
+            "reader-error-box";
 
-        .alphabet-grid {
-            margin-top: 17px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
+        errorBox.textContent = message;
 
-        .letter-button {
-            min-height: 58px;
-            border-radius: 15px;
-            color: var(--navy);
-            background: #f2faf7;
-            cursor: pointer;
-            font-size: 1.65rem;
-            transition:
-                transform 0.2s ease,
-                background 0.2s ease;
-        }
+        ayahContainer.appendChild(
+            errorBox
+        );
 
-        .letter-button:hover {
-            transform: translateY(-3px);
-            background: #e3f6ef;
-        }
+        setStatus(message, "error");
+    }
 
-        .letter-button.active {
-            color: white;
-            background: var(--green);
-        }
+    async function fetchJson(url) {
+        const controller =
+            new AbortController();
 
-        .letter-button.completed::after {
-            content: "✓";
-            display: block;
-            color: var(--green);
-            font-size: 0.62rem;
-            font-weight: 900;
-        }
+        const timeout =
+            window.setTimeout(() => {
+                controller.abort();
+            }, 20000);
 
-        .letter-button.active.completed::after {
-            color: white;
-        }
-
-        .alphabet-lesson-card {
-            padding: 36px;
-        }
-
-        .lesson-label-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .level-label,
-        .lesson-complete-label {
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            font-weight: 800;
-        }
-
-        .level-label {
-            color: var(--green-dark);
-            background: #e1f6ee;
-        }
-
-        .lesson-complete-label {
-            color: #795f1d;
-            background: #fff1c5;
-        }
-
-        .lesson-complete-label.done {
-            color: var(--green-dark);
-            background: #ddf5e9;
-        }
-
-        .alphabet-lesson-card h2 {
-            margin-top: 19px;
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2.2rem, 5vw, 3.4rem);
-        }
-
-        .lesson-description {
-            margin-top: 5px;
-            color: var(--muted);
-        }
-
-        .large-arabic-letter {
-            min-height: 250px;
-            margin-top: 25px;
-            display: grid;
-            place-items: center;
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            color: var(--navy);
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(15, 157, 120, 0.11),
-                    transparent 68%
-                ),
-                #fbfefd;
-            font-size: clamp(7rem, 18vw, 12rem);
-        }
-
-        .letter-name {
-            margin-top: 12px;
-            text-align: center;
-            color: var(--green);
-            font-size: 1.35rem;
-            font-weight: 800;
-        }
-
-        .letter-tip {
-            margin-top: 21px;
-            padding: 17px;
-            border-radius: 17px;
-            color: #4d6176;
-            background: #eef8ff;
-            line-height: 1.7;
-        }
-
-        .temporary-audio-warning {
-            margin-top: 12px;
-            padding: 13px 16px;
-            border-radius: 15px;
-            color: #745b1d;
-            background: #fff3ce;
-            font-size: 0.77rem;
-            line-height: 1.6;
-        }
-
-        .alphabet-actions {
-            margin-top: 22px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .alphabet-status {
-            min-height: 20px;
-            margin-top: 11px;
-            color: var(--muted);
-            font-size: 0.8rem;
-        }
-
-        .alphabet-navigation {
-            margin-top: 27px;
-            display: flex;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .alphabet-nav-button {
-            min-height: 44px;
-            padding: 11px 17px;
-            border-radius: 13px;
-            color: var(--green-dark);
-            background: #e5f7f0;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .alphabet-nav-button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        @media (max-width: 850px) {
-            .alphabet-header {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .alphabet-progress-card {
-                width: min(420px, 100%);
-            }
-
-            .alphabet-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .alphabet-grid {
-                grid-template-columns: repeat(7, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .alphabet-page {
-                padding: 52px 5% 75px;
-            }
-
-            .alphabet-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .alphabet-lesson-card {
-                padding: 27px 20px;
-            }
-
-            .alphabet-actions {
-                display: grid;
-            }
-
-            .alphabet-actions .button {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header class="site-header">
-
-    <nav class="navbar">
-
-        <a class="logo" href="index.html">
-            QuranAcademy
-        </a>
-
-        <button
-            class="menu-button"
-            id="menuButton"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <div class="navigation" id="navigation">
-
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="learn.html">Level 1</a></li>
-                <li><a href="reader.html">Quran Reader</a></li>
-            </ul>
-
-            <div class="account-buttons">
-
-                <a
-                    class="button button-outline"
-                    href="signin.html"
-                >
-                    Sign In
-                </a>
-
-                <a
-                    class="button button-primary"
-                    href="signup.html"
-                >
-                    Sign Up
-                </a>
-
-            </div>
-
-        </div>
-
-    </nav>
-
-</header>
-
-<main class="alphabet-page">
-
-    <section class="alphabet-header reveal">
-
-        <div>
-
-            <p class="eyebrow">
-                Level 1
-            </p>
-
-            <h1>
-                Arabic
-                <span class="rainbow-text">
-                    Alphabet
-                </span>
-            </h1>
-
-            <p>
-                Learn all 28 Arabic letters. Choose a letter, listen,
-                repeat it, and mark it complete.
-            </p>
-
-        </div>
-
-        <div class="alphabet-progress-card">
-
-            <div class="alphabet-progress-row">
-                <span>Level progress</span>
-                <strong id="progressText">0 of 28</strong>
-            </div>
-
-            <div class="alphabet-progress-track">
-
-                <div
-                    class="alphabet-progress-fill"
-                    id="progressFill"
-                ></div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="alphabet-layout reveal">
-
-        <aside class="alphabet-list-card">
-
-            <h2>Choose a letter</h2>
-
-            <p>
-                Green letters are completed.
-            </p>
-
-            <div
-                class="alphabet-grid"
-                id="alphabetGrid"
-            ></div>
-
-        </aside>
-
-        <article class="alphabet-lesson-card">
-
-            <div class="lesson-label-row">
-
-                <span class="level-label">
-                    Level 1 Lesson
-                </span>
-
-                <span
-                    class="lesson-complete-label"
-                    id="completionLabel"
-                >
-                    Not completed
-                </span>
-
-            </div>
-
-            <h2 id="letterTitle">
-                Alif
-            </h2>
-
-            <p class="lesson-description">
-                Look at the letter, listen carefully, and repeat it.
-            </p>
-
-            <div
-                class="large-arabic-letter"
-                id="arabicLetter"
-                dir="rtl"
-            >
-                ا
-            </div>
-
-            <p
-                class="letter-name"
-                id="letterReading"
-            >
-                Alif
-            </p>
-
-            <div
-                class="letter-tip"
-                id="letterTip"
-            >
-                Alif is the first Arabic letter.
-            </div>
-
-            <div class="temporary-audio-warning">
-                This uses a temporary Arabic device voice. Replace it
-                with mentor-approved recordings later.
-            </div>
-
-            <div class="alphabet-actions">
-
-                <button
-                    class="button button-secondary"
-                    id="playLetterButton"
-                    type="button"
-                >
-                    🔊 Play Letter
-                </button>
-
-                <button
-                    class="button button-primary"
-                    id="completeLetterButton"
-                    type="button"
-                >
-                    ✓ Mark Complete
-                </button>
-
-            </div>
-
-            <p
-                class="alphabet-status"
-                id="alphabetStatus"
-            ></p>
-
-            <div class="alphabet-navigation">
-
-                <button
-                    class="alphabet-nav-button"
-                    id="previousLetterButton"
-                    type="button"
-                >
-                    ← Previous
-                </button>
-
-                <button
-                    class="alphabet-nav-button"
-                    id="nextLetterButton"
-                    type="button"
-                >
-                    Next →
-                </button>
-
-            </div>
-
-        </article>
-
-    </section>
-
-</main>
-
-<script src="script.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const letters = [
-            {
-                name: "Alif",
-                arabic: "ا",
-                tip: "Alif is the first Arabic letter."
-            },
-            {
-                name: "Baa",
-                arabic: "ب",
-                tip: "Baa has one dot underneath."
-            },
-            {
-                name: "Taa",
-                arabic: "ت",
-                tip: "Taa has two dots above."
-            },
-            {
-                name: "Thaa",
-                arabic: "ث",
-                tip: "Thaa has three dots above."
-            },
-            {
-                name: "Jeem",
-                arabic: "ج",
-                tip: "Jeem has one dot."
-            },
-            {
-                name: "Haa",
-                arabic: "ح",
-                tip: "This Haa is a gentle throat sound."
-            },
-            {
-                name: "Khaa",
-                arabic: "خ",
-                tip: "Khaa has one dot above."
-            },
-            {
-                name: "Daal",
-                arabic: "د",
-                tip: "Daal does not connect to the next letter."
-            },
-            {
-                name: "Dhaal",
-                arabic: "ذ",
-                tip: "Dhaal has one dot above."
-            },
-            {
-                name: "Raa",
-                arabic: "ر",
-                tip: "Raa does not connect to the next letter."
-            },
-            {
-                name: "Zaay",
-                arabic: "ز",
-                tip: "Zaay has one dot above."
-            },
-            {
-                name: "Seen",
-                arabic: "س",
-                tip: "Seen makes a clear s sound."
-            },
-            {
-                name: "Sheen",
-                arabic: "ش",
-                tip: "Sheen has three dots above."
-            },
-            {
-                name: "Saad",
-                arabic: "ص",
-                tip: "Saad is a heavier s sound."
-            },
-            {
-                name: "Daad",
-                arabic: "ض",
-                tip: "Daad is a special heavy Arabic sound."
-            },
-            {
-                name: "Heavy Taa",
-                arabic: "ط",
-                tip: "This is the heavier Taa sound."
-            },
-            {
-                name: "Heavy Dhaa",
-                arabic: "ظ",
-                tip: "This is the heavier Dhaa sound."
-            },
-            {
-                name: "Ayn",
-                arabic: "ع",
-                tip: "Ayn comes from the middle of the throat."
-            },
-            {
-                name: "Ghayn",
-                arabic: "غ",
-                tip: "Ghayn has one dot above."
-            },
-            {
-                name: "Faa",
-                arabic: "ف",
-                tip: "Faa has one dot above."
-            },
-            {
-                name: "Qaaf",
-                arabic: "ق",
-                tip: "Qaaf comes from the back of the tongue."
-            },
-            {
-                name: "Kaaf",
-                arabic: "ك",
-                tip: "Kaaf makes a k sound."
-            },
-            {
-                name: "Laam",
-                arabic: "ل",
-                tip: "Laam makes an l sound."
-            },
-            {
-                name: "Meem",
-                arabic: "م",
-                tip: "Meem makes an m sound."
-            },
-            {
-                name: "Noon",
-                arabic: "ن",
-                tip: "Noon has one dot above."
-            },
-            {
-                name: "Haa",
-                arabic: "ه",
-                tip: "This Haa is a soft breathy sound."
-            },
-            {
-                name: "Waaw",
-                arabic: "و",
-                tip: "Waaw can make a w or long oo sound."
-            },
-            {
-                name: "Yaa",
-                arabic: "ي",
-                tip: "Yaa can make a y or long ee sound."
-            }
-        ];
-
-        const progressStorageKey =
-            "quranAcademyAlphabetProgress";
-
-        const alphabetGrid =
-            document.getElementById("alphabetGrid");
-
-        const progressText =
-            document.getElementById("progressText");
-
-        const progressFill =
-            document.getElementById("progressFill");
-
-        const completionLabel =
-            document.getElementById("completionLabel");
-
-        const letterTitle =
-            document.getElementById("letterTitle");
-
-        const arabicLetter =
-            document.getElementById("arabicLetter");
-
-        const letterReading =
-            document.getElementById("letterReading");
-
-        const letterTip =
-            document.getElementById("letterTip");
-
-        const playLetterButton =
-            document.getElementById("playLetterButton");
-
-        const completeLetterButton =
-            document.getElementById("completeLetterButton");
-
-        const previousLetterButton =
-            document.getElementById("previousLetterButton");
-
-        const nextLetterButton =
-            document.getElementById("nextLetterButton");
-
-        const alphabetStatus =
-            document.getElementById("alphabetStatus");
-
-        let selectedIndex = 0;
-        let completedLetters = loadProgress();
-
-        function loadProgress() {
-            try {
-                const saved = JSON.parse(
-                    localStorage.getItem(progressStorageKey)
-                );
-
-                return Array.isArray(saved) ? saved : [];
-            } catch (error) {
-                return [];
-            }
-        }
-
-        function saveProgress() {
-            localStorage.setItem(
-                progressStorageKey,
-                JSON.stringify(completedLetters)
-            );
-        }
-
-        function renderEverything() {
-            renderLetterGrid();
-            renderSelectedLetter();
-            renderProgress();
-        }
-
-        function renderLetterGrid() {
-            alphabetGrid.innerHTML = "";
-
-            letters.forEach((letter, index) => {
-                const button =
-                    document.createElement("button");
-
-                button.type = "button";
-                button.className = "letter-button";
-                button.textContent = letter.arabic;
-                button.title = letter.name;
-
-                if (index === selectedIndex) {
-                    button.classList.add("active");
-                }
-
-                if (completedLetters.includes(index)) {
-                    button.classList.add("completed");
-                }
-
-                button.addEventListener("click", () => {
-                    selectedIndex = index;
-                    renderEverything();
+        try {
+            const response =
+                await fetch(url, {
+                    method: "GET",
+                    signal: controller.signal,
+                    cache: "no-cache"
                 });
 
-                alphabetGrid.appendChild(button);
+            if (!response.ok) {
+                throw new Error(
+                    `Request failed with status ${response.status}.`
+                );
+            }
+
+            return await response.json();
+        } finally {
+            window.clearTimeout(timeout);
+        }
+    }
+
+    function clearAyahHighlight() {
+        if (currentAyahCard) {
+            currentAyahCard.classList.remove(
+                "current-ayah"
+            );
+
+            currentAyahCard = null;
+        }
+
+        document
+            .querySelectorAll(
+                ".ayah-card.current-ayah"
+            )
+            .forEach((card) => {
+                card.classList.remove(
+                    "current-ayah"
+                );
             });
+    }
+
+    function highlightAyah(card) {
+        clearAyahHighlight();
+
+        currentAyahCard = card;
+
+        card.classList.add(
+            "current-ayah"
+        );
+
+        card.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    function getSelectedBitrate() {
+        const reciter =
+            reciterSelect.value;
+
+        return (
+            RECITER_SETTINGS[reciter]
+                ?.bitrate || 128
+        );
+    }
+
+    function getWholeSurahAudioUrl(
+        surahNumber
+    ) {
+        const reciter =
+            reciterSelect.value;
+
+        const bitrate =
+            getSelectedBitrate();
+
+        return (
+            `${AUDIO_CDN}/audio-surah/` +
+            `${bitrate}/${reciter}/` +
+            `${surahNumber}.mp3`
+        );
+    }
+
+    function getAyahAudioUrl(
+        globalAyahNumber
+    ) {
+        const reciter =
+            reciterSelect.value;
+
+        const bitrate =
+            getSelectedBitrate();
+
+        return (
+            `${AUDIO_CDN}/audio/` +
+            `${bitrate}/${reciter}/` +
+            `${globalAyahNumber}.mp3`
+        );
+    }
+
+    function updatePageUrl(
+        surahNumber
+    ) {
+        const url =
+            new URL(window.location.href);
+
+        url.searchParams.set(
+            "surah",
+            String(surahNumber)
+        );
+
+        url.searchParams.set(
+            "reciter",
+            reciterSelect.value
+        );
+
+        window.history.replaceState(
+            {},
+            "",
+            url
+        );
+    }
+
+    function stopAudio() {
+        quranAudio.pause();
+        quranAudio.currentTime = 0;
+
+        clearAyahHighlight();
+
+        setStatus("Audio stopped.");
+    }
+
+    function loadWholeSurahAudio() {
+        if (!currentSurah) {
+            return;
         }
 
-        function renderSelectedLetter() {
-            const letter = letters[selectedIndex];
-            const isComplete =
-                completedLetters.includes(selectedIndex);
+        currentAudioMode = "surah";
 
-            letterTitle.textContent = letter.name;
-            arabicLetter.textContent = letter.arabic;
-            letterReading.textContent = letter.name;
-            letterTip.textContent = letter.tip;
+        clearAyahHighlight();
 
-            completionLabel.textContent =
-                isComplete ? "✓ Completed" : "Not completed";
-
-            completionLabel.classList.toggle(
-                "done",
-                isComplete
+        quranAudio.src =
+            getWholeSurahAudioUrl(
+                currentSurah.number
             );
 
-            completeLetterButton.textContent =
-                isComplete
-                    ? "✓ Letter Completed"
-                    : "✓ Mark Complete";
+        quranAudio.playbackRate =
+            Number(speedSelect.value);
 
-            previousLetterButton.disabled =
-                selectedIndex === 0;
+        quranAudio.load();
+    }
 
-            nextLetterButton.disabled =
-                selectedIndex === letters.length - 1;
+    function renderAyahs(ayahs) {
+        ayahContainer.innerHTML = "";
 
-            alphabetStatus.textContent = "";
-        }
-
-        function renderProgress() {
-            const completedCount =
-                completedLetters.length;
-
-            const percentage =
-                Math.round(
-                    (completedCount / letters.length) * 100
+        ayahs.forEach((ayah) => {
+            const card =
+                document.createElement(
+                    "article"
                 );
 
-            progressText.textContent =
-                `${completedCount} of ${letters.length}`;
+            card.className =
+                "ayah-card";
 
-            progressFill.style.width =
-                `${percentage}%`;
-        }
+            const cardHeader =
+                document.createElement(
+                    "div"
+                );
 
-        function getArabicVoice() {
-            const voices =
-                window.speechSynthesis.getVoices();
+            cardHeader.className =
+                "ayah-card-header";
 
-            return (
-                voices.find(
-                    (voice) => voice.lang === "ar-SA"
-                ) ||
-                voices.find((voice) =>
-                    voice.lang.toLowerCase().startsWith("ar")
-                ) ||
-                null
+            const number =
+                document.createElement(
+                    "span"
+                );
+
+            number.className =
+                "ayah-number";
+
+            number.textContent =
+                `Ayah ${ayah.numberInSurah}`;
+
+            const playButton =
+                document.createElement(
+                    "button"
+                );
+
+            playButton.type = "button";
+
+            playButton.className =
+                "ayah-play-button";
+
+            playButton.textContent =
+                "▶ Play Ayah";
+
+            playButton.addEventListener(
+                "click",
+                async () => {
+                    currentAudioMode =
+                        "ayah";
+
+                    highlightAyah(card);
+
+                    quranAudio.src =
+                        getAyahAudioUrl(
+                            ayah.number
+                        );
+
+                    quranAudio.playbackRate =
+                        Number(
+                            speedSelect.value
+                        );
+
+                    quranAudio.load();
+
+                    setStatus(
+                        `Playing ayah ${ayah.numberInSurah}.`
+                    );
+
+                    try {
+                        await quranAudio.play();
+                    } catch (error) {
+                        console.error(error);
+
+                        setStatus(
+                            "The ayah audio could not start. Press play on the audio player.",
+                            "error"
+                        );
+                    }
+                }
             );
-        }
 
-        function playSelectedLetter() {
+            const text =
+                document.createElement(
+                    "div"
+                );
+
+            text.className =
+                "ayah-text";
+
+            text.dir = "rtl";
+            text.lang = "ar";
+
+            text.textContent =
+                ayah.text.trim();
+
+            cardHeader.appendChild(
+                number
+            );
+
+            cardHeader.appendChild(
+                playButton
+            );
+
+            card.appendChild(
+                cardHeader
+            );
+
+            card.appendChild(text);
+
+            ayahContainer.appendChild(
+                card
+            );
+        });
+    }
+
+    async function loadSurahList() {
+        setStatus(
+            "Loading the list of surahs..."
+        );
+
+        try {
+            const result =
+                await fetchJson(
+                    `${QURAN_API}/surah`
+                );
+
             if (
-                !("speechSynthesis" in window) ||
-                !("SpeechSynthesisUtterance" in window)
+                !result ||
+                !Array.isArray(result.data)
             ) {
-                alphabetStatus.textContent =
-                    "This browser does not support temporary Arabic audio.";
-
-                return;
+                throw new Error(
+                    "The surah list was missing."
+                );
             }
 
-            const voice = getArabicVoice();
+            surahList = result.data;
 
-            if (!voice) {
-                alphabetStatus.textContent =
-                    "No Arabic voice is installed on this device.";
+            surahSelect.innerHTML = "";
 
-                return;
-            }
+            surahList.forEach((surah) => {
+                const option =
+                    document.createElement(
+                        "option"
+                    );
 
-            const letter = letters[selectedIndex];
+                option.value =
+                    String(surah.number);
 
-            window.speechSynthesis.cancel();
+                option.textContent =
+                    `${surah.number}. ` +
+                    `${surah.englishName} — ` +
+                    `${surah.name}`;
 
-            const speech =
-                new SpeechSynthesisUtterance(letter.arabic);
+                surahSelect.appendChild(
+                    option
+                );
+            });
 
-            speech.voice = voice;
-            speech.lang = voice.lang;
-            speech.rate = 0.65;
-            speech.pitch = 1;
-            speech.volume = 1;
-
-            alphabetStatus.textContent =
-                `Playing ${letter.name}...`;
-
-            speech.onend = () => {
-                alphabetStatus.textContent =
-                    "Audio finished.";
-            };
-
-            speech.onerror = () => {
-                alphabetStatus.textContent =
-                    "The temporary audio could not play.";
-            };
-
-            window.speechSynthesis.speak(speech);
-        }
-
-        function completeSelectedLetter() {
-            if (!completedLetters.includes(selectedIndex)) {
-                completedLetters.push(selectedIndex);
-                saveProgress();
-            }
-
-            renderEverything();
-
-            if (completedLetters.length === letters.length) {
-                window.showQuranAcademyMessage(
-                    "🎉",
-                    "Level 1 Complete!",
-                    "Excellent work! You completed all 28 Arabic letters."
+            const parameters =
+                new URLSearchParams(
+                    window.location.search
                 );
 
+            const requestedSurah =
+                Number(
+                    parameters.get("surah")
+                );
+
+            const requestedReciter =
+                parameters.get("reciter");
+
+            if (
+                requestedSurah >= 1 &&
+                requestedSurah <= 114
+            ) {
+                surahSelect.value =
+                    String(requestedSurah);
+            } else {
+                surahSelect.value = "1";
+            }
+
+            if (
+                requestedReciter &&
+                RECITER_SETTINGS[
+                    requestedReciter
+                ]
+            ) {
+                reciterSelect.value =
+                    requestedReciter;
+            }
+
+            await loadSelectedSurah();
+        } catch (error) {
+            console.error(error);
+
+            surahTitle.textContent =
+                "Quran Reader could not load";
+
+            surahSubtitle.textContent =
+                "Please check your internet connection.";
+
+            showError(
+                "The Quran service could not be reached. Refresh the page and try again."
+            );
+        }
+    }
+
+    async function loadSelectedSurah() {
+        const surahNumber =
+            Number(surahSelect.value);
+
+        if (
+            !Number.isInteger(
+                surahNumber
+            ) ||
+            surahNumber < 1 ||
+            surahNumber > 114
+        ) {
+            showError(
+                "Please select a valid surah."
+            );
+
+            return;
+        }
+
+        stopAudio();
+
+        loadSurahButton.disabled = true;
+        playSurahButton.disabled = true;
+
+        surahTitle.textContent =
+            "Loading surah...";
+
+        surahSubtitle.textContent =
+            "The Quran text is being downloaded.";
+
+        ayahCount.textContent =
+            "Loading...";
+
+        showLoading(
+            "Loading Quran text..."
+        );
+
+        setStatus(
+            "Loading Quran text..."
+        );
+
+        updatePageUrl(
+            surahNumber
+        );
+
+        try {
+            const result =
+                await fetchJson(
+                    `${QURAN_API}/surah/${surahNumber}`
+                );
+
+            if (
+                !result ||
+                !result.data ||
+                !Array.isArray(
+                    result.data.ayahs
+                )
+            ) {
+                throw new Error(
+                    "The Quran text was missing."
+                );
+            }
+
+            currentSurah =
+                result.data;
+
+            surahTitle.textContent =
+                `${currentSurah.number}. ` +
+                `${currentSurah.englishName}`;
+
+            surahSubtitle.textContent =
+                `${currentSurah.name} • ` +
+                `${currentSurah.englishNameTranslation}`;
+
+            ayahCount.textContent =
+                `${currentSurah.ayahs.length} ayahs`;
+
+            document.title =
+                `${currentSurah.englishName} | QuranAcademy`;
+
+            renderAyahs(
+                currentSurah.ayahs
+            );
+
+            loadWholeSurahAudio();
+
+            playSurahButton.disabled =
+                false;
+
+            setStatus(
+                "Surah loaded successfully. Press Play Entire Surah or choose an ayah.",
+                "success"
+            );
+        } catch (error) {
+            console.error(error);
+
+            currentSurah = null;
+
+            surahTitle.textContent =
+                "Could not load this surah";
+
+            surahSubtitle.textContent =
+                "Please refresh or try another surah.";
+
+            ayahCount.textContent =
+                "0 ayahs";
+
+            showError(
+                "The Quran text could not be loaded. Check your internet connection, wait a few seconds, and try again."
+            );
+        } finally {
+            loadSurahButton.disabled =
+                false;
+        }
+    }
+
+    async function playEntireSurah() {
+        if (!currentSurah) {
+            setStatus(
+                "Load a surah first.",
+                "error"
+            );
+
+            return;
+        }
+
+        currentAudioMode = "surah";
+
+        clearAyahHighlight();
+
+        loadWholeSurahAudio();
+
+        setStatus(
+            `Playing ${currentSurah.englishName} at ${speedSelect.value}× speed.`
+        );
+
+        try {
+            await quranAudio.play();
+        } catch (error) {
+            console.error(error);
+
+            setStatus(
+                "The audio could not start automatically. Press play on the audio player.",
+                "error"
+            );
+        }
+    }
+
+    function goToPreviousSurah() {
+        const currentNumber =
+            Number(surahSelect.value);
+
+        if (currentNumber <= 1) {
+            setStatus(
+                "You are already at the first surah."
+            );
+
+            return;
+        }
+
+        surahSelect.value =
+            String(currentNumber - 1);
+
+        loadSelectedSurah();
+    }
+
+    function goToNextSurah() {
+        const currentNumber =
+            Number(surahSelect.value);
+
+        if (currentNumber >= 114) {
+            setStatus(
+                "You are already at the final surah."
+            );
+
+            return;
+        }
+
+        surahSelect.value =
+            String(currentNumber + 1);
+
+        loadSelectedSurah();
+    }
+
+    loadSurahButton.addEventListener(
+        "click",
+        loadSelectedSurah
+    );
+
+    previousSurahButton.addEventListener(
+        "click",
+        goToPreviousSurah
+    );
+
+    nextSurahButton.addEventListener(
+        "click",
+        goToNextSurah
+    );
+
+    playSurahButton.addEventListener(
+        "click",
+        playEntireSurah
+    );
+
+    pauseAudioButton.addEventListener(
+        "click",
+        () => {
+            quranAudio.pause();
+
+            setStatus(
+                "Audio paused."
+            );
+        }
+    );
+
+    restartAudioButton.addEventListener(
+        "click",
+        async () => {
+            quranAudio.currentTime = 0;
+
+            try {
+                await quranAudio.play();
+
+                setStatus(
+                    "Audio restarted."
+                );
+            } catch (error) {
+                setStatus(
+                    "Press play on the audio player to restart.",
+                    "error"
+                );
+            }
+        }
+    );
+
+    stopAudioButton.addEventListener(
+        "click",
+        stopAudio
+    );
+
+    speedSelect.addEventListener(
+        "change",
+        () => {
+            const speed =
+                Number(speedSelect.value);
+
+            quranAudio.playbackRate =
+                speed;
+
+            localStorage.setItem(
+                "quranAcademyAudioSpeed",
+                String(speed)
+            );
+
+            setStatus(
+                `Playback speed changed to ${speed}×.`
+            );
+        }
+    );
+
+    reciterSelect.addEventListener(
+        "change",
+        () => {
+            if (currentSurah) {
+                loadWholeSurahAudio();
+            }
+
+            setStatus(
+                "Reciter changed. Press play to hear the new reciter."
+            );
+
+            updatePageUrl(
+                Number(
+                    surahSelect.value
+                ) || 1
+            );
+        }
+    );
+
+    surahSelect.addEventListener(
+        "change",
+        loadSelectedSurah
+    );
+
+    quranAudio.addEventListener(
+        "ended",
+        () => {
+            clearAyahHighlight();
+
+            if (
+                currentAudioMode ===
+                "surah"
+            ) {
+                setStatus(
+                    "The complete surah has finished.",
+                    "success"
+                );
+            } else {
+                setStatus(
+                    "The ayah has finished.",
+                    "success"
+                );
+            }
+        }
+    );
+
+    quranAudio.addEventListener(
+        "error",
+        () => {
+            if (!quranAudio.src) {
                 return;
             }
 
-            window.showQuranAcademyMessage(
-                "⭐",
-                "Letter Complete",
-                `${letters[selectedIndex].name} has been marked complete.`
+            setStatus(
+                "This recording could not load. Try another reciter.",
+                "error"
             );
         }
+    );
 
-        playLetterButton.addEventListener(
-            "click",
-            playSelectedLetter
+    const savedSpeed =
+        Number(
+            localStorage.getItem(
+                "quranAcademyAudioSpeed"
+            )
         );
 
-        completeLetterButton.addEventListener(
-            "click",
-            completeSelectedLetter
-        );
+    if (
+        [
+            0.5,
+            0.75,
+            1,
+            1.25,
+            1.5,
+            2
+        ].includes(savedSpeed)
+    ) {
+        speedSelect.value =
+            String(savedSpeed);
+    }
 
-        previousLetterButton.addEventListener(
-            "click",
-            () => {
-                if (selectedIndex > 0) {
-                    selectedIndex -= 1;
-                    renderEverything();
-                }
-            }
-        );
-
-        nextLetterButton.addEventListener(
-            "click",
-            () => {
-                if (selectedIndex < letters.length - 1) {
-                    selectedIndex += 1;
-                    renderEverything();
-                }
-            }
-        );
-
-        if ("speechSynthesis" in window) {
-            window.speechSynthesis.getVoices();
-
-            window.speechSynthesis.onvoiceschanged = () => {
-                window.speechSynthesis.getVoices();
-            };
-        }
-
-        renderEverything();
-    });
-</script>
-
-</body>
-</html>
+    await loadSurahList();
+}
