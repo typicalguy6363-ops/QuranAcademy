@@ -10,10 +10,10 @@
 
     <meta
         name="description"
-        content="Read and listen to the complete Quran with QuranAcademy."
+        content="QuranAcademy teaches Arabic letters, Quran reading, short surahs, and Tajweed one level at a time."
     >
 
-    <title>Quran Reader | QuranAcademy</title>
+    <title>QuranAcademy | Learn Quran Step by Step</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -29,114 +29,6 @@
     >
 
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        .reader-player-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .reader-player-buttons .button {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .ayah-card {
-            transition:
-                border-color 0.25s ease,
-                background 0.25s ease,
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
-        }
-
-        .ayah-card.current-ayah {
-            border-color: #0f9d78;
-            background: #ebfaf4;
-            box-shadow: 0 12px 28px rgba(15, 157, 120, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .ayah-card-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .ayah-play-button {
-            min-width: 44px;
-            min-height: 40px;
-            padding: 8px 13px;
-            border-radius: 12px;
-            color: #08745a;
-            background: #e5f7f1;
-            cursor: pointer;
-            font-weight: 700;
-            transition:
-                transform 0.2s ease,
-                background 0.2s ease;
-        }
-
-        .ayah-play-button:hover {
-            transform: translateY(-2px);
-            background: #d5f2e8;
-        }
-
-        .reader-status {
-            min-height: 22px;
-            margin-top: 12px;
-            color: #6f8296;
-            font-size: 0.84rem;
-            line-height: 1.6;
-        }
-
-        .reader-status.error {
-            color: #d9534f;
-        }
-
-        .reader-status.success {
-            color: #08745a;
-        }
-
-        .reader-loading {
-            text-align: center;
-            padding: 45px 20px;
-            color: #6f8296;
-        }
-
-        .reader-loading-spinner {
-            width: 42px;
-            height: 42px;
-            margin: 0 auto 14px;
-            border: 4px solid #dcebe6;
-            border-top-color: #0f9d78;
-            border-radius: 50%;
-            animation: readerSpin 0.8s linear infinite;
-        }
-
-        @keyframes readerSpin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .reader-player-buttons {
-                display: grid;
-            }
-
-            .reader-player-buttons .button {
-                width: 100%;
-            }
-
-            .ayah-card-top {
-                align-items: flex-start;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -153,7 +45,7 @@
             class="menu-button"
             id="menuButton"
             type="button"
-            aria-label="Open navigation menu"
+            aria-label="Open menu"
             aria-expanded="false"
         >
             <span></span>
@@ -164,17 +56,10 @@
         <div class="navigation" id="navigation">
 
             <ul class="nav-links">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-
-                <li>
-                    <a href="learn.html">Learning Path</a>
-                </li>
-
-                <li>
-                    <a href="reader.html">Quran Reader</a>
-                </li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#learning-path">Learning Path</a></li>
+                <li><a href="learn.html">Lessons</a></li>
+                <li><a href="reader.html">Quran Reader</a></li>
             </ul>
 
             <div class="account-buttons">
@@ -201,231 +86,125 @@
 
 </header>
 
-<main class="reader-page">
+<main>
 
-    <div class="reader-layout reveal">
+    <section class="hero section" id="home">
 
-        <aside class="reader-sidebar">
+        <div class="float-shape shape-one"></div>
+        <div class="float-shape shape-two"></div>
+        <div class="float-shape shape-three"></div>
 
-            <div class="sidebar-card">
+        <div class="hero-content reveal">
 
-                <p class="eyebrow">
-                    Quran controls
-                </p>
-
-                <div class="control-group">
-
-                    <label for="surahSelect">
-                        Choose a surah
-                    </label>
-
-                    <select id="surahSelect">
-                        <option value="">
-                            Loading surahs...
-                        </option>
-                    </select>
-
-                </div>
-
-                <div class="control-group">
-
-                    <label for="reciterSelect">
-                        Choose a reciter
-                    </label>
-
-                    <select id="reciterSelect">
-
-                        <option value="ar.alafasy">
-                            Mishary Alafasy
-                        </option>
-
-                        <option value="ar.husary">
-                            Mahmoud Khalil Al-Husary
-                        </option>
-
-                        <option value="ar.minshawi">
-                            Muhammad Siddiq Al-Minshawi
-                        </option>
-
-                        <option value="ar.abdulbasitmurattal">
-                            Abdul Basit — Murattal
-                        </option>
-
-                        <option value="ar.sudais">
-                            Abdur Rahman As-Sudais
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="control-group">
-
-                    <label for="speedSelect">
-                        Audio speed
-                    </label>
-
-                    <select id="speedSelect">
-                        <option value="0.5">0.5×</option>
-                        <option value="0.75">0.75×</option>
-                        <option value="1" selected>1× Normal</option>
-                        <option value="1.25">1.25×</option>
-                        <option value="1.5">1.5×</option>
-                        <option value="2">2×</option>
-                    </select>
-
-                </div>
-
-                <div class="control-buttons">
-
-                    <button
-                        class="button button-primary"
-                        id="loadSurahButton"
-                        type="button"
-                    >
-                        Load Surah
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="sidebar-card">
-
-                <h3>Surah navigation</h3>
-
-                <div class="control-buttons">
-
-                    <button
-                        class="button button-secondary"
-                        id="previousSurahButton"
-                        type="button"
-                    >
-                        ← Previous
-                    </button>
-
-                    <button
-                        class="button button-secondary"
-                        id="nextSurahButton"
-                        type="button"
-                    >
-                        Next →
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="sidebar-card info-card">
-
-                <h3>No account needed</h3>
-
-                <p>
-                    Anyone can read and listen to the complete Quran
-                    without signing up.
-                </p>
-
-            </div>
-
-        </aside>
-
-        <section class="reader-main">
-
-            <div class="reader-header-card">
+            <div class="hero-text">
 
                 <p class="eyebrow">
-                    Now reading
+                    Quran learning for kids
                 </p>
 
-                <h1 id="surahTitle">
-                    Loading Quran Reader...
+                <h1>
+                    Learn Quran
+                    <span class="rainbow-text">
+                        one level at a time.
+                    </span>
                 </h1>
 
-                <p
-                    class="reader-subtitle"
-                    id="surahSubtitle"
-                >
-                    Please wait while the surah list loads.
+                <p class="hero-description">
+                    Start with the Arabic alphabet, learn vowel sounds,
+                    read small words, practice short surahs, and progress
+                    toward the complete Quran and Tajweed.
                 </p>
 
-                <audio
-                    class="reader-audio"
-                    id="surahAudio"
-                    controls
-                    preload="none"
-                ></audio>
+                <div class="hero-buttons">
 
-                <div class="reader-player-buttons">
-
-                    <button
-                        class="button button-primary"
-                        id="playSurahButton"
-                        type="button"
+                    <a
+                        class="button button-primary button-large"
+                        href="learn.html"
                     >
-                        ▶ Play Entire Surah
-                    </button>
+                        Start Level 1
+                    </a>
 
-                    <button
-                        class="button button-secondary"
-                        id="pauseAudioButton"
-                        type="button"
+                    <a
+                        class="button button-secondary button-large"
+                        href="reader.html"
                     >
-                        ⏸ Pause
-                    </button>
-
-                    <button
-                        class="button button-secondary"
-                        id="restartSurahButton"
-                        type="button"
-                    >
-                        ↻ Restart
-                    </button>
+                        Open Full Quran
+                    </a>
 
                 </div>
 
-                <p
-                    class="reader-status"
-                    id="readerStatus"
-                >
-                    Select a surah and press Load Surah.
-                </p>
+                <div class="hero-stats">
 
-                <p
-                    class="audio-source-text"
-                    id="audioSourceText"
-                >
-                    Quran text and recitation are streamed online.
-                </p>
+                    <div class="stat">
+                        <strong>7</strong>
+                        <span>Learning levels</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>114</strong>
+                        <span>Surahs available</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>Free</strong>
+                        <span>No account required</span>
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="ayahs-card">
+            <div class="hero-visual">
 
-                <div class="ayahs-top">
+                <div class="kid-scene">
 
-                    <h2>Arabic Text</h2>
+                    <span class="sparkle sparkle-1">✨</span>
+                    <span class="sparkle sparkle-2">⭐</span>
+                    <span class="sparkle sparkle-3">🌙</span>
 
-                    <span
-                        class="mini-badge"
-                        id="ayahCount"
-                    >
-                        0 ayahs
-                    </span>
+                    <div class="quran-book">
 
-                </div>
+                        <div class="book-line"></div>
+                        <div class="book-line"></div>
+                        <div class="book-line"></div>
 
-                <div
-                    class="ayah-container"
-                    id="ayahContainer"
-                >
+                        <span>Quran</span>
 
-                    <div class="reader-loading">
+                    </div>
 
-                        <div class="reader-loading-spinner"></div>
+                    <div class="kid kid-boy">
 
-                        <p>
-                            Loading Quran text...
-                        </p>
+                        <div class="kid-head">
+
+                            <div class="kid-hair"></div>
+
+                            <div class="kid-face">
+                                <span class="eye left-eye"></span>
+                                <span class="eye right-eye"></span>
+                                <span class="smile"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="kid-body"></div>
+
+                    </div>
+
+                    <div class="kid kid-girl">
+
+                        <div class="kid-head">
+
+                            <div class="kid-hijab"></div>
+
+                            <div class="kid-face">
+                                <span class="eye left-eye"></span>
+                                <span class="eye right-eye"></span>
+                                <span class="smile"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="kid-body"></div>
 
                     </div>
 
@@ -433,9 +212,168 @@
 
             </div>
 
-        </section>
+        </div>
 
-    </div>
+    </section>
+
+    <section
+        class="section how-section"
+        id="learning-path"
+    >
+
+        <div class="section-heading reveal">
+
+            <p class="eyebrow">
+                Guided learning path
+            </p>
+
+            <h2>
+                From Arabic letters to Tajweed
+            </h2>
+
+            <p>
+                Complete lessons at your own pace. Your progress saves
+                automatically on your device.
+            </p>
+
+        </div>
+
+        <div class="feature-grid">
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🔤</div>
+                <h3>1. Arabic Alphabet</h3>
+                <p>Learn all 28 Arabic letters and their sounds.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🎧</div>
+                <h3>2. Vowel Sounds</h3>
+                <p>Practice short a, i, u and long aa, ee, oo.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🌱</div>
+                <h3>3. Small Words</h3>
+                <p>Begin reading short Quranic Arabic words.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">📚</div>
+                <h3>4. Bigger Words</h3>
+                <p>Read longer words and small Quran phrases.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🌙</div>
+                <h3>5. Short Surahs</h3>
+                <p>Practice Al-Fatiha, Al-Ikhlas, Al-Falaq, and An-Nas.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">📖</div>
+                <h3>6. Full Quran</h3>
+                <p>Read and listen to all 114 surahs.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">✨</div>
+                <h3>7. Tajweed</h3>
+                <p>Learn introductory Tajweed rules and pronunciation.</p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🏆</div>
+                <h3>Save Progress</h3>
+                <p>Your completed lessons remain saved on this device.</p>
+            </article>
+
+        </div>
+
+        <div style="text-align:center; margin-top:42px;">
+
+            <a
+                class="button button-primary button-large"
+                href="learn.html"
+            >
+                Begin Learning
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="section reader-preview-section">
+
+        <div class="reader-preview-card reveal">
+
+            <div class="reader-preview-text">
+
+                <p class="eyebrow">
+                    Full Quran Reader
+                </p>
+
+                <h2>
+                    Read the whole Quran anytime
+                </h2>
+
+                <p>
+                    The complete Quran stays available even when lessons
+                    have not been completed. Signing up is optional.
+                </p>
+
+                <ul class="preview-list">
+                    <li>✓ All 114 surahs</li>
+                    <li>✓ Multiple reciters</li>
+                    <li>✓ Adjustable audio speed</li>
+                    <li>✓ Individual ayah audio</li>
+                    <li>✓ No giant audio downloads</li>
+                </ul>
+
+                <a
+                    class="button button-primary"
+                    href="reader.html"
+                >
+                    Open Quran Reader
+                </a>
+
+            </div>
+
+            <div class="reader-preview-box">
+
+                <div class="mini-player">
+
+                    <div class="mini-player-top">
+                        <span>Surah Al-Fatiha</span>
+                        <span class="mini-badge">1×</span>
+                    </div>
+
+                    <div class="mini-arabic" dir="rtl">
+                        بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ
+                    </div>
+
+                    <div class="mini-wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <a
+                        class="button button-secondary"
+                        href="reader.html?surah=1"
+                    >
+                        Open Al-Fatiha
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </main>
 
@@ -453,7 +391,7 @@
             </a>
 
             <p>
-                Read and listen to the Quran one step at a time.
+                Learn Quran reading one level at a time.
             </p>
 
         </div>
@@ -463,20 +401,21 @@
             <div>
                 <h3>Learn</h3>
                 <a href="learn.html">Learning Path</a>
+                <a href="learn.html?level=1">Arabic Alphabet</a>
+                <a href="learn.html?level=5">Short Surahs</a>
+            </div>
+
+            <div>
+                <h3>Quran</h3>
                 <a href="reader.html">Quran Reader</a>
+                <a href="reader.html?surah=1">Al-Fatiha</a>
+                <a href="reader.html?surah=112">Al-Ikhlas</a>
             </div>
 
             <div>
                 <h3>Account</h3>
                 <a href="signin.html">Sign In</a>
                 <a href="signup.html">Sign Up</a>
-            </div>
-
-            <div>
-                <h3>Quick Access</h3>
-                <a href="reader.html?surah=1">Al-Fatiha</a>
-                <a href="reader.html?surah=112">Al-Ikhlas</a>
-                <a href="reader.html?surah=114">An-Nas</a>
             </div>
 
         </div>
@@ -490,7 +429,6 @@
 </footer>
 
 <script src="script.js"></script>
-<script src="reader.js"></script>
 
 </body>
 </html>
