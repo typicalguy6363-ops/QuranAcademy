@@ -10,101 +10,220 @@
 
     <title>My Account | QuranAcademy</title>
 
-    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="academy.css">
 </head>
 
 <body>
 
-<header class="auth-header">
+<header class="academy-header">
 
-    <a class="auth-logo" href="index.html">
+    <a class="academy-logo" href="index.html">
         QuranAcademy
     </a>
 
-    <nav class="auth-nav">
-        <a href="learn.html">Learn</a>
+    <nav class="academy-nav">
+        <a href="index.html">Home</a>
+        <a href="learn.html">Levels</a>
         <a href="reader.html">Full Quran</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a class="account-link active" href="account.html">Account</a>
     </nav>
 
 </header>
 
-<main class="auth-page">
+<main class="page-shell">
 
-    <section class="account-card">
+    <p class="eyebrow">
+        Learner profile
+    </p>
 
-        <div
-            class="loading-account"
-            id="loadingAccount"
-        >
+    <h1 class="page-title">
+        My Account
+    </h1>
+
+    <section
+        class="surface-card account-summary"
+        id="accountSummary"
+    >
+
+        <div class="empty-state">
             Loading your account...
         </div>
 
-        <div
-            id="accountContent"
-            hidden
-        >
+    </section>
 
-            <div class="account-top">
+</main>
 
-                <div
-                    class="account-avatar"
-                    id="accountAvatar"
-                >
-                    QA
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const accountSummary =
+        document.getElementById(
+            "accountSummary"
+        );
+
+    const toast =
+        document.getElementById("toast");
+
+    function getRank(xp) {
+        if (xp >= 1000) {
+            return {
+                name: "Diamond",
+                emoji: "💎",
+                next: 1325
+            };
+        }
+
+        if (xp >= 700) {
+            return {
+                name: "Platinum",
+                emoji: "🏅",
+                next: 1000
+            };
+        }
+
+        if (xp >= 400) {
+            return {
+                name: "Gold",
+                emoji: "🥇",
+                next: 700
+            };
+        }
+
+        if (xp >= 150) {
+            return {
+                name: "Silver",
+                emoji: "🥈",
+                next: 400
+            };
+        }
+
+        return {
+            name: "Bronze",
+            emoji: "🥉",
+            next: 150
+        };
+    }
+
+    function getInitials(name) {
+        return name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word[0].toUpperCase())
+            .join("") || "QA";
+    }
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("show");
+
+        void toast.offsetWidth;
+
+        toast.classList.add("show");
+    }
+
+    function renderAccount(user, profile) {
+        const xp = profile.xp || 0;
+
+        const completed =
+            profile.completed_levels || [];
+
+        const rewards =
+            profile.unlocked_rewards || [];
+
+        const rank = getRank(xp);
+
+        const rankPercentage =
+            Math.min(
+                100,
+                Math.round(
+                    xp / rank.next * 100
+                )
+            );
+
+        accountSummary.innerHTML = `
+            <div class="account-main">
+
+                <div class="profile-avatar">
+                    ${getInitials(profile.username)}
                 </div>
 
                 <div>
+                    <h2>${escapeHTML(profile.username)}</h2>
 
-                    <h1 id="accountUsername">
-                        QuranAcademy Learner
-                    </h1>
+                    <p class="account-email">
+                        ${escapeHTML(user.email || "")}
+                    </p>
 
-                    <p
-                        class="account-email"
-                        id="accountEmail"
-                    ></p>
-
+                    <span class="rank-badge">
+                        ${rank.emoji} ${rank.name} Learner
+                    </span>
                 </div>
 
             </div>
 
-            <div class="account-grid">
+            <div class="stat-grid">
 
-                <div class="account-stat">
-                    <span>Account plan</span>
-                    <strong>Free</strong>
+                <div class="stat-card">
+                    <span>Total XP</span>
+                    <strong>${xp}</strong>
                 </div>
 
-                <div class="account-stat">
-                    <span>Profile level</span>
-                    <strong>Level 1</strong>
+                <div class="stat-card">
+                    <span>Completed</span>
+                    <strong>${completed.length}/7</strong>
                 </div>
 
-                <div class="account-stat">
-                    <span>XP</span>
-                    <strong>0 XP</strong>
+                <div class="stat-card">
+                    <span>Games</span>
+                    <strong>${rewards.length}</strong>
                 </div>
 
             </div>
 
-            <div class="account-actions">
+            <div class="progress-label">
+                <span>Rank progress</span>
+                <span>${xp} / ${rank.next} XP</span>
+            </div>
+
+            <div class="progress-track">
+                <div
+                    class="progress-fill"
+                    style="width: ${rankPercentage}%"
+                ></div>
+            </div>
+
+            <div class="account-action-grid">
 
                 <a
-                    class="account-link"
+                    class="button button-primary"
                     href="learn.html"
                 >
-                    Continue Learning
+                    📚 Continue Learning
                 </a>
 
                 <a
-                    class="account-link secondary"
-                    href="reader.html"
+                    class="button button-secondary"
+                    href="leaderboard.html"
                 >
-                    Open Full Quran
+                    🏆 Leaderboard
+                </a>
+
+                <a
+                    class="button button-secondary"
+                    href="rewards.html"
+                >
+                    🎮 Reward Arcade
                 </a>
 
                 <button
-                    class="signout-button"
+                    class="button button-dark"
                     id="signoutButton"
                     type="button"
                 >
@@ -112,92 +231,70 @@
                 </button>
 
             </div>
+        `;
 
-            <div
-                class="auth-message"
-                id="accountMessage"
-            ></div>
+        document
+            .getElementById("signoutButton")
+            .addEventListener(
+                "click",
+                signOut
+            );
+    }
 
-        </div>
+    function escapeHTML(value) {
+        const element =
+            document.createElement("div");
 
-    </section>
+        element.textContent = value;
 
-</main>
+        return element.innerHTML;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+    async function signOut() {
+        const button =
+            document.getElementById(
+                "signoutButton"
+            );
 
-<script>
-    const loadingAccount =
-        document.getElementById(
-            "loadingAccount"
-        );
+        button.disabled = true;
+        button.textContent = "Signing out...";
 
-    const accountContent =
-        document.getElementById(
-            "accountContent"
-        );
+        const {
+            error
+        } =
+            await window
+                .quranAcademySupabase
+                .auth
+                .signOut();
 
-    const accountUsername =
-        document.getElementById(
-            "accountUsername"
-        );
+        if (error) {
+            showToast(error.message);
 
-    const accountEmail =
-        document.getElementById(
-            "accountEmail"
-        );
-
-    const accountAvatar =
-        document.getElementById(
-            "accountAvatar"
-        );
-
-    const signoutButton =
-        document.getElementById(
-            "signoutButton"
-        );
-
-    const accountMessage =
-        document.getElementById(
-            "accountMessage"
-        );
-
-    function getInitials(name) {
-        const words =
-            name
-                .trim()
-                .split(/\s+/)
-                .filter(Boolean);
-
-        if (!words.length) {
-            return "QA";
+            button.disabled = false;
+            button.textContent = "Sign Out";
+            return;
         }
 
-        return words
-            .slice(0, 2)
-            .map((word) =>
-                word.charAt(0).toUpperCase()
-            )
-            .join("");
+        window.location.replace(
+            "signin.html"
+        );
     }
 
     async function loadAccount() {
         try {
             const {
-                data,
-                error
+                data: userData,
+                error: userError
             } =
                 await window
                     .quranAcademySupabase
                     .auth
-                    .getSession();
+                    .getUser();
 
-            if (error) {
-                throw error;
-            }
-
-            if (!data.session) {
+            if (
+                userError ||
+                !userData.user
+            ) {
                 window.location.replace(
                     "signin.html"
                 );
@@ -206,71 +303,44 @@
             }
 
             const user =
-                data.session.user;
-
-            const username =
-                user.user_metadata?.username ||
-                "QuranAcademy Learner";
-
-            accountUsername.textContent =
-                username;
-
-            accountEmail.textContent =
-                user.email || "";
-
-            accountAvatar.textContent =
-                getInitials(username);
-
-            loadingAccount.hidden = true;
-            accountContent.hidden = false;
-        } catch (error) {
-            console.error(error);
-
-            loadingAccount.textContent =
-                "Your account could not load. Please sign in again.";
-
-            window.setTimeout(() => {
-                window.location.replace(
-                    "signin.html"
-                );
-            }, 1800);
-        }
-    }
-
-    signoutButton.addEventListener(
-        "click",
-        async () => {
-            signoutButton.disabled = true;
-            signoutButton.textContent =
-                "Signing out...";
+                userData.user;
 
             const {
-                error
+                data: profile,
+                error: profileError
             } =
                 await window
                     .quranAcademySupabase
-                    .auth
-                    .signOut();
+                    .from("profiles")
+                    .select(
+                        "id, username, xp, plan, completed_levels, unlocked_rewards"
+                    )
+                    .eq("id", user.id)
+                    .single();
 
-            if (error) {
-                accountMessage.textContent =
-                    error.message;
-
-                accountMessage.className =
-                    "auth-message show error";
-
-                signoutButton.disabled = false;
-                signoutButton.textContent =
-                    "Sign Out";
-
-                return;
+            if (profileError) {
+                throw profileError;
             }
 
-            window.location.replace(
-                "signin.html"
-            );
+            renderAccount(user, profile);
+        } catch (error) {
+            console.error(error);
+
+            accountSummary.innerHTML = `
+                <div class="empty-state">
+                    Your account could not load.
+                    Please sign in again.<br><br>
+
+                    <a
+                        class="button button-primary"
+                        href="signin.html"
+                    >
+                        Sign In
+                    </a>
+                </div>
+            `;
         }
-    );
+    }
 
     loadAccount();
 </script>
