@@ -1,1 +1,256 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sign Up | QuranAcademy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <nav class="navbar">
+
+        <a class="logo" href="index.html">
+            QuranAcademy
+        </a>
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="navigation" id="navigation">
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#courses">Lessons</a></li>
+                <li><a href="index.html#features">How It Works</a></li>
+            </ul>
+
+            <div class="account-buttons">
+
+                <a
+                    class="button button-outline"
+                    href="signin.html"
+                >
+                    Sign In
+                </a>
+
+                <a
+                    class="button button-primary"
+                    href="signup.html"
+                >
+                    Sign Up
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="auth-page">
+
+    <div class="auth-layout reveal">
+
+        <section class="auth-intro">
+
+            <p class="eyebrow">
+                Begin learning
+            </p>
+
+            <h1>
+                Start your
+                <span class="rainbow-text">Quran journey.</span>
+            </h1>
+
+            <p>
+                Create a free account to practice Arabic sounds, Quran
+                words, and surahs using real human recordings.
+            </p>
+
+            <div class="auth-benefits">
+
+                <div>
+                    <span>🎧</span>
+                    <p>Listen to human-recorded lessons</p>
+                </div>
+
+                <div>
+                    <span>🎙️</span>
+                    <p>Record and replay your voice</p>
+                </div>
+
+                <div>
+                    <span>✨</span>
+                    <p>Prepare for AI pronunciation feedback</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="auth-card">
+
+            <div class="auth-card-icon">📖</div>
+
+            <h2>Create Account</h2>
+
+            <p class="auth-subtitle">
+                Join QuranAcademy for free.
+            </p>
+
+            <form id="signUpForm" novalidate>
+
+                <div class="form-group">
+
+                    <label for="signUpName">
+                        First name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signUpName"
+                        placeholder="Your name"
+                        autocomplete="given-name"
+                        required
+                    >
+
+                    <p class="form-error" id="signUpNameError"></p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="signUpEmail">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="signUpEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <p class="form-error" id="signUpEmailError"></p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="signUpPassword">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="signUpPassword"
+                            placeholder="At least 6 characters"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            class="password-toggle"
+                            type="button"
+                            data-password-toggle="signUpPassword"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                    <p class="form-error" id="signUpPasswordError"></p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Enter your password again"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            class="password-toggle"
+                            type="button"
+                            data-password-toggle="confirmPassword"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                    <p class="form-error" id="confirmPasswordError"></p>
+
+                </div>
+
+                <button
+                    class="button button-primary form-submit"
+                    type="submit"
+                >
+                    Create Free Account
+                </button>
+
+            </form>
+
+            <p class="auth-switch">
+                Already have an account?
+                <a href="signin.html">Sign in</a>
+            </p>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
