@@ -11,6 +11,91 @@
     <title>Sign In | QuranAcademy</title>
 
     <link rel="stylesheet" href="auth.css">
+
+    <style>
+        .login-divider {
+            margin: 25px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #8796a6;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .login-divider::before,
+        .login-divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: #dbe9e4;
+        }
+
+        .login-options {
+            display: grid;
+            gap: 11px;
+        }
+
+        .login-option {
+            width: 100%;
+            min-height: 51px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 2px solid #dbe9e4;
+            border-radius: 15px;
+            color: #1d3557;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .login-option:hover {
+            transform: translateY(-2px);
+            border-color: #0f9d78;
+            background: #f5fcf9;
+        }
+
+        .login-option:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        .login-option-icon {
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 9px;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .google-icon {
+            color: #4285f4;
+            background: #eef4ff;
+        }
+
+        .email-icon {
+            color: #08745a;
+            background: #e2f7ef;
+        }
+
+        .apple-icon {
+            color: white;
+            background: #111111;
+        }
+    </style>
 </head>
 
 <body>
@@ -100,6 +185,50 @@
 
         </form>
 
+        <div class="login-divider">
+            Or continue with
+        </div>
+
+        <div class="login-options">
+
+            <button
+                class="login-option"
+                id="googleButton"
+                type="button"
+            >
+                <span class="login-option-icon google-icon">
+                    G
+                </span>
+
+                Continue with Google
+            </button>
+
+            <button
+                class="login-option"
+                id="emailButton"
+                type="button"
+            >
+                <span class="login-option-icon email-icon">
+                    ✉
+                </span>
+
+                Continue with Email
+            </button>
+
+            <button
+                class="login-option"
+                id="appleButton"
+                type="button"
+            >
+                <span class="login-option-icon apple-icon">
+                    A
+                </span>
+
+                Continue with Apple
+            </button>
+
+        </div>
+
         <p class="auth-bottom-text">
             Don’t have an account?
             <a href="signup.html">Create one here</a>
@@ -122,6 +251,15 @@
     const signinMessage =
         document.getElementById("signinMessage");
 
+    const googleButton =
+        document.getElementById("googleButton");
+
+    const emailButton =
+        document.getElementById("emailButton");
+
+    const appleButton =
+        document.getElementById("appleButton");
+
     function showSigninMessage(message, type) {
         signinMessage.textContent = message;
 
@@ -129,18 +267,110 @@
             `auth-message show ${type}`;
     }
 
-    async function checkExistingLogin() {
-        const {
-            data
-        } =
-            await window
-                .quranAcademySupabase
-                .auth
-                .getSession();
+    function setSocialButtonsDisabled(disabled) {
+        googleButton.disabled = disabled;
+        emailButton.disabled = disabled;
+        appleButton.disabled = disabled;
+    }
 
-        if (data.session) {
-            window.location.href =
-                "account.html";
+    async function continueWithProvider(provider) {
+        setSocialButtonsDisabled(true);
+
+        showSigninMessage(
+            `Opening ${provider === "google" ? "Google" : "Apple"}...`,
+            "success"
+        );
+
+        try {
+            const {
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .signInWithOAuth({
+                        provider,
+
+                        options: {
+                            redirectTo:
+                                "https://quranacademy24.com/account.html"
+                        }
+                    });
+
+            if (error) {
+                throw error;
+            }
+        } catch (error) {
+            console.error(error);
+
+            let message =
+                error.message ||
+                "This login option could not open.";
+
+            if (
+                message
+                    .toLowerCase()
+                    .includes("provider")
+            ) {
+                message =
+                    "This login option has not been connected in Supabase yet.";
+            }
+
+            showSigninMessage(
+                message,
+                "error"
+            );
+
+            setSocialButtonsDisabled(false);
+        }
+    }
+
+    googleButton.addEventListener(
+        "click",
+        () => continueWithProvider("google")
+    );
+
+    appleButton.addEventListener(
+        "click",
+        () => continueWithProvider("apple")
+    );
+
+    emailButton.addEventListener(
+        "click",
+        () => {
+            signinForm.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            document
+                .getElementById("email")
+                .focus();
+
+            showSigninMessage(
+                "Enter your email and password above.",
+                "success"
+            );
+        }
+    );
+
+    async function checkExistingLogin() {
+        try {
+            const {
+                data
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getSession();
+
+            if (data.session) {
+                window.location.replace(
+                    "account.html"
+                );
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -162,6 +392,7 @@
                     .value;
 
             signinButton.disabled = true;
+
             signinButton.textContent =
                 "Signing in...";
 
@@ -197,9 +428,10 @@
                 );
 
                 window.setTimeout(() => {
-                    window.location.href =
-                        "account.html";
-                }, 700);
+                    window.location.replace(
+                        "account.html"
+                    );
+                }, 500);
             } catch (error) {
                 console.error(error);
 
@@ -207,19 +439,22 @@
                     error.message ||
                     "The login was unsuccessful.";
 
+                const lowercaseMessage =
+                    message.toLowerCase();
+
                 if (
-                    message
-                        .toLowerCase()
-                        .includes("email not confirmed")
+                    lowercaseMessage.includes(
+                        "email not confirmed"
+                    )
                 ) {
                     message =
-                        "Confirm your email first, then try signing in again.";
+                        "Your email has not been confirmed. Turn off Confirm Email in Supabase or confirm the account.";
                 }
 
                 if (
-                    message
-                        .toLowerCase()
-                        .includes("invalid login")
+                    lowercaseMessage.includes(
+                        "invalid login"
+                    )
                 ) {
                     message =
                         "The email or password is incorrect.";
@@ -231,6 +466,7 @@
                 );
             } finally {
                 signinButton.disabled = false;
+
                 signinButton.textContent =
                     "Sign In";
             }
