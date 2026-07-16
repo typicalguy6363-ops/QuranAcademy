@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Account | QuranAcademy</title>
+
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+<header class="auth-header">
+
+    <a class="auth-logo" href="index.html">
+        QuranAcademy
+    </a>
+
+    <nav class="auth-nav">
+        <a href="learn.html">Learn</a>
+        <a href="reader.html">Full Quran</a>
+    </nav>
+
+</header>
+
+<main class="auth-page">
+
+    <section class="account-card">
+
+        <div
+            class="loading-account"
+            id="loadingAccount"
+        >
+            Loading your account...
+        </div>
+
+        <div
+            id="accountContent"
+            hidden
+        >
+
+            <div class="account-top">
+
+                <div
+                    class="account-avatar"
+                    id="accountAvatar"
+                >
+                    QA
+                </div>
+
+                <div>
+
+                    <h1 id="accountUsername">
+                        QuranAcademy Learner
+                    </h1>
+
+                    <p
+                        class="account-email"
+                        id="accountEmail"
+                    ></p>
+
+                </div>
+
+            </div>
+
+            <div class="account-grid">
+
+                <div class="account-stat">
+                    <span>Account plan</span>
+                    <strong>Free</strong>
+                </div>
+
+                <div class="account-stat">
+                    <span>Profile level</span>
+                    <strong>Level 1</strong>
+                </div>
+
+                <div class="account-stat">
+                    <span>XP</span>
+                    <strong>0 XP</strong>
+                </div>
+
+            </div>
+
+            <div class="account-actions">
+
+                <a
+                    class="account-link"
+                    href="learn.html"
+                >
+                    Continue Learning
+                </a>
+
+                <a
+                    class="account-link secondary"
+                    href="reader.html"
+                >
+                    Open Full Quran
+                </a>
+
+                <button
+                    class="signout-button"
+                    id="signoutButton"
+                    type="button"
+                >
+                    Sign Out
+                </button>
+
+            </div>
+
+            <div
+                class="auth-message"
+                id="accountMessage"
+            ></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const loadingAccount =
+        document.getElementById(
+            "loadingAccount"
+        );
+
+    const accountContent =
+        document.getElementById(
+            "accountContent"
+        );
+
+    const accountUsername =
+        document.getElementById(
+            "accountUsername"
+        );
+
+    const accountEmail =
+        document.getElementById(
+            "accountEmail"
+        );
+
+    const accountAvatar =
+        document.getElementById(
+            "accountAvatar"
+        );
+
+    const signoutButton =
+        document.getElementById(
+            "signoutButton"
+        );
+
+    const accountMessage =
+        document.getElementById(
+            "accountMessage"
+        );
+
+    function getInitials(name) {
+        const words =
+            name
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+        if (!words.length) {
+            return "QA";
+        }
+
+        return words
+            .slice(0, 2)
+            .map((word) =>
+                word.charAt(0).toUpperCase()
+            )
+            .join("");
+    }
+
+    async function loadAccount() {
+        try {
+            const {
+                data,
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getSession();
+
+            if (error) {
+                throw error;
+            }
+
+            if (!data.session) {
+                window.location.replace(
+                    "signin.html"
+                );
+
+                return;
+            }
+
+            const user =
+                data.session.user;
+
+            const username =
+                user.user_metadata?.username ||
+                "QuranAcademy Learner";
+
+            accountUsername.textContent =
+                username;
+
+            accountEmail.textContent =
+                user.email || "";
+
+            accountAvatar.textContent =
+                getInitials(username);
+
+            loadingAccount.hidden = true;
+            accountContent.hidden = false;
+        } catch (error) {
+            console.error(error);
+
+            loadingAccount.textContent =
+                "Your account could not load. Please sign in again.";
+
+            window.setTimeout(() => {
+                window.location.replace(
+                    "signin.html"
+                );
+            }, 1800);
+        }
+    }
+
+    signoutButton.addEventListener(
+        "click",
+        async () => {
+            signoutButton.disabled = true;
+            signoutButton.textContent =
+                "Signing out...";
+
+            const {
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .signOut();
+
+            if (error) {
+                accountMessage.textContent =
+                    error.message;
+
+                accountMessage.className =
+                    "auth-message show error";
+
+                signoutButton.disabled = false;
+                signoutButton.textContent =
+                    "Sign Out";
+
+                return;
+            }
+
+            window.location.replace(
+                "signin.html"
+            );
+        }
+    );
+
+    loadAccount();
+</script>
+
+</body>
+</html>
