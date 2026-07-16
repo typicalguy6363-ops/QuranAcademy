@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Quran Lesson | QuranAcademy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <nav class="navbar">
+
+        <a class="logo" href="index.html">
+            QuranAcademy
+        </a>
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="navigation" id="navigation">
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#courses">All Lessons</a></li>
+            </ul>
+
+            <div class="account-buttons">
+                <a class="button button-outline" href="signin.html">Sign In</a>
+                <a class="button button-primary" href="signup.html">Sign Up</a>
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="lesson-page" data-lesson-page>
+
+    <div class="lesson-layout reveal">
+
+        <aside class="lesson-sidebar">
+
+            <a class="back-link" href="index.html#courses">
+                ← All lessons
+            </a>
+
+            <div class="lesson-sidebar-card">
+
+                <p class="eyebrow">Lesson steps</p>
+
+                <ol>
+                    <li>Listen to the human recording</li>
+                    <li>Repeat the sound or verse</li>
+                    <li>Record your own voice</li>
+                    <li>Replay your recording</li>
+                    <li>Check pronunciation later</li>
+                </ol>
+
+            </div>
+
+            <div class="lesson-warning">
+                AI feedback is a practice tool and should not replace
+                qualified Quran instruction.
+            </div>
+
+        </aside>
+
+        <section class="lesson-card">
+
+            <div class="lesson-header">
+
+                <span class="lesson-category" id="lessonCategory">
+                    Beginner
+                </span>
+
+                <h1 id="lessonTitle">
+                    Short A Sound
+                </h1>
+
+                <p id="lessonDescription">
+                    Listen carefully and repeat the short sound.
+                </p>
+
+            </div>
+
+            <div class="lesson-arabic" id="lessonArabic" dir="rtl">
+                بَ
+            </div>
+
+            <p
+                class="lesson-pronunciation"
+                id="lessonPronunciation"
+            >
+                Ba
+            </p>
+
+            <div class="audio-section">
+
+                <div class="section-label">
+
+                    <span>🎧</span>
+
+                    <div>
+                        <strong>Human teaching audio</strong>
+                        <p>Listen before recording yourself.</p>
+                    </div>
+
+                </div>
+
+                <audio
+                    id="teacherAudio"
+                    controls
+                    preload="metadata"
+                ></audio>
+
+                <p class="audio-message" id="audioMessage">
+                    The MP3 file must be uploaded to the correct audio folder.
+                </p>
+
+            </div>
+
+            <div class="recording-section">
+
+                <div class="section-label">
+
+                    <span>🎙️</span>
+
+                    <div>
+                        <strong>Record your voice</strong>
+                        <p>Allow microphone access when asked.</p>
+                    </div>
+
+                </div>
+
+                <div class="recording-buttons">
+
+                    <button
+                        class="button button-primary"
+                        id="startRecordingButton"
+                        type="button"
+                    >
+                        🎙 Start Recording
+                    </button>
+
+                    <button
+                        class="button button-danger"
+                        id="stopRecordingButton"
+                        type="button"
+                        disabled
+                    >
+                        ⏹ Stop
+                    </button>
+
+                </div>
+
+                <div class="recording-status" id="recordingStatus">
+                    Ready to record.
+                </div>
+
+                <audio
+                    class="student-audio"
+                    id="studentAudio"
+                    controls
+                    hidden
+                ></audio>
+
+            </div>
+
+            <button
+                class="button check-button"
+                id="checkPronunciationButton"
+                type="button"
+            >
+                ✨ Check My Pronunciation
+            </button>
+
+            <div class="lesson-navigation">
+
+                <a
+                    class="lesson-navigation-button"
+                    id="previousLessonButton"
+                    href="#"
+                >
+                    ← Previous
+                </a>
+
+                <a
+                    class="lesson-navigation-button"
+                    id="nextLessonButton"
+                    href="#"
+                >
+                    Next →
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script src="lessons.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
