@@ -10,10 +10,10 @@
 
     <meta
         name="description"
-        content="PersianAcademy helps children and beginners learn Persian through fun lessons, games, stories, and quizzes."
+        content="QuranAcademy helps children and beginners learn Arabic sounds, Quran reading, Tajweed, and short surahs."
     >
 
-    <title>PersianAcademy | Learn Persian the Fun Way</title>
+    <title>QuranAcademy | Learn Quran Step by Step</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -24,7 +24,7 @@
     >
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
@@ -33,601 +33,501 @@
 
 <body>
 
-    <header class="site-header">
+<header class="site-header">
 
-        <nav class="navbar">
+    <nav class="navbar">
 
-            <a class="logo" href="#home">
-                PersianAcademy
-            </a>
+        <a class="logo" href="index.html">
+            QuranAcademy
+        </a>
 
-            <button
-                class="menu-button"
-                id="menuButton"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-            <div class="navigation" id="navigation">
+        <div class="navigation" id="navigation">
 
-                <ul class="nav-links">
-                    <li>
-                        <a href="#home">Home</a>
-                    </li>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">How It Works</a></li>
+                <li><a href="#courses">Lessons</a></li>
+                <li><a href="#premium">Premium</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
 
-                    <li>
-                        <a href="#features">Features</a>
-                    </li>
+            <div class="account-buttons">
 
-                    <li>
-                        <a href="#courses">Courses</a>
-                    </li>
+                <a
+                    class="button button-outline"
+                    href="signin.html"
+                >
+                    Sign In
+                </a>
 
-                    <li>
-                        <a href="#premium">Premium</a>
-                    </li>
-
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                </ul>
-
-                <div class="account-buttons">
-
-                    <button
-                        class="button button-outline"
-                        id="signInButton"
-                        type="button"
-                    >
-                        Sign In
-                    </button>
-
-                    <button
-                        class="button button-primary"
-                        id="signUpButton"
-                        type="button"
-                    >
-                        Sign Up
-                    </button>
-
-                </div>
+                <a
+                    class="button button-primary"
+                    href="signup.html"
+                >
+                    Sign Up
+                </a>
 
             </div>
 
-        </nav>
+        </div>
 
-    </header>
+    </nav>
 
-    <main>
+</header>
 
-        <section class="hero section" id="home">
+<main>
 
-            <div class="hero-decoration decoration-one"></div>
-            <div class="hero-decoration decoration-two"></div>
-            <div class="hero-decoration decoration-three"></div>
+    <section class="hero section" id="home">
 
-            <div class="hero-content reveal">
+        <div class="floating-shape shape-one"></div>
+        <div class="floating-shape shape-two"></div>
+        <div class="floating-shape shape-three"></div>
 
-                <div class="hero-text">
+        <div class="hero-content reveal">
 
-                    <p class="eyebrow">
-                        Fun learning for kids and beginners
-                    </p>
+            <div class="hero-text">
 
-                    <h1>
-                        Learn Persian the
-                        <span class="rainbow-text">fun way!</span>
-                    </h1>
+                <p class="eyebrow">
+                    Quran learning for kids and beginners
+                </p>
 
-                    <p class="hero-description">
-                        Learn Persian through colorful lessons, speaking
-                        practice, games, stories, and quizzes made for young
-                        learners.
-                    </p>
+                <h1>
+                    Learn Quran with
+                    <span class="rainbow-text">real human audio.</span>
+                </h1>
 
-                    <div class="hero-buttons">
+                <p class="hero-description">
+                    Listen to clear human recordings, repeat each sound or
+                    ayah, record your own voice, and improve your Quran
+                    pronunciation step by step.
+                </p>
 
-                        <button
-                            class="button button-primary button-large"
-                            id="startButton"
-                            type="button"
-                        >
-                            Start Learning Free
-                        </button>
+                <div class="hero-buttons">
 
-                        <button
-                            class="button button-secondary button-large"
-                            id="demoButton"
-                            type="button"
-                        >
-                            Watch Demo
-                        </button>
+                    <a
+                        class="button button-primary button-large"
+                        href="lesson.html?id=short-a"
+                    >
+                        Start First Lesson
+                    </a>
 
-                    </div>
-
-                    <div class="hero-stats">
-
-                        <div class="stat">
-                            <strong>20+</strong>
-                            <span>Fun lessons</span>
-                        </div>
-
-                        <div class="stat">
-                            <strong>100+</strong>
-                            <span>Persian words</span>
-                        </div>
-
-                        <div class="stat">
-                            <strong>Free</strong>
-                            <span>To get started</span>
-                        </div>
-
-                    </div>
+                    <a
+                        class="button button-secondary button-large"
+                        href="#courses"
+                    >
+                        View Lessons
+                    </a>
 
                 </div>
 
-                <div class="hero-visual" aria-label="Children learning Persian">
+                <div class="hero-stats">
 
-                    <div class="learning-card">
+                    <div class="stat">
+                        <strong>Human</strong>
+                        <span>Teaching audio</span>
+                    </div>
 
-                        <div class="character-group">
+                    <div class="stat">
+                        <strong>Record</strong>
+                        <span>Your own voice</span>
+                    </div>
 
-                            <div class="character character-one">
-                                <div class="character-hair"></div>
-                                <div class="character-face">
-                                    <span class="eye eye-left"></span>
-                                    <span class="eye eye-right"></span>
-                                    <span class="smile"></span>
-                                </div>
-                                <div class="character-body"></div>
-                            </div>
-
-                            <div class="character character-two">
-                                <div class="character-hair"></div>
-                                <div class="character-face">
-                                    <span class="eye eye-left"></span>
-                                    <span class="eye eye-right"></span>
-                                    <span class="smile"></span>
-                                </div>
-                                <div class="character-body"></div>
-                            </div>
-
-                        </div>
-
-                        <div class="lesson-preview">
-
-                            <p class="lesson-label">Today’s Persian word</p>
-
-                            <h2>سلام</h2>
-
-                            <p class="pronunciation">Salam</p>
-
-                            <p class="translation">Hello</p>
-
-                            <button
-                                class="sound-button"
-                                id="soundButton"
-                                type="button"
-                                aria-label="Play pronunciation"
-                            >
-                                🔊 Listen
-                            </button>
-
-                        </div>
-
-                        <span class="floating-icon icon-star">⭐</span>
-                        <span class="floating-icon icon-book">📚</span>
-                        <span class="floating-icon icon-heart">💛</span>
-
+                    <div class="stat">
+                        <strong>AI</strong>
+                        <span>Pronunciation checking</span>
                     </div>
 
                 </div>
 
             </div>
 
-        </section>
+            <div class="hero-visual">
 
-        <section class="features section" id="features">
+                <div class="quran-preview-card">
 
-            <div class="section-heading reveal">
+                    <div class="preview-top">
 
-                <p class="eyebrow">Why PersianAcademy?</p>
+                        <span class="preview-icon">📖</span>
+
+                        <div>
+                            <p>Today’s practice</p>
+                            <strong>Long “aa” sound</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="arabic-preview" dir="rtl">
+                        بَا
+                    </div>
+
+                    <p class="preview-pronunciation">
+                        Baa
+                    </p>
+
+                    <div class="preview-wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <a
+                        class="button button-primary preview-button"
+                        href="lesson.html?id=long-aa"
+                    >
+                        ▶ Hear Human Recording
+                    </a>
+
+                    <div class="preview-notice">
+                        No computer-generated Quran recitation
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section features-section" id="features">
+
+        <div class="section-heading reveal">
+
+            <p class="eyebrow">
+                How QuranAcademy works
+            </p>
+
+            <h2>
+                Listen, repeat, record, and improve
+            </h2>
+
+            <p>
+                QuranAcademy keeps practice simple and avoids robotic
+                teaching voices.
+            </p>
+
+        </div>
+
+        <div class="feature-grid">
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🎧</div>
+                <h3>Listen</h3>
+                <p>
+                    Hear a human-recorded MP3 for each sound, word, ayah,
+                    or surah.
+                </p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🗣️</div>
+                <h3>Repeat</h3>
+                <p>
+                    Repeat the lesson slowly while following the Arabic
+                    text.
+                </p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">🎙️</div>
+                <h3>Record</h3>
+                <p>
+                    Record your voice directly inside the lesson page.
+                </p>
+            </article>
+
+            <article class="feature-card reveal">
+                <div class="feature-icon">✨</div>
+                <h3>Check</h3>
+                <p>
+                    AI will later check pronunciation without replacing
+                    the human teaching audio.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class="section courses-section" id="courses">
+
+        <div class="section-heading reveal">
+
+            <p class="eyebrow">
+                Start learning
+            </p>
+
+            <h2>
+                Quran lessons for every level
+            </h2>
+
+            <p>
+                Start with short vowels, continue to long sounds and
+                words, and then practice complete surahs.
+            </p>
+
+        </div>
+
+        <div class="course-grid">
+
+            <article class="course-card reveal">
+
+                <div class="course-art sound-art">
+                    <span>َ ِ ُ</span>
+                </div>
+
+                <div class="course-content">
+
+                    <span class="course-label">Beginner</span>
+
+                    <h3>Short Arabic Sounds</h3>
+
+                    <p>
+                        Practice the short a, i, and u sounds using clear
+                        human recordings.
+                    </p>
+
+                    <a
+                        class="button button-primary course-button"
+                        href="lesson.html?id=short-a"
+                    >
+                        Start Lesson
+                    </a>
+
+                </div>
+
+            </article>
+
+            <article class="course-card reveal">
+
+                <div class="course-art long-art">
+                    <span>ا ي و</span>
+                </div>
+
+                <div class="course-content">
+
+                    <span class="course-label">Reading</span>
+
+                    <h3>Long Sounds</h3>
+
+                    <p>
+                        Learn the long aa, ii, and oo sounds and practice
+                        holding them correctly.
+                    </p>
+
+                    <a
+                        class="button button-primary course-button"
+                        href="lesson.html?id=long-aa"
+                    >
+                        Start Lesson
+                    </a>
+
+                </div>
+
+            </article>
+
+            <article class="course-card reveal">
+
+                <div class="course-art word-art">
+                    <span>بِسْمِ اللهِ</span>
+                </div>
+
+                <div class="course-content">
+
+                    <span class="course-label">Words</span>
+
+                    <h3>Quran Words</h3>
+
+                    <p>
+                        Listen to important Quran words and phrases, then
+                        record yourself reading them.
+                    </p>
+
+                    <a
+                        class="button button-primary course-button"
+                        href="lesson.html?id=bismillah"
+                    >
+                        Start Lesson
+                    </a>
+
+                </div>
+
+            </article>
+
+            <article class="course-card reveal">
+
+                <div class="course-art surah-art">
+                    <span>الفاتحة</span>
+                </div>
+
+                <div class="course-content">
+
+                    <span class="course-label">Surahs</span>
+
+                    <h3>Surah Al-Fatiha</h3>
+
+                    <p>
+                        Listen to the complete surah and practice it at
+                        your own pace.
+                    </p>
+
+                    <a
+                        class="button button-primary course-button"
+                        href="lesson.html?id=al-fatiha"
+                    >
+                        Start Lesson
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class="section premium-section" id="premium">
+
+        <div class="premium-card reveal">
+
+            <div>
+
+                <p class="premium-label">
+                    QuranAcademy Premium
+                </p>
 
                 <h2>
-                    Learning that feels like
-                    <span class="highlight">playtime</span>
+                    Unlock the complete Quran learning path
                 </h2>
 
                 <p>
-                    Every activity is designed to help learners build
-                    confidence while having fun.
+                    Premium can later include more surahs, Tajweed
+                    practice, progress tracking, pronunciation history,
+                    and personalized lesson recommendations.
                 </p>
 
-            </div>
-
-            <div class="feature-grid">
-
-                <article class="feature-card reveal">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Learn by Playing</h3>
-                    <p>
-                        Practice Persian with colorful games and short
-                        challenges.
-                    </p>
-                </article>
-
-                <article class="feature-card reveal">
-                    <div class="feature-icon">🎧</div>
-                    <h3>Listen and Repeat</h3>
-                    <p>
-                        Hear Persian words clearly and practice saying them
-                        aloud.
-                    </p>
-                </article>
-
-                <article class="feature-card reveal">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Earn Rewards</h3>
-                    <p>
-                        Complete lessons, earn XP, and unlock fun achievements.
-                    </p>
-                </article>
-
-                <article class="feature-card reveal">
-                    <div class="feature-icon">📈</div>
-                    <h3>Track Progress</h3>
-                    <p>
-                        See completed lessons, daily streaks, and learning
-                        progress.
-                    </p>
-                </article>
-
-            </div>
-
-        </section>
-
-        <section class="courses section" id="courses">
-
-            <div class="section-heading reveal">
-
-                <p class="eyebrow">Choose your path</p>
-
-                <h2>Start with simple lessons</h2>
-
-                <p>
-                    Begin with everyday Persian and unlock more lessons as you
-                    learn.
-                </p>
-
-            </div>
-
-            <div class="course-grid">
-
-                <article class="course-card reveal">
-
-                    <div class="course-top beginner-course">
-                        <span class="course-emoji">👋</span>
-                    </div>
-
-                    <div class="course-content">
-
-                        <span class="course-level">Beginner</span>
-
-                        <h3>First Persian Words</h3>
-
-                        <p>
-                            Learn greetings, colors, numbers, family words,
-                            and everyday phrases.
-                        </p>
-
-                        <div class="course-progress">
-                            <span>12 lessons</span>
-                            <span>Free</span>
-                        </div>
-
-                        <button
-                            class="button button-primary course-button"
-                            type="button"
-                            data-course="First Persian Words"
-                        >
-                            Start Course
-                        </button>
-
-                    </div>
-
-                </article>
-
-                <article class="course-card reveal">
-
-                    <div class="course-top speaking-course">
-                        <span class="course-emoji">🎤</span>
-                    </div>
-
-                    <div class="course-content">
-
-                        <span class="course-level">Speaking</span>
-
-                        <h3>Speak with Confidence</h3>
-
-                        <p>
-                            Practice pronunciation and learn useful Persian
-                            conversations.
-                        </p>
-
-                        <div class="course-progress">
-                            <span>10 lessons</span>
-                            <span>Free</span>
-                        </div>
-
-                        <button
-                            class="button button-primary course-button"
-                            type="button"
-                            data-course="Speak with Confidence"
-                        >
-                            Start Course
-                        </button>
-
-                    </div>
-
-                </article>
-
-                <article class="course-card reveal">
-
-                    <div class="course-top story-course">
-                        <span class="course-emoji">📖</span>
-                    </div>
-
-                    <div class="course-content">
-
-                        <span class="course-level">Stories</span>
-
-                        <h3>Persian Story Time</h3>
-
-                        <p>
-                            Read and listen to simple stories with helpful
-                            translations.
-                        </p>
-
-                        <div class="course-progress">
-                            <span>8 stories</span>
-                            <span>Free</span>
-                        </div>
-
-                        <button
-                            class="button button-primary course-button"
-                            type="button"
-                            data-course="Persian Story Time"
-                        >
-                            Start Course
-                        </button>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-        <section class="premium-section section" id="premium">
-
-            <div class="premium-card reveal">
-
-                <div class="premium-content">
-
-                    <p class="premium-label">PersianAcademy Premium</p>
-
-                    <h2>
-                        Learn even more with
-                        <span>Premium</span>
-                    </h2>
-
-                    <p>
-                        Unlock Quran lessons, Tajweed practice, advanced
-                        Persian courses, and extra learning activities.
-                    </p>
-
-                    <ul class="premium-list">
-                        <li>✓ Quran reading lessons</li>
-                        <li>✓ Tajweed and pronunciation practice</li>
-                        <li>✓ Advanced Persian lessons</li>
-                        <li>✓ Extra games and rewards</li>
-                    </ul>
-
-                    <button
-                        class="button premium-button"
-                        id="premiumButton"
-                        type="button"
-                    >
-                        Explore Premium
-                    </button>
-
-                </div>
-
-                <div class="premium-visual">
-
-                    <div class="premium-crown">👑</div>
-
-                    <div class="premium-badge">
-                        <span>⭐</span>
-                        <strong>Premium</strong>
-                        <small>More ways to learn</small>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="about section" id="about">
-
-            <div class="about-card reveal">
-
-                <div class="about-icon">🌍</div>
-
-                <div class="about-content">
-
-                    <p class="eyebrow">Our mission</p>
-
-                    <h2>Helping the next generation learn Persian</h2>
-
-                    <p>
-                        PersianAcademy is being created to make learning
-                        Persian simple, welcoming, and exciting for children
-                        and beginners everywhere.
-                    </p>
-
-                    <button
-                        class="button button-secondary"
-                        id="aboutButton"
-                        type="button"
-                    >
-                        Learn More
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="signup-banner section">
-
-            <div class="signup-banner-content reveal">
-
-                <div>
-                    <p class="eyebrow">Ready to begin?</p>
-                    <h2>Start learning Persian today!</h2>
-                    <p>
-                        Create a free account and begin your first lesson.
-                    </p>
-                </div>
+                <ul class="premium-list">
+                    <li>✓ More Quran words and surahs</li>
+                    <li>✓ Tajweed practice lessons</li>
+                    <li>✓ Saved pronunciation recordings</li>
+                    <li>✓ Progress and streak tracking</li>
+                </ul>
 
                 <button
-                    class="button button-light button-large"
-                    id="bottomSignUpButton"
+                    class="button premium-button"
                     type="button"
+                    data-modal-title="Premium Coming Soon"
+                    data-modal-message="The premium learning path will be added after the main lessons and accounts are completed."
+                    data-modal-icon="👑"
                 >
-                    Create Free Account
+                    Explore Premium
                 </button>
 
             </div>
 
-        </section>
+            <div class="premium-symbol">
+                <span>📖</span>
+                <strong>QuranAcademy</strong>
+                <small>Learn with confidence</small>
+            </div>
 
-    </main>
+        </div>
 
-    <footer class="footer">
+    </section>
 
-        <div class="footer-content">
+    <section class="section about-section" id="about">
 
-            <div class="footer-brand">
+        <div class="about-card reveal">
 
-                <a class="logo footer-logo" href="#home">
-                    PersianAcademy
-                </a>
+            <div class="about-icon">🌙</div>
+
+            <div>
+
+                <p class="eyebrow">Our goal</p>
+
+                <h2>
+                    Make Quran practice simple and welcoming
+                </h2>
 
                 <p>
-                    Fun Persian learning for children and beginners.
+                    QuranAcademy uses real human recordings for instruction.
+                    AI is only planned as a tool to help students notice
+                    possible pronunciation mistakes.
                 </p>
 
             </div>
 
-            <div class="footer-links">
-
-                <div>
-                    <h3>Learn</h3>
-                    <a href="#courses">Courses</a>
-                    <a href="#features">Features</a>
-                    <a href="#premium">Premium</a>
-                </div>
-
-                <div>
-                    <h3>Company</h3>
-                    <a href="#about">About</a>
-                    <a href="#home">Home</a>
-                    <button
-                        class="footer-link-button"
-                        id="contactButton"
-                        type="button"
-                    >
-                        Contact
-                    </button>
-                </div>
-
-                <div>
-                    <h3>Account</h3>
-                    <button
-                        class="footer-link-button"
-                        id="footerSignInButton"
-                        type="button"
-                    >
-                        Sign In
-                    </button>
-
-                    <button
-                        class="footer-link-button"
-                        id="footerSignUpButton"
-                        type="button"
-                    >
-                        Sign Up
-                    </button>
-                </div>
-
-            </div>
-
         </div>
 
-        <div class="footer-bottom">
-            <p>© 2026 PersianAcademy. All rights reserved.</p>
-        </div>
+    </section>
 
-    </footer>
+</main>
 
-    <div class="modal-overlay" id="modalOverlay">
+<footer class="footer">
 
-        <div
-            class="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modalTitle"
-        >
+    <div class="footer-content">
 
-            <button
-                class="modal-close"
-                id="modalClose"
-                type="button"
-                aria-label="Close message"
-            >
-                ×
-            </button>
+        <div class="footer-brand">
 
-            <div class="modal-icon" id="modalIcon">🎉</div>
+            <a class="logo footer-logo" href="index.html">
+                QuranAcademy
+            </a>
 
-            <h2 id="modalTitle">Welcome!</h2>
-
-            <p id="modalMessage">
-                This feature is coming soon.
+            <p>
+                Human-recorded Quran learning for children and beginners.
             </p>
 
-            <button
-                class="button button-primary"
-                id="modalAction"
-                type="button"
-            >
-                Sounds Good
-            </button>
+        </div>
+
+        <div class="footer-links">
+
+            <div>
+                <h3>Learn</h3>
+                <a href="#courses">Lessons</a>
+                <a href="#features">How It Works</a>
+                <a href="#premium">Premium</a>
+            </div>
+
+            <div>
+                <h3>Account</h3>
+                <a href="signin.html">Sign In</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+
+            <div>
+                <h3>Practice</h3>
+                <a href="lesson.html?id=short-a">Short Sounds</a>
+                <a href="lesson.html?id=long-aa">Long Sounds</a>
+                <a href="lesson.html?id=al-fatiha">Surahs</a>
+            </div>
 
         </div>
 
     </div>
 
-    <script src="script.js"></script>
+    <div class="footer-bottom">
+        © 2026 QuranAcademy. All rights reserved.
+    </div>
+
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
