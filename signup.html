@@ -8,273 +8,291 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Sign Up | QuranAcademy</title>
+    <title>Create Account | QuranAcademy</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 
 <body>
 
-<header class="site-header">
+<header class="auth-header">
 
-    <nav class="navbar">
+    <a class="auth-logo" href="index.html">
+        QuranAcademy
+    </a>
 
-        <a class="logo" href="index.html">
-            QuranAcademy
-        </a>
+    <nav class="auth-nav">
+        <a href="index.html">Home</a>
 
-        <button
-            class="menu-button"
-            id="menuButton"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
+        <a
+            class="primary-link"
+            href="signin.html"
         >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <div class="navigation" id="navigation">
-
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="learn.html">Learning Path</a></li>
-                <li><a href="reader.html">Quran Reader</a></li>
-            </ul>
-
-            <div class="account-buttons">
-
-                <a
-                    class="button button-outline"
-                    href="signin.html"
-                >
-                    Sign In
-                </a>
-
-                <a
-                    class="button button-primary"
-                    href="signup.html"
-                >
-                    Sign Up
-                </a>
-
-            </div>
-
-        </div>
-
+            Sign In
+        </a>
     </nav>
 
 </header>
 
 <main class="auth-page">
 
-    <div class="auth-layout reveal">
+    <section class="auth-card">
 
-        <section class="auth-intro">
+        <div class="auth-icon">
+            🌙
+        </div>
 
-            <p class="eyebrow">
-                Begin learning
-            </p>
+        <h1>
+            Create Account
+        </h1>
 
-            <h1>
-                Join
-                <span class="rainbow-text">
-                    QuranAcademy.
-                </span>
-            </h1>
+        <p class="auth-description">
+            Create a free QuranAcademy account and
+            save your learning progress.
+        </p>
 
-            <p>
-                Create an account later to save progress between devices.
-                Learning and Quran reading remain available without an
-                account.
-            </p>
+        <form id="signupForm">
 
-            <div class="auth-benefits">
+            <div class="form-group">
 
-                <div>
-                    <span>🔤</span>
-                    <p>Learn all 28 Arabic letters</p>
-                </div>
+                <label for="username">
+                    Learner nickname
+                </label>
 
-                <div>
-                    <span>🎧</span>
-                    <p>Practice sounds and Quran words</p>
-                </div>
-
-                <div>
-                    <span>📖</span>
-                    <p>Read and listen to all 114 surahs</p>
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="auth-card">
-
-            <div class="auth-card-icon">
-                📖
-            </div>
-
-            <h2>Create Account</h2>
-
-            <p class="auth-subtitle">
-                Join QuranAcademy for free.
-            </p>
-
-            <form id="signUpForm" novalidate>
-
-                <div class="form-group">
-
-                    <label for="signUpName">
-                        First name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="signUpName"
-                        placeholder="Your first name"
-                        autocomplete="given-name"
-                        required
-                    >
-
-                    <p
-                        class="form-error"
-                        id="signUpNameError"
-                    ></p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signUpEmail">
-                        Email address
-                    </label>
-
-                    <input
-                        type="email"
-                        id="signUpEmail"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    >
-
-                    <p
-                        class="form-error"
-                        id="signUpEmailError"
-                    ></p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signUpPassword">
-                        Password
-                    </label>
-
-                    <div class="password-wrapper">
-
-                        <input
-                            type="password"
-                            id="signUpPassword"
-                            placeholder="At least 6 characters"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <button
-                            class="password-toggle"
-                            type="button"
-                            data-password-toggle="signUpPassword"
-                            aria-label="Show password"
-                        >
-                            👁️
-                        </button>
-
-                    </div>
-
-                    <p
-                        class="form-error"
-                        id="signUpPasswordError"
-                    ></p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="confirmPassword">
-                        Confirm password
-                    </label>
-
-                    <div class="password-wrapper">
-
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            placeholder="Enter the password again"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <button
-                            class="password-toggle"
-                            type="button"
-                            data-password-toggle="confirmPassword"
-                            aria-label="Show password"
-                        >
-                            👁️
-                        </button>
-
-                    </div>
-
-                    <p
-                        class="form-error"
-                        id="confirmPasswordError"
-                    ></p>
-
-                </div>
-
-                <button
-                    class="button button-primary form-submit"
-                    type="submit"
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    minlength="3"
+                    maxlength="20"
+                    autocomplete="nickname"
+                    required
                 >
-                    Create Account
-                </button>
 
-            </form>
+                <p class="form-help">
+                    Use a safe nickname, not your full real name.
+                </p>
 
-            <p class="auth-switch">
-                Already have an account?
-                <a href="signin.html">Sign in</a>
-            </p>
+            </div>
 
-            <p class="auth-note">
-                Or start
-                <a href="learn.html">Level 1</a>
-                without signing up.
-            </p>
+            <div class="form-group">
 
-        </section>
+                <label for="email">
+                    Parent or account email
+                </label>
 
-    </div>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <p class="form-help">
+                    Use at least 8 characters.
+                </p>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm password
+                </label>
+
+                <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+            <button
+                class="auth-button"
+                id="signupButton"
+                type="submit"
+            >
+                Create Free Account
+            </button>
+
+            <div
+                class="auth-message"
+                id="signupMessage"
+            ></div>
+
+        </form>
+
+        <p class="auth-bottom-text">
+            Already registered?
+            <a href="signin.html">Sign in here</a>
+        </p>
+
+    </section>
 
 </main>
 
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const signupForm =
+        document.getElementById("signupForm");
+
+    const signupButton =
+        document.getElementById("signupButton");
+
+    const signupMessage =
+        document.getElementById("signupMessage");
+
+    function showSignupMessage(message, type) {
+        signupMessage.textContent = message;
+
+        signupMessage.className =
+            `auth-message show ${type}`;
+    }
+
+    signupForm.addEventListener(
+        "submit",
+        async (event) => {
+            event.preventDefault();
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+            const confirmPassword =
+                document
+                    .getElementById(
+                        "confirmPassword"
+                    )
+                    .value;
+
+            if (username.length < 3) {
+                showSignupMessage(
+                    "Your nickname must contain at least 3 characters.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (password.length < 8) {
+                showSignupMessage(
+                    "Your password must contain at least 8 characters.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showSignupMessage(
+                    "The passwords do not match.",
+                    "error"
+                );
+
+                return;
+            }
+
+            signupButton.disabled = true;
+            signupButton.textContent =
+                "Creating account...";
+
+            signupMessage.className =
+                "auth-message";
+
+            try {
+                const {
+                    data,
+                    error
+                } =
+                    await window
+                        .quranAcademySupabase
+                        .auth
+                        .signUp({
+                            email,
+                            password,
+
+                            options: {
+                                data: {
+                                    username: username
+                                },
+
+                                emailRedirectTo:
+                                    "https://quranacademy24.com/account.html"
+                            }
+                        });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (data.session) {
+                    window.location.href =
+                        "account.html";
+
+                    return;
+                }
+
+                signupForm.reset();
+
+                showSignupMessage(
+                    "Account created! Check your email and press the confirmation link. Then return and sign in.",
+                    "success"
+                );
+            } catch (error) {
+                console.error(error);
+
+                showSignupMessage(
+                    error.message ||
+                    "The account could not be created.",
+                    "error"
+                );
+            } finally {
+                signupButton.disabled = false;
+
+                signupButton.textContent =
+                    "Create Free Account";
+            }
+        }
+    );
+</script>
 
 </body>
 </html>
