@@ -1,24 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-
-    <title>Sign Up | QuranAcademy</title>
+    <title>Sign In | QuranAcademy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin
     >
-
     <link
         href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
@@ -26,16 +21,11 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header class="site-header">
-
     <nav class="navbar">
-
-        <a class="logo" href="index.html">
-            QuranAcademy
-        </a>
+        <a class="logo" href="index.html">QuranAcademy</a>
 
         <button
             class="menu-button"
@@ -50,207 +40,91 @@
         </button>
 
         <div class="navigation" id="navigation">
-
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#courses">Lessons</a></li>
-                <li><a href="index.html#features">How It Works</a></li>
+                <li><a href="reader.html">Reader</a></li>
             </ul>
 
             <div class="account-buttons">
-
-                <a
-                    class="button button-outline"
-                    href="signin.html"
-                >
-                    Sign In
-                </a>
-
-                <a
-                    class="button button-primary"
-                    href="signup.html"
-                >
-                    Sign Up
-                </a>
-
+                <a class="button button-outline active-account" href="signin.html">Sign In</a>
+                <a class="button button-primary" href="signup.html">Sign Up</a>
             </div>
-
         </div>
-
     </nav>
-
 </header>
 
 <main class="auth-page">
-
     <div class="auth-layout reveal">
 
         <section class="auth-intro">
-
-            <p class="eyebrow">
-                Begin learning
-            </p>
-
-            <h1>
-                Start your
-                <span class="rainbow-text">Quran journey.</span>
-            </h1>
-
+            <p class="eyebrow">Welcome back</p>
+            <h1>Continue your <span class="rainbow-text">Quran journey.</span></h1>
             <p>
-                Create a free account to practice Arabic sounds, Quran
-                words, and surahs using real human recordings.
+                Sign in later to save progress, bookmarks, and learning history.
+                But you can still use the Quran reader without signing in.
             </p>
 
             <div class="auth-benefits">
-
-                <div>
-                    <span>🎧</span>
-                    <p>Listen to human-recorded lessons</p>
-                </div>
-
-                <div>
-                    <span>🎙️</span>
-                    <p>Record and replay your voice</p>
-                </div>
-
-                <div>
-                    <span>✨</span>
-                    <p>Prepare for AI pronunciation feedback</p>
-                </div>
-
+                <div><span>📖</span><p>Save where you left off</p></div>
+                <div><span>🔖</span><p>Bookmark surahs and ayahs</p></div>
+                <div><span>✨</span><p>Keep your settings and progress</p></div>
             </div>
-
         </section>
 
         <section class="auth-card">
+            <div class="auth-card-icon">🌙</div>
+            <h2>Sign In</h2>
+            <p class="auth-subtitle">Real accounts can be connected later.</p>
 
-            <div class="auth-card-icon">📖</div>
-
-            <h2>Create Account</h2>
-
-            <p class="auth-subtitle">
-                Join QuranAcademy for free.
-            </p>
-
-            <form id="signUpForm" novalidate>
-
+            <form id="signInForm" novalidate>
                 <div class="form-group">
-
-                    <label for="signUpName">
-                        First name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="signUpName"
-                        placeholder="Your name"
-                        autocomplete="given-name"
-                        required
-                    >
-
-                    <p class="form-error" id="signUpNameError"></p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="signUpEmail">
-                        Email address
-                    </label>
-
+                    <label for="signInEmail">Email</label>
                     <input
                         type="email"
-                        id="signUpEmail"
+                        id="signInEmail"
                         placeholder="you@example.com"
-                        autocomplete="email"
                         required
                     >
-
-                    <p class="form-error" id="signUpEmailError"></p>
-
+                    <p class="form-error" id="signInEmailError"></p>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="signUpPassword">
-                        Password
-                    </label>
-
+                    <label for="signInPassword">Password</label>
                     <div class="password-wrapper">
-
                         <input
                             type="password"
-                            id="signUpPassword"
-                            placeholder="At least 6 characters"
-                            autocomplete="new-password"
+                            id="signInPassword"
+                            placeholder="Enter password"
                             required
                         >
-
                         <button
                             class="password-toggle"
                             type="button"
-                            data-password-toggle="signUpPassword"
+                            data-password-toggle="signInPassword"
                         >
                             👁️
                         </button>
-
                     </div>
-
-                    <p class="form-error" id="signUpPasswordError"></p>
-
+                    <p class="form-error" id="signInPasswordError"></p>
                 </div>
 
-                <div class="form-group">
-
-                    <label for="confirmPassword">
-                        Confirm password
-                    </label>
-
-                    <div class="password-wrapper">
-
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            placeholder="Enter your password again"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <button
-                            class="password-toggle"
-                            type="button"
-                            data-password-toggle="confirmPassword"
-                        >
-                            👁️
-                        </button>
-
-                    </div>
-
-                    <p class="form-error" id="confirmPasswordError"></p>
-
-                </div>
-
-                <button
-                    class="button button-primary form-submit"
-                    type="submit"
-                >
-                    Create Free Account
+                <button class="button button-primary form-submit" type="submit">
+                    Sign In
                 </button>
-
             </form>
 
             <p class="auth-switch">
-                Already have an account?
-                <a href="signin.html">Sign in</a>
+                Don’t have an account?
+                <a href="signup.html">Create one</a>
             </p>
 
+            <p class="auth-note">
+                Or just <a href="reader.html">go straight to the Quran Reader</a>.
+            </p>
         </section>
-
     </div>
-
 </main>
 
 <script src="script.js"></script>
-
 </body>
 </html>
