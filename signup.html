@@ -13,68 +13,87 @@
     <link rel="stylesheet" href="auth.css">
 
     <style>
-        .check-email-box {
-            display: none;
-            text-align: center;
+        .login-divider {
+            margin: 25px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #8796a6;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .check-email-box.show {
-            display: block;
+        .login-divider::before,
+        .login-divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: #dbe9e4;
         }
 
-        .check-email-icon {
-            width: 82px;
-            height: 82px;
-            margin: 0 auto 20px;
+        .login-options {
             display: grid;
-            place-items: center;
-            border-radius: 25px;
-            background: #e2f7ef;
-            font-size: 2.4rem;
+            gap: 11px;
         }
 
-        .check-email-box h1 {
+        .login-option {
+            width: 100%;
+            min-height: 51px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 2px solid #dbe9e4;
+            border-radius: 15px;
             color: #1d3557;
-            font-size: 2.1rem;
-        }
-
-        .check-email-box p {
-            margin-top: 12px;
-            color: #74869a;
-            line-height: 1.7;
-        }
-
-        .email-address-box {
-            margin-top: 17px;
-            padding: 13px;
-            border-radius: 14px;
-            color: #08745a;
-            background: #effaf6;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
             font-weight: 800;
-            word-break: break-word;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
         }
 
-        .check-email-actions {
-            margin-top: 23px;
-            display: grid;
-            gap: 10px;
+        .login-option:hover {
+            transform: translateY(-2px);
+            border-color: #0f9d78;
+            background: #f5fcf9;
         }
 
-        .check-email-link {
-            min-height: 49px;
-            padding: 13px 18px;
+        .login-option:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        .login-option-icon {
+            width: 28px;
+            height: 28px;
             display: grid;
             place-items: center;
-            border-radius: 14px;
-            color: white;
-            background: #0f9d78;
-            font-weight: 800;
-            text-decoration: none;
+            flex-shrink: 0;
+            border-radius: 9px;
+            font-size: 1rem;
+            font-weight: 900;
         }
 
-        .check-email-link.secondary {
+        .google-icon {
+            color: #4285f4;
+            background: #eef4ff;
+        }
+
+        .email-icon {
             color: #08745a;
             background: #e2f7ef;
+        }
+
+        .apple-icon {
+            color: white;
+            background: #111111;
         }
     </style>
 </head>
@@ -104,171 +123,160 @@
 
     <section class="auth-card">
 
-        <div id="signupSection">
-
-            <div class="auth-icon">
-                🌙
-            </div>
-
-            <h1>
-                Create Account
-            </h1>
-
-            <p class="auth-description">
-                Create a free account and save your
-                QuranAcademy learning progress.
-            </p>
-
-            <form id="signupForm">
-
-                <div class="form-group">
-
-                    <label for="username">
-                        Learner nickname
-                    </label>
-
-                    <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        minlength="3"
-                        maxlength="20"
-                        autocomplete="nickname"
-                        required
-                    >
-
-                    <p class="form-help">
-                        Choose the name shown on your profile.
-                    </p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="email">
-                        Email address
-                    </label>
-
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autocomplete="email"
-                        required
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        minlength="8"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                    <p class="form-help">
-                        Use at least 8 characters.
-                    </p>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="confirmPassword">
-                        Confirm password
-                    </label>
-
-                    <input
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type="password"
-                        minlength="8"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    class="auth-button"
-                    id="signupButton"
-                    type="submit"
-                >
-                    Create Free Account
-                </button>
-
-                <div
-                    class="auth-message"
-                    id="signupMessage"
-                ></div>
-
-            </form>
-
-            <p class="auth-bottom-text">
-                Already registered?
-                <a href="signin.html">Sign in here</a>
-            </p>
-
+        <div class="auth-icon">
+            🌙
         </div>
 
-        <div
-            class="check-email-box"
-            id="checkEmailSection"
-        >
+        <h1>
+            Create Account
+        </h1>
 
-            <div class="check-email-icon">
-                ✉️
+        <p class="auth-description">
+            Create a free account and save your
+            QuranAcademy learning progress.
+        </p>
+
+        <form id="signupForm">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Learner nickname
+                </label>
+
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    minlength="3"
+                    maxlength="20"
+                    autocomplete="nickname"
+                    required
+                >
+
+                <p class="form-help">
+                    This nickname will appear on your profile.
+                </p>
+
             </div>
 
-            <h1>
-                Check your email!
-            </h1>
+            <div class="form-group">
 
-            <p>
-                We sent you a confirmation link.
-                Open the email and press the confirmation button
-                to activate your QuranAcademy account.
-            </p>
+                <label for="email">
+                    Email address
+                </label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <p class="form-help">
+                    Use at least 8 characters.
+                </p>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm password
+                </label>
+
+                <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+            <button
+                class="auth-button"
+                id="signupButton"
+                type="submit"
+            >
+                Create Free Account
+            </button>
 
             <div
-                class="email-address-box"
-                id="createdEmail"
+                class="auth-message"
+                id="signupMessage"
             ></div>
 
-            <p>
-                Check your Spam or Junk folder when you
-                cannot find the email.
-            </p>
+        </form>
 
-            <div class="check-email-actions">
+        <div class="login-divider">
+            Or continue with
+        </div>
 
-                <a
-                    class="check-email-link"
-                    href="signin.html"
-                >
-                    Go to Sign In
-                </a>
+        <div class="login-options">
 
-                <button
-                    class="check-email-link secondary"
-                    id="useDifferentEmailButton"
-                    type="button"
-                    style="border: 0; cursor: pointer;"
-                >
-                    Use a Different Email
-                </button>
+            <button
+                class="login-option"
+                id="googleButton"
+                type="button"
+            >
+                <span class="login-option-icon google-icon">
+                    G
+                </span>
 
-            </div>
+                Continue with Google
+            </button>
+
+            <button
+                class="login-option"
+                id="emailButton"
+                type="button"
+            >
+                <span class="login-option-icon email-icon">
+                    ✉
+                </span>
+
+                Continue with Email
+            </button>
+
+            <button
+                class="login-option"
+                id="appleButton"
+                type="button"
+            >
+                <span class="login-option-icon apple-icon">
+                    A
+                </span>
+
+                Continue with Apple
+            </button>
 
         </div>
+
+        <p class="auth-bottom-text">
+            Already registered?
+            <a href="signin.html">Sign in here</a>
+        </p>
 
     </section>
 
@@ -287,19 +295,14 @@
     const signupMessage =
         document.getElementById("signupMessage");
 
-    const signupSection =
-        document.getElementById("signupSection");
+    const googleButton =
+        document.getElementById("googleButton");
 
-    const checkEmailSection =
-        document.getElementById("checkEmailSection");
+    const emailButton =
+        document.getElementById("emailButton");
 
-    const createdEmail =
-        document.getElementById("createdEmail");
-
-    const useDifferentEmailButton =
-        document.getElementById(
-            "useDifferentEmailButton"
-        );
+    const appleButton =
+        document.getElementById("appleButton");
 
     function showSignupMessage(message, type) {
         signupMessage.textContent = message;
@@ -308,30 +311,90 @@
             `auth-message show ${type}`;
     }
 
-    function showCheckEmailScreen(email) {
-        createdEmail.textContent = email;
-
-        signupSection.style.display = "none";
-
-        checkEmailSection.classList.add("show");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+    function setSocialButtonsDisabled(disabled) {
+        googleButton.disabled = disabled;
+        emailButton.disabled = disabled;
+        appleButton.disabled = disabled;
     }
 
-    useDifferentEmailButton.addEventListener(
+    async function continueWithProvider(provider) {
+        setSocialButtonsDisabled(true);
+
+        showSignupMessage(
+            `Opening ${provider === "google" ? "Google" : "Apple"}...`,
+            "success"
+        );
+
+        try {
+            const {
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .signInWithOAuth({
+                        provider,
+
+                        options: {
+                            redirectTo:
+                                "https://quranacademy24.com/account.html"
+                        }
+                    });
+
+            if (error) {
+                throw error;
+            }
+        } catch (error) {
+            console.error(error);
+
+            let message =
+                error.message ||
+                "This login option could not open.";
+
+            if (
+                message
+                    .toLowerCase()
+                    .includes("provider")
+            ) {
+                message =
+                    "This login option has not been connected in Supabase yet.";
+            }
+
+            showSignupMessage(
+                message,
+                "error"
+            );
+
+            setSocialButtonsDisabled(false);
+        }
+    }
+
+    googleButton.addEventListener(
+        "click",
+        () => continueWithProvider("google")
+    );
+
+    appleButton.addEventListener(
+        "click",
+        () => continueWithProvider("apple")
+    );
+
+    emailButton.addEventListener(
         "click",
         () => {
-            checkEmailSection.classList.remove("show");
+            signupForm.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
-            signupSection.style.display = "block";
+            document
+                .getElementById("username")
+                .focus();
 
-            signupForm.reset();
-
-            signupMessage.className =
-                "auth-message";
+            showSignupMessage(
+                "Enter your nickname, email, and password above.",
+                "success"
+            );
         }
     );
 
@@ -418,7 +481,7 @@
                                 },
 
                                 emailRedirectTo:
-                                    "https://quranacademy24.com/confirmed.html"
+                                    "https://quranacademy24.com/account.html"
                             }
                         });
 
@@ -427,13 +490,23 @@
                 }
 
                 if (data.session) {
-                    window.location.href =
-                        "account.html";
+                    showSignupMessage(
+                        "Account created! Opening your account...",
+                        "success"
+                    );
+
+                    window.setTimeout(() => {
+                        window.location.href =
+                            "account.html";
+                    }, 500);
 
                     return;
                 }
 
-                showCheckEmailScreen(email);
+                showSignupMessage(
+                    "Account created. Check your email for the confirmation link.",
+                    "success"
+                );
             } catch (error) {
                 console.error(error);
 
