@@ -10,10 +10,10 @@
 
     <meta
         name="description"
-        content="Follow QuranAcademy's guided Quran learning path."
+        content="Learn the Arabic alphabet with QuranAcademy."
     >
 
-    <title>Learning Path | QuranAcademy</title>
+    <title>Level 1: Arabic Alphabet | QuranAcademy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -31,62 +31,61 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .learning-page {
+        .alphabet-page {
             min-height: calc(100vh - 76px);
             padding: 65px 7% 90px;
         }
 
-        .learning-header {
-            width: min(1180px, 100%);
+        .alphabet-header {
+            width: min(1120px, 100%);
             margin: 0 auto 32px;
-            display: grid;
-            grid-template-columns: 1fr 350px;
+            display: flex;
             align-items: center;
-            gap: 35px;
+            justify-content: space-between;
+            gap: 30px;
         }
 
-        .learning-header h1 {
+        .alphabet-header h1 {
             margin-top: 10px;
             color: var(--navy);
             font-family: "Baloo 2", sans-serif;
             font-size: clamp(2.8rem, 6vw, 5rem);
-            line-height: 1.03;
-            letter-spacing: -0.04em;
+            line-height: 1.04;
         }
 
-        .learning-header-description {
-            max-width: 650px;
-            margin-top: 15px;
+        .alphabet-header p:last-child {
+            margin-top: 12px;
             color: var(--muted);
             line-height: 1.8;
         }
 
-        .overall-progress {
-            padding: 24px;
+        .alphabet-progress-card {
+            width: 290px;
+            flex-shrink: 0;
+            padding: 23px;
             border: 1px solid var(--border);
-            border-radius: 23px;
+            border-radius: 22px;
             background: white;
             box-shadow: var(--small-shadow);
         }
 
-        .progress-row {
+        .alphabet-progress-row {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
             color: var(--navy);
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             font-weight: 700;
         }
 
-        .progress-track {
-            height: 13px;
-            margin-top: 13px;
+        .alphabet-progress-track {
+            height: 12px;
+            margin-top: 12px;
             overflow: hidden;
             border-radius: 999px;
-            background: #e1efeb;
+            background: #e2efeb;
         }
 
-        .progress-fill {
+        .alphabet-progress-fill {
             width: 0;
             height: 100%;
             border-radius: inherit;
@@ -99,373 +98,194 @@
             transition: width 0.35s ease;
         }
 
-        .reset-button {
-            margin-top: 13px;
-            color: var(--muted);
-            background: transparent;
-            cursor: pointer;
-            font-size: 0.76rem;
-            font-weight: 700;
-        }
-
-        .learning-layout {
-            width: min(1180px, 100%);
+        .alphabet-layout {
+            width: min(1120px, 100%);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 285px 1fr;
+            grid-template-columns: 330px 1fr;
+            gap: 26px;
             align-items: start;
-            gap: 27px;
         }
 
-        .level-panel,
-        .lesson-panel {
+        .alphabet-list-card,
+        .alphabet-lesson-card {
             border: 1px solid var(--border);
             border-radius: 27px;
             background: white;
             box-shadow: var(--small-shadow);
         }
 
-        .level-panel {
-            position: sticky;
-            top: 98px;
-            padding: 14px;
+        .alphabet-list-card {
+            padding: 18px;
         }
 
-        .level-panel-heading {
-            padding: 14px 12px 18px;
-        }
-
-        .level-panel-heading h2 {
+        .alphabet-list-card h2 {
             color: var(--navy);
             font-family: "Baloo 2", sans-serif;
             font-size: 1.7rem;
         }
 
-        .level-panel-heading p {
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 0.78rem;
-            line-height: 1.6;
-        }
-
-        .level-list {
-            display: grid;
-            gap: 8px;
-        }
-
-        .level-button {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 44px 1fr auto;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 16px;
-            color: var(--text);
-            background: transparent;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.2s ease;
-        }
-
-        .level-button:hover:not(.locked) {
-            background: #edf9f5;
-            transform: translateX(3px);
-        }
-
-        .level-button.active {
-            color: var(--green-dark);
-            background: #dff5ed;
-        }
-
-        .level-button.locked {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
-
-        .level-icon {
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-            border-radius: 14px;
-            background: white;
-            box-shadow: 0 5px 12px rgba(20, 70, 62, 0.09);
-            font-size: 1.2rem;
-        }
-
-        .level-text {
-            min-width: 0;
-            display: grid;
-        }
-
-        .level-text small {
-            color: var(--muted);
-            font-size: 0.64rem;
-            text-transform: uppercase;
-        }
-
-        .level-text strong {
-            overflow: hidden;
-            font-size: 0.81rem;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        .level-status {
-            color: var(--green);
-            font-size: 0.7rem;
-            font-weight: 800;
-        }
-
-        .lesson-panel {
-            overflow: hidden;
-        }
-
-        .lesson-panel-header {
-            padding: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(135deg, #f8fffc, #f8f9ff);
-        }
-
-        .level-badge,
-        .lesson-badge {
-            display: inline-flex;
-            padding: 7px 11px;
-            border-radius: 999px;
-            color: var(--green-dark);
-            background: #e1f6ee;
-            font-size: 0.7rem;
-            font-weight: 800;
-        }
-
-        .lesson-panel-header h2 {
-            margin-top: 9px;
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: 2rem;
-        }
-
-        .lesson-panel-header p {
+        .alphabet-list-card > p {
             margin-top: 3px;
             color: var(--muted);
-            font-size: 0.84rem;
+            font-size: 0.78rem;
         }
 
-        .level-progress {
-            width: 185px;
-            flex-shrink: 0;
-        }
-
-        .level-progress-text {
-            color: var(--muted);
-            font-size: 0.72rem;
-            font-weight: 700;
-        }
-
-        .small-progress-track {
-            height: 9px;
-            margin-top: 8px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #e1efeb;
-        }
-
-        .small-progress-fill {
-            width: 0;
-            height: 100%;
-            border-radius: inherit;
-            background: var(--green);
-            transition: width 0.35s ease;
-        }
-
-        .lesson-layout {
+        .alphabet-grid {
+            margin-top: 17px;
             display: grid;
-            grid-template-columns: 220px 1fr;
-            min-height: 590px;
-        }
-
-        .lesson-list {
-            padding: 14px;
-            display: grid;
-            align-content: start;
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-            border-right: 1px solid var(--border);
-            background: #fbfefd;
         }
 
-        .lesson-list-button {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 34px 1fr;
-            align-items: center;
-            gap: 9px;
-            padding: 10px;
-            border-radius: 14px;
-            color: var(--text);
-            background: transparent;
+        .letter-button {
+            min-height: 58px;
+            border-radius: 15px;
+            color: var(--navy);
+            background: #f2faf7;
             cursor: pointer;
-            text-align: left;
+            font-size: 1.65rem;
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
         }
 
-        .lesson-list-button:hover {
-            background: #ebf8f3;
+        .letter-button:hover {
+            transform: translateY(-3px);
+            background: #e3f6ef;
         }
 
-        .lesson-list-button.active {
-            color: var(--green-dark);
-            background: #dcf4eb;
-        }
-
-        .lesson-number {
-            width: 33px;
-            height: 33px;
-            display: grid;
-            place-items: center;
-            border-radius: 11px;
-            color: var(--green-dark);
-            background: white;
-            box-shadow: 0 5px 11px rgba(20, 70, 62, 0.08);
-            font-size: 0.72rem;
-            font-weight: 800;
-        }
-
-        .lesson-list-button.completed .lesson-number {
+        .letter-button.active {
             color: white;
             background: var(--green);
         }
 
-        .lesson-list-button span:last-child {
-            min-width: 0;
-            display: grid;
+        .letter-button.completed::after {
+            content: "✓";
+            display: block;
+            color: var(--green);
+            font-size: 0.62rem;
+            font-weight: 900;
         }
 
-        .lesson-list-button strong {
-            overflow: hidden;
-            font-size: 0.77rem;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+        .letter-button.active.completed::after {
+            color: white;
         }
 
-        .lesson-list-button small {
+        .alphabet-lesson-card {
+            padding: 36px;
+        }
+
+        .lesson-label-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .level-label,
+        .lesson-complete-label {
+            padding: 7px 11px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .level-label {
+            color: var(--green-dark);
+            background: #e1f6ee;
+        }
+
+        .lesson-complete-label {
+            color: #795f1d;
+            background: #fff1c5;
+        }
+
+        .lesson-complete-label.done {
+            color: var(--green-dark);
+            background: #ddf5e9;
+        }
+
+        .alphabet-lesson-card h2 {
+            margin-top: 19px;
+            color: var(--navy);
+            font-family: "Baloo 2", sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+        }
+
+        .lesson-description {
+            margin-top: 5px;
             color: var(--muted);
-            font-size: 0.63rem;
         }
 
-        .active-lesson {
-            padding: 33px;
+        .large-arabic-letter {
+            min-height: 250px;
+            margin-top: 25px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--navy);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(15, 157, 120, 0.11),
+                    transparent 68%
+                ),
+                #fbfefd;
+            font-size: clamp(7rem, 18vw, 12rem);
         }
 
-        .lesson-top {
+        .letter-name {
+            margin-top: 12px;
+            text-align: center;
+            color: var(--green);
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        .letter-tip {
+            margin-top: 21px;
+            padding: 17px;
+            border-radius: 17px;
+            color: #4d6176;
+            background: #eef8ff;
+            line-height: 1.7;
+        }
+
+        .temporary-audio-warning {
+            margin-top: 12px;
+            padding: 13px 16px;
+            border-radius: 15px;
+            color: #745b1d;
+            background: #fff3ce;
+            font-size: 0.77rem;
+            line-height: 1.6;
+        }
+
+        .alphabet-actions {
+            margin-top: 22px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .alphabet-status {
+            min-height: 20px;
+            margin-top: 11px;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .alphabet-navigation {
+            margin-top: 27px;
             display: flex;
             justify-content: space-between;
             gap: 14px;
         }
 
-        .complete-badge {
-            padding: 7px 11px;
-            border-radius: 999px;
-            color: #765b18;
-            background: #fff0c1;
-            font-size: 0.68rem;
-            font-weight: 800;
-        }
-
-        .complete-badge.done {
-            color: var(--green-dark);
-            background: #dff6ea;
-        }
-
-        .active-lesson h2 {
-            margin-top: 17px;
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-        }
-
-        .active-description {
-            margin-top: 5px;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .arabic-display {
-            min-height: 180px;
-            margin-top: 25px;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            color: var(--navy);
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(15, 157, 120, 0.09),
-                    transparent 68%
-                ),
-                #fbfefd;
-            font-size: clamp(4rem, 10vw, 7rem);
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .lesson-reading {
-            margin-top: 12px;
-            text-align: center;
-            color: var(--green);
-            font-size: 1.18rem;
-            font-weight: 800;
-        }
-
-        .lesson-tip {
-            margin-top: 21px;
-            padding: 16px;
-            border-radius: 16px;
-            color: #4d6176;
-            background: #eef8ff;
-            line-height: 1.7;
-            font-size: 0.85rem;
-        }
-
-        .audio-warning {
-            margin-top: 12px;
-            padding: 13px 15px;
-            border-radius: 15px;
-            color: #73591a;
-            background: #fff3ce;
-            font-size: 0.75rem;
-            line-height: 1.6;
-        }
-
-        .lesson-actions {
-            margin-top: 21px;
-            display: flex;
-            gap: 11px;
-            flex-wrap: wrap;
-        }
-
-        .audio-status {
-            min-height: 18px;
-            margin-top: 10px;
-            color: var(--muted);
-            font-size: 0.76rem;
-        }
-
-        .lesson-navigation {
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            gap: 13px;
-        }
-
-        .lesson-nav-button {
+        .alphabet-nav-button {
             min-height: 44px;
-            padding: 11px 16px;
+            padding: 11px 17px;
             border-radius: 13px;
             color: var(--green-dark);
             background: #e5f7f0;
@@ -473,121 +293,48 @@
             font-weight: 700;
         }
 
-        .lesson-nav-button:disabled {
+        .alphabet-nav-button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
 
-        .message-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 2200;
-            display: none;
-            place-items: center;
-            padding: 20px;
-            background: rgba(10, 42, 36, 0.58);
-            backdrop-filter: blur(8px);
-        }
+        @media (max-width: 850px) {
+            .alphabet-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
 
-        .message-overlay.show {
-            display: grid;
-        }
+            .alphabet-progress-card {
+                width: min(420px, 100%);
+            }
 
-        .message-card {
-            width: min(420px, 100%);
-            padding: 35px;
-            border-radius: 27px;
-            text-align: center;
-            background: white;
-            box-shadow: 0 30px 80px rgba(5, 28, 24, 0.3);
-        }
-
-        .message-icon {
-            font-size: 3.4rem;
-        }
-
-        .message-card h2 {
-            margin-top: 9px;
-            color: var(--navy);
-            font-family: "Baloo 2", sans-serif;
-            font-size: 2rem;
-        }
-
-        .message-card p {
-            margin: 11px 0 22px;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        @media (max-width: 920px) {
-            .learning-header {
+            .alphabet-layout {
                 grid-template-columns: 1fr;
             }
 
-            .overall-progress {
-                max-width: 500px;
-            }
-
-            .learning-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .level-panel {
-                position: static;
-            }
-
-            .level-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .lesson-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .lesson-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                border-right: 0;
-                border-bottom: 1px solid var(--border);
+            .alphabet-grid {
+                grid-template-columns: repeat(7, 1fr);
             }
         }
 
-        @media (max-width: 620px) {
-            .learning-page {
+        @media (max-width: 600px) {
+            .alphabet-page {
                 padding: 52px 5% 75px;
             }
 
-            .level-list,
-            .lesson-list {
-                grid-template-columns: 1fr;
+            .alphabet-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
 
-            .lesson-panel-header {
-                align-items: flex-start;
-                flex-direction: column;
-                padding: 23px 20px;
+            .alphabet-lesson-card {
+                padding: 27px 20px;
             }
 
-            .level-progress {
-                width: 100%;
-            }
-
-            .active-lesson {
-                padding: 26px 20px;
-            }
-
-            .lesson-actions {
+            .alphabet-actions {
                 display: grid;
             }
 
-            .lesson-actions .button {
-                width: 100%;
-            }
-
-            .lesson-navigation {
-                flex-direction: column;
-            }
-
-            .lesson-nav-button {
+            .alphabet-actions .button {
                 width: 100%;
             }
         }
@@ -620,7 +367,7 @@
 
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="learn.html">Learning Path</a></li>
+                <li><a href="learn.html">Level 1</a></li>
                 <li><a href="reader.html">Quran Reader</a></li>
             </ul>
 
@@ -648,1048 +395,462 @@
 
 </header>
 
-<main class="learning-page">
+<main class="alphabet-page">
 
-    <section class="learning-header reveal">
+    <section class="alphabet-header reveal">
 
         <div>
 
             <p class="eyebrow">
-                Guided Quran course
+                Level 1
             </p>
 
             <h1>
-                Learn one
+                Arabic
                 <span class="rainbow-text">
-                    level at a time.
+                    Alphabet
                 </span>
             </h1>
 
-            <p class="learning-header-description">
-                Finish lessons to unlock the next level. Your progress
-                saves automatically on this device.
+            <p>
+                Learn all 28 Arabic letters. Choose a letter, listen,
+                repeat it, and mark it complete.
             </p>
 
         </div>
 
-        <div class="overall-progress">
+        <div class="alphabet-progress-card">
 
-            <div class="progress-row">
-                <span>Overall progress</span>
-                <strong id="overallPercent">0%</strong>
+            <div class="alphabet-progress-row">
+                <span>Level progress</span>
+                <strong id="progressText">0 of 28</strong>
             </div>
 
-            <div class="progress-track">
+            <div class="alphabet-progress-track">
+
                 <div
-                    class="progress-fill"
-                    id="overallProgressFill"
+                    class="alphabet-progress-fill"
+                    id="progressFill"
                 ></div>
-            </div>
 
-            <button
-                class="reset-button"
-                id="resetProgressButton"
-                type="button"
-            >
-                Reset saved progress
-            </button>
+            </div>
 
         </div>
 
     </section>
 
-    <section class="learning-layout reveal">
+    <section class="alphabet-layout reveal">
 
-        <aside class="level-panel">
+        <aside class="alphabet-list-card">
 
-            <div class="level-panel-heading">
-                <h2>Levels</h2>
-                <p>Complete a level to unlock the next one.</p>
-            </div>
+            <h2>Choose a letter</h2>
+
+            <p>
+                Green letters are completed.
+            </p>
 
             <div
-                class="level-list"
-                id="levelList"
+                class="alphabet-grid"
+                id="alphabetGrid"
             ></div>
 
         </aside>
 
-        <section class="lesson-panel">
+        <article class="alphabet-lesson-card">
 
-            <div class="lesson-panel-header">
+            <div class="lesson-label-row">
 
-                <div>
+                <span class="level-label">
+                    Level 1 Lesson
+                </span>
 
-                    <span
-                        class="level-badge"
-                        id="currentLevelBadge"
-                    >
-                        Level 1
-                    </span>
-
-                    <h2 id="currentLevelTitle">
-                        Arabic Alphabet
-                    </h2>
-
-                    <p id="currentLevelDescription">
-                        Learn Arabic letters.
-                    </p>
-
-                </div>
-
-                <div class="level-progress">
-
-                    <span
-                        class="level-progress-text"
-                        id="levelProgressText"
-                    >
-                        0 of 0 complete
-                    </span>
-
-                    <div class="small-progress-track">
-                        <div
-                            class="small-progress-fill"
-                            id="levelProgressFill"
-                        ></div>
-                    </div>
-
-                </div>
+                <span
+                    class="lesson-complete-label"
+                    id="completionLabel"
+                >
+                    Not completed
+                </span>
 
             </div>
 
-            <div class="lesson-layout">
+            <h2 id="letterTitle">
+                Alif
+            </h2>
 
-                <aside
-                    class="lesson-list"
-                    id="lessonList"
-                ></aside>
+            <p class="lesson-description">
+                Look at the letter, listen carefully, and repeat it.
+            </p>
 
-                <article class="active-lesson">
+            <div
+                class="large-arabic-letter"
+                id="arabicLetter"
+                dir="rtl"
+            >
+                ا
+            </div>
 
-                    <div class="lesson-top">
+            <p
+                class="letter-name"
+                id="letterReading"
+            >
+                Alif
+            </p>
 
-                        <span
-                            class="lesson-badge"
-                            id="lessonTypeBadge"
-                        >
-                            Practice
-                        </span>
+            <div
+                class="letter-tip"
+                id="letterTip"
+            >
+                Alif is the first Arabic letter.
+            </div>
 
-                        <span
-                            class="complete-badge"
-                            id="completionBadge"
-                        >
-                            Not completed
-                        </span>
+            <div class="temporary-audio-warning">
+                This uses a temporary Arabic device voice. Replace it
+                with mentor-approved recordings later.
+            </div>
 
-                    </div>
+            <div class="alphabet-actions">
 
-                    <h2 id="lessonTitle">
-                        Alif
-                    </h2>
+                <button
+                    class="button button-secondary"
+                    id="playLetterButton"
+                    type="button"
+                >
+                    🔊 Play Letter
+                </button>
 
-                    <p
-                        class="active-description"
-                        id="lessonDescription"
-                    ></p>
-
-                    <div
-                        class="arabic-display"
-                        id="lessonArabic"
-                        dir="rtl"
-                    >
-                        ا
-                    </div>
-
-                    <p
-                        class="lesson-reading"
-                        id="lessonReading"
-                    >
-                        Alif
-                    </p>
-
-                    <div
-                        class="lesson-tip"
-                        id="lessonTip"
-                    ></div>
-
-                    <div
-                        class="audio-warning"
-                        id="audioWarning"
-                    >
-                        Temporary Arabic device voice. Replace this with
-                        mentor-approved recordings later.
-                    </div>
-
-                    <div class="lesson-actions">
-
-                        <button
-                            class="button button-secondary"
-                            id="playAudioButton"
-                            type="button"
-                        >
-                            🔊 Play Practice Audio
-                        </button>
-
-                        <a
-                            class="button button-secondary"
-                            id="readerButton"
-                            href="reader.html"
-                            hidden
-                        >
-                            📖 Open Quran Reader
-                        </a>
-
-                        <button
-                            class="button button-primary"
-                            id="completeButton"
-                            type="button"
-                        >
-                            ✓ Mark Complete
-                        </button>
-
-                    </div>
-
-                    <p
-                        class="audio-status"
-                        id="audioStatus"
-                    ></p>
-
-                    <div class="lesson-navigation">
-
-                        <button
-                            class="lesson-nav-button"
-                            id="previousButton"
-                            type="button"
-                        >
-                            ← Previous
-                        </button>
-
-                        <button
-                            class="lesson-nav-button"
-                            id="nextButton"
-                            type="button"
-                        >
-                            Next →
-                        </button>
-
-                    </div>
-
-                </article>
+                <button
+                    class="button button-primary"
+                    id="completeLetterButton"
+                    type="button"
+                >
+                    ✓ Mark Complete
+                </button>
 
             </div>
 
-        </section>
+            <p
+                class="alphabet-status"
+                id="alphabetStatus"
+            ></p>
+
+            <div class="alphabet-navigation">
+
+                <button
+                    class="alphabet-nav-button"
+                    id="previousLetterButton"
+                    type="button"
+                >
+                    ← Previous
+                </button>
+
+                <button
+                    class="alphabet-nav-button"
+                    id="nextLetterButton"
+                    type="button"
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </article>
 
     </section>
 
 </main>
 
-<div
-    class="message-overlay"
-    id="messageOverlay"
->
-
-    <div class="message-card">
-
-        <div
-            class="message-icon"
-            id="messageIcon"
-        >
-            🎉
-        </div>
-
-        <h2 id="messageTitle">
-            Great job!
-        </h2>
-
-        <p id="messageText"></p>
-
-        <button
-            class="button button-primary"
-            id="messageCloseButton"
-            type="button"
-        >
-            Continue
-        </button>
-
-    </div>
-
-</div>
-
 <script src="script.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const alphabetLetters = [
-            ["Alif", "ا", "Alif"],
-            ["Baa", "ب", "Baa"],
-            ["Taa", "ت", "Taa"],
-            ["Thaa", "ث", "Thaa"],
-            ["Jeem", "ج", "Jeem"],
-            ["Haa", "ح", "Haa"],
-            ["Khaa", "خ", "Khaa"],
-            ["Daal", "د", "Daal"],
-            ["Dhaal", "ذ", "Dhaal"],
-            ["Raa", "ر", "Raa"],
-            ["Zaay", "ز", "Zaay"],
-            ["Seen", "س", "Seen"],
-            ["Sheen", "ش", "Sheen"],
-            ["Saad", "ص", "Saad"],
-            ["Daad", "ض", "Daad"],
-            ["Heavy Taa", "ط", "Taa"],
-            ["Heavy Dhaa", "ظ", "Dhaa"],
-            ["Ayn", "ع", "Ayn"],
-            ["Ghayn", "غ", "Ghayn"],
-            ["Faa", "ف", "Faa"],
-            ["Qaaf", "ق", "Qaaf"],
-            ["Kaaf", "ك", "Kaaf"],
-            ["Laam", "ل", "Laam"],
-            ["Meem", "م", "Meem"],
-            ["Noon", "ن", "Noon"],
-            ["Haa", "ه", "Haa"],
-            ["Waaw", "و", "Waaw"],
-            ["Yaa", "ي", "Yaa"]
-        ];
-
-        const alphabetLessons = alphabetLetters.map(
-            ([title, arabic, reading], index) => ({
-                id: `letter-${index + 1}`,
-                title,
-                arabic,
-                reading,
-                speech: arabic,
-                tip: `Listen carefully and repeat the sound for ${title}.`
-            })
-        );
-
-        const levels = [
+        const letters = [
             {
-                id: 1,
-                title: "Arabic Alphabet",
-                icon: "🔤",
-                description:
-                    "Learn all 28 Arabic letters and their basic sounds.",
-                lessons: alphabetLessons
+                name: "Alif",
+                arabic: "ا",
+                tip: "Alif is the first Arabic letter."
             },
-
             {
-                id: 2,
-                title: "Vowel Sounds",
-                icon: "🎧",
-                description:
-                    "Learn short a, i, u and long aa, ee, oo.",
-                lessons: [
-                    {
-                        id: "fatha",
-                        title: "Fatha — Short A",
-                        arabic: "بَ",
-                        reading: "Ba",
-                        speech: "بَ",
-                        tip: "Fatha creates a short a sound."
-                    },
-                    {
-                        id: "kasra",
-                        title: "Kasra — Short I",
-                        arabic: "بِ",
-                        reading: "Bi",
-                        speech: "بِ",
-                        tip: "Kasra creates a short i sound."
-                    },
-                    {
-                        id: "damma",
-                        title: "Damma — Short U",
-                        arabic: "بُ",
-                        reading: "Bu",
-                        speech: "بُ",
-                        tip: "Damma creates a short u sound."
-                    },
-                    {
-                        id: "long-aa",
-                        title: "Long AA",
-                        arabic: "بَا",
-                        reading: "Baa",
-                        speech: "بَا",
-                        tip: "Hold the aa sound longer."
-                    },
-                    {
-                        id: "long-ee",
-                        title: "Long EE",
-                        arabic: "بِي",
-                        reading: "Bee",
-                        speech: "بِي",
-                        tip: "Hold the ee sound longer."
-                    },
-                    {
-                        id: "long-oo",
-                        title: "Long OO",
-                        arabic: "بُو",
-                        reading: "Boo",
-                        speech: "بُو",
-                        tip: "Hold the oo sound longer."
-                    },
-                    {
-                        id: "sukoon",
-                        title: "Sukoon",
-                        arabic: "بْ",
-                        reading: "B",
-                        speech: "أَبْ",
-                        tip: "Sukoon means there is no vowel after the letter."
-                    },
-                    {
-                        id: "shadda",
-                        title: "Shadda",
-                        arabic: "بّ",
-                        reading: "Double B",
-                        speech: "رَبِّ",
-                        tip: "Shadda strengthens or doubles the consonant."
-                    }
-                ]
+                name: "Baa",
+                arabic: "ب",
+                tip: "Baa has one dot underneath."
             },
-
             {
-                id: 3,
-                title: "Small Words",
-                icon: "🌱",
-                description:
-                    "Practice short Quranic Arabic words.",
-                lessons: [
-                    {
-                        id: "rabb",
-                        title: "Rabb",
-                        arabic: "رَبّ",
-                        reading: "Rabb",
-                        speech: "رَبّ",
-                        tip: "Notice the Shadda on Baa."
-                    },
-                    {
-                        id: "deen",
-                        title: "Deen",
-                        arabic: "دِين",
-                        reading: "Deen",
-                        speech: "دِين",
-                        tip: "Yaa creates the long ee sound."
-                    },
-                    {
-                        id: "noor",
-                        title: "Noor",
-                        arabic: "نُور",
-                        reading: "Noor",
-                        speech: "نُور",
-                        tip: "Waaw creates the long oo sound."
-                    },
-                    {
-                        id: "haqq",
-                        title: "Haqq",
-                        arabic: "حَقّ",
-                        reading: "Haqq",
-                        speech: "حَقّ",
-                        tip: "Qaaf is pronounced near the back of the tongue."
-                    },
-                    {
-                        id: "allah",
-                        title: "Allah",
-                        arabic: "اللَّه",
-                        reading: "Allah",
-                        speech: "اللَّه",
-                        tip: "Listen carefully to each sound."
-                    }
-                ]
+                name: "Taa",
+                arabic: "ت",
+                tip: "Taa has two dots above."
             },
-
             {
-                id: 4,
-                title: "Bigger Words",
-                icon: "📚",
-                description:
-                    "Read longer words and small Quran phrases.",
-                lessons: [
-                    {
-                        id: "bismillah",
-                        title: "Bismillah",
-                        arabic: "بِسْمِ اللَّهِ",
-                        reading: "Bismillah",
-                        speech: "بِسْمِ اللَّهِ",
-                        tip: "Read each part slowly, then join the phrase."
-                    },
-                    {
-                        id: "alhamdulillah",
-                        title: "Alhamdulillah",
-                        arabic: "الْحَمْدُ لِلَّهِ",
-                        reading: "Alhamdulillah",
-                        speech: "الْحَمْدُ لِلَّهِ",
-                        tip: "Break the phrase into smaller pieces first."
-                    },
-                    {
-                        id: "arrahman",
-                        title: "Ar-Rahman",
-                        arabic: "الرَّحْمَٰنِ",
-                        reading: "Ar-Rahman",
-                        speech: "الرَّحْمَٰنِ",
-                        tip: "Notice the Shadda over Raa."
-                    },
-                    {
-                        id: "arraheem",
-                        title: "Ar-Raheem",
-                        arabic: "الرَّحِيمِ",
-                        reading: "Ar-Raheem",
-                        speech: "الرَّحِيمِ",
-                        tip: "Yaa creates the long ee sound."
-                    },
-                    {
-                        id: "rabbil-alameen",
-                        title: "Rabbil Alameen",
-                        arabic: "رَبِّ الْعَالَمِينَ",
-                        reading: "Rabbil Alameen",
-                        speech: "رَبِّ الْعَالَمِينَ",
-                        tip: "Practice each word separately before joining them."
-                    }
-                ]
+                name: "Thaa",
+                arabic: "ث",
+                tip: "Thaa has three dots above."
             },
-
             {
-                id: 5,
-                title: "Short Surahs",
-                icon: "🌙",
-                description:
-                    "Practice short surahs using streamed Quran recitation.",
-                lessons: [
-                    {
-                        id: "fatiha",
-                        title: "Surah Al-Fatiha",
-                        arabic: "سُورَةُ الْفَاتِحَةِ",
-                        reading: "Surah Al-Fatiha",
-                        type: "reader",
-                        surah: 1,
-                        tip: "Open the reader and practice one ayah at a time."
-                    },
-                    {
-                        id: "ikhlas",
-                        title: "Surah Al-Ikhlas",
-                        arabic: "سُورَةُ الْإِخْلَاصِ",
-                        reading: "Surah Al-Ikhlas",
-                        type: "reader",
-                        surah: 112,
-                        tip: "Listen slowly and repeat each ayah."
-                    },
-                    {
-                        id: "falaq",
-                        title: "Surah Al-Falaq",
-                        arabic: "سُورَةُ الْفَلَقِ",
-                        reading: "Surah Al-Falaq",
-                        type: "reader",
-                        surah: 113,
-                        tip: "Use 0.5× or 0.75× while practicing."
-                    },
-                    {
-                        id: "nas",
-                        title: "Surah An-Nas",
-                        arabic: "سُورَةُ النَّاسِ",
-                        reading: "Surah An-Nas",
-                        type: "reader",
-                        surah: 114,
-                        tip: "Repeat one ayah at a time."
-                    }
-                ]
+                name: "Jeem",
+                arabic: "ج",
+                tip: "Jeem has one dot."
             },
-
             {
-                id: 6,
-                title: "Full Quran",
-                icon: "📖",
-                description:
-                    "Read and listen to all 114 surahs.",
-                lessons: [
-                    {
-                        id: "reader",
-                        title: "Open the Quran Reader",
-                        arabic: "الْقُرْآنُ الْكَرِيمُ",
-                        reading: "The Noble Quran",
-                        type: "reader",
-                        surah: 1,
-                        tip: "Choose a surah, reciter, and playback speed."
-                    },
-                    {
-                        id: "speed",
-                        title: "Practice with Speed Controls",
-                        arabic: "اسْتَمِعْ وَاقْرَأْ",
-                        reading: "Listen and read",
-                        type: "reader",
-                        surah: 1,
-                        tip: "Start at 0.5× or 0.75× and progress toward normal speed."
-                    },
-                    {
-                        id: "all-surahs",
-                        title: "Explore All Surahs",
-                        arabic: "١١٤ سُورَة",
-                        reading: "114 Surahs",
-                        type: "reader",
-                        surah: 2,
-                        tip: "The Quran Reader remains free without an account."
-                    }
-                ]
+                name: "Haa",
+                arabic: "ح",
+                tip: "This Haa is a gentle throat sound."
             },
-
             {
-                id: 7,
-                title: "Tajweed Basics",
-                icon: "✨",
-                description:
-                    "Learn introductory Tajweed rules.",
-                lessons: [
-                    {
-                        id: "tajweed",
-                        title: "What Is Tajweed?",
-                        arabic: "تَجْوِيد",
-                        reading: "Tajweed",
-                        speech: "تَجْوِيد",
-                        tip: "Tajweed means improving and correctly reciting the Quran."
-                    },
-                    {
-                        id: "madd",
-                        title: "Madd",
-                        arabic: "قَالَ",
-                        reading: "Qaala",
-                        speech: "قَالَ",
-                        tip: "Madd means lengthening a vowel for the correct number of counts."
-                    },
-                    {
-                        id: "qalqalah",
-                        title: "Qalqalah",
-                        arabic: "أَحَدْ",
-                        reading: "Ahad",
-                        speech: "أَحَدْ",
-                        tip: "Qalqalah creates a light echo on certain letters with Sukoon."
-                    },
-                    {
-                        id: "ghunnah",
-                        title: "Ghunnah",
-                        arabic: "إِنَّ",
-                        reading: "Inna",
-                        speech: "إِنَّ",
-                        tip: "Ghunnah is a nasal sound connected to Noon and Meem."
-                    },
-                    {
-                        id: "mentor",
-                        title: "Mentor Review",
-                        arabic: "مُعَلِّم",
-                        reading: "Mentor",
-                        speech: "مُعَلِّم",
-                        tip: "Advanced Tajweed and pronunciation should be reviewed with a qualified Quran mentor."
-                    }
-                ]
+                name: "Khaa",
+                arabic: "خ",
+                tip: "Khaa has one dot above."
+            },
+            {
+                name: "Daal",
+                arabic: "د",
+                tip: "Daal does not connect to the next letter."
+            },
+            {
+                name: "Dhaal",
+                arabic: "ذ",
+                tip: "Dhaal has one dot above."
+            },
+            {
+                name: "Raa",
+                arabic: "ر",
+                tip: "Raa does not connect to the next letter."
+            },
+            {
+                name: "Zaay",
+                arabic: "ز",
+                tip: "Zaay has one dot above."
+            },
+            {
+                name: "Seen",
+                arabic: "س",
+                tip: "Seen makes a clear s sound."
+            },
+            {
+                name: "Sheen",
+                arabic: "ش",
+                tip: "Sheen has three dots above."
+            },
+            {
+                name: "Saad",
+                arabic: "ص",
+                tip: "Saad is a heavier s sound."
+            },
+            {
+                name: "Daad",
+                arabic: "ض",
+                tip: "Daad is a special heavy Arabic sound."
+            },
+            {
+                name: "Heavy Taa",
+                arabic: "ط",
+                tip: "This is the heavier Taa sound."
+            },
+            {
+                name: "Heavy Dhaa",
+                arabic: "ظ",
+                tip: "This is the heavier Dhaa sound."
+            },
+            {
+                name: "Ayn",
+                arabic: "ع",
+                tip: "Ayn comes from the middle of the throat."
+            },
+            {
+                name: "Ghayn",
+                arabic: "غ",
+                tip: "Ghayn has one dot above."
+            },
+            {
+                name: "Faa",
+                arabic: "ف",
+                tip: "Faa has one dot above."
+            },
+            {
+                name: "Qaaf",
+                arabic: "ق",
+                tip: "Qaaf comes from the back of the tongue."
+            },
+            {
+                name: "Kaaf",
+                arabic: "ك",
+                tip: "Kaaf makes a k sound."
+            },
+            {
+                name: "Laam",
+                arabic: "ل",
+                tip: "Laam makes an l sound."
+            },
+            {
+                name: "Meem",
+                arabic: "م",
+                tip: "Meem makes an m sound."
+            },
+            {
+                name: "Noon",
+                arabic: "ن",
+                tip: "Noon has one dot above."
+            },
+            {
+                name: "Haa",
+                arabic: "ه",
+                tip: "This Haa is a soft breathy sound."
+            },
+            {
+                name: "Waaw",
+                arabic: "و",
+                tip: "Waaw can make a w or long oo sound."
+            },
+            {
+                name: "Yaa",
+                arabic: "ي",
+                tip: "Yaa can make a y or long ee sound."
             }
         ];
 
-        const storageKey = "quranAcademyProgressV2";
+        const progressStorageKey =
+            "quranAcademyAlphabetProgress";
 
-        const levelList = document.getElementById("levelList");
-        const lessonList = document.getElementById("lessonList");
+        const alphabetGrid =
+            document.getElementById("alphabetGrid");
 
-        const overallPercent =
-            document.getElementById("overallPercent");
+        const progressText =
+            document.getElementById("progressText");
 
-        const overallProgressFill =
-            document.getElementById("overallProgressFill");
+        const progressFill =
+            document.getElementById("progressFill");
 
-        const currentLevelBadge =
-            document.getElementById("currentLevelBadge");
+        const completionLabel =
+            document.getElementById("completionLabel");
 
-        const currentLevelTitle =
-            document.getElementById("currentLevelTitle");
+        const letterTitle =
+            document.getElementById("letterTitle");
 
-        const currentLevelDescription =
-            document.getElementById("currentLevelDescription");
+        const arabicLetter =
+            document.getElementById("arabicLetter");
 
-        const levelProgressText =
-            document.getElementById("levelProgressText");
+        const letterReading =
+            document.getElementById("letterReading");
 
-        const levelProgressFill =
-            document.getElementById("levelProgressFill");
+        const letterTip =
+            document.getElementById("letterTip");
 
-        const lessonTypeBadge =
-            document.getElementById("lessonTypeBadge");
+        const playLetterButton =
+            document.getElementById("playLetterButton");
 
-        const completionBadge =
-            document.getElementById("completionBadge");
+        const completeLetterButton =
+            document.getElementById("completeLetterButton");
 
-        const lessonTitle =
-            document.getElementById("lessonTitle");
+        const previousLetterButton =
+            document.getElementById("previousLetterButton");
 
-        const lessonDescription =
-            document.getElementById("lessonDescription");
+        const nextLetterButton =
+            document.getElementById("nextLetterButton");
 
-        const lessonArabic =
-            document.getElementById("lessonArabic");
+        const alphabetStatus =
+            document.getElementById("alphabetStatus");
 
-        const lessonReading =
-            document.getElementById("lessonReading");
-
-        const lessonTip =
-            document.getElementById("lessonTip");
-
-        const audioWarning =
-            document.getElementById("audioWarning");
-
-        const playAudioButton =
-            document.getElementById("playAudioButton");
-
-        const readerButton =
-            document.getElementById("readerButton");
-
-        const completeButton =
-            document.getElementById("completeButton");
-
-        const previousButton =
-            document.getElementById("previousButton");
-
-        const nextButton =
-            document.getElementById("nextButton");
-
-        const audioStatus =
-            document.getElementById("audioStatus");
-
-        let completed = loadProgress();
-        let currentLevelIndex = getInitialLevel();
-        let currentLessonIndex = 0;
+        let selectedIndex = 0;
+        let completedLetters = loadProgress();
 
         function loadProgress() {
             try {
                 const saved = JSON.parse(
-                    localStorage.getItem(storageKey)
+                    localStorage.getItem(progressStorageKey)
                 );
 
                 return Array.isArray(saved) ? saved : [];
-            } catch {
+            } catch (error) {
                 return [];
             }
         }
 
         function saveProgress() {
             localStorage.setItem(
-                storageKey,
-                JSON.stringify(completed)
+                progressStorageKey,
+                JSON.stringify(completedLetters)
             );
         }
 
-        function getInitialLevel() {
-            const params =
-                new URLSearchParams(window.location.search);
-
-            const requestedLevel =
-                Number(params.get("level"));
-
-            const foundIndex =
-                levels.findIndex(
-                    level => level.id === requestedLevel
-                );
-
-            return foundIndex >= 0 ? foundIndex : 0;
+        function renderEverything() {
+            renderLetterGrid();
+            renderSelectedLetter();
+            renderProgress();
         }
 
-        function lessonKey(level, lesson) {
-            return `${level.id}:${lesson.id}`;
-        }
+        function renderLetterGrid() {
+            alphabetGrid.innerHTML = "";
 
-        function isLessonComplete(level, lesson) {
-            return completed.includes(
-                lessonKey(level, lesson)
-            );
-        }
-
-        function completedInLevel(level) {
-            return level.lessons.filter(lesson =>
-                isLessonComplete(level, lesson)
-            ).length;
-        }
-
-        function isLevelComplete(level) {
-            return (
-                completedInLevel(level) ===
-                level.lessons.length
-            );
-        }
-
-        function isLevelUnlocked(index) {
-            return (
-                index === 0 ||
-                isLevelComplete(levels[index - 1])
-            );
-        }
-
-        function highestUnlockedLevel() {
-            let highest = 0;
-
-            levels.forEach((level, index) => {
-                if (isLevelUnlocked(index)) {
-                    highest = index;
-                }
-            });
-
-            return highest;
-        }
-
-        function render() {
-            if (!isLevelUnlocked(currentLevelIndex)) {
-                currentLevelIndex = highestUnlockedLevel();
-                currentLessonIndex = 0;
-            }
-
-            renderLevels();
-            renderLessons();
-            renderActiveLesson();
-            updateProgress();
-            updateAddress();
-        }
-
-        function renderLevels() {
-            levelList.innerHTML = "";
-
-            levels.forEach((level, index) => {
-                const unlocked = isLevelUnlocked(index);
-                const done = isLevelComplete(level);
-
+            letters.forEach((letter, index) => {
                 const button =
                     document.createElement("button");
 
                 button.type = "button";
-                button.className = "level-button";
+                button.className = "letter-button";
+                button.textContent = letter.arabic;
+                button.title = letter.name;
 
-                if (index === currentLevelIndex) {
+                if (index === selectedIndex) {
                     button.classList.add("active");
                 }
 
-                if (!unlocked) {
-                    button.classList.add("locked");
-                }
-
-                button.innerHTML = `
-                    <span class="level-icon">
-                        ${unlocked ? level.icon : "🔒"}
-                    </span>
-
-                    <span class="level-text">
-                        <small>Level ${level.id}</small>
-                        <strong>${level.title}</strong>
-                    </span>
-
-                    <span class="level-status">
-                        ${
-                            done
-                                ? "✓"
-                                : `${completedInLevel(level)}/${level.lessons.length}`
-                        }
-                    </span>
-                `;
-
-                button.addEventListener("click", () => {
-                    if (!unlocked) {
-                        showMessage(
-                            "🔒",
-                            "Level Locked",
-                            "Finish the previous level to unlock this level."
-                        );
-
-                        return;
-                    }
-
-                    currentLevelIndex = index;
-                    currentLessonIndex = 0;
-                    render();
-                });
-
-                levelList.appendChild(button);
-            });
-        }
-
-        function renderLessons() {
-            lessonList.innerHTML = "";
-
-            const level = levels[currentLevelIndex];
-
-            level.lessons.forEach((lesson, index) => {
-                const done =
-                    isLessonComplete(level, lesson);
-
-                const button =
-                    document.createElement("button");
-
-                button.type = "button";
-                button.className =
-                    "lesson-list-button";
-
-                if (index === currentLessonIndex) {
-                    button.classList.add("active");
-                }
-
-                if (done) {
+                if (completedLetters.includes(index)) {
                     button.classList.add("completed");
                 }
 
-                button.innerHTML = `
-                    <span class="lesson-number">
-                        ${done ? "✓" : index + 1}
-                    </span>
-
-                    <span>
-                        <strong>${lesson.title}</strong>
-                        <small>
-                            ${
-                                lesson.type === "reader"
-                                    ? "Quran Reader"
-                                    : "Practice"
-                            }
-                        </small>
-                    </span>
-                `;
-
                 button.addEventListener("click", () => {
-                    currentLessonIndex = index;
-                    render();
+                    selectedIndex = index;
+                    renderEverything();
                 });
 
-                lessonList.appendChild(button);
+                alphabetGrid.appendChild(button);
             });
         }
 
-        function renderActiveLesson() {
-            const level = levels[currentLevelIndex];
-            const lesson =
-                level.lessons[currentLessonIndex];
+        function renderSelectedLetter() {
+            const letter = letters[selectedIndex];
+            const isComplete =
+                completedLetters.includes(selectedIndex);
 
-            const done =
-                isLessonComplete(level, lesson);
+            letterTitle.textContent = letter.name;
+            arabicLetter.textContent = letter.arabic;
+            letterReading.textContent = letter.name;
+            letterTip.textContent = letter.tip;
 
-            currentLevelBadge.textContent =
-                `Level ${level.id}`;
+            completionLabel.textContent =
+                isComplete ? "✓ Completed" : "Not completed";
 
-            currentLevelTitle.textContent =
-                level.title;
-
-            currentLevelDescription.textContent =
-                level.description;
-
-            lessonTypeBadge.textContent =
-                lesson.type === "reader"
-                    ? "Quran Reader"
-                    : "Practice";
-
-            completionBadge.textContent =
-                done ? "✓ Completed" : "Not completed";
-
-            completionBadge.classList.toggle(
+            completionLabel.classList.toggle(
                 "done",
-                done
+                isComplete
             );
 
-            lessonTitle.textContent =
-                lesson.title;
-
-            lessonDescription.textContent =
-                level.description;
-
-            lessonArabic.textContent =
-                lesson.arabic;
-
-            lessonReading.textContent =
-                lesson.reading;
-
-            lessonTip.textContent =
-                lesson.tip;
-
-            audioStatus.textContent = "";
-
-            if (lesson.type === "reader") {
-                playAudioButton.hidden = true;
-                audioWarning.hidden = true;
-                readerButton.hidden = false;
-
-                readerButton.href =
-                    `reader.html?surah=${lesson.surah || 1}`;
-            } else {
-                playAudioButton.hidden = false;
-                audioWarning.hidden = false;
-                readerButton.hidden = true;
-            }
-
-            completeButton.textContent =
-                done
-                    ? "✓ Lesson Completed"
+            completeLetterButton.textContent =
+                isComplete
+                    ? "✓ Letter Completed"
                     : "✓ Mark Complete";
 
-            previousButton.disabled =
-                currentLessonIndex === 0;
+            previousLetterButton.disabled =
+                selectedIndex === 0;
 
-            nextButton.disabled =
-                currentLessonIndex ===
-                level.lessons.length - 1;
+            nextLetterButton.disabled =
+                selectedIndex === letters.length - 1;
+
+            alphabetStatus.textContent = "";
         }
 
-        function updateProgress() {
-            const level = levels[currentLevelIndex];
+        function renderProgress() {
+            const completedCount =
+                completedLetters.length;
 
-            const levelDone =
-                completedInLevel(level);
-
-            const levelPercentage =
+            const percentage =
                 Math.round(
-                    (levelDone / level.lessons.length) *
-                    100
+                    (completedCount / letters.length) * 100
                 );
 
-            levelProgressText.textContent =
-                `${levelDone} of ${level.lessons.length} complete`;
+            progressText.textContent =
+                `${completedCount} of ${letters.length}`;
 
-            levelProgressFill.style.width =
-                `${levelPercentage}%`;
-
-            const allLessons =
-                levels.flatMap(level => level.lessons);
-
-            const overallDone =
-                allLessons.filter((lesson, index) => {
-                    let runningIndex = 0;
-
-                    for (const levelItem of levels) {
-                        for (const lessonItem of levelItem.lessons) {
-                            if (runningIndex === index) {
-                                return isLessonComplete(
-                                    levelItem,
-                                    lessonItem
-                                );
-                            }
-
-                            runningIndex += 1;
-                        }
-                    }
-
-                    return false;
-                }).length;
-
-            const overallValue =
-                Math.round(
-                    (overallDone / allLessons.length) *
-                    100
-                );
-
-            overallPercent.textContent =
-                `${overallValue}%`;
-
-            overallProgressFill.style.width =
-                `${overallValue}%`;
-        }
-
-        function updateAddress() {
-            const level = levels[currentLevelIndex];
-
-            const url = new URL(window.location.href);
-
-            url.searchParams.set(
-                "level",
-                String(level.id)
-            );
-
-            window.history.replaceState({}, "", url);
+            progressFill.style.width =
+                `${percentage}%`;
         }
 
         function getArabicVoice() {
@@ -1697,214 +858,129 @@
                 window.speechSynthesis.getVoices();
 
             return (
-                voices.find(voice => voice.lang === "ar-SA") ||
-                voices.find(voice =>
+                voices.find(
+                    (voice) => voice.lang === "ar-SA"
+                ) ||
+                voices.find((voice) =>
                     voice.lang.toLowerCase().startsWith("ar")
                 ) ||
                 null
             );
         }
 
-        function playPracticeAudio() {
-            const level = levels[currentLevelIndex];
-            const lesson =
-                level.lessons[currentLessonIndex];
-
+        function playSelectedLetter() {
             if (
                 !("speechSynthesis" in window) ||
                 !("SpeechSynthesisUtterance" in window)
             ) {
-                audioStatus.textContent =
-                    "This browser cannot play temporary Arabic audio.";
+                alphabetStatus.textContent =
+                    "This browser does not support temporary Arabic audio.";
 
                 return;
             }
 
-            const arabicVoice = getArabicVoice();
+            const voice = getArabicVoice();
 
-            if (!arabicVoice) {
-                audioStatus.textContent =
-                    "No Arabic voice is installed on this device. Try Chrome, Edge, Safari, or another device.";
+            if (!voice) {
+                alphabetStatus.textContent =
+                    "No Arabic voice is installed on this device.";
 
                 return;
             }
+
+            const letter = letters[selectedIndex];
 
             window.speechSynthesis.cancel();
 
             const speech =
-                new SpeechSynthesisUtterance(
-                    lesson.speech || lesson.arabic
-                );
+                new SpeechSynthesisUtterance(letter.arabic);
 
-            speech.voice = arabicVoice;
-            speech.lang = arabicVoice.lang;
-            speech.rate = 0.7;
+            speech.voice = voice;
+            speech.lang = voice.lang;
+            speech.rate = 0.65;
             speech.pitch = 1;
             speech.volume = 1;
 
-            audioStatus.textContent =
-                "Playing temporary Arabic practice audio...";
+            alphabetStatus.textContent =
+                `Playing ${letter.name}...`;
 
             speech.onend = () => {
-                audioStatus.textContent =
+                alphabetStatus.textContent =
                     "Audio finished.";
             };
 
             speech.onerror = () => {
-                audioStatus.textContent =
-                    "The audio could not play.";
+                alphabetStatus.textContent =
+                    "The temporary audio could not play.";
             };
 
             window.speechSynthesis.speak(speech);
         }
 
-        function completeLesson() {
-            const level = levels[currentLevelIndex];
-            const lesson =
-                level.lessons[currentLessonIndex];
-
-            const key = lessonKey(level, lesson);
-
-            if (!completed.includes(key)) {
-                completed.push(key);
+        function completeSelectedLetter() {
+            if (!completedLetters.includes(selectedIndex)) {
+                completedLetters.push(selectedIndex);
                 saveProgress();
             }
 
-            const levelFinished =
-                isLevelComplete(level);
+            renderEverything();
 
-            render();
-
-            if (
-                levelFinished &&
-                currentLevelIndex < levels.length - 1
-            ) {
-                showMessage(
+            if (completedLetters.length === letters.length) {
+                window.showQuranAcademyMessage(
                     "🎉",
-                    `Level ${level.id} Complete!`,
-                    `Great job! Level ${levels[currentLevelIndex + 1].id}, ${levels[currentLevelIndex + 1].title}, is now unlocked.`
+                    "Level 1 Complete!",
+                    "Excellent work! You completed all 28 Arabic letters."
                 );
 
                 return;
             }
 
-            showMessage(
+            window.showQuranAcademyMessage(
                 "⭐",
-                "Lesson Complete",
-                "Great work! Continue when you are ready."
+                "Letter Complete",
+                `${letters[selectedIndex].name} has been marked complete.`
             );
         }
 
-        function showMessage(icon, title, text) {
-            document.getElementById(
-                "messageIcon"
-            ).textContent = icon;
-
-            document.getElementById(
-                "messageTitle"
-            ).textContent = title;
-
-            document.getElementById(
-                "messageText"
-            ).textContent = text;
-
-            document.getElementById(
-                "messageOverlay"
-            ).classList.add("show");
-        }
-
-        function closeMessage() {
-            document.getElementById(
-                "messageOverlay"
-            ).classList.remove("show");
-        }
-
-        playAudioButton.addEventListener(
+        playLetterButton.addEventListener(
             "click",
-            playPracticeAudio
+            playSelectedLetter
         );
 
-        completeButton.addEventListener(
+        completeLetterButton.addEventListener(
             "click",
-            completeLesson
+            completeSelectedLetter
         );
 
-        previousButton.addEventListener(
+        previousLetterButton.addEventListener(
             "click",
             () => {
-                if (currentLessonIndex > 0) {
-                    currentLessonIndex -= 1;
-                    render();
+                if (selectedIndex > 0) {
+                    selectedIndex -= 1;
+                    renderEverything();
                 }
             }
         );
 
-        nextButton.addEventListener(
+        nextLetterButton.addEventListener(
             "click",
             () => {
-                const level = levels[currentLevelIndex];
-
-                if (
-                    currentLessonIndex <
-                    level.lessons.length - 1
-                ) {
-                    currentLessonIndex += 1;
-                    render();
+                if (selectedIndex < letters.length - 1) {
+                    selectedIndex += 1;
+                    renderEverything();
                 }
             }
         );
-
-        document.getElementById(
-            "resetProgressButton"
-        ).addEventListener("click", () => {
-            const confirmed = window.confirm(
-                "Reset all QuranAcademy learning progress on this device?"
-            );
-
-            if (!confirmed) {
-                return;
-            }
-
-            completed = [];
-            saveProgress();
-
-            currentLevelIndex = 0;
-            currentLessonIndex = 0;
-
-            render();
-
-            showMessage(
-                "🔄",
-                "Progress Reset",
-                "Your saved learning progress has been cleared."
-            );
-        });
-
-        document.getElementById(
-            "messageCloseButton"
-        ).addEventListener(
-            "click",
-            closeMessage
-        );
-
-        document.getElementById(
-            "messageOverlay"
-        ).addEventListener("click", event => {
-            if (event.target.id === "messageOverlay") {
-                closeMessage();
-            }
-        });
 
         if ("speechSynthesis" in window) {
             window.speechSynthesis.getVoices();
 
-            window.speechSynthesis.onvoiceschanged =
-                () => {
-                    window.speechSynthesis.getVoices();
-                };
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
         }
 
-        render();
+        renderEverything();
     });
 </script>
 
