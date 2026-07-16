@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reward Arcade | QuranAcademy</title>
+
+    <link rel="stylesheet" href="academy.css">
+</head>
+
+<body>
+
+<header class="academy-header">
+
+    <a class="academy-logo" href="index.html">
+        QuranAcademy
+    </a>
+
+    <nav class="academy-nav">
+        <a href="index.html">Home</a>
+        <a href="learn.html">Levels</a>
+        <a href="reader.html">Full Quran</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a class="active" href="rewards.html">Rewards</a>
+        <a class="account-link" href="account.html">Account</a>
+    </nav>
+
+</header>
+
+<main class="page-shell">
+
+    <p class="eyebrow">
+        Learning rewards
+    </p>
+
+    <h1 class="page-title">
+        2D Reward Arcade
+    </h1>
+
+    <p class="page-description">
+        Every completed level unlocks a new game theme.
+        Move left and right, collect the good items,
+        and avoid the hazards.
+    </p>
+
+    <section
+        class="reward-grid"
+        id="rewardGrid"
+    ></section>
+
+    <section
+        class="surface-card game-shell"
+        id="gameShell"
+    >
+
+        <div class="game-header">
+
+            <div>
+                <h2 id="gameTitle">
+                    Choose an unlocked reward
+                </h2>
+
+                <p id="gameDescription">
+                    Complete Level 1 to unlock your first game.
+                </p>
+            </div>
+
+            <div class="game-stats">
+                <span class="game-stat" id="scoreStat">Score: 0</span>
+                <span class="game-stat" id="livesStat">Lives: 3</span>
+                <span class="game-stat" id="timeStat">Time: 25</span>
+            </div>
+
+        </div>
+
+        <div class="game-canvas-wrapper">
+
+            <canvas
+                id="gameCanvas"
+                width="720"
+                height="360"
+            ></canvas>
+
+        </div>
+
+        <div
+            class="game-message"
+            id="gameMessage"
+            aria-live="polite"
+        >
+            Select an unlocked game above.
+        </div>
+
+        <div class="game-controls">
+
+            <button
+                class="game-control-button"
+                id="leftButton"
+                type="button"
+            >
+                ◀ Left
+            </button>
+
+            <button
+                class="game-control-button"
+                id="rightButton"
+                type="button"
+            >
+                Right ▶
+            </button>
+
+            <button
+                class="button button-primary"
+                id="startGameButton"
+                type="button"
+                disabled
+            >
+                Start Game
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div class="emoji-layer" id="emojiLayer"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const GAMES = [
+        {
+            level: 1,
+            name: "Crescent Runner",
+            icon: "🌙",
+            description:
+                "Collect crescents and avoid rocks.",
+            collect: "🌙",
+            hazard: "🪨",
+            goal: 10,
+            speed: 135
+        },
+        {
+            level: 2,
+            name: "Star Jumper",
+            icon: "⭐",
+            description:
+                "Collect stars and avoid storm clouds.",
+            collect: "⭐",
+            hazard: "🌩️",
+            goal: 11,
+            speed: 145
+        },
+        {
+            level: 3,
+            name: "Lantern Dash",
+            icon: "🏮",
+            description:
+                "Collect lanterns and avoid wind.",
+            collect: "🏮",
+            hazard: "💨",
+            goal: 12,
+            speed: 155
+        },
+        {
+            level: 4,
+            name: "Cloud Flyer",
+            icon: "☁️",
+            description:
+                "Collect clouds and avoid lightning.",
+            collect: "☁️",
+            hazard: "⚡",
+            goal: 13,
+            speed: 165
+        },
+        {
+            level: 5,
+            name: "Moon Collector",
+            icon: "🌕",
+            description:
+                "Collect moons and avoid black holes.",
+            collect: "🌕",
+            hazard: "🕳️",
+            goal: 14,
+            speed: 175
+        },
+        {
+            level: 6,
+            name: "Quran Quest",
+            icon: "📖",
+            description:
+                "Collect books and avoid obstacles.",
+            collect: "📖",
+            hazard: "🚧",
+            goal: 15,
+            speed: 185
+        },
+        {
+            level: 7,
+            name: "Tajweed Master",
+            icon: "🎵",
+            description:
+                "Collect sound notes and avoid mistakes.",
+            collect: "🎵",
+            hazard: "❌",
+            goal: 16,
+            speed: 195
+        }
+    ];
+
+    const rewardGrid =
+        document.getElementById("rewardGrid");
+
+    const gameTitle =
+        document.getElementById("gameTitle");
+
+    const gameDescription =
+        document.getElementById("gameDescription");
+
+    const scoreStat =
+        document.getElementById("scoreStat");
+
+    const livesStat =
+        document.getElementById("livesStat");
+
+    const timeStat =
+        document.getElementById("timeStat");
+
+    const gameMessage =
+        document.getElementById("gameMessage");
+
+    const startGameButton =
+        document.getElementById("startGameButton");
+
+    const leftButton =
+        document.getElementById("leftButton");
+
+    const rightButton =
+        document.getElementById("rightButton");
+
+    const canvas =
+        document.getElementById("gameCanvas");
+
+    const context =
+        canvas.getContext("2d");
+
+    const emojiLayer =
+        document.getElementById("emojiLayer");
+
+    const toast =
+        document.getElementById("toast");
+
+    let unlockedRewards = [];
+    let selectedGame = null;
+    let animationFrame = null;
+    let lastTime = 0;
+    let spawnTimer = 0;
+    let timeRemaining = 25;
+    let score = 0;
+    let lives = 3;
+    let running = false;
+    let movingLeft = false;
+    let movingRight = false;
+
+    const player = {
+        x: 330,
+        y: 300,
+        width: 55,
+        height: 45,
+        speed: 320
+    };
+
+    let fallingItems = [];
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("show");
+
+        void toast.offsetWidth;
+
+        toast.classList.add("show");
+    }
+
+    function popEmojis(symbol, amount = 6) {
+        for (let index = 0; index < amount; index += 1) {
+            const emoji =
+                document.createElement("span");
+
+            emoji.className = "emoji-burst";
+            emoji.textContent = symbol;
+
+            emoji.style.setProperty(
+                "--left",
+                `${20 + Math.random() * 60}%`
+            );
+
+            emoji.style.setProperty(
+                "--top",
+                `${60 + Math.random() * 20}%`
+            );
+
+            emoji.style.setProperty(
+                "--size",
+                `${1.3 + Math.random()}rem`
+            );
+
+            emoji.style.setProperty(
+                "--drift",
+                `${-60 + Math.random() * 120}px`
+            );
+
+            emojiLayer.appendChild(emoji);
+
+            window.setTimeout(
+                () => emoji.remove(),
+                1500
+            );
+        }
+    }
+
+    function renderRewards() {
+        rewardGrid.innerHTML = "";
+
+        GAMES.forEach((game) => {
+            const unlocked =
+                unlockedRewards.includes(game.name);
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                `reward-card ${unlocked ? "unlocked" : "locked"}`;
+
+            const icon =
+                document.createElement("div");
+
+            icon.className = "reward-card-icon";
+
+            icon.textContent =
+                unlocked ? game.icon : "🔒";
+
+            const title =
+                document.createElement("h3");
+
+            title.textContent = game.name;
+
+            const description =
+                document.createElement("p");
+
+            description.textContent =
+                unlocked
+                    ? game.description
+                    : `Complete Level ${game.level} to unlock.`;
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                unlocked
+                    ? "button button-primary"
+                    : "button button-secondary";
+
+            button.textContent =
+                unlocked
+                    ? "Play Game"
+                    : "Locked";
+
+            button.disabled = !unlocked;
+
+            button.addEventListener("click", () => {
+                selectGame(game);
+            });
+
+            card.append(
+                icon,
+                title,
+                description,
+                button
+            );
+
+            rewardGrid.appendChild(card);
+        });
+    }
+
+    function selectGame(game) {
+        stopGame();
+
+        selectedGame = game;
+
+        gameTitle.textContent =
+            `${game.icon} ${game.name}`;
+
+        gameDescription.textContent =
+            `${game.description} Collect ${game.goal} items to win.`;
+
+        gameMessage.textContent =
+            "Press Start Game when you are ready.";
+
+        startGameButton.disabled = false;
+
+        drawStartScreen();
+    }
+
+    function drawBackground() {
+        const gradient =
+            context.createLinearGradient(
+                0,
+                0,
+                0,
+                canvas.height
+            );
+
+        gradient.addColorStop(0, "#183b5b");
+        gradient.addColorStop(1, "#0d7664");
+
+        context.fillStyle = gradient;
+
+        context.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        context.fillStyle =
+            "rgba(255,255,255,0.12)";
+
+        for (let index = 0; index < 18; index += 1) {
+            const x =
+                (index * 83) % canvas.width;
+
+            const y =
+                (index * 47) % 220;
+
+            context.beginPath();
+
+            context.arc(
+                x,
+                y,
+                2 + index % 3,
+                0,
+                Math.PI * 2
+            );
+
+            context.fill();
+        }
+    }
+
+    function drawPlayer() {
+        context.font = "43px Arial";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+
+        context.fillText(
+            "🧒",
+            player.x + player.width / 2,
+            player.y + player.height / 2
+        );
+    }
+
+    function drawItems() {
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.font = "31px Arial";
+
+        fallingItems.forEach((item) => {
+            context.fillText(
+                item.symbol,
+                item.x + item.size / 2,
+                item.y + item.size / 2
+            );
+        });
+    }
+
+    function drawStartScreen() {
+        drawBackground();
+        drawPlayer();
+
+        context.fillStyle =
+            "rgba(255,255,255,0.94)";
+
+        context.font =
+            "bold 24px Arial";
+
+        context.textAlign = "center";
+
+        context.fillText(
+            selectedGame
+                ? selectedGame.name
+                : "Reward Arcade",
+            canvas.width / 2,
+            115
+        );
+
+        context.font = "16px Arial";
+
+        context.fillText(
+            selectedGame
+                ? `Collect ${selectedGame.collect} and avoid ${selectedGame.hazard}`
+                : "Choose an unlocked reward.",
+            canvas.width / 2,
+            148
+        );
+    }
+
+    function startGame() {
+        if (!selectedGame) {
+            return;
+        }
+
+        cancelAnimationFrame(animationFrame);
+
+        score = 0;
+        lives = 3;
+        timeRemaining = 25;
+        spawnTimer = 0;
+        fallingItems = [];
+        running = true;
+        lastTime = performance.now();
+
+        player.x =
+            canvas.width / 2 -
+            player.width / 2;
+
+        updateStats();
+
+        gameMessage.textContent =
+            `Collect ${selectedGame.collect} and avoid ${selectedGame.hazard}.`;
+
+        startGameButton.textContent =
+            "Restart Game";
+
+        animationFrame =
+            requestAnimationFrame(gameLoop);
+    }
+
+    function stopGame() {
+        running = false;
+
+        cancelAnimationFrame(animationFrame);
+    }
+
+    function spawnItem() {
+        const isHazard =
+            Math.random() < 0.27;
+
+        const size = 38;
+
+        fallingItems.push({
+            x: Math.random() * (canvas.width - size),
+            y: -size,
+            size,
+            speed:
+                selectedGame.speed +
+                Math.random() * 80,
+            hazard: isHazard,
+            symbol:
+                isHazard
+                    ? selectedGame.hazard
+                    : selectedGame.collect
+        });
+    }
+
+    function rectanglesTouch(first, second) {
+        return (
+            first.x < second.x + second.size &&
+            first.x + first.width > second.x &&
+            first.y < second.y + second.size &&
+            first.y + first.height > second.y
+        );
+    }
+
+    function updateGame(deltaTime) {
+        if (movingLeft) {
+            player.x -=
+                player.speed * deltaTime;
+        }
+
+        if (movingRight) {
+            player.x +=
+                player.speed * deltaTime;
+        }
+
+        player.x = Math.max(
+            0,
+            Math.min(
+                canvas.width - player.width,
+                player.x
+            )
+        );
+
+        spawnTimer += deltaTime;
+
+        if (spawnTimer >= 0.52) {
+            spawnTimer = 0;
+            spawnItem();
+        }
+
+        timeRemaining -= deltaTime;
+
+        fallingItems.forEach((item) => {
+            item.y += item.speed * deltaTime;
+        });
+
+        for (
+            let index = fallingItems.length - 1;
+            index >= 0;
+            index -= 1
+        ) {
+            const item =
+                fallingItems[index];
+
+            if (rectanglesTouch(player, item)) {
+                if (item.hazard) {
+                    lives -= 1;
+
+                    gameMessage.textContent =
+                        "Watch out! You hit a hazard.";
+
+                    popEmojis("💥", 5);
+                } else {
+                    score += 1;
+
+                    gameMessage.textContent =
+                        `Great! ${score} of ${selectedGame.goal} collected.`;
+
+                    popEmojis(
+                        selectedGame.collect,
+                        5
+                    );
+                }
+
+                fallingItems.splice(index, 1);
+                updateStats();
+
+                continue;
+            }
+
+            if (item.y > canvas.height + item.size) {
+                fallingItems.splice(index, 1);
+            }
+        }
+
+        if (
+            score >= selectedGame.goal
+        ) {
+            finishGame(true);
+        } else if (
+            timeRemaining <= 0 ||
+            lives <= 0
+        ) {
+            finishGame(false);
+        }
+    }
+
+    function drawGame() {
+        drawBackground();
+        drawItems();
+        drawPlayer();
+    }
+
+    function gameLoop(timestamp) {
+        if (!running) {
+            return;
+        }
+
+        const deltaTime =
+            Math.min(
+                (timestamp - lastTime) / 1000,
+                0.05
+            );
+
+        lastTime = timestamp;
+
+        updateGame(deltaTime);
+        drawGame();
+        updateStats();
+
+        if (running) {
+            animationFrame =
+                requestAnimationFrame(gameLoop);
+        }
+    }
+
+    function finishGame(won) {
+        running = false;
+
+        cancelAnimationFrame(animationFrame);
+
+        drawGame();
+
+        context.fillStyle =
+            "rgba(11, 32, 49, 0.72)";
+
+        context.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.font = "bold 30px Arial";
+
+        context.fillText(
+            won
+                ? "You Won! 🎉"
+                : "Good Try!",
+            canvas.width / 2,
+            155
+        );
+
+        context.font = "18px Arial";
+
+        context.fillText(
+            `Final score: ${score}`,
+            canvas.width / 2,
+            195
+        );
+
+        gameMessage.textContent =
+            won
+                ? `Amazing! You completed ${selectedGame.name}.`
+                : `You collected ${score}. Press Restart and try again.`;
+
+        if (won) {
+            popEmojis(
+                ["🎉", "🏆", "⭐", selectedGame.collect][
+                    Math.floor(Math.random() * 4)
+                ],
+                25
+            );
+        }
+    }
+
+    function updateStats() {
+        scoreStat.textContent =
+            `Score: ${score}`;
+
+        livesStat.textContent =
+            `Lives: ${lives}`;
+
+        timeStat.textContent =
+            `Time: ${Math.max(
+                0,
+                Math.ceil(timeRemaining)
+            )}`;
+    }
+
+    function setMovement(direction, enabled) {
+        if (direction === "left") {
+            movingLeft = enabled;
+        }
+
+        if (direction === "right") {
+            movingRight = enabled;
+        }
+    }
+
+    function connectMovementButton(button, direction) {
+        button.addEventListener(
+            "pointerdown",
+            () => setMovement(direction, true)
+        );
+
+        button.addEventListener(
+            "pointerup",
+            () => setMovement(direction, false)
+        );
+
+        button.addEventListener(
+            "pointerleave",
+            () => setMovement(direction, false)
+        );
+
+        button.addEventListener(
+            "pointercancel",
+            () => setMovement(direction, false)
+        );
+    }
+
+    async function loadRewards() {
+        try {
+            const {
+                data: userData
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getUser();
+
+            const user =
+                userData?.user;
+
+            if (!user) {
+                showToast(
+                    "Sign in to access your saved rewards."
+                );
+
+                rewardGrid.innerHTML = `
+                    <div class="surface-card empty-state">
+                        Sign in and complete Level 1 to unlock
+                        your first 2D game.<br><br>
+                        <a class="button button-primary"
+                           href="signin.html">
+                            Sign In
+                        </a>
+                    </div>
+                `;
+
+                drawStartScreen();
+                return;
+            }
+
+            const {
+                data: profile,
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .from("profiles")
+                    .select(
+                        "unlocked_rewards"
+                    )
+                    .eq("id", user.id)
+                    .single();
+
+            if (error) {
+                throw error;
+            }
+
+            unlockedRewards =
+                profile.unlocked_rewards || [];
+
+            renderRewards();
+
+            const firstUnlocked =
+                GAMES.find((game) =>
+                    unlockedRewards.includes(game.name)
+                );
+
+            if (firstUnlocked) {
+                selectGame(firstUnlocked);
+            } else {
+                drawStartScreen();
+            }
+        } catch (error) {
+            console.error(error);
+
+            showToast(
+                "Your rewards could not load."
+            );
+
+            drawStartScreen();
+        }
+    }
+
+    startGameButton.addEventListener(
+        "click",
+        startGame
+    );
+
+    connectMovementButton(
+        leftButton,
+        "left"
+    );
+
+    connectMovementButton(
+        rightButton,
+        "right"
+    );
+
+    window.addEventListener(
+        "keydown",
+        (event) => {
+            if (
+                event.key === "ArrowLeft" ||
+                event.key.toLowerCase() === "a"
+            ) {
+                movingLeft = true;
+            }
+
+            if (
+                event.key === "ArrowRight" ||
+                event.key.toLowerCase() === "d"
+            ) {
+                movingRight = true;
+            }
+        }
+    );
+
+    window.addEventListener(
+        "keyup",
+        (event) => {
+            if (
+                event.key === "ArrowLeft" ||
+                event.key.toLowerCase() === "a"
+            ) {
+                movingLeft = false;
+            }
+
+            if (
+                event.key === "ArrowRight" ||
+                event.key.toLowerCase() === "d"
+            ) {
+                movingRight = false;
+            }
+        }
+    );
+
+    drawStartScreen();
+    loadRewards();
+</script>
+
+</body>
+</html>
