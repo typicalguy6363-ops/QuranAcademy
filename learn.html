@@ -8,2699 +8,540 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="Learn the Arabic alphabet with animated characters, XP, profile levels, and human pronunciation."
-    >
+    <title>Learning Levels | QuranAcademy</title>
 
-    <title>Level 1: Arabic Alphabet | QuranAcademy</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link rel="stylesheet" href="style.css">
-
-    <style>
-        .learning-page {
-            min-height: calc(100vh - 76px);
-            padding: 55px 7% 90px;
-        }
-
-        .learning-container {
-            width: min(1180px, 100%);
-            margin: 0 auto;
-        }
-
-        /* PROFILE */
-
-        .profile-card {
-            margin-bottom: 30px;
-            padding: 24px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 20px;
-            border: 1px solid var(--border, #dcebe6);
-            border-radius: 26px;
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(244, 185, 66, 0.14),
-                    transparent 32%
-                ),
-                linear-gradient(
-                    135deg,
-                    #ffffff,
-                    #f6fffb
-                );
-            box-shadow: var(
-                --small-shadow,
-                0 10px 24px rgba(22, 82, 75, 0.08)
-            );
-        }
-
-        .profile-avatar {
-            width: 72px;
-            height: 72px;
-            display: grid;
-            place-items: center;
-            border-radius: 23px;
-            color: white;
-            background:
-                linear-gradient(
-                    135deg,
-                    #0f9d78,
-                    #2563eb
-                );
-            font-family: "Baloo 2", sans-serif;
-            font-size: 1.65rem;
-            font-weight: 800;
-            box-shadow:
-                0 13px 26px rgba(15, 157, 120, 0.23);
-        }
-
-        .profile-information {
-            min-width: 0;
-        }
-
-        .profile-label {
-            color: var(--muted, #6f8296);
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .profile-information h2 {
-            margin-top: 2px;
-            color: var(--navy, #1d3557);
-            font-family: "Baloo 2", sans-serif;
-            font-size: 1.65rem;
-        }
-
-        .profile-rank {
-            color: var(--green, #0f9d78);
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .xp-progress-row {
-            margin-top: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            color: var(--muted, #6f8296);
-            font-size: 0.72rem;
-            font-weight: 700;
-        }
-
-        .xp-progress-track {
-            height: 11px;
-            margin-top: 7px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #dfece8;
-        }
-
-        .xp-progress-fill {
-            width: 0;
-            height: 100%;
-            border-radius: inherit;
-            background:
-                linear-gradient(
-                    90deg,
-                    #0f9d78,
-                    #22c55e,
-                    #f4b942
-                );
-            transition: width 0.45s ease;
-        }
-
-        .profile-level-badge {
-            min-width: 105px;
-            padding: 17px;
-            border-radius: 20px;
-            text-align: center;
-            color: #08745a;
-            background: #e2f7ef;
-        }
-
-        .profile-level-badge small {
-            display: block;
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .profile-level-badge strong {
-            display: block;
-            margin-top: 2px;
-            font-family: "Baloo 2", sans-serif;
-            font-size: 2rem;
-            line-height: 1;
-        }
-
-        /* HEADER */
-
-        .learning-heading {
-            margin-bottom: 30px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 28px;
-        }
-
-        .learning-heading h1 {
-            margin-top: 9px;
-            color: var(--navy, #1d3557);
-            font-family: "Baloo 2", sans-serif;
-            font-size: clamp(3rem, 6vw, 5.2rem);
-            line-height: 1.02;
-            letter-spacing: -0.04em;
-        }
-
-        .learning-heading-description {
-            max-width: 660px;
-            margin-top: 13px;
-            color: var(--muted, #6f8296);
-            line-height: 1.8;
-        }
-
-        .level-progress-card {
-            width: 280px;
-            flex-shrink: 0;
-            padding: 22px;
-            border: 1px solid var(--border, #dcebe6);
-            border-radius: 22px;
-            background: white;
-            box-shadow: var(
-                --small-shadow,
-                0 10px 24px rgba(22, 82, 75, 0.08)
-            );
-        }
-
-        .level-progress-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            color: var(--navy, #1d3557);
-            font-size: 0.82rem;
-            font-weight: 700;
-        }
-
-        .level-progress-track {
-            height: 12px;
-            margin-top: 12px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #dfece8;
-        }
-
-        .level-progress-fill {
-            width: 0;
-            height: 100%;
-            border-radius: inherit;
-            background:
-                linear-gradient(
-                    90deg,
-                    #0f9d78,
-                    #22c55e,
-                    #f4b942
-                );
-            transition: width 0.4s ease;
-        }
-
-        /* MAIN LAYOUT */
-
-        .lesson-layout {
-            display: grid;
-            grid-template-columns: 305px 1fr;
-            align-items: start;
-            gap: 26px;
-        }
-
-        .letter-list-card,
-        .lesson-card {
-            border: 1px solid var(--border, #dcebe6);
-            border-radius: 28px;
-            background: white;
-            box-shadow: var(
-                --small-shadow,
-                0 10px 24px rgba(22, 82, 75, 0.08)
-            );
-        }
-
-        .letter-list-card {
-            position: sticky;
-            top: 98px;
-            padding: 20px;
-        }
-
-        .letter-list-card h2 {
-            color: var(--navy, #1d3557);
-            font-family: "Baloo 2", sans-serif;
-            font-size: 1.8rem;
-        }
-
-        .letter-list-description {
-            margin-top: 3px;
-            color: var(--muted, #6f8296);
-            font-size: 0.77rem;
-            line-height: 1.6;
-        }
-
-        .letter-grid {
-            margin-top: 18px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .letter-button {
-            position: relative;
-            min-height: 59px;
-            border: 0;
-            border-radius: 15px;
-            color: var(--navy, #1d3557);
-            background: #f0faf6;
-            cursor: pointer;
-            font-size: 1.6rem;
-            transition:
-                transform 0.2s ease,
-                background 0.2s ease,
-                color 0.2s ease;
-        }
-
-        .letter-button:hover {
-            transform: translateY(-3px);
-            background: #dcf3ea;
-        }
-
-        .letter-button.active {
-            color: white;
-            background:
-                linear-gradient(
-                    135deg,
-                    #0f9d78,
-                    #13bb8d
-                );
-        }
-
-        .letter-button.completed::after {
-            content: "✓";
-            position: absolute;
-            right: 5px;
-            bottom: 3px;
-            color: #0f9d78;
-            font-size: 0.65rem;
-            font-weight: 900;
-        }
-
-        .letter-button.active.completed::after {
-            color: white;
-        }
-
-        .lesson-card {
-            padding: 32px;
-        }
-
-        .lesson-top-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .level-badge,
-        .completion-badge {
-            padding: 7px 11px;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 800;
-        }
-
-        .level-badge {
-            color: #08745a;
-            background: #e0f6ed;
-        }
-
-        .completion-badge {
-            color: #765b18;
-            background: #fff0c2;
-        }
-
-        .completion-badge.completed {
-            color: #08745a;
-            background: #ddf5e8;
-        }
-
-        .lesson-title {
-            margin-top: 17px;
-            color: var(--navy, #1d3557);
-            font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2.2rem, 5vw, 3.5rem);
-        }
-
-        .lesson-description {
-            color: var(--muted, #6f8296);
-            line-height: 1.7;
-        }
-
-        /* CHARACTER STAGE */
-
-        .character-stage {
-            position: relative;
-            min-height: 355px;
-            margin-top: 24px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr 1fr;
-            align-items: end;
-            gap: 12px;
-            padding: 25px 20px 18px;
-            overflow: hidden;
-            border: 1px solid var(--border, #dcebe6);
-            border-radius: 28px;
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(244, 185, 66, 0.17),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at top right,
-                    rgba(124, 58, 237, 0.1),
-                    transparent 28%
-                ),
-                linear-gradient(
-                    180deg,
-                    #f6fffc,
-                    #f7f9ff
-                );
-        }
-
-        .stage-decoration {
-            position: absolute;
-            pointer-events: none;
-            animation: decorationFloat 3.7s ease-in-out infinite;
-        }
-
-        .decoration-one {
-            top: 20px;
-            left: 25px;
-        }
-
-        .decoration-two {
-            top: 30px;
-            right: 30px;
-            animation-delay: 0.8s;
-        }
-
-        .decoration-three {
-            right: 45%;
-            bottom: 18px;
-            animation-delay: 1.4s;
-        }
-
-        .character-column {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            justify-items: center;
-            align-content: end;
-        }
-
-        .speech-bubble {
-            position: relative;
-            min-height: 51px;
-            margin-bottom: 10px;
-            padding: 10px 13px;
-            display: grid;
-            place-items: center;
-            border: 1px solid #dbe9e5;
-            border-radius: 16px;
-            color: #455a70;
-            background: white;
-            box-shadow: 0 8px 18px rgba(22, 82, 75, 0.08);
-            font-size: 0.74rem;
-            font-weight: 700;
-            text-align: center;
-            opacity: 0.8;
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
-        }
-
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: -8px;
-            width: 15px;
-            height: 15px;
-            border-right: 1px solid #dbe9e5;
-            border-bottom: 1px solid #dbe9e5;
-            background: white;
-            transform:
-                translateX(-50%)
-                rotate(45deg);
-        }
-
-        .character-column.active-speaker .speech-bubble {
-            opacity: 1;
-            transform: translateY(-3px);
-        }
-
-        .character {
-            position: relative;
-            width: 145px;
-            height: 215px;
-            animation: characterFloat 4s ease-in-out infinite;
-        }
-
-        .girl-character {
-            animation-delay: 0.5s;
-        }
-
-        .character-head {
-            position: relative;
-            z-index: 3;
-            width: 110px;
-            height: 112px;
-            margin: 0 auto;
-        }
-
-        .character-face {
-            position: absolute;
-            left: 16px;
-            top: 22px;
-            z-index: 4;
-            width: 78px;
-            height: 80px;
-            border-radius: 43% 43% 47% 47%;
-            background: #ffd8bd;
-        }
-
-        .boy-hair {
-            position: absolute;
-            left: 8px;
-            top: 6px;
-            z-index: 5;
-            width: 94px;
-            height: 57px;
-            border-radius: 47px 47px 25px 25px;
-            background: #33231f;
-        }
-
-        .boy-hair::after {
-            content: "";
-            position: absolute;
-            left: 8px;
-            bottom: -9px;
-            width: 79px;
-            height: 25px;
-            border-radius: 50%;
-            background: #33231f;
-        }
-
-        .girl-hijab {
-            position: absolute;
-            left: 1px;
-            top: 0;
-            z-index: 3;
-            width: 108px;
-            height: 115px;
-            border-radius: 49px 49px 48px 48px;
-            background:
-                linear-gradient(
-                    145deg,
-                    #7c3aed,
-                    #9f67ef
-                );
-        }
-
-        .girl-hijab::after {
-            content: "";
-            position: absolute;
-            left: 10px;
-            bottom: -8px;
-            width: 88px;
-            height: 35px;
-            border-radius: 0 0 25px 25px;
-            background: #7c3aed;
-        }
-
-        .character-eye {
-            position: absolute;
-            top: 34px;
-            width: 7px;
-            height: 10px;
-            border-radius: 50%;
-            background: #303038;
-            animation: characterBlink 5s infinite;
-        }
-
-        .left-eye {
-            left: 20px;
-        }
-
-        .right-eye {
-            right: 20px;
-        }
-
-        .character-mouth {
-            position: absolute;
-            left: 50%;
-            bottom: 15px;
-            width: 23px;
-            height: 10px;
-            border-bottom: 3px solid #9d5c50;
-            border-radius: 0 0 18px 18px;
-            transform: translateX(-50%);
-        }
-
-        .character-column.speaking .character-mouth {
-            border: 0;
-            border-radius: 50%;
-            background: #9d5c50;
-            animation: mouthTalking 0.2s ease-in-out infinite;
-        }
-
-        .character-body {
-            position: relative;
-            z-index: 2;
-            width: 122px;
-            height: 105px;
-            margin: -4px auto 0;
-            border-radius: 34px 34px 18px 18px;
-        }
-
-        .boy-character .character-body {
-            background:
-                linear-gradient(
-                    180deg,
-                    #38c7f2,
-                    #2563eb
-                );
-        }
-
-        .girl-character .character-body {
-            background:
-                linear-gradient(
-                    180deg,
-                    #ff81b8,
-                    #ec4899
-                );
-        }
-
-        .character-arm {
-            position: absolute;
-            top: 22px;
-            width: 26px;
-            height: 77px;
-            border-radius: 15px;
-            background: inherit;
-            transform-origin: top center;
-        }
-
-        .arm-left {
-            left: -13px;
-            transform: rotate(11deg);
-        }
-
-        .arm-right {
-            right: -13px;
-            transform: rotate(-11deg);
-        }
-
-        .character-column.active-speaker .arm-right {
-            animation: speakerWave 0.8s ease-in-out infinite;
-        }
-
-        .letter-display-card {
-            position: relative;
-            z-index: 3;
-            align-self: center;
-            min-height: 235px;
-            display: grid;
-            place-items: center;
-            padding: 20px;
-            border: 1px solid #d9e9e4;
-            border-radius: 27px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow:
-                0 18px 38px rgba(21, 74, 66, 0.12);
-        }
-
-        .large-letter {
-            color: var(--navy, #1d3557);
-            font-size: clamp(6rem, 14vw, 10rem);
-            line-height: 1;
-        }
-
-        .current-letter-name {
-            margin-top: 5px;
-            color: var(--green, #0f9d78);
-            font-size: 1.25rem;
-            font-weight: 800;
-        }
-
-        .reader-message {
-            margin-top: 5px;
-            color: var(--muted, #6f8296);
-            font-size: 0.7rem;
-            text-align: center;
-        }
-
-        /* YOUTUBE PLAYER */
-
-        .video-practice-card {
-            margin-top: 19px;
-            padding: 19px;
-            border: 1px solid #d4e9e1;
-            border-radius: 22px;
-            background: #f4fcf8;
-        }
-
-        .video-card-heading {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .video-heading-icon {
-            width: 48px;
-            height: 48px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            border-radius: 15px;
-            background: #dff5ed;
-            font-size: 1.4rem;
-        }
-
-        .video-card-heading h3 {
-            color: var(--navy, #1d3557);
-            font-size: 1rem;
-        }
-
-        .video-card-heading p {
-            color: var(--muted, #6f8296);
-            font-size: 0.72rem;
-            line-height: 1.5;
-        }
-
-        .youtube-player-wrapper {
-            width: min(560px, 100%);
-            min-height: 260px;
-            margin: 17px auto 0;
-            overflow: hidden;
-            border-radius: 18px;
-            background: #17212b;
-        }
-
-        #youtubePlayer,
-        #youtubePlayer iframe {
-            width: 100% !important;
-            min-height: 260px !important;
-        }
-
-        .practice-controls {
-            margin-top: 16px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 155px;
-            gap: 10px;
-        }
-
-        .practice-controls .button {
-            width: 100%;
-        }
-
-        .practice-speed {
-            width: 100%;
-            min-height: 47px;
-            padding: 9px 11px;
-            border: 2px solid var(--border, #dcebe6);
-            border-radius: 13px;
-            color: var(--text, #30455c);
-            background: white;
-        }
-
-        .video-note {
-            margin-top: 12px;
-            color: var(--muted, #6f8296);
-            font-size: 0.7rem;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        /* TIP AND ACTIONS */
-
-        .letter-tip {
-            margin-top: 18px;
-            padding: 16px;
-            border-radius: 17px;
-            color: #4d6176;
-            background: #eef8ff;
-            line-height: 1.7;
-            font-size: 0.84rem;
-        }
-
-        .lesson-actions {
-            margin-top: 19px;
-            display: flex;
-            gap: 11px;
-            flex-wrap: wrap;
-        }
-
-        .practice-status {
-            min-height: 23px;
-            margin-top: 11px;
-            color: var(--muted, #6f8296);
-            font-size: 0.78rem;
-            line-height: 1.6;
-        }
-
-        .practice-status.success {
-            color: #08745a;
-        }
-
-        .practice-status.error {
-            color: #c44242;
-        }
-
-        .lesson-navigation {
-            margin-top: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 13px;
-        }
-
-        .lesson-nav-button {
-            min-height: 44px;
-            padding: 11px 17px;
-            border: 0;
-            border-radius: 13px;
-            color: #08745a;
-            background: #e2f7ef;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .lesson-nav-button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* XP POPUP */
-
-        .xp-popup {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            z-index: 2500;
-            padding: 14px 19px;
-            border-radius: 17px;
-            color: white;
-            background:
-                linear-gradient(
-                    135deg,
-                    #0f9d78,
-                    #2563eb
-                );
-            box-shadow:
-                0 18px 40px rgba(15, 90, 80, 0.28);
-            font-weight: 800;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(20px) scale(0.94);
-        }
-
-        .xp-popup.show {
-            animation: xpPopupAnimation 2.2s ease forwards;
-        }
-
-        /* ANIMATIONS */
-
-        @keyframes mouthTalking {
-            0%,
-            100% {
-                width: 19px;
-                height: 7px;
-            }
-
-            50% {
-                width: 16px;
-                height: 17px;
-            }
-        }
-
-        @keyframes characterFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes characterBlink {
-            0%,
-            46%,
-            54%,
-            100% {
-                transform: scaleY(1);
-            }
-
-            50% {
-                transform: scaleY(0.1);
-            }
-        }
-
-        @keyframes speakerWave {
-            0%,
-            100% {
-                transform: rotate(-12deg);
-            }
-
-            50% {
-                transform: rotate(-38deg);
-            }
-        }
-
-        @keyframes decorationFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-        @keyframes xpPopupAnimation {
-            0% {
-                opacity: 0;
-                transform: translateY(20px) scale(0.94);
-            }
-
-            15%,
-            75% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.96);
-            }
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 980px) {
-            .learning-heading {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .level-progress-card {
-                width: min(440px, 100%);
-            }
-
-            .lesson-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .letter-list-card {
-                position: static;
-            }
-
-            .letter-grid {
-                grid-template-columns: repeat(7, 1fr);
-            }
-        }
-
-        @media (max-width: 760px) {
-            .profile-card {
-                grid-template-columns: auto 1fr;
-            }
-
-            .profile-level-badge {
-                grid-column: 1 / -1;
-                width: 100%;
-            }
-
-            .character-stage {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .letter-display-card {
-                grid-column: 1 / -1;
-                grid-row: 1;
-                min-height: 190px;
-            }
-
-            .boy-column,
-            .girl-column {
-                grid-row: 2;
-            }
-
-            .practice-controls {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .practice-speed {
-                grid-column: 1 / -1;
-            }
-        }
-
-        @media (max-width: 620px) {
-            .learning-page {
-                padding: 48px 5% 75px;
-            }
-
-            .profile-card {
-                padding: 19px;
-            }
-
-            .profile-avatar {
-                width: 61px;
-                height: 61px;
-            }
-
-            .letter-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .lesson-card {
-                padding: 24px 18px;
-            }
-
-            .character-stage {
-                padding-left: 7px;
-                padding-right: 7px;
-            }
-
-            .character {
-                width: 125px;
-                transform: scale(0.9);
-            }
-
-            .speech-bubble {
-                font-size: 0.67rem;
-            }
-
-            .practice-controls {
-                grid-template-columns: 1fr;
-            }
-
-            .practice-speed {
-                grid-column: auto;
-            }
-
-            .lesson-actions {
-                display: grid;
-            }
-
-            .lesson-actions .button {
-                width: 100%;
-            }
-
-            .lesson-navigation {
-                flex-direction: column;
-            }
-
-            .lesson-nav-button {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="academy.css">
 </head>
 
 <body>
 
-<header class="site-header">
-    <nav class="navbar">
+<header class="academy-header">
 
-        <a class="logo" href="index.html">
-            QuranAcademy
-        </a>
+    <a class="academy-logo" href="index.html">
+        QuranAcademy
+    </a>
 
-        <button
-            class="menu-button"
-            id="menuButton"
-            type="button"
-            aria-label="Open navigation menu"
-            aria-expanded="false"
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <nav class="academy-nav">
+        <a href="index.html">Home</a>
+        <a class="active" href="learn.html">Levels</a>
+        <a href="reader.html">Full Quran</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a class="account-link" href="account.html">Account</a>
+    </nav>
 
-        <div class="navigation" id="navigation">
+</header>
 
-            <ul class="nav-links">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
+<main class="page-shell">
 
-                <li>
-                    <a href="learn.html">Level 1</a>
-                </li>
+    <section class="hero-grid">
 
-                <li>
-                    <a href="reader.html">Full Quran</a>
-                </li>
-            </ul>
+        <div>
 
-            <div class="account-buttons">
+            <p class="eyebrow">
+                Your learning journey
+            </p>
 
-                <a
-                    class="button button-outline"
-                    href="signin.html"
-                >
-                    Sign In
-                </a>
+            <h1 class="page-title">
+                Seven levels.
+                One amazing journey.
+            </h1>
 
-                <a
-                    class="button button-primary"
-                    href="signup.html"
-                >
-                    Sign Up
-                </a>
-
-            </div>
+            <p class="page-description">
+                Learn Arabic letters, vowels, words, Quran phrases,
+                short surahs, Quran navigation, and Tajweed.
+                Complete each level to earn XP and unlock a 2D game.
+            </p>
 
         </div>
 
-    </nav>
-</header>
+        <aside class="profile-panel">
 
-<main class="learning-page">
+            <div class="profile-heading">
 
-    <div class="learning-container">
-
-        <section class="profile-card">
-
-            <div
-                class="profile-avatar"
-                id="profileAvatar"
-            >
-                YL
-            </div>
-
-            <div class="profile-information">
-
-                <span class="profile-label">
-                    Learner profile
-                </span>
-
-                <h2 id="profileName">
-                    Young Learner
-                </h2>
-
-                <p
-                    class="profile-rank"
-                    id="profileRank"
+                <div
+                    class="profile-avatar"
+                    id="profileAvatar"
                 >
-                    New Learner
-                </p>
-
-                <div class="xp-progress-row">
-
-                    <span id="xpProgressText">
-                        0 / 100 XP
-                    </span>
-
-                    <span id="totalXPText">
-                        0 total XP
-                    </span>
-
+                    QA
                 </div>
 
-                <div class="xp-progress-track">
-
-                    <div
-                        class="xp-progress-fill"
-                        id="xpProgressFill"
-                    ></div>
-
+                <div>
+                    <h2 id="profileName">Guest Learner</h2>
+                    <p id="profileRank">Sign in to save progress</p>
                 </div>
 
             </div>
 
-            <div class="profile-level-badge">
+            <div class="stat-grid">
 
-                <small>
-                    Profile level
-                </small>
+                <div class="stat-card">
+                    <span>XP</span>
+                    <strong id="profileXP">0</strong>
+                </div>
 
-                <strong id="profileLevel">
-                    1
-                </strong>
+                <div class="stat-card">
+                    <span>Rank</span>
+                    <strong id="profileRankShort">Guest</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Levels</span>
+                    <strong id="profileLevels">0/7</strong>
+                </div>
 
             </div>
 
-        </section>
+            <div class="progress-label">
+                <span>Journey progress</span>
+                <span id="journeyPercent">0%</span>
+            </div>
 
-        <section class="learning-heading">
+            <div class="progress-track">
+                <div
+                    class="progress-fill"
+                    id="journeyProgress"
+                ></div>
+            </div>
+
+        </aside>
+
+    </section>
+
+    <section>
+
+        <div class="section-heading">
 
             <div>
-
-                <p class="eyebrow">
-                    Level 1
+                <h2>Choose a level</h2>
+                <p>
+                    Levels unlock in order. Completed levels can
+                    always be replayed.
                 </p>
-
-                <h1>
-                    Arabic
-                    <span class="rainbow-text">
-                        Alphabet
-                    </span>
-                </h1>
-
-                <p class="learning-heading-description">
-                    Choose one letter, listen to only that letter,
-                    watch the characters repeat it, and earn XP as
-                    you complete your lessons.
-                </p>
-
             </div>
 
-            <div class="level-progress-card">
-
-                <div class="level-progress-row">
-
-                    <span>
-                        Level progress
-                    </span>
-
-                    <strong id="levelProgressText">
-                        0 of 28
-                    </strong>
-
-                </div>
-
-                <div class="level-progress-track">
-
-                    <div
-                        class="level-progress-fill"
-                        id="levelProgressFill"
-                    ></div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="lesson-layout">
-
-            <aside class="letter-list-card">
-
-                <h2>
-                    Choose a letter
-                </h2>
-
-                <p class="letter-list-description">
-                    Listen to a letter and mark it complete.
-                    Completed letters receive a check mark.
-                </p>
-
-                <div
-                    class="letter-grid"
-                    id="letterGrid"
-                ></div>
-
-            </aside>
-
-            <article class="lesson-card">
-
-                <div class="lesson-top-row">
-
-                    <span class="level-badge">
-                        Level 1 Lesson
-                    </span>
-
-                    <span
-                        class="completion-badge"
-                        id="completionBadge"
-                    >
-                        Not completed
-                    </span>
-
-                </div>
-
-                <h2
-                    class="lesson-title"
-                    id="letterTitle"
-                >
-                    Alif
-                </h2>
-
-                <p class="lesson-description">
-                    Look at the letter, listen carefully, and repeat it.
-                </p>
-
-                <section class="character-stage">
-
-                    <span class="stage-decoration decoration-one">
-                        ✨
-                    </span>
-
-                    <span class="stage-decoration decoration-two">
-                        ⭐
-                    </span>
-
-                    <span class="stage-decoration decoration-three">
-                        🌙
-                    </span>
-
-                    <div
-                        class="character-column boy-column"
-                        id="boyColumn"
-                    >
-
-                        <div
-                            class="speech-bubble"
-                            id="boyBubble"
-                        >
-                            Ready to learn!
-                        </div>
-
-                        <div class="character boy-character">
-
-                            <div class="character-head">
-
-                                <div class="boy-hair"></div>
-
-                                <div class="character-face">
-
-                                    <span
-                                        class="character-eye left-eye"
-                                    ></span>
-
-                                    <span
-                                        class="character-eye right-eye"
-                                    ></span>
-
-                                    <span
-                                        class="character-mouth"
-                                    ></span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="character-body">
-
-                                <span
-                                    class="character-arm arm-left"
-                                ></span>
-
-                                <span
-                                    class="character-arm arm-right"
-                                ></span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="letter-display-card">
-
-                        <div>
-
-                            <div
-                                class="large-letter"
-                                id="arabicLetter"
-                                dir="rtl"
-                            >
-                                ا
-                            </div>
-
-                            <p
-                                class="current-letter-name"
-                                id="letterName"
-                            >
-                                Alif
-                            </p>
-
-                            <p
-                                class="reader-message"
-                                id="readerMessage"
-                            >
-                                Press “Play This Letter”
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div
-                        class="character-column girl-column"
-                        id="girlColumn"
-                    >
-
-                        <div
-                            class="speech-bubble"
-                            id="girlBubble"
-                        >
-                            I can repeat too!
-                        </div>
-
-                        <div class="character girl-character">
-
-                            <div class="character-head">
-
-                                <div class="girl-hijab"></div>
-
-                                <div class="character-face">
-
-                                    <span
-                                        class="character-eye left-eye"
-                                    ></span>
-
-                                    <span
-                                        class="character-eye right-eye"
-                                    ></span>
-
-                                    <span
-                                        class="character-mouth"
-                                    ></span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="character-body">
-
-                                <span
-                                    class="character-arm arm-left"
-                                ></span>
-
-                                <span
-                                    class="character-arm arm-right"
-                                ></span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <section class="video-practice-card">
-
-                    <div class="video-card-heading">
-
-                        <div class="video-heading-icon">
-                            🎧
-                        </div>
-
-                        <div>
-
-                            <h3>
-                                Human pronunciation lesson
-                            </h3>
-
-                            <p>
-                                Only the selected letter’s section
-                                will play from the lesson.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="youtube-player-wrapper">
-
-                        <div id="youtubePlayer"></div>
-
-                    </div>
-
-                    <div class="practice-controls">
-
-                        <button
-                            class="button button-primary"
-                            id="playLetterButton"
-                            type="button"
-                        >
-                            ▶ Play This Letter
-                        </button>
-
-                        <button
-                            class="button button-secondary"
-                            id="replayLetterButton"
-                            type="button"
-                        >
-                            ↻ Play Again
-                        </button>
-
-                        <select
-                            class="practice-speed"
-                            id="videoSpeedSelect"
-                            aria-label="Pronunciation speed"
-                        >
-
-                            <option value="0.75">
-                                0.75× Slow
-                            </option>
-
-                            <option value="1" selected>
-                                1× Normal
-                            </option>
-
-                            <option value="1.25">
-                                1.25×
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <p class="video-note">
-                        The video remains hosted by YouTube.
-                        QuranAcademy does not download or copy its audio.
-                    </p>
-
-                </section>
-
-                <div
-                    class="letter-tip"
-                    id="letterTip"
-                >
-                    Alif is the first Arabic letter.
-                </div>
-
-                <div class="lesson-actions">
-
-                    <button
-                        class="button button-primary"
-                        id="completeLetterButton"
-                        type="button"
-                    >
-                        ✓ Mark Letter Complete
-                    </button>
-
-                </div>
-
-                <p
-                    class="practice-status"
-                    id="practiceStatus"
-                >
-                    Select a letter and press Play.
-                </p>
-
-                <div class="lesson-navigation">
-
-                    <button
-                        class="lesson-nav-button"
-                        id="previousLetterButton"
-                        type="button"
-                    >
-                        ← Previous Letter
-                    </button>
-
-                    <button
-                        class="lesson-nav-button"
-                        id="nextLetterButton"
-                        type="button"
-                    >
-                        Next Letter →
-                    </button>
-
-                </div>
-
-            </article>
-
-        </section>
-
-    </div>
+            <a
+                class="button button-secondary"
+                href="leaderboard.html"
+            >
+                🏆 Global Leaderboard
+            </a>
+
+        </div>
+
+        <div
+            class="level-grid"
+            id="levelGrid"
+        ></div>
+
+    </section>
 
 </main>
 
-<div
-    class="xp-popup"
-    id="xpPopup"
->
-    +5 XP
-</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 
 <script>
-    /*
-     * QuranAcademy Level 1
-     * YouTube video ID:
-     * https://www.youtube.com/watch?v=fJ9_79bg5H4
-     */
-
-    const YOUTUBE_VIDEO_ID =
-        "fJ9_79bg5H4";
-
-    /*
-     * The video is about 131 seconds long.
-     *
-     * These settings divide it into 28 letter sections.
-     * If the clips begin slightly too early or late, adjust
-     * VIDEO_START_OFFSET_SECONDS.
-     *
-     * If the clips slowly become less accurate near the end,
-     * adjust SECONDS_PER_LETTER.
-     */
-
-    const VIDEO_START_OFFSET_SECONDS = 0.6;
-    const SECONDS_PER_LETTER = 4.55;
-    const LETTER_CLIP_LENGTH_SECONDS = 4.35;
-
-    const PROFILE_TITLES = [
-        "New Learner",
-        "Letter Explorer",
-        "Sound Seeker",
-        "Arabic Adventurer",
-        "Quran Starter",
-        "Reading Star",
-        "Tajweed Trainee",
-        "Quran Hero",
-        "Quran Champion"
-    ];
-
-    const letters = [
+    const LEVELS = [
         {
-            english: "Alif",
-            arabic: "ا",
-            tip: "Alif is the first Arabic letter."
+            number: 1,
+            icon: "🔤",
+            title: "Arabic Alphabet",
+            description:
+                "Explore all 28 Arabic letters and test your recognition.",
+            xp: 100,
+            reward: "Crescent Runner"
         },
         {
-            english: "Baa",
-            arabic: "ب",
-            tip: "Baa has one dot underneath."
+            number: 2,
+            icon: "🔊",
+            title: "Vowels and Sounds",
+            description:
+                "Learn Fatha, Kasra, Damma, and Sukoon.",
+            xp: 125,
+            reward: "Star Jumper"
         },
         {
-            english: "Taa",
-            arabic: "ت",
-            tip: "Taa has two dots above it."
+            number: 3,
+            icon: "🧩",
+            title: "Build Arabic Words",
+            description:
+                "Recognize letters inside simple Arabic words.",
+            xp: 150,
+            reward: "Lantern Dash"
         },
         {
-            english: "Thaa",
-            arabic: "ث",
-            tip: "Thaa has three dots above it."
+            number: 4,
+            icon: "💬",
+            title: "Quran Phrases",
+            description:
+                "Learn important phrases used by Muslims every day.",
+            xp: 175,
+            reward: "Cloud Flyer"
         },
         {
-            english: "Jeem",
-            arabic: "ج",
-            tip: "Jeem has one dot below its curved shape."
+            number: 5,
+            icon: "📖",
+            title: "Short Surahs",
+            description:
+                "Recognize several short surahs and their openings.",
+            xp: 225,
+            reward: "Moon Collector"
         },
         {
-            english: "Haa",
-            arabic: "ح",
-            tip: "This Haa is pronounced gently from the throat."
+            number: 6,
+            icon: "🕌",
+            title: "Explore the Quran",
+            description:
+                "Learn how the Quran is organized and navigate surahs.",
+            xp: 250,
+            reward: "Quran Quest"
         },
         {
-            english: "Khaa",
-            arabic: "خ",
-            tip: "Khaa has one dot above it."
-        },
-        {
-            english: "Daal",
-            arabic: "د",
-            tip: "Daal does not connect to the next letter."
-        },
-        {
-            english: "Dhaal",
-            arabic: "ذ",
-            tip: "Dhaal has one dot above it."
-        },
-        {
-            english: "Raa",
-            arabic: "ر",
-            tip: "Raa does not connect to the next letter."
-        },
-        {
-            english: "Zaay",
-            arabic: "ز",
-            tip: "Zaay has one dot above it."
-        },
-        {
-            english: "Seen",
-            arabic: "س",
-            tip: "Seen makes a clear s sound."
-        },
-        {
-            english: "Sheen",
-            arabic: "ش",
-            tip: "Sheen has three dots above it."
-        },
-        {
-            english: "Saad",
-            arabic: "ص",
-            tip: "Saad is a heavier s sound."
-        },
-        {
-            english: "Daad",
-            arabic: "ض",
-            tip: "Daad is a special heavy Arabic sound."
-        },
-        {
-            english: "Heavy Taa",
-            arabic: "ط",
-            tip: "This is the heavy Taa sound."
-        },
-        {
-            english: "Heavy Dhaa",
-            arabic: "ظ",
-            tip: "This is the heavy Dhaa sound."
-        },
-        {
-            english: "Ayn",
-            arabic: "ع",
-            tip: "Ayn comes from the middle of the throat."
-        },
-        {
-            english: "Ghayn",
-            arabic: "غ",
-            tip: "Ghayn has one dot above it."
-        },
-        {
-            english: "Faa",
-            arabic: "ف",
-            tip: "Faa has one dot above it."
-        },
-        {
-            english: "Qaaf",
-            arabic: "ق",
-            tip: "Qaaf is pronounced near the back of the tongue."
-        },
-        {
-            english: "Kaaf",
-            arabic: "ك",
-            tip: "Kaaf makes a k sound."
-        },
-        {
-            english: "Laam",
-            arabic: "ل",
-            tip: "Laam makes an l sound."
-        },
-        {
-            english: "Meem",
-            arabic: "م",
-            tip: "Meem makes an m sound."
-        },
-        {
-            english: "Noon",
-            arabic: "ن",
-            tip: "Noon has one dot above it."
-        },
-        {
-            english: "Haa",
-            arabic: "ه",
-            tip: "This Haa is a soft and breathy sound."
-        },
-        {
-            english: "Waaw",
-            arabic: "و",
-            tip: "Waaw can make a w sound or a long oo sound."
-        },
-        {
-            english: "Yaa",
-            arabic: "ي",
-            tip: "Yaa can make a y sound or a long ee sound."
+            number: 7,
+            icon: "🎵",
+            title: "Tajweed Basics",
+            description:
+                "Learn introductory rules for clearer recitation.",
+            xp: 300,
+            reward: "Tajweed Master"
         }
     ];
 
-    const COMPLETED_STORAGE_KEY =
-        "quranAcademyCompletedLettersV5";
+    const profileAvatar =
+        document.getElementById("profileAvatar");
 
-    const HEARD_STORAGE_KEY =
-        "quranAcademyHeardLettersV1";
+    const profileName =
+        document.getElementById("profileName");
 
-    const XP_STORAGE_KEY =
-        "quranAcademyXPV1";
+    const profileRank =
+        document.getElementById("profileRank");
 
-    const LEVEL_BONUS_STORAGE_KEY =
-        "quranAcademyLevelOneBonusV1";
+    const profileRankShort =
+        document.getElementById("profileRankShort");
 
-    let selectedLetterIndex = 0;
-    let completedLetters = loadArray(COMPLETED_STORAGE_KEY);
-    let heardLetters = loadArray(HEARD_STORAGE_KEY);
-    let totalXP = loadNumber(XP_STORAGE_KEY);
+    const profileXP =
+        document.getElementById("profileXP");
 
-    let youtubePlayer = null;
-    let youtubeReady = false;
+    const profileLevels =
+        document.getElementById("profileLevels");
 
-    let currentSpeaker = "boy";
-    let firstSpeaker = "boy";
-    let repeatPass = false;
-    let automaticRepeatScheduled = false;
+    const journeyPercent =
+        document.getElementById("journeyPercent");
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        initializeLevelOne
-    );
+    const journeyProgress =
+        document.getElementById("journeyProgress");
 
-    function initializeLevelOne() {
-        setupMobileNavigation();
-        setupPageElements();
-        loadYouTubeAPI();
-        renderEverything();
-    }
+    const levelGrid =
+        document.getElementById("levelGrid");
 
-    function setupMobileNavigation() {
-        const menuButton =
-            document.getElementById("menuButton");
+    const toast =
+        document.getElementById("toast");
 
-        const navigation =
-            document.getElementById("navigation");
+    let currentUser = null;
+    let currentProfile = null;
 
-        if (!menuButton || !navigation) {
-            return;
+    function getRank(xp) {
+        if (xp >= 1000) {
+            return {
+                name: "Diamond",
+                emoji: "💎"
+            };
         }
 
-        menuButton.addEventListener("click", () => {
-            const open =
-                navigation.classList.toggle("open");
-
-            menuButton.classList.toggle(
-                "active",
-                open
-            );
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(open)
-            );
-        });
-
-        navigation
-            .querySelectorAll("a")
-            .forEach((link) => {
-                link.addEventListener("click", () => {
-                    navigation.classList.remove("open");
-                    menuButton.classList.remove("active");
-                    menuButton.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-                });
-            });
-    }
-
-    function setupPageElements() {
-        document
-            .getElementById("playLetterButton")
-            .addEventListener(
-                "click",
-                startLetterLesson
-            );
-
-        document
-            .getElementById("replayLetterButton")
-            .addEventListener(
-                "click",
-                startLetterLesson
-            );
-
-        document
-            .getElementById("completeLetterButton")
-            .addEventListener(
-                "click",
-                completeCurrentLetter
-            );
-
-        document
-            .getElementById("previousLetterButton")
-            .addEventListener(
-                "click",
-                goToPreviousLetter
-            );
-
-        document
-            .getElementById("nextLetterButton")
-            .addEventListener(
-                "click",
-                goToNextLetter
-            );
-
-        document
-            .getElementById("videoSpeedSelect")
-            .addEventListener(
-                "change",
-                updateVideoSpeed
-            );
-    }
-
-    function loadYouTubeAPI() {
-        const script =
-            document.createElement("script");
-
-        script.src =
-            "https://www.youtube.com/iframe_api";
-
-        script.async = true;
-
-        document.head.appendChild(script);
-    }
-
-    window.onYouTubeIframeAPIReady = function () {
-        youtubePlayer = new YT.Player(
-            "youtubePlayer",
-            {
-                width: "100%",
-                height: "280",
-
-                videoId: YOUTUBE_VIDEO_ID,
-
-                playerVars: {
-                    playsinline: 1,
-                    controls: 1,
-                    rel: 0,
-                    start: 0,
-                    origin: window.location.origin
-                },
-
-                events: {
-                    onReady: handleYouTubeReady,
-                    onStateChange:
-                        handleYouTubeStateChange,
-                    onError: handleYouTubeError
-                }
-            }
-        );
-    };
-
-    function handleYouTubeReady() {
-        youtubeReady = true;
-
-        setPracticeStatus(
-            "Video ready. Choose a letter and press Play.",
-            "success"
-        );
-    }
-
-    function handleYouTubeStateChange(event) {
-        if (
-            !window.YT ||
-            !YT.PlayerState
-        ) {
-            return;
+        if (xp >= 700) {
+            return {
+                name: "Platinum",
+                emoji: "🏅"
+            };
         }
 
-        if (
-            event.data ===
-            YT.PlayerState.PLAYING
-        ) {
-            const speed =
-                Number(
-                    document.getElementById(
-                        "videoSpeedSelect"
-                    ).value
-                );
-
-            youtubePlayer.setPlaybackRate(speed);
-
-            startCharacterTalking(
-                currentSpeaker
-            );
+        if (xp >= 400) {
+            return {
+                name: "Gold",
+                emoji: "🥇"
+            };
         }
 
-        if (
-            event.data ===
-            YT.PlayerState.PAUSED ||
-            event.data ===
-            YT.PlayerState.BUFFERING
-        ) {
-            stopCharacterTalking();
+        if (xp >= 150) {
+            return {
+                name: "Silver",
+                emoji: "🥈"
+            };
         }
-
-        if (
-            event.data ===
-            YT.PlayerState.ENDED
-        ) {
-            stopCharacterTalking();
-            handleClipFinished();
-        }
-    }
-
-    function handleYouTubeError(event) {
-        console.error(
-            "YouTube player error:",
-            event.data
-        );
-
-        stopCharacterTalking();
-
-        setPracticeStatus(
-            "The YouTube lesson could not play. Open the video controls and try again.",
-            "error"
-        );
-    }
-
-    function startLetterLesson() {
-        if (!youtubeReady || !youtubePlayer) {
-            setPracticeStatus(
-                "The pronunciation video is still loading. Wait a moment and try again.",
-                "error"
-            );
-
-            return;
-        }
-
-        repeatPass = false;
-        automaticRepeatScheduled = false;
-
-        firstSpeaker =
-            Math.random() < 0.5
-                ? "boy"
-                : "girl";
-
-        currentSpeaker = firstSpeaker;
-
-        awardListeningXP();
-
-        playCurrentLetterClip(false);
-    }
-
-    function playCurrentLetterClip(isRepeat) {
-        if (!youtubeReady || !youtubePlayer) {
-            return;
-        }
-
-        repeatPass = isRepeat;
-
-        currentSpeaker = isRepeat
-            ? getOppositeSpeaker(firstSpeaker)
-            : firstSpeaker;
-
-        const letter =
-            letters[selectedLetterIndex];
-
-        const clip =
-            getLetterClip(selectedLetterIndex);
-
-        prepareCharacterForSpeech(
-            currentSpeaker,
-            isRepeat
-                ? `${getCharacterName(currentSpeaker)} repeats: ${letter.english}`
-                : `${getCharacterName(currentSpeaker)} reads: ${letter.english}`
-        );
-
-        document.getElementById(
-            "readerMessage"
-        ).textContent = isRepeat
-            ? `${getCharacterName(currentSpeaker)} is repeating ${letter.english}`
-            : `Listen to ${letter.english}`;
-
-        setPracticeStatus(
-            isRepeat
-                ? `${getCharacterName(currentSpeaker)} is repeating ${letter.english}.`
-                : `Playing only the ${letter.english} section.`,
-            "success"
-        );
-
-        youtubePlayer.loadVideoById({
-            videoId: YOUTUBE_VIDEO_ID,
-            startSeconds: clip.start,
-            endSeconds: clip.end
-        });
-    }
-
-    function handleClipFinished() {
-        if (
-            !repeatPass &&
-            !automaticRepeatScheduled &&
-            Math.random() < 0.6
-        ) {
-            automaticRepeatScheduled = true;
-
-            const repeatSpeaker =
-                getOppositeSpeaker(firstSpeaker);
-
-            setPracticeStatus(
-                `${getCharacterName(repeatSpeaker)} will repeat the letter.`,
-                "success"
-            );
-
-            window.setTimeout(() => {
-                automaticRepeatScheduled = false;
-                playCurrentLetterClip(true);
-            }, 800);
-
-            return;
-        }
-
-        repeatPass = false;
-        automaticRepeatScheduled = false;
-
-        resetCharacterBubbles();
-
-        document.getElementById(
-            "readerMessage"
-        ).textContent =
-            "Now it is your turn to repeat!";
-
-        setPracticeStatus(
-            `Your turn! Say ${letters[selectedLetterIndex].english} out loud.`,
-            "success"
-        );
-    }
-
-    function getLetterClip(index) {
-        const start =
-            VIDEO_START_OFFSET_SECONDS +
-            index * SECONDS_PER_LETTER;
-
-        const end =
-            start +
-            LETTER_CLIP_LENGTH_SECONDS;
 
         return {
-            start,
-            end
+            name: "Bronze",
+            emoji: "🥉"
         };
     }
 
-    function updateVideoSpeed() {
-        if (!youtubeReady || !youtubePlayer) {
-            return;
-        }
-
-        const speed =
-            Number(
-                document.getElementById(
-                    "videoSpeedSelect"
-                ).value
-            );
-
-        youtubePlayer.setPlaybackRate(speed);
-
-        setPracticeStatus(
-            `Pronunciation speed changed to ${speed}×.`,
-            "success"
-        );
+    function getInitials(name) {
+        return name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word[0].toUpperCase())
+            .join("") || "QA";
     }
 
-    function prepareCharacterForSpeech(
-        speaker,
-        message
-    ) {
-        stopCharacterTalking();
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("show");
 
-        const boyColumn =
-            document.getElementById("boyColumn");
+        void toast.offsetWidth;
 
-        const girlColumn =
-            document.getElementById("girlColumn");
-
-        boyColumn.classList.remove(
-            "active-speaker"
-        );
-
-        girlColumn.classList.remove(
-            "active-speaker"
-        );
-
-        const activeColumn =
-            speaker === "boy"
-                ? boyColumn
-                : girlColumn;
-
-        activeColumn.classList.add(
-            "active-speaker"
-        );
-
-        if (speaker === "boy") {
-            document.getElementById(
-                "boyBubble"
-            ).textContent = message;
-
-            document.getElementById(
-                "girlBubble"
-            ).textContent =
-                "I am listening!";
-        } else {
-            document.getElementById(
-                "girlBubble"
-            ).textContent = message;
-
-            document.getElementById(
-                "boyBubble"
-            ).textContent =
-                "I am listening!";
-        }
-    }
-
-    function startCharacterTalking(speaker) {
-        stopCharacterTalking();
-
-        const column =
-            speaker === "boy"
-                ? document.getElementById(
-                    "boyColumn"
-                )
-                : document.getElementById(
-                    "girlColumn"
-                );
-
-        column.classList.add(
-            "speaking",
-            "active-speaker"
-        );
-    }
-
-    function stopCharacterTalking() {
-        document
-            .getElementById("boyColumn")
-            .classList.remove("speaking");
-
-        document
-            .getElementById("girlColumn")
-            .classList.remove("speaking");
-    }
-
-    function resetCharacterBubbles() {
-        stopCharacterTalking();
-
-        document
-            .getElementById("boyColumn")
-            .classList.remove("active-speaker");
-
-        document
-            .getElementById("girlColumn")
-            .classList.remove("active-speaker");
-
-        document.getElementById(
-            "boyBubble"
-        ).textContent =
-            "Your turn to repeat!";
-
-        document.getElementById(
-            "girlBubble"
-        ).textContent =
-            "You can do it!";
-    }
-
-    function getOppositeSpeaker(speaker) {
-        return speaker === "boy"
-            ? "girl"
-            : "boy";
-    }
-
-    function getCharacterName(speaker) {
-        return speaker === "boy"
-            ? "The boy"
-            : "The girl";
-    }
-
-    function renderEverything() {
-        renderLetterGrid();
-        renderSelectedLetter();
-        renderLevelProgress();
-        renderProfile();
-    }
-
-    function renderLetterGrid() {
-        const letterGrid =
-            document.getElementById(
-                "letterGrid"
-            );
-
-        letterGrid.innerHTML = "";
-
-        letters.forEach(
-            (letter, index) => {
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-                button.type = "button";
-                button.className =
-                    "letter-button";
-
-                button.textContent =
-                    letter.arabic;
-
-                button.title =
-                    letter.english;
-
-                if (
-                    index ===
-                    selectedLetterIndex
-                ) {
-                    button.classList.add(
-                        "active"
-                    );
-                }
-
-                if (
-                    completedLetters.includes(
-                        index
-                    )
-                ) {
-                    button.classList.add(
-                        "completed"
-                    );
-                }
-
-                button.addEventListener(
-                    "click",
-                    () => {
-                        selectLetter(index);
-                    }
-                );
-
-                letterGrid.appendChild(
-                    button
-                );
-            }
-        );
-    }
-
-    function renderSelectedLetter() {
-        const letter =
-            letters[selectedLetterIndex];
-
-        const isComplete =
-            completedLetters.includes(
-                selectedLetterIndex
-            );
-
-        document.getElementById(
-            "letterTitle"
-        ).textContent =
-            letter.english;
-
-        document.getElementById(
-            "arabicLetter"
-        ).textContent =
-            letter.arabic;
-
-        document.getElementById(
-            "letterName"
-        ).textContent =
-            letter.english;
-
-        document.getElementById(
-            "letterTip"
-        ).textContent =
-            letter.tip;
-
-        const completionBadge =
-            document.getElementById(
-                "completionBadge"
-            );
-
-        completionBadge.textContent =
-            isComplete
-                ? "✓ Completed"
-                : "Not completed";
-
-        completionBadge.classList.toggle(
-            "completed",
-            isComplete
-        );
-
-        const completeButton =
-            document.getElementById(
-                "completeLetterButton"
-            );
-
-        completeButton.textContent =
-            isComplete
-                ? "✓ Letter Completed"
-                : "✓ Mark Letter Complete";
-
-        document.getElementById(
-            "previousLetterButton"
-        ).disabled =
-            selectedLetterIndex === 0;
-
-        document.getElementById(
-            "nextLetterButton"
-        ).disabled =
-            selectedLetterIndex ===
-            letters.length - 1;
-
-        document.getElementById(
-            "readerMessage"
-        ).textContent =
-            "Press “Play This Letter”";
-
-        resetCharacterBubbles();
-
-        setPracticeStatus(
-            `Ready to learn ${letter.english}.`
-        );
-    }
-
-    function selectLetter(index) {
-        if (
-            index < 0 ||
-            index >= letters.length
-        ) {
-            return;
-        }
-
-        stopCurrentVideo();
-
-        selectedLetterIndex = index;
-
-        renderEverything();
-
-        document
-            .querySelector(".lesson-card")
-            ?.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-    }
-
-    function stopCurrentVideo() {
-        if (
-            youtubeReady &&
-            youtubePlayer &&
-            typeof youtubePlayer.pauseVideo ===
-                "function"
-        ) {
-            youtubePlayer.pauseVideo();
-        }
-
-        repeatPass = false;
-        automaticRepeatScheduled = false;
-
-        stopCharacterTalking();
-    }
-
-    function goToPreviousLetter() {
-        if (selectedLetterIndex > 0) {
-            selectLetter(
-                selectedLetterIndex - 1
-            );
-        }
-    }
-
-    function goToNextLetter() {
-        if (
-            selectedLetterIndex <
-            letters.length - 1
-        ) {
-            selectLetter(
-                selectedLetterIndex + 1
-            );
-        }
-    }
-
-    function completeCurrentLetter() {
-        if (
-            completedLetters.includes(
-                selectedLetterIndex
-            )
-        ) {
-            setPracticeStatus(
-                `${letters[selectedLetterIndex].english} is already complete.`,
-                "success"
-            );
-
-            return;
-        }
-
-        completedLetters.push(
-            selectedLetterIndex
-        );
-
-        completedLetters.sort(
-            (first, second) =>
-                first - second
-        );
-
-        saveArray(
-            COMPLETED_STORAGE_KEY,
-            completedLetters
-        );
-
-        awardXP(
-            20,
-            `${letters[selectedLetterIndex].english} completed!`
-        );
-
-        if (
-            completedLetters.length ===
-            letters.length
-        ) {
-            awardLevelCompletionBonus();
-        }
-
-        renderEverything();
-
-        setPracticeStatus(
-            `${letters[selectedLetterIndex].english} completed! You earned XP.`,
-            "success"
-        );
-    }
-
-    function awardListeningXP() {
-        if (
-            heardLetters.includes(
-                selectedLetterIndex
-            )
-        ) {
-            return;
-        }
-
-        heardLetters.push(
-            selectedLetterIndex
-        );
-
-        heardLetters.sort(
-            (first, second) =>
-                first - second
-        );
-
-        saveArray(
-            HEARD_STORAGE_KEY,
-            heardLetters
-        );
-
-        awardXP(
-            5,
-            `Listened to ${letters[selectedLetterIndex].english}`
-        );
-    }
-
-    function awardLevelCompletionBonus() {
-        const alreadyAwarded =
-            localStorage.getItem(
-                LEVEL_BONUS_STORAGE_KEY
-            ) === "true";
-
-        if (alreadyAwarded) {
-            return;
-        }
-
-        localStorage.setItem(
-            LEVEL_BONUS_STORAGE_KEY,
-            "true"
-        );
-
-        awardXP(
-            50,
-            "Level 1 complete!"
-        );
-    }
-
-    function awardXP(amount, reason) {
-        totalXP += amount;
-
-        localStorage.setItem(
-            XP_STORAGE_KEY,
-            String(totalXP)
-        );
-
-        renderProfile();
-
-        showXPPopup(
-            `+${amount} XP — ${reason}`
-        );
-    }
-
-    function renderLevelProgress() {
-        const percentage =
-            Math.round(
-                (
-                    completedLetters.length /
-                    letters.length
-                ) *
-                    100
-            );
-
-        document.getElementById(
-            "levelProgressText"
-        ).textContent =
-            `${completedLetters.length} of ${letters.length}`;
-
-        document.getElementById(
-            "levelProgressFill"
-        ).style.width =
-            `${percentage}%`;
+        toast.classList.add("show");
     }
 
     function renderProfile() {
-        const name =
-            localStorage.getItem(
-                "quranAcademyDemoName"
-            ) ||
-            "Young Learner";
+        const completed =
+            currentProfile?.completed_levels || [];
 
-        const profileLevel =
-            Math.floor(totalXP / 100) + 1;
+        const xp =
+            currentProfile?.xp || 0;
 
-        const xpInsideLevel =
-            totalXP % 100;
-
-        const rankIndex =
-            Math.min(
-                profileLevel - 1,
-                PROFILE_TITLES.length - 1
+        const percentage =
+            Math.round(
+                completed.length / LEVELS.length * 100
             );
 
-        document.getElementById(
-            "profileName"
-        ).textContent = name;
-
-        document.getElementById(
-            "profileRank"
-        ).textContent =
-            PROFILE_TITLES[rankIndex];
-
-        document.getElementById(
-            "profileLevel"
-        ).textContent =
-            String(profileLevel);
-
-        document.getElementById(
-            "xpProgressText"
-        ).textContent =
-            `${xpInsideLevel} / 100 XP`;
-
-        document.getElementById(
-            "totalXPText"
-        ).textContent =
-            `${totalXP} total XP`;
-
-        document.getElementById(
-            "xpProgressFill"
-        ).style.width =
-            `${xpInsideLevel}%`;
-
-        document.getElementById(
-            "profileAvatar"
-        ).textContent =
-            getInitials(name);
-    }
-
-    function getInitials(name) {
-        const words =
-            name
-                .trim()
-                .split(/\s+/)
-                .filter(Boolean);
-
-        if (!words.length) {
-            return "YL";
+        if (!currentUser || !currentProfile) {
+            profileAvatar.textContent = "QA";
+            profileName.textContent = "Guest Learner";
+            profileRank.textContent =
+                "Sign in to save XP and rewards";
+            profileRankShort.textContent = "Guest";
+            profileXP.textContent = "0";
+            profileLevels.textContent = "0/7";
+            journeyPercent.textContent = "0%";
+            journeyProgress.style.width = "0%";
+            return;
         }
 
-        return words
-            .slice(0, 2)
-            .map((word) =>
-                word.charAt(0).toUpperCase()
-            )
-            .join("");
+        const rank = getRank(xp);
+
+        profileAvatar.textContent =
+            getInitials(currentProfile.username);
+
+        profileName.textContent =
+            currentProfile.username;
+
+        profileRank.textContent =
+            `${rank.emoji} ${rank.name} Learner`;
+
+        profileRankShort.textContent =
+            rank.name;
+
+        profileXP.textContent =
+            String(xp);
+
+        profileLevels.textContent =
+            `${completed.length}/7`;
+
+        journeyPercent.textContent =
+            `${percentage}%`;
+
+        journeyProgress.style.width =
+            `${percentage}%`;
     }
 
-    function showXPPopup(message) {
-        const popup =
-            document.getElementById(
-                "xpPopup"
+    function renderLevels() {
+        levelGrid.innerHTML = "";
+
+        const completed =
+            currentProfile?.completed_levels || [];
+
+        LEVELS.forEach((level) => {
+            const isCompleted =
+                completed.includes(level.number);
+
+            const isUnlocked =
+                level.number === 1 ||
+                completed.includes(level.number - 1);
+
+            const card =
+                document.createElement("article");
+
+            card.className = "level-card";
+
+            if (isCompleted) {
+                card.classList.add("completed");
+            }
+
+            if (!isUnlocked) {
+                card.classList.add("locked");
+            }
+
+            const top =
+                document.createElement("div");
+
+            top.className = "level-card-top";
+
+            const icon =
+                document.createElement("div");
+
+            icon.className = "level-icon";
+            icon.textContent = level.icon;
+
+            const levelNumber =
+                document.createElement("span");
+
+            levelNumber.className = "level-number";
+
+            levelNumber.textContent =
+                isCompleted
+                    ? "✓ Completed"
+                    : `Level ${level.number}`;
+
+            top.append(icon, levelNumber);
+
+            const title =
+                document.createElement("h3");
+
+            title.textContent = level.title;
+
+            const description =
+                document.createElement("p");
+
+            description.className =
+                "level-card-description";
+
+            description.textContent =
+                level.description;
+
+            const details =
+                document.createElement("div");
+
+            details.className = "level-details";
+
+            const xpChip =
+                document.createElement("span");
+
+            xpChip.className = "detail-chip";
+            xpChip.textContent = `+${level.xp} XP`;
+
+            const rewardChip =
+                document.createElement("span");
+
+            rewardChip.className = "reward-chip";
+            rewardChip.textContent =
+                `🎮 ${level.reward}`;
+
+            details.append(xpChip, rewardChip);
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                isUnlocked
+                    ? "button button-primary level-card-action"
+                    : "button button-secondary level-card-action";
+
+            if (isCompleted) {
+                button.textContent = "Review Level";
+            } else if (isUnlocked) {
+                button.textContent =
+                    level.number === 1
+                        ? "Start Level"
+                        : "Continue Journey";
+            } else {
+                button.textContent = "🔒 Locked";
+                button.disabled = true;
+            }
+
+            button.addEventListener("click", () => {
+                if (!isUnlocked) {
+                    showToast(
+                        `Complete Level ${level.number - 1} first.`
+                    );
+
+                    return;
+                }
+
+                window.location.href =
+                    `lesson.html?level=${level.number}`;
+            });
+
+            card.append(
+                top,
+                title,
+                description,
+                details,
+                button
             );
 
-        popup.textContent = message;
+            if (!currentUser && level.number > 1) {
+                const message =
+                    document.createElement("p");
 
-        popup.classList.remove("show");
+                message.className = "lock-message";
+                message.textContent =
+                    "Sign in and complete previous levels.";
 
-        void popup.offsetWidth;
+                card.appendChild(message);
+            }
 
-        popup.classList.add("show");
+            levelGrid.appendChild(card);
+        });
     }
 
-    function setPracticeStatus(
-        message,
-        type = ""
-    ) {
-        const status =
-            document.getElementById(
-                "practiceStatus"
-            );
-
-        status.textContent = message;
-
-        status.classList.remove(
-            "success",
-            "error"
-        );
-
-        if (type) {
-            status.classList.add(type);
-        }
-    }
-
-    function loadArray(key) {
+    async function loadProfile() {
         try {
-            const value =
-                JSON.parse(
-                    localStorage.getItem(key)
-                );
+            const {
+                data: userData,
+                error: userError
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getUser();
 
-            return Array.isArray(value)
-                ? value
-                : [];
+            if (userError) {
+                console.warn(userError.message);
+            }
+
+            currentUser =
+                userData?.user || null;
+
+            if (currentUser) {
+                const {
+                    data: profile,
+                    error: profileError
+                } =
+                    await window
+                        .quranAcademySupabase
+                        .from("profiles")
+                        .select(
+                            "id, username, xp, plan, completed_levels, unlocked_rewards"
+                        )
+                        .eq("id", currentUser.id)
+                        .single();
+
+                if (profileError) {
+                    throw profileError;
+                }
+
+                currentProfile = profile;
+            }
         } catch (error) {
-            return [];
-        }
-    }
+            console.error(error);
 
-    function saveArray(key, value) {
-        localStorage.setItem(
-            key,
-            JSON.stringify(value)
-        );
-    }
-
-    function loadNumber(key) {
-        const value =
-            Number(
-                localStorage.getItem(key)
+            showToast(
+                "Your saved progress could not load."
             );
+        }
 
-        return Number.isFinite(value)
-            ? Math.max(0, value)
-            : 0;
+        renderProfile();
+        renderLevels();
     }
+
+    loadProfile();
 </script>
 
 </body>
