@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
     <title>Sign In | QuranAcademy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin
     >
+
     <link
         href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
@@ -21,11 +25,16 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header class="site-header">
+
     <nav class="navbar">
-        <a class="logo" href="index.html">QuranAcademy</a>
+
+        <a class="logo" href="index.html">
+            QuranAcademy
+        </a>
 
         <button
             class="menu-button"
@@ -40,77 +49,157 @@
         </button>
 
         <div class="navigation" id="navigation">
+
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="reader.html">Reader</a></li>
+                <li><a href="learn.html">Learning Path</a></li>
+                <li><a href="reader.html">Quran Reader</a></li>
             </ul>
 
             <div class="account-buttons">
-                <a class="button button-outline active-account" href="signin.html">Sign In</a>
-                <a class="button button-primary" href="signup.html">Sign Up</a>
+
+                <a
+                    class="button button-outline"
+                    href="signin.html"
+                >
+                    Sign In
+                </a>
+
+                <a
+                    class="button button-primary"
+                    href="signup.html"
+                >
+                    Sign Up
+                </a>
+
             </div>
+
         </div>
+
     </nav>
+
 </header>
 
 <main class="auth-page">
+
     <div class="auth-layout reveal">
 
         <section class="auth-intro">
-            <p class="eyebrow">Welcome back</p>
-            <h1>Continue your <span class="rainbow-text">Quran journey.</span></h1>
+
+            <p class="eyebrow">
+                Welcome back
+            </p>
+
+            <h1>
+                Continue your
+                <span class="rainbow-text">
+                    Quran journey.
+                </span>
+            </h1>
+
             <p>
-                Sign in later to save progress, bookmarks, and learning history.
-                But you can still use the Quran reader without signing in.
+                Sign in later to save progress across multiple devices.
+                The Quran Reader and Level 1 remain available without
+                signing in.
             </p>
 
             <div class="auth-benefits">
-                <div><span>📖</span><p>Save where you left off</p></div>
-                <div><span>🔖</span><p>Bookmark surahs and ayahs</p></div>
-                <div><span>✨</span><p>Keep your settings and progress</p></div>
+
+                <div>
+                    <span>🔤</span>
+                    <p>Continue Arabic alphabet lessons</p>
+                </div>
+
+                <div>
+                    <span>📖</span>
+                    <p>Access the complete Quran Reader</p>
+                </div>
+
+                <div>
+                    <span>🏆</span>
+                    <p>Save future achievements and progress</p>
+                </div>
+
             </div>
+
         </section>
 
         <section class="auth-card">
-            <div class="auth-card-icon">🌙</div>
+
+            <div class="auth-card-icon">
+                🌙
+            </div>
+
             <h2>Sign In</h2>
-            <p class="auth-subtitle">Real accounts can be connected later.</p>
+
+            <p class="auth-subtitle">
+                Enter your account information.
+            </p>
 
             <form id="signInForm" novalidate>
+
                 <div class="form-group">
-                    <label for="signInEmail">Email</label>
+
+                    <label for="signInEmail">
+                        Email address
+                    </label>
+
                     <input
                         type="email"
                         id="signInEmail"
                         placeholder="you@example.com"
+                        autocomplete="email"
                         required
                     >
-                    <p class="form-error" id="signInEmailError"></p>
+
+                    <p
+                        class="form-error"
+                        id="signInEmailError"
+                    ></p>
+
                 </div>
 
                 <div class="form-group">
-                    <label for="signInPassword">Password</label>
+
+                    <label for="signInPassword">
+                        Password
+                    </label>
+
                     <div class="password-wrapper">
+
                         <input
                             type="password"
                             id="signInPassword"
-                            placeholder="Enter password"
+                            placeholder="At least 6 characters"
+                            autocomplete="current-password"
                             required
                         >
+
                         <button
                             class="password-toggle"
                             type="button"
                             data-password-toggle="signInPassword"
+                            aria-label="Show password"
                         >
                             👁️
                         </button>
+
                     </div>
-                    <p class="form-error" id="signInPasswordError"></p>
+
+                    <p
+                        class="form-error"
+                        id="signInPasswordError"
+                    ></p>
+
                 </div>
 
-                <button class="button button-primary form-submit" type="submit">
+                <button
+                    class="button button-primary form-submit"
+                    type="submit"
+                >
                     Sign In
                 </button>
+
             </form>
 
             <p class="auth-switch">
@@ -119,12 +208,18 @@
             </p>
 
             <p class="auth-note">
-                Or just <a href="reader.html">go straight to the Quran Reader</a>.
+                Or continue to
+                <a href="learn.html">Level 1</a>
+                without signing in.
             </p>
+
         </section>
+
     </div>
+
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>
