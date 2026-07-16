@@ -11,6 +11,72 @@
     <title>Create Account | QuranAcademy</title>
 
     <link rel="stylesheet" href="auth.css">
+
+    <style>
+        .check-email-box {
+            display: none;
+            text-align: center;
+        }
+
+        .check-email-box.show {
+            display: block;
+        }
+
+        .check-email-icon {
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 25px;
+            background: #e2f7ef;
+            font-size: 2.4rem;
+        }
+
+        .check-email-box h1 {
+            color: #1d3557;
+            font-size: 2.1rem;
+        }
+
+        .check-email-box p {
+            margin-top: 12px;
+            color: #74869a;
+            line-height: 1.7;
+        }
+
+        .email-address-box {
+            margin-top: 17px;
+            padding: 13px;
+            border-radius: 14px;
+            color: #08745a;
+            background: #effaf6;
+            font-weight: 800;
+            word-break: break-word;
+        }
+
+        .check-email-actions {
+            margin-top: 23px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .check-email-link {
+            min-height: 49px;
+            padding: 13px 18px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: white;
+            background: #0f9d78;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .check-email-link.secondary {
+            color: #08745a;
+            background: #e2f7ef;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,116 +104,171 @@
 
     <section class="auth-card">
 
-        <div class="auth-icon">
-            🌙
+        <div id="signupSection">
+
+            <div class="auth-icon">
+                🌙
+            </div>
+
+            <h1>
+                Create Account
+            </h1>
+
+            <p class="auth-description">
+                Create a free account and save your
+                QuranAcademy learning progress.
+            </p>
+
+            <form id="signupForm">
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Learner nickname
+                    </label>
+
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        minlength="3"
+                        maxlength="20"
+                        autocomplete="nickname"
+                        required
+                    >
+
+                    <p class="form-help">
+                        Choose the name shown on your profile.
+                    </p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email address
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <p class="form-help">
+                        Use at least 8 characters.
+                    </p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm password
+                    </label>
+
+                    <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    class="auth-button"
+                    id="signupButton"
+                    type="submit"
+                >
+                    Create Free Account
+                </button>
+
+                <div
+                    class="auth-message"
+                    id="signupMessage"
+                ></div>
+
+            </form>
+
+            <p class="auth-bottom-text">
+                Already registered?
+                <a href="signin.html">Sign in here</a>
+            </p>
+
         </div>
 
-        <h1>
-            Create Account
-        </h1>
+        <div
+            class="check-email-box"
+            id="checkEmailSection"
+        >
 
-        <p class="auth-description">
-            Create a free QuranAcademy account and
-            save your learning progress.
-        </p>
-
-        <form id="signupForm">
-
-            <div class="form-group">
-
-                <label for="username">
-                    Learner nickname
-                </label>
-
-                <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    minlength="3"
-                    maxlength="20"
-                    autocomplete="nickname"
-                    required
-                >
-
-                <p class="form-help">
-                    Use a safe nickname, not your full real name.
-                </p>
-
+            <div class="check-email-icon">
+                ✉️
             </div>
 
-            <div class="form-group">
+            <h1>
+                Check your email!
+            </h1>
 
-                <label for="email">
-                    Parent or account email
-                </label>
-
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    minlength="8"
-                    autocomplete="new-password"
-                    required
-                >
-
-                <p class="form-help">
-                    Use at least 8 characters.
-                </p>
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="confirmPassword">
-                    Confirm password
-                </label>
-
-                <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    minlength="8"
-                    autocomplete="new-password"
-                    required
-                >
-
-            </div>
-
-            <button
-                class="auth-button"
-                id="signupButton"
-                type="submit"
-            >
-                Create Free Account
-            </button>
+            <p>
+                We sent you a confirmation link.
+                Open the email and press the confirmation button
+                to activate your QuranAcademy account.
+            </p>
 
             <div
-                class="auth-message"
-                id="signupMessage"
+                class="email-address-box"
+                id="createdEmail"
             ></div>
 
-        </form>
+            <p>
+                Check your Spam or Junk folder when you
+                cannot find the email.
+            </p>
 
-        <p class="auth-bottom-text">
-            Already registered?
-            <a href="signin.html">Sign in here</a>
-        </p>
+            <div class="check-email-actions">
+
+                <a
+                    class="check-email-link"
+                    href="signin.html"
+                >
+                    Go to Sign In
+                </a>
+
+                <button
+                    class="check-email-link secondary"
+                    id="useDifferentEmailButton"
+                    type="button"
+                    style="border: 0; cursor: pointer;"
+                >
+                    Use a Different Email
+                </button>
+
+            </div>
+
+        </div>
 
     </section>
 
@@ -166,12 +287,53 @@
     const signupMessage =
         document.getElementById("signupMessage");
 
+    const signupSection =
+        document.getElementById("signupSection");
+
+    const checkEmailSection =
+        document.getElementById("checkEmailSection");
+
+    const createdEmail =
+        document.getElementById("createdEmail");
+
+    const useDifferentEmailButton =
+        document.getElementById(
+            "useDifferentEmailButton"
+        );
+
     function showSignupMessage(message, type) {
         signupMessage.textContent = message;
 
         signupMessage.className =
             `auth-message show ${type}`;
     }
+
+    function showCheckEmailScreen(email) {
+        createdEmail.textContent = email;
+
+        signupSection.style.display = "none";
+
+        checkEmailSection.classList.add("show");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    useDifferentEmailButton.addEventListener(
+        "click",
+        () => {
+            checkEmailSection.classList.remove("show");
+
+            signupSection.style.display = "block";
+
+            signupForm.reset();
+
+            signupMessage.className =
+                "auth-message";
+        }
+    );
 
     signupForm.addEventListener(
         "submit",
@@ -231,6 +393,7 @@
             }
 
             signupButton.disabled = true;
+
             signupButton.textContent =
                 "Creating account...";
 
@@ -251,11 +414,11 @@
 
                             options: {
                                 data: {
-                                    username: username
+                                    username
                                 },
 
                                 emailRedirectTo:
-                                    "https://quranacademy24.com/account.html"
+                                    "https://quranacademy24.com/confirmed.html"
                             }
                         });
 
@@ -270,18 +433,25 @@
                     return;
                 }
 
-                signupForm.reset();
-
-                showSignupMessage(
-                    "Account created! Check your email and press the confirmation link. Then return and sign in.",
-                    "success"
-                );
+                showCheckEmailScreen(email);
             } catch (error) {
                 console.error(error);
 
-                showSignupMessage(
+                let message =
                     error.message ||
-                    "The account could not be created.",
+                    "The account could not be created.";
+
+                if (
+                    message
+                        .toLowerCase()
+                        .includes("already registered")
+                ) {
+                    message =
+                        "An account already uses this email. Try signing in.";
+                }
+
+                showSignupMessage(
+                    message,
                     "error"
                 );
             } finally {
