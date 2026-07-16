@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Email Confirmed | QuranAcademy</title>
+
+    <link rel="stylesheet" href="auth.css">
+
+    <style>
+        .confirmation-icon {
+            width: 86px;
+            height: 86px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 28px;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #0f9d78,
+                #22c55e
+            );
+            font-size: 2.5rem;
+        }
+
+        .confirmation-actions {
+            margin-top: 24px;
+            display: grid;
+            gap: 11px;
+        }
+
+        .confirmation-link {
+            min-height: 50px;
+            padding: 13px 18px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: white;
+            background: #0f9d78;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .confirmation-link.secondary {
+            color: #08745a;
+            background: #e2f7ef;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="auth-header">
+
+    <a class="auth-logo" href="index.html">
+        QuranAcademy
+    </a>
+
+    <nav class="auth-nav">
+        <a href="index.html">Home</a>
+    </nav>
+
+</header>
+
+<main class="auth-page">
+
+    <section class="auth-card">
+
+        <div class="confirmation-icon">
+            ✓
+        </div>
+
+        <h1 id="confirmationTitle">
+            Confirming Email...
+        </h1>
+
+        <p
+            class="auth-description"
+            id="confirmationDescription"
+        >
+            Please wait while QuranAcademy activates
+            your account.
+        </p>
+
+        <div
+            class="auth-message"
+            id="confirmationMessage"
+        ></div>
+
+        <div
+            class="confirmation-actions"
+            id="confirmationActions"
+            hidden
+        >
+
+            <a
+                class="confirmation-link"
+                id="continueButton"
+                href="account.html"
+            >
+                Open My Account
+            </a>
+
+            <a
+                class="confirmation-link secondary"
+                href="signin.html"
+            >
+                Go to Sign In
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const confirmationTitle =
+        document.getElementById(
+            "confirmationTitle"
+        );
+
+    const confirmationDescription =
+        document.getElementById(
+            "confirmationDescription"
+        );
+
+    const confirmationMessage =
+        document.getElementById(
+            "confirmationMessage"
+        );
+
+    const confirmationActions =
+        document.getElementById(
+            "confirmationActions"
+        );
+
+    const continueButton =
+        document.getElementById(
+            "continueButton"
+        );
+
+    function getLinkError() {
+        const query =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const hash =
+            new URLSearchParams(
+                window.location.hash.substring(1)
+            );
+
+        return (
+            query.get("error_description") ||
+            hash.get("error_description") ||
+            query.get("error") ||
+            hash.get("error")
+        );
+    }
+
+    function showConfirmed(isLoggedIn) {
+        confirmationTitle.textContent =
+            "Email Confirmed!";
+
+        confirmationDescription.textContent =
+            "Your QuranAcademy account is ready.";
+
+        confirmationMessage.textContent =
+            isLoggedIn
+                ? "You are signed in and can open your account."
+                : "You can now return to the sign-in page.";
+
+        confirmationMessage.className =
+            "auth-message show success";
+
+        confirmationActions.hidden = false;
+
+        continueButton.style.display =
+            isLoggedIn
+                ? "grid"
+                : "none";
+    }
+
+    function showError(message) {
+        confirmationTitle.textContent =
+            "Confirmation Problem";
+
+        confirmationDescription.textContent =
+            "The confirmation link could not be completed.";
+
+        confirmationMessage.textContent =
+            message;
+
+        confirmationMessage.className =
+            "auth-message show error";
+
+        confirmationActions.hidden = false;
+
+        continueButton.style.display =
+            "none";
+    }
+
+    async function checkConfirmation() {
+        const linkError =
+            getLinkError();
+
+        if (linkError) {
+            showError(
+                decodeURIComponent(
+                    linkError.replace(/\+/g, " ")
+                )
+            );
+
+            return;
+        }
+
+        try {
+            await new Promise(
+                (resolve) =>
+                    window.setTimeout(resolve, 1200)
+            );
+
+            const {
+                data,
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getSession();
+
+            if (error) {
+                throw error;
+            }
+
+            showConfirmed(
+                Boolean(data.session)
+            );
+        } catch (error) {
+            console.error(error);
+
+            showConfirmed(false);
+        }
+    }
+
+    checkConfirmation();
+</script>
+
+</body>
+</html>
