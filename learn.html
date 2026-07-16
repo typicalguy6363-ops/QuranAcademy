@@ -8,11 +8,6 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="Learn the Arabic alphabet with QuranAcademy."
-    >
-
     <title>Level 1: Arabic Alphabet | QuranAcademy</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,12 +28,18 @@
     <style>
         .alphabet-page {
             min-height: calc(100vh - 76px);
-            padding: 65px 7% 90px;
+            padding: 60px 7% 90px;
+        }
+
+        .alphabet-header,
+        .alphabet-layout {
+            width: min(1120px, 100%);
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .alphabet-header {
-            width: min(1120px, 100%);
-            margin: 0 auto 32px;
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -46,38 +47,39 @@
         }
 
         .alphabet-header h1 {
-            margin-top: 10px;
-            color: var(--navy);
+            margin-top: 9px;
+            color: var(--navy, #1d3557);
             font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-size: clamp(3rem, 6vw, 5.2rem);
             line-height: 1.04;
         }
 
-        .alphabet-header p:last-child {
+        .alphabet-description {
+            max-width: 650px;
             margin-top: 12px;
-            color: var(--muted);
+            color: var(--muted, #6f8296);
             line-height: 1.8;
         }
 
-        .alphabet-progress-card {
-            width: 290px;
+        .progress-card {
+            width: 300px;
             flex-shrink: 0;
             padding: 23px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border, #dcebe6);
             border-radius: 22px;
             background: white;
-            box-shadow: var(--small-shadow);
+            box-shadow: var(--small-shadow, 0 10px 24px rgba(22, 82, 75, 0.08));
         }
 
-        .alphabet-progress-row {
+        .progress-row {
             display: flex;
             justify-content: space-between;
-            color: var(--navy);
-            font-size: 0.84rem;
+            color: var(--navy, #1d3557);
+            font-size: 0.85rem;
             font-weight: 700;
         }
 
-        .alphabet-progress-track {
+        .progress-track {
             height: 12px;
             margin-top: 12px;
             overflow: hidden;
@@ -85,53 +87,50 @@
             background: #e2efeb;
         }
 
-        .alphabet-progress-fill {
+        .progress-fill {
             width: 0;
             height: 100%;
             border-radius: inherit;
             background: linear-gradient(
                 90deg,
-                var(--green),
+                #0f9d78,
                 #22c55e,
-                var(--gold)
+                #f4b942
             );
             transition: width 0.35s ease;
         }
 
         .alphabet-layout {
-            width: min(1120px, 100%);
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: 330px 1fr;
-            gap: 26px;
+            grid-template-columns: 345px 1fr;
             align-items: start;
+            gap: 26px;
         }
 
-        .alphabet-list-card,
-        .alphabet-lesson-card {
-            border: 1px solid var(--border);
+        .letter-list-card,
+        .lesson-card {
+            border: 1px solid var(--border, #dcebe6);
             border-radius: 27px;
             background: white;
-            box-shadow: var(--small-shadow);
+            box-shadow: var(--small-shadow, 0 10px 24px rgba(22, 82, 75, 0.08));
         }
 
-        .alphabet-list-card {
-            padding: 18px;
+        .letter-list-card {
+            padding: 19px;
         }
 
-        .alphabet-list-card h2 {
-            color: var(--navy);
+        .letter-list-card h2 {
+            color: var(--navy, #1d3557);
             font-family: "Baloo 2", sans-serif;
-            font-size: 1.7rem;
+            font-size: 1.8rem;
         }
 
-        .alphabet-list-card > p {
-            margin-top: 3px;
-            color: var(--muted);
+        .letter-list-card p {
+            color: var(--muted, #6f8296);
             font-size: 0.78rem;
         }
 
-        .alphabet-grid {
+        .letter-grid {
             margin-top: 17px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -139,12 +138,14 @@
         }
 
         .letter-button {
-            min-height: 58px;
+            position: relative;
+            min-height: 61px;
+            border: 0;
             border-radius: 15px;
-            color: var(--navy);
-            background: #f2faf7;
+            color: var(--navy, #1d3557);
+            background: #f0faf6;
             cursor: pointer;
-            font-size: 1.65rem;
+            font-size: 1.7rem;
             transition:
                 transform 0.2s ease,
                 background 0.2s ease;
@@ -152,19 +153,21 @@
 
         .letter-button:hover {
             transform: translateY(-3px);
-            background: #e3f6ef;
+            background: #def4eb;
         }
 
         .letter-button.active {
             color: white;
-            background: var(--green);
+            background: #0f9d78;
         }
 
         .letter-button.completed::after {
             content: "✓";
-            display: block;
-            color: var(--green);
-            font-size: 0.62rem;
+            position: absolute;
+            right: 5px;
+            bottom: 3px;
+            color: #0f9d78;
+            font-size: 0.68rem;
             font-weight: 900;
         }
 
@@ -172,63 +175,62 @@
             color: white;
         }
 
-        .alphabet-lesson-card {
-            padding: 36px;
+        .lesson-card {
+            padding: 35px;
         }
 
-        .lesson-label-row {
+        .lesson-top {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 14px;
         }
 
-        .level-label,
-        .lesson-complete-label {
+        .level-badge,
+        .completion-badge {
             padding: 7px 11px;
             border-radius: 999px;
-            font-size: 0.72rem;
+            font-size: 0.71rem;
             font-weight: 800;
         }
 
-        .level-label {
-            color: var(--green-dark);
+        .level-badge {
+            color: #08745a;
             background: #e1f6ee;
         }
 
-        .lesson-complete-label {
-            color: #795f1d;
-            background: #fff1c5;
+        .completion-badge {
+            color: #765b18;
+            background: #fff0c3;
         }
 
-        .lesson-complete-label.done {
-            color: var(--green-dark);
-            background: #ddf5e9;
+        .completion-badge.done {
+            color: #08745a;
+            background: #dff5e9;
         }
 
-        .alphabet-lesson-card h2 {
-            margin-top: 19px;
-            color: var(--navy);
+        .lesson-card h2 {
+            margin-top: 18px;
+            color: var(--navy, #1d3557);
             font-family: "Baloo 2", sans-serif;
-            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-size: clamp(2.3rem, 5vw, 3.5rem);
         }
 
         .lesson-description {
-            margin-top: 5px;
-            color: var(--muted);
+            color: var(--muted, #6f8296);
         }
 
-        .large-arabic-letter {
-            min-height: 250px;
-            margin-top: 25px;
+        .arabic-letter {
+            min-height: 240px;
+            margin-top: 24px;
             display: grid;
             place-items: center;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border, #dcebe6);
             border-radius: 25px;
-            color: var(--navy);
+            color: var(--navy, #1d3557);
             background:
                 radial-gradient(
                     circle,
-                    rgba(15, 157, 120, 0.11),
+                    rgba(15, 157, 120, 0.12),
                     transparent 68%
                 ),
                 #fbfefd;
@@ -236,64 +238,92 @@
         }
 
         .letter-name {
-            margin-top: 12px;
+            margin-top: 11px;
             text-align: center;
-            color: var(--green);
+            color: #0f9d78;
             font-size: 1.35rem;
             font-weight: 800;
         }
 
         .letter-tip {
-            margin-top: 21px;
-            padding: 17px;
+            margin-top: 20px;
+            padding: 16px;
             border-radius: 17px;
             color: #4d6176;
             background: #eef8ff;
             line-height: 1.7;
         }
 
-        .temporary-audio-warning {
-            margin-top: 12px;
-            padding: 13px 16px;
+        .voice-controls {
+            margin-top: 17px;
+            padding: 17px;
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            gap: 13px;
+            border-radius: 17px;
+            background: #f5fbf9;
+        }
+
+        .voice-control label {
+            display: block;
+            margin-bottom: 6px;
+            color: #45596f;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .voice-control select {
+            width: 100%;
+            min-height: 45px;
+            padding: 9px 11px;
+            border: 2px solid var(--border, #dcebe6);
+            border-radius: 12px;
+            background: white;
+        }
+
+        .temporary-note {
+            margin-top: 13px;
+            padding: 13px 15px;
             border-radius: 15px;
-            color: #745b1d;
+            color: #73591c;
             background: #fff3ce;
-            font-size: 0.77rem;
+            font-size: 0.76rem;
             line-height: 1.6;
         }
 
-        .alphabet-actions {
-            margin-top: 22px;
+        .lesson-actions {
+            margin-top: 20px;
             display: flex;
-            gap: 12px;
+            gap: 11px;
             flex-wrap: wrap;
         }
 
-        .alphabet-status {
+        .voice-status {
             min-height: 20px;
             margin-top: 11px;
-            color: var(--muted);
+            color: var(--muted, #6f8296);
             font-size: 0.8rem;
         }
 
-        .alphabet-navigation {
-            margin-top: 27px;
+        .lesson-navigation {
+            margin-top: 25px;
             display: flex;
             justify-content: space-between;
-            gap: 14px;
+            gap: 13px;
         }
 
-        .alphabet-nav-button {
+        .lesson-nav-button {
             min-height: 44px;
             padding: 11px 17px;
+            border: 0;
             border-radius: 13px;
-            color: var(--green-dark);
-            background: #e5f7f0;
+            color: #08745a;
+            background: #e4f7f0;
             cursor: pointer;
             font-weight: 700;
         }
 
-        .alphabet-nav-button:disabled {
+        .lesson-nav-button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
         }
@@ -304,37 +334,41 @@
                 flex-direction: column;
             }
 
-            .alphabet-progress-card {
-                width: min(420px, 100%);
+            .progress-card {
+                width: min(450px, 100%);
             }
 
             .alphabet-layout {
                 grid-template-columns: 1fr;
             }
 
-            .alphabet-grid {
+            .letter-grid {
                 grid-template-columns: repeat(7, 1fr);
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 620px) {
             .alphabet-page {
-                padding: 52px 5% 75px;
+                padding: 50px 5% 75px;
             }
 
-            .alphabet-grid {
+            .letter-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
 
-            .alphabet-lesson-card {
-                padding: 27px 20px;
+            .lesson-card {
+                padding: 26px 19px;
             }
 
-            .alphabet-actions {
+            .voice-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-actions {
                 display: grid;
             }
 
-            .alphabet-actions .button {
+            .lesson-actions .button {
                 width: 100%;
             }
         }
@@ -344,7 +378,6 @@
 <body>
 
 <header class="site-header">
-
     <nav class="navbar">
 
         <a class="logo" href="index.html">
@@ -355,7 +388,7 @@
             class="menu-button"
             id="menuButton"
             type="button"
-            aria-label="Open menu"
+            aria-label="Open navigation menu"
             aria-expanded="false"
         >
             <span></span>
@@ -372,38 +405,26 @@
             </ul>
 
             <div class="account-buttons">
-
-                <a
-                    class="button button-outline"
-                    href="signin.html"
-                >
+                <a class="button button-outline" href="signin.html">
                     Sign In
                 </a>
 
-                <a
-                    class="button button-primary"
-                    href="signup.html"
-                >
+                <a class="button button-primary" href="signup.html">
                     Sign Up
                 </a>
-
             </div>
 
         </div>
 
     </nav>
-
 </header>
 
 <main class="alphabet-page">
 
-    <section class="alphabet-header reveal">
+    <section class="alphabet-header">
 
         <div>
-
-            <p class="eyebrow">
-                Level 1
-            </p>
+            <p class="eyebrow">Level 1</p>
 
             <h1>
                 Arabic
@@ -412,77 +433,68 @@
                 </span>
             </h1>
 
-            <p>
-                Learn all 28 Arabic letters. Choose a letter, listen,
-                repeat it, and mark it complete.
+            <p class="alphabet-description">
+                Choose a letter, listen to its Arabic name, repeat it,
+                and mark it complete.
             </p>
-
         </div>
 
-        <div class="alphabet-progress-card">
+        <div class="progress-card">
 
-            <div class="alphabet-progress-row">
+            <div class="progress-row">
                 <span>Level progress</span>
                 <strong id="progressText">0 of 28</strong>
             </div>
 
-            <div class="alphabet-progress-track">
-
+            <div class="progress-track">
                 <div
-                    class="alphabet-progress-fill"
+                    class="progress-fill"
                     id="progressFill"
                 ></div>
-
             </div>
 
         </div>
 
     </section>
 
-    <section class="alphabet-layout reveal">
+    <section class="alphabet-layout">
 
-        <aside class="alphabet-list-card">
+        <aside class="letter-list-card">
 
             <h2>Choose a letter</h2>
 
-            <p>
-                Green letters are completed.
-            </p>
+            <p>Completed letters show a check mark.</p>
 
             <div
-                class="alphabet-grid"
-                id="alphabetGrid"
+                class="letter-grid"
+                id="letterGrid"
             ></div>
 
         </aside>
 
-        <article class="alphabet-lesson-card">
+        <article class="lesson-card">
 
-            <div class="lesson-label-row">
-
-                <span class="level-label">
+            <div class="lesson-top">
+                <span class="level-badge">
                     Level 1 Lesson
                 </span>
 
                 <span
-                    class="lesson-complete-label"
-                    id="completionLabel"
+                    class="completion-badge"
+                    id="completionBadge"
                 >
                     Not completed
                 </span>
-
             </div>
 
-            <h2 id="letterTitle">
-                Alif
-            </h2>
+            <h2 id="letterTitle">Alif</h2>
 
             <p class="lesson-description">
-                Look at the letter, listen carefully, and repeat it.
+                Look carefully, listen, and repeat.
             </p>
 
             <div
-                class="large-arabic-letter"
+                class="arabic-letter"
                 id="arabicLetter"
                 dir="rtl"
             >
@@ -491,7 +503,7 @@
 
             <p
                 class="letter-name"
-                id="letterReading"
+                id="letterName"
             >
                 Alif
             </p>
@@ -503,24 +515,53 @@
                 Alif is the first Arabic letter.
             </div>
 
-            <div class="temporary-audio-warning">
-                This uses a temporary Arabic device voice. Replace it
-                with mentor-approved recordings later.
+            <div class="voice-controls">
+
+                <div class="voice-control">
+                    <label for="voiceSelect">
+                        Arabic voice
+                    </label>
+
+                    <select id="voiceSelect">
+                        <option value="">
+                            Finding Arabic voices...
+                        </option>
+                    </select>
+                </div>
+
+                <div class="voice-control">
+                    <label for="voiceSpeedSelect">
+                        Voice speed
+                    </label>
+
+                    <select id="voiceSpeedSelect">
+                        <option value="0.55">Very slow</option>
+                        <option value="0.7" selected>Slow</option>
+                        <option value="0.85">Medium</option>
+                        <option value="1">Normal</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="alphabet-actions">
+            <div class="temporary-note">
+                This is temporary device-generated Arabic audio.
+                Replace it with your Quran mentor’s approved recordings later.
+            </div>
+
+            <div class="lesson-actions">
 
                 <button
                     class="button button-secondary"
-                    id="playLetterButton"
+                    id="playVoiceButton"
                     type="button"
                 >
-                    🔊 Play Letter
+                    🔊 Play Letter Name
                 </button>
 
                 <button
                     class="button button-primary"
-                    id="completeLetterButton"
+                    id="completeButton"
                     type="button"
                 >
                     ✓ Mark Complete
@@ -529,23 +570,23 @@
             </div>
 
             <p
-                class="alphabet-status"
-                id="alphabetStatus"
+                class="voice-status"
+                id="voiceStatus"
             ></p>
 
-            <div class="alphabet-navigation">
+            <div class="lesson-navigation">
 
                 <button
-                    class="alphabet-nav-button"
-                    id="previousLetterButton"
+                    class="lesson-nav-button"
+                    id="previousButton"
                     type="button"
                 >
                     ← Previous
                 </button>
 
                 <button
-                    class="alphabet-nav-button"
-                    id="nextLetterButton"
+                    class="lesson-nav-button"
+                    id="nextButton"
                     type="button"
                 >
                     Next →
@@ -559,167 +600,211 @@
 
 </main>
 
-<script src="script.js"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        setupMenu();
+        initializeAlphabet();
+    });
+
+    function setupMenu() {
+        const menuButton =
+            document.getElementById("menuButton");
+
+        const navigation =
+            document.getElementById("navigation");
+
+        if (!menuButton || !navigation) {
+            return;
+        }
+
+        menuButton.addEventListener("click", () => {
+            const open =
+                navigation.classList.toggle("open");
+
+            menuButton.classList.toggle(
+                "active",
+                open
+            );
+        });
+    }
+
+    function initializeAlphabet() {
         const letters = [
             {
-                name: "Alif",
+                english: "Alif",
                 arabic: "ا",
+                spoken: "أَلِف",
                 tip: "Alif is the first Arabic letter."
             },
             {
-                name: "Baa",
+                english: "Baa",
                 arabic: "ب",
+                spoken: "بَاء",
                 tip: "Baa has one dot underneath."
             },
             {
-                name: "Taa",
+                english: "Taa",
                 arabic: "ت",
+                spoken: "تَاء",
                 tip: "Taa has two dots above."
             },
             {
-                name: "Thaa",
+                english: "Thaa",
                 arabic: "ث",
+                spoken: "ثَاء",
                 tip: "Thaa has three dots above."
             },
             {
-                name: "Jeem",
+                english: "Jeem",
                 arabic: "ج",
+                spoken: "جِيم",
                 tip: "Jeem has one dot."
             },
             {
-                name: "Haa",
+                english: "Haa",
                 arabic: "ح",
-                tip: "This Haa is a gentle throat sound."
+                spoken: "حَاء",
+                tip: "This Haa comes gently from the throat."
             },
             {
-                name: "Khaa",
+                english: "Khaa",
                 arabic: "خ",
+                spoken: "خَاء",
                 tip: "Khaa has one dot above."
             },
             {
-                name: "Daal",
+                english: "Daal",
                 arabic: "د",
-                tip: "Daal does not connect to the next letter."
+                spoken: "دَال",
+                tip: "Daal does not connect to the following letter."
             },
             {
-                name: "Dhaal",
+                english: "Dhaal",
                 arabic: "ذ",
+                spoken: "ذَال",
                 tip: "Dhaal has one dot above."
             },
             {
-                name: "Raa",
+                english: "Raa",
                 arabic: "ر",
-                tip: "Raa does not connect to the next letter."
+                spoken: "رَاء",
+                tip: "Raa does not connect to the following letter."
             },
             {
-                name: "Zaay",
+                english: "Zaay",
                 arabic: "ز",
+                spoken: "زَاي",
                 tip: "Zaay has one dot above."
             },
             {
-                name: "Seen",
+                english: "Seen",
                 arabic: "س",
+                spoken: "سِين",
                 tip: "Seen makes a clear s sound."
             },
             {
-                name: "Sheen",
+                english: "Sheen",
                 arabic: "ش",
+                spoken: "شِين",
                 tip: "Sheen has three dots above."
             },
             {
-                name: "Saad",
+                english: "Saad",
                 arabic: "ص",
+                spoken: "صَاد",
                 tip: "Saad is a heavier s sound."
             },
             {
-                name: "Daad",
+                english: "Daad",
                 arabic: "ض",
+                spoken: "ضَاد",
                 tip: "Daad is a special heavy Arabic sound."
             },
             {
-                name: "Heavy Taa",
+                english: "Heavy Taa",
                 arabic: "ط",
-                tip: "This is the heavier Taa sound."
+                spoken: "طَاء",
+                tip: "This is the heavy Taa sound."
             },
             {
-                name: "Heavy Dhaa",
+                english: "Heavy Dhaa",
                 arabic: "ظ",
-                tip: "This is the heavier Dhaa sound."
+                spoken: "ظَاء",
+                tip: "This is the heavy Dhaa sound."
             },
             {
-                name: "Ayn",
+                english: "Ayn",
                 arabic: "ع",
+                spoken: "عَيْن",
                 tip: "Ayn comes from the middle of the throat."
             },
             {
-                name: "Ghayn",
+                english: "Ghayn",
                 arabic: "غ",
+                spoken: "غَيْن",
                 tip: "Ghayn has one dot above."
             },
             {
-                name: "Faa",
+                english: "Faa",
                 arabic: "ف",
+                spoken: "فَاء",
                 tip: "Faa has one dot above."
             },
             {
-                name: "Qaaf",
+                english: "Qaaf",
                 arabic: "ق",
+                spoken: "قَاف",
                 tip: "Qaaf comes from the back of the tongue."
             },
             {
-                name: "Kaaf",
+                english: "Kaaf",
                 arabic: "ك",
+                spoken: "كَاف",
                 tip: "Kaaf makes a k sound."
             },
             {
-                name: "Laam",
+                english: "Laam",
                 arabic: "ل",
+                spoken: "لَام",
                 tip: "Laam makes an l sound."
             },
             {
-                name: "Meem",
+                english: "Meem",
                 arabic: "م",
+                spoken: "مِيم",
                 tip: "Meem makes an m sound."
             },
             {
-                name: "Noon",
+                english: "Noon",
                 arabic: "ن",
+                spoken: "نُون",
                 tip: "Noon has one dot above."
             },
             {
-                name: "Haa",
+                english: "Haa",
                 arabic: "ه",
+                spoken: "هَاء",
                 tip: "This Haa is a soft breathy sound."
             },
             {
-                name: "Waaw",
+                english: "Waaw",
                 arabic: "و",
+                spoken: "وَاو",
                 tip: "Waaw can make a w or long oo sound."
             },
             {
-                name: "Yaa",
+                english: "Yaa",
                 arabic: "ي",
+                spoken: "يَاء",
                 tip: "Yaa can make a y or long ee sound."
             }
         ];
 
-        const progressStorageKey =
-            "quranAcademyAlphabetProgress";
+        const storageKey =
+            "quranAcademyAlphabetCompleted";
 
-        const alphabetGrid =
-            document.getElementById("alphabetGrid");
-
-        const progressText =
-            document.getElementById("progressText");
-
-        const progressFill =
-            document.getElementById("progressFill");
-
-        const completionLabel =
-            document.getElementById("completionLabel");
+        const letterGrid =
+            document.getElementById("letterGrid");
 
         const letterTitle =
             document.getElementById("letterTitle");
@@ -727,57 +812,171 @@
         const arabicLetter =
             document.getElementById("arabicLetter");
 
-        const letterReading =
-            document.getElementById("letterReading");
+        const letterName =
+            document.getElementById("letterName");
 
         const letterTip =
             document.getElementById("letterTip");
 
-        const playLetterButton =
-            document.getElementById("playLetterButton");
+        const completionBadge =
+            document.getElementById("completionBadge");
 
-        const completeLetterButton =
-            document.getElementById("completeLetterButton");
+        const progressText =
+            document.getElementById("progressText");
 
-        const previousLetterButton =
-            document.getElementById("previousLetterButton");
+        const progressFill =
+            document.getElementById("progressFill");
 
-        const nextLetterButton =
-            document.getElementById("nextLetterButton");
+        const voiceSelect =
+            document.getElementById("voiceSelect");
 
-        const alphabetStatus =
-            document.getElementById("alphabetStatus");
+        const voiceSpeedSelect =
+            document.getElementById("voiceSpeedSelect");
+
+        const playVoiceButton =
+            document.getElementById("playVoiceButton");
+
+        const completeButton =
+            document.getElementById("completeButton");
+
+        const previousButton =
+            document.getElementById("previousButton");
+
+        const nextButton =
+            document.getElementById("nextButton");
+
+        const voiceStatus =
+            document.getElementById("voiceStatus");
 
         let selectedIndex = 0;
-        let completedLetters = loadProgress();
+        let arabicVoices = [];
+        let completed = loadCompleted();
 
-        function loadProgress() {
+        function loadCompleted() {
             try {
                 const saved = JSON.parse(
-                    localStorage.getItem(progressStorageKey)
+                    localStorage.getItem(storageKey)
                 );
 
-                return Array.isArray(saved) ? saved : [];
+                return Array.isArray(saved)
+                    ? saved
+                    : [];
             } catch (error) {
                 return [];
             }
         }
 
-        function saveProgress() {
+        function saveCompleted() {
             localStorage.setItem(
-                progressStorageKey,
-                JSON.stringify(completedLetters)
+                storageKey,
+                JSON.stringify(completed)
             );
         }
 
-        function renderEverything() {
-            renderLetterGrid();
-            renderSelectedLetter();
-            renderProgress();
+        function loadVoices() {
+            if (!("speechSynthesis" in window)) {
+                voiceSelect.innerHTML =
+                    `<option value="">Speech unavailable</option>`;
+
+                playVoiceButton.disabled = true;
+                return;
+            }
+
+            const allVoices =
+                window.speechSynthesis.getVoices();
+
+            arabicVoices = allVoices.filter(
+                (voice) =>
+                    voice.lang &&
+                    voice.lang
+                        .toLowerCase()
+                        .startsWith("ar")
+            );
+
+            voiceSelect.innerHTML = "";
+
+            if (!arabicVoices.length) {
+                const option =
+                    document.createElement("option");
+
+                option.value = "";
+                option.textContent =
+                    "No Arabic voice found";
+
+                voiceSelect.appendChild(option);
+
+                voiceStatus.textContent =
+                    "No Arabic voice is installed on this device. Try Chrome or Edge, or install an Arabic voice in the device settings.";
+
+                playVoiceButton.disabled = true;
+                return;
+            }
+
+            arabicVoices.forEach((voice, index) => {
+                const option =
+                    document.createElement("option");
+
+                option.value = String(index);
+
+                option.textContent =
+                    `${voice.name} — ${voice.lang}`;
+
+                voiceSelect.appendChild(option);
+            });
+
+            playVoiceButton.disabled = false;
+
+            voiceStatus.textContent =
+                `${arabicVoices.length} Arabic voice option(s) found.`;
         }
 
-        function renderLetterGrid() {
-            alphabetGrid.innerHTML = "";
+        function render() {
+            renderGrid();
+
+            const letter = letters[selectedIndex];
+            const done = completed.includes(selectedIndex);
+
+            letterTitle.textContent = letter.english;
+            arabicLetter.textContent = letter.arabic;
+            letterName.textContent = letter.english;
+            letterTip.textContent = letter.tip;
+
+            completionBadge.textContent =
+                done
+                    ? "✓ Completed"
+                    : "Not completed";
+
+            completionBadge.classList.toggle(
+                "done",
+                done
+            );
+
+            completeButton.textContent =
+                done
+                    ? "✓ Letter Completed"
+                    : "✓ Mark Complete";
+
+            previousButton.disabled =
+                selectedIndex === 0;
+
+            nextButton.disabled =
+                selectedIndex === letters.length - 1;
+
+            const percent =
+                Math.round(
+                    (completed.length / letters.length) *
+                    100
+                );
+
+            progressText.textContent =
+                `${completed.length} of ${letters.length}`;
+
+            progressFill.style.width =
+                `${percent}%`;
+        }
+
+        function renderGrid() {
+            letterGrid.innerHTML = "";
 
             letters.forEach((letter, index) => {
                 const button =
@@ -786,202 +985,149 @@
                 button.type = "button";
                 button.className = "letter-button";
                 button.textContent = letter.arabic;
-                button.title = letter.name;
+                button.title = letter.english;
 
                 if (index === selectedIndex) {
                     button.classList.add("active");
                 }
 
-                if (completedLetters.includes(index)) {
+                if (completed.includes(index)) {
                     button.classList.add("completed");
                 }
 
                 button.addEventListener("click", () => {
                     selectedIndex = index;
-                    renderEverything();
+                    render();
                 });
 
-                alphabetGrid.appendChild(button);
+                letterGrid.appendChild(button);
             });
         }
 
-        function renderSelectedLetter() {
-            const letter = letters[selectedIndex];
-            const isComplete =
-                completedLetters.includes(selectedIndex);
-
-            letterTitle.textContent = letter.name;
-            arabicLetter.textContent = letter.arabic;
-            letterReading.textContent = letter.name;
-            letterTip.textContent = letter.tip;
-
-            completionLabel.textContent =
-                isComplete ? "✓ Completed" : "Not completed";
-
-            completionLabel.classList.toggle(
-                "done",
-                isComplete
-            );
-
-            completeLetterButton.textContent =
-                isComplete
-                    ? "✓ Letter Completed"
-                    : "✓ Mark Complete";
-
-            previousLetterButton.disabled =
-                selectedIndex === 0;
-
-            nextLetterButton.disabled =
-                selectedIndex === letters.length - 1;
-
-            alphabetStatus.textContent = "";
-        }
-
-        function renderProgress() {
-            const completedCount =
-                completedLetters.length;
-
-            const percentage =
-                Math.round(
-                    (completedCount / letters.length) * 100
-                );
-
-            progressText.textContent =
-                `${completedCount} of ${letters.length}`;
-
-            progressFill.style.width =
-                `${percentage}%`;
-        }
-
-        function getArabicVoice() {
-            const voices =
-                window.speechSynthesis.getVoices();
-
-            return (
-                voices.find(
-                    (voice) => voice.lang === "ar-SA"
-                ) ||
-                voices.find((voice) =>
-                    voice.lang.toLowerCase().startsWith("ar")
-                ) ||
-                null
-            );
-        }
-
-        function playSelectedLetter() {
+        function playCurrentLetter() {
             if (
                 !("speechSynthesis" in window) ||
                 !("SpeechSynthesisUtterance" in window)
             ) {
-                alphabetStatus.textContent =
-                    "This browser does not support temporary Arabic audio.";
-
+                voiceStatus.textContent =
+                    "Speech playback is unavailable.";
                 return;
             }
 
-            const voice = getArabicVoice();
+            if (!arabicVoices.length) {
+                loadVoices();
 
-            if (!voice) {
-                alphabetStatus.textContent =
-                    "No Arabic voice is installed on this device.";
-
-                return;
+                if (!arabicVoices.length) {
+                    return;
+                }
             }
 
-            const letter = letters[selectedIndex];
+            const selectedVoiceIndex =
+                Number(voiceSelect.value);
+
+            const voice =
+                arabicVoices[selectedVoiceIndex] ||
+                arabicVoices[0];
+
+            const letter =
+                letters[selectedIndex];
 
             window.speechSynthesis.cancel();
 
-            const speech =
-                new SpeechSynthesisUtterance(letter.arabic);
-
-            speech.voice = voice;
-            speech.lang = voice.lang;
-            speech.rate = 0.65;
-            speech.pitch = 1;
-            speech.volume = 1;
-
-            alphabetStatus.textContent =
-                `Playing ${letter.name}...`;
-
-            speech.onend = () => {
-                alphabetStatus.textContent =
-                    "Audio finished.";
-            };
-
-            speech.onerror = () => {
-                alphabetStatus.textContent =
-                    "The temporary audio could not play.";
-            };
-
-            window.speechSynthesis.speak(speech);
-        }
-
-        function completeSelectedLetter() {
-            if (!completedLetters.includes(selectedIndex)) {
-                completedLetters.push(selectedIndex);
-                saveProgress();
-            }
-
-            renderEverything();
-
-            if (completedLetters.length === letters.length) {
-                window.showQuranAcademyMessage(
-                    "🎉",
-                    "Level 1 Complete!",
-                    "Excellent work! You completed all 28 Arabic letters."
+            const utterance =
+                new SpeechSynthesisUtterance(
+                    letter.spoken
                 );
 
-                return;
-            }
+            utterance.voice = voice;
+            utterance.lang =
+                voice.lang || "ar-SA";
 
-            window.showQuranAcademyMessage(
-                "⭐",
-                "Letter Complete",
-                `${letters[selectedIndex].name} has been marked complete.`
-            );
+            utterance.rate =
+                Number(voiceSpeedSelect.value);
+
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            utterance.onstart = () => {
+                voiceStatus.textContent =
+                    `Playing ${letter.english} using ${voice.name}...`;
+            };
+
+            utterance.onend = () => {
+                voiceStatus.textContent =
+                    "Voice finished.";
+            };
+
+            utterance.onerror = () => {
+                voiceStatus.textContent =
+                    "The voice could not play. Try another Arabic voice.";
+            };
+
+            window.speechSynthesis.speak(utterance);
         }
 
-        playLetterButton.addEventListener(
+        function markComplete() {
+            if (!completed.includes(selectedIndex)) {
+                completed.push(selectedIndex);
+                saveCompleted();
+            }
+
+            render();
+
+            voiceStatus.textContent =
+                `${letters[selectedIndex].english} marked complete.`;
+        }
+
+        playVoiceButton.addEventListener(
             "click",
-            playSelectedLetter
+            playCurrentLetter
         );
 
-        completeLetterButton.addEventListener(
+        completeButton.addEventListener(
             "click",
-            completeSelectedLetter
+            markComplete
         );
 
-        previousLetterButton.addEventListener(
+        previousButton.addEventListener(
             "click",
             () => {
                 if (selectedIndex > 0) {
                     selectedIndex -= 1;
-                    renderEverything();
+                    render();
                 }
             }
         );
 
-        nextLetterButton.addEventListener(
+        nextButton.addEventListener(
             "click",
             () => {
-                if (selectedIndex < letters.length - 1) {
+                if (
+                    selectedIndex <
+                    letters.length - 1
+                ) {
                     selectedIndex += 1;
-                    renderEverything();
+                    render();
                 }
             }
         );
 
         if ("speechSynthesis" in window) {
-            window.speechSynthesis.getVoices();
+            loadVoices();
 
-            window.speechSynthesis.onvoiceschanged = () => {
-                window.speechSynthesis.getVoices();
-            };
+            window.speechSynthesis.addEventListener(
+                "voiceschanged",
+                loadVoices
+            );
+
+            window.setTimeout(
+                loadVoices,
+                500
+            );
         }
 
-        renderEverything();
-    });
+        render();
+    }
 </script>
 
 </body>
