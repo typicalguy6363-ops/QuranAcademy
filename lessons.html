@@ -8,232 +8,1362 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Quran Lesson | QuranAcademy</title>
+    <title>Lesson | QuranAcademy</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="academy.css">
 </head>
 
 <body>
 
-<header class="site-header">
+<header class="academy-header">
 
-    <nav class="navbar">
+    <a class="academy-logo" href="index.html">
+        QuranAcademy
+    </a>
 
-        <a class="logo" href="index.html">
-            QuranAcademy
-        </a>
-
-        <button
-            class="menu-button"
-            id="menuButton"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <div class="navigation" id="navigation">
-
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#courses">All Lessons</a></li>
-            </ul>
-
-            <div class="account-buttons">
-                <a class="button button-outline" href="signin.html">Sign In</a>
-                <a class="button button-primary" href="signup.html">Sign Up</a>
-            </div>
-
-        </div>
-
+    <nav class="academy-nav">
+        <a href="index.html">Home</a>
+        <a class="active" href="learn.html">Levels</a>
+        <a href="reader.html">Full Quran</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a class="account-link" href="account.html">Account</a>
     </nav>
 
 </header>
 
-<main class="lesson-page" data-lesson-page>
+<main class="page-shell">
 
-    <div class="lesson-layout reveal">
+    <section id="lessonContent">
 
-        <aside class="lesson-sidebar">
+        <div class="lesson-heading">
 
-            <a class="back-link" href="index.html#courses">
-                ← All lessons
-            </a>
+            <div class="lesson-heading-copy">
 
-            <div class="lesson-sidebar-card">
+                <a class="back-link" href="learn.html">
+                    ← Back to all levels
+                </a>
 
-                <p class="eyebrow">Lesson steps</p>
+                <p class="eyebrow" id="levelLabel">
+                    Level 1
+                </p>
 
-                <ol>
-                    <li>Listen to the human recording</li>
-                    <li>Repeat the sound or verse</li>
-                    <li>Record your own voice</li>
-                    <li>Replay your recording</li>
-                    <li>Check pronunciation later</li>
-                </ol>
-
-            </div>
-
-            <div class="lesson-warning">
-                AI feedback is a practice tool and should not replace
-                qualified Quran instruction.
-            </div>
-
-        </aside>
-
-        <section class="lesson-card">
-
-            <div class="lesson-header">
-
-                <span class="lesson-category" id="lessonCategory">
-                    Beginner
-                </span>
-
-                <h1 id="lessonTitle">
-                    Short A Sound
+                <h1 class="page-title" id="lessonTitle">
+                    Loading lesson...
                 </h1>
 
-                <p id="lessonDescription">
-                    Listen carefully and repeat the short sound.
-                </p>
+                <p
+                    class="page-description"
+                    id="lessonDescription"
+                ></p>
 
             </div>
 
-            <div class="lesson-arabic" id="lessonArabic" dir="rtl">
-                بَ
-            </div>
+            <span
+                class="reward-chip"
+                id="rewardPreview"
+            ></span>
 
-            <p
-                class="lesson-pronunciation"
-                id="lessonPronunciation"
+        </div>
+
+        <div class="lesson-layout">
+
+            <section class="surface-card study-panel">
+
+                <h2>Explore and practice</h2>
+
+                <p
+                    class="study-description"
+                    id="studyDescription"
+                ></p>
+
+                <div class="selected-display">
+
+                    <div>
+
+                        <div
+                            class="selected-symbol"
+                            id="selectedSymbol"
+                            dir="rtl"
+                        ></div>
+
+                        <h3 id="selectedTitle"></h3>
+
+                        <p id="selectedDetail"></p>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="explorer-grid"
+                    id="explorerGrid"
+                ></div>
+
+                <div
+                    class="resource-link"
+                    id="resourceLink"
+                ></div>
+
+            </section>
+
+            <section
+                class="surface-card quiz-panel"
+                id="quizPanel"
             >
-                Ba
-            </p>
 
-            <div class="audio-section">
+                <h2>Quick challenge</h2>
 
-                <div class="section-label">
-
-                    <span>🎧</span>
-
-                    <div>
-                        <strong>Human teaching audio</strong>
-                        <p>Listen before recording yourself.</p>
-                    </div>
-
-                </div>
-
-                <audio
-                    id="teacherAudio"
-                    controls
-                    preload="metadata"
-                ></audio>
-
-                <p class="audio-message" id="audioMessage">
-                    The MP3 file must be uploaded to the correct audio folder.
+                <p class="quiz-description">
+                    Choose the best answer. Correct answers create
+                    a burst of emojis!
                 </p>
 
-            </div>
+                <p
+                    class="question-counter"
+                    id="questionCounter"
+                ></p>
 
-            <div class="recording-section">
+                <h3
+                    class="question-text"
+                    id="questionText"
+                ></h3>
 
-                <div class="section-label">
+                <div
+                    class="option-grid"
+                    id="optionGrid"
+                ></div>
 
-                    <span>🎙️</span>
-
-                    <div>
-                        <strong>Record your voice</strong>
-                        <p>Allow microphone access when asked.</p>
-                    </div>
-
+                <div
+                    class="quiz-feedback"
+                    id="quizFeedback"
+                    aria-live="polite"
+                >
+                    Choose an answer to begin.
                 </div>
 
-                <div class="recording-buttons">
+                <div class="quiz-actions">
 
                     <button
                         class="button button-primary"
-                        id="startRecordingButton"
-                        type="button"
-                    >
-                        🎙 Start Recording
-                    </button>
-
-                    <button
-                        class="button button-danger"
-                        id="stopRecordingButton"
+                        id="nextQuestionButton"
                         type="button"
                         disabled
                     >
-                        ⏹ Stop
+                        Next Question
+                    </button>
+
+                    <button
+                        class="button button-secondary"
+                        id="restartQuizButton"
+                        type="button"
+                    >
+                        Restart
                     </button>
 
                 </div>
 
-                <div class="recording-status" id="recordingStatus">
-                    Ready to record.
-                </div>
+            </section>
 
-                <audio
-                    class="student-audio"
-                    id="studentAudio"
-                    controls
-                    hidden
-                ></audio>
+        </div>
 
-            </div>
+    </section>
+
+    <section
+        class="surface-card completion-panel"
+        id="completionPanel"
+    >
+
+        <div class="completion-icon">
+            🎉
+        </div>
+
+        <h2 id="completionTitle">
+            Challenge Complete!
+        </h2>
+
+        <p id="completionText"></p>
+
+        <div
+            class="reward-result"
+            id="rewardResult"
+        ></div>
+
+        <div class="completion-buttons">
 
             <button
-                class="button check-button"
-                id="checkPronunciationButton"
+                class="button button-primary"
+                id="claimRewardButton"
                 type="button"
             >
-                ✨ Check My Pronunciation
+                Claim XP and Reward
             </button>
 
-            <div class="lesson-navigation">
+            <a
+                class="button button-secondary"
+                href="rewards.html"
+            >
+                Open Reward Arcade
+            </a>
 
-                <a
-                    class="lesson-navigation-button"
-                    id="previousLessonButton"
-                    href="#"
-                >
-                    ← Previous
-                </a>
+            <a
+                class="button button-secondary"
+                href="learn.html"
+            >
+                Back to Levels
+            </a>
 
-                <a
-                    class="lesson-navigation-button"
-                    id="nextLessonButton"
-                    href="#"
-                >
-                    Next →
-                </a>
+        </div>
 
-            </div>
-
-        </section>
-
-    </div>
+    </section>
 
 </main>
 
-<script src="lessons.js"></script>
-<script src="script.js"></script>
+<div class="emoji-layer" id="emojiLayer"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+    const LESSONS = {
+        1: {
+            title: "Arabic Alphabet",
+            description:
+                "Explore all 28 Arabic letters and learn their names.",
+            study:
+                "Press any letter to make it the active letter.",
+            reward: "Crescent Runner",
+            xp: 100,
+            resource:
+                "https://www.youtube.com/watch?v=fJ9_79bg5H4",
+
+            items: [
+                ["ا", "Alif", "The first Arabic letter."],
+                ["ب", "Baa", "Baa has one dot underneath."],
+                ["ت", "Taa", "Taa has two dots above."],
+                ["ث", "Thaa", "Thaa has three dots above."],
+                ["ج", "Jeem", "Jeem has one dot below."],
+                ["ح", "Haa", "A breathy throat sound."],
+                ["خ", "Khaa", "Khaa has one dot above."],
+                ["د", "Daal", "Daal does not connect on its left."],
+                ["ذ", "Dhaal", "Dhaal has one dot above."],
+                ["ر", "Raa", "Raa has a rolling sound."],
+                ["ز", "Zay", "Zay has one dot above."],
+                ["س", "Seen", "Seen makes a clear s sound."],
+                ["ش", "Sheen", "Sheen has three dots above."],
+                ["ص", "Saad", "Saad is a heavier s sound."],
+                ["ض", "Daad", "Daad is a special heavy sound."],
+                ["ط", "Heavy Taa", "A strong, heavy t sound."],
+                ["ظ", "Heavy Dhaa", "A strong, heavy dh sound."],
+                ["ع", "Ayn", "Ayn comes from the throat."],
+                ["غ", "Ghayn", "Ghayn has one dot above."],
+                ["ف", "Faa", "Faa has one dot above."],
+                ["ق", "Qaaf", "Qaaf is pronounced farther back."],
+                ["ك", "Kaaf", "Kaaf makes a k sound."],
+                ["ل", "Laam", "Laam makes an l sound."],
+                ["م", "Meem", "Meem makes an m sound."],
+                ["ن", "Noon", "Noon has one dot above."],
+                ["ه", "Soft Haa", "A soft, breathy h sound."],
+                ["و", "Waaw", "Waaw can make w or long oo."],
+                ["ي", "Yaa", "Yaa can make y or long ee."]
+            ],
+
+            questions: [
+                {
+                    question: "Which letter is Alif?",
+                    options: ["ا", "ب", "ت", "ن"],
+                    answer: "ا"
+                },
+                {
+                    question: "What is the name of ب?",
+                    options: ["Baa", "Taa", "Meem", "Faa"],
+                    answer: "Baa"
+                },
+                {
+                    question:
+                        "Which letter has three dots above?",
+                    options: ["ث", "ت", "ب", "ج"],
+                    answer: "ث"
+                },
+                {
+                    question: "Which letter is Meem?",
+                    options: ["ن", "م", "ه", "ل"],
+                    answer: "م"
+                },
+                {
+                    question: "What is the name of ق?",
+                    options: ["Faa", "Kaaf", "Qaaf", "Laam"],
+                    answer: "Qaaf"
+                },
+                {
+                    question:
+                        "Which letter is usually shown last in the alphabet?",
+                    options: ["ي", "و", "ه", "ن"],
+                    answer: "ي"
+                }
+            ]
+        },
+
+        2: {
+            title: "Vowels and Sounds",
+            description:
+                "Learn the short vowels and Sukoon.",
+            study:
+                "Press each example and read its sound aloud.",
+            reward: "Star Jumper",
+            xp: 125,
+
+            items: [
+                ["بَ", "Fatha", "Fatha makes a short a sound: ba."],
+                ["بِ", "Kasra", "Kasra makes a short i sound: bi."],
+                ["بُ", "Damma", "Damma makes a short u sound: bu."],
+                ["بْ", "Sukoon", "Sukoon means there is no vowel after b."]
+            ],
+
+            questions: [
+                {
+                    question: "Which mark makes the sound ba?",
+                    options: ["بَ", "بِ", "بُ", "بْ"],
+                    answer: "بَ"
+                },
+                {
+                    question: "Which vowel makes a short i sound?",
+                    options: ["Fatha", "Kasra", "Damma", "Sukoon"],
+                    answer: "Kasra"
+                },
+                {
+                    question: "Which example says bu?",
+                    options: ["بِ", "بُ", "بَ", "بْ"],
+                    answer: "بُ"
+                },
+                {
+                    question: "What does Sukoon show?",
+                    options: [
+                        "No vowel",
+                        "A long vowel",
+                        "A double letter",
+                        "A pause only"
+                    ],
+                    answer: "No vowel"
+                },
+                {
+                    question:
+                        "Which vowel makes a short a sound?",
+                    options: [
+                        "Fatha",
+                        "Kasra",
+                        "Damma",
+                        "Sukoon"
+                    ],
+                    answer: "Fatha"
+                }
+            ]
+        },
+
+        3: {
+            title: "Build Arabic Words",
+            description:
+                "Recognize familiar letters inside simple words.",
+            study:
+                "Press a word to see its meaning.",
+            reward: "Lantern Dash",
+            xp: 150,
+
+            items: [
+                ["بَاب", "Baab", "Door"],
+                ["كِتَاب", "Kitaab", "Book"],
+                ["قَلَم", "Qalam", "Pen"],
+                ["نُور", "Noor", "Light"],
+                ["قَمَر", "Qamar", "Moon"],
+                ["مَاء", "Maa", "Water"],
+                ["بَيْت", "Bayt", "House"]
+            ],
+
+            questions: [
+                {
+                    question: "Which word means book?",
+                    options: ["كِتَاب", "قَلَم", "بَاب", "قَمَر"],
+                    answer: "كِتَاب"
+                },
+                {
+                    question: "What does قَلَم mean?",
+                    options: ["Pen", "Door", "Moon", "Water"],
+                    answer: "Pen"
+                },
+                {
+                    question: "Which word means light?",
+                    options: ["نُور", "بَيْت", "مَاء", "بَاب"],
+                    answer: "نُور"
+                },
+                {
+                    question: "What does قَمَر mean?",
+                    options: ["Moon", "House", "Book", "Pen"],
+                    answer: "Moon"
+                },
+                {
+                    question: "Which word means house?",
+                    options: ["بَيْت", "مَاء", "بَاب", "نُور"],
+                    answer: "بَيْت"
+                }
+            ]
+        },
+
+        4: {
+            title: "Quran and Islamic Phrases",
+            description:
+                "Recognize important phrases used every day.",
+            study:
+                "Press a phrase to see its meaning.",
+            reward: "Cloud Flyer",
+            xp: 175,
+
+            items: [
+                [
+                    "بِسْمِ الله",
+                    "Bismillah",
+                    "In the name of Allah."
+                ],
+                [
+                    "الْحَمْدُ لِلَّهِ",
+                    "Alhamdulillah",
+                    "All praise belongs to Allah."
+                ],
+                [
+                    "سُبْحَانَ الله",
+                    "SubhanAllah",
+                    "Glory be to Allah."
+                ],
+                [
+                    "اللهُ أَكْبَر",
+                    "Allahu Akbar",
+                    "Allah is the Greatest."
+                ],
+                [
+                    "السَّلَامُ عَلَيْكُمْ",
+                    "Assalamu Alaikum",
+                    "Peace be upon you."
+                ]
+            ],
+
+            questions: [
+                {
+                    question:
+                        "Which phrase means “In the name of Allah”?",
+                    options: [
+                        "Bismillah",
+                        "Alhamdulillah",
+                        "SubhanAllah",
+                        "Allahu Akbar"
+                    ],
+                    answer: "Bismillah"
+                },
+                {
+                    question:
+                        "What does Alhamdulillah express?",
+                    options: [
+                        "Praise and thanks",
+                        "A greeting",
+                        "A question",
+                        "Goodbye"
+                    ],
+                    answer: "Praise and thanks"
+                },
+                {
+                    question:
+                        "Which phrase is a greeting of peace?",
+                    options: [
+                        "Assalamu Alaikum",
+                        "Allahu Akbar",
+                        "Bismillah",
+                        "SubhanAllah"
+                    ],
+                    answer: "Assalamu Alaikum"
+                },
+                {
+                    question:
+                        "Which phrase means Allah is the Greatest?",
+                    options: [
+                        "Allahu Akbar",
+                        "Bismillah",
+                        "Alhamdulillah",
+                        "Assalamu Alaikum"
+                    ],
+                    answer: "Allahu Akbar"
+                },
+                {
+                    question:
+                        "Which Arabic phrase is SubhanAllah?",
+                    options: [
+                        "سُبْحَانَ الله",
+                        "بِسْمِ الله",
+                        "اللهُ أَكْبَر",
+                        "الْحَمْدُ لِلَّهِ"
+                    ],
+                    answer: "سُبْحَانَ الله"
+                }
+            ]
+        },
+
+        5: {
+            title: "Short Surahs",
+            description:
+                "Learn to recognize several short surahs.",
+            study:
+                "Press a surah to review its name and opening.",
+            reward: "Moon Collector",
+            xp: 225,
+
+            items: [
+                [
+                    "الْفَاتِحَة",
+                    "Al-Fatihah",
+                    "The opening surah of the Quran."
+                ],
+                [
+                    "الإِخْلَاص",
+                    "Al-Ikhlas",
+                    "Begins with Qul Huwa Allahu Ahad."
+                ],
+                [
+                    "الْفَلَق",
+                    "Al-Falaq",
+                    "Begins by seeking refuge with the Lord of daybreak."
+                ],
+                [
+                    "النَّاس",
+                    "An-Nas",
+                    "The final surah of the Quran."
+                ],
+                [
+                    "الْكَوْثَر",
+                    "Al-Kawthar",
+                    "A short surah consisting of three ayahs."
+                ]
+            ],
+
+            questions: [
+                {
+                    question:
+                        "Which is the opening surah of the Quran?",
+                    options: [
+                        "Al-Fatihah",
+                        "Al-Ikhlas",
+                        "An-Nas",
+                        "Al-Falaq"
+                    ],
+                    answer: "Al-Fatihah"
+                },
+                {
+                    question:
+                        "Which surah begins with Qul Huwa Allahu Ahad?",
+                    options: [
+                        "Al-Ikhlas",
+                        "Al-Falaq",
+                        "An-Nas",
+                        "Al-Kawthar"
+                    ],
+                    answer: "Al-Ikhlas"
+                },
+                {
+                    question:
+                        "Which is the final surah of the Quran?",
+                    options: [
+                        "An-Nas",
+                        "Al-Fatihah",
+                        "Al-Ikhlas",
+                        "Al-Kawthar"
+                    ],
+                    answer: "An-Nas"
+                },
+                {
+                    question:
+                        "Which surah has three ayahs?",
+                    options: [
+                        "Al-Kawthar",
+                        "Al-Fatihah",
+                        "Al-Falaq",
+                        "An-Nas"
+                    ],
+                    answer: "Al-Kawthar"
+                },
+                {
+                    question:
+                        "Which surah mentions the Lord of daybreak?",
+                    options: [
+                        "Al-Falaq",
+                        "Al-Ikhlas",
+                        "An-Nas",
+                        "Al-Fatihah"
+                    ],
+                    answer: "Al-Falaq"
+                }
+            ]
+        },
+
+        6: {
+            title: "Explore the Full Quran",
+            description:
+                "Learn how the Quran is organized and find surahs.",
+            study:
+                "Press each fact to review it.",
+            reward: "Quran Quest",
+            xp: 250,
+
+            items: [
+                ["114", "Surahs", "The Quran contains 114 surahs."],
+                ["1", "Al-Fatihah", "The first surah."],
+                ["2", "Al-Baqarah", "The longest surah."],
+                ["30", "Juz Amma", "Contains many short surahs."],
+                ["114", "An-Nas", "The final surah."]
+            ],
+
+            questions: [
+                {
+                    question:
+                        "How many surahs are in the Quran?",
+                    options: ["114", "100", "120", "30"],
+                    answer: "114"
+                },
+                {
+                    question:
+                        "Which is the first surah?",
+                    options: [
+                        "Al-Fatihah",
+                        "Al-Baqarah",
+                        "An-Nas",
+                        "Al-Ikhlas"
+                    ],
+                    answer: "Al-Fatihah"
+                },
+                {
+                    question:
+                        "Which is the longest surah?",
+                    options: [
+                        "Al-Baqarah",
+                        "Al-Fatihah",
+                        "An-Nas",
+                        "Al-Kawthar"
+                    ],
+                    answer: "Al-Baqarah"
+                },
+                {
+                    question:
+                        "Which surah is number 114?",
+                    options: [
+                        "An-Nas",
+                        "Al-Falaq",
+                        "Al-Ikhlas",
+                        "Al-Fatihah"
+                    ],
+                    answer: "An-Nas"
+                },
+                {
+                    question:
+                        "Which section contains many short surahs?",
+                    options: [
+                        "Juz Amma",
+                        "Surah Al-Baqarah",
+                        "The first ayah",
+                        "The middle letter"
+                    ],
+                    answer: "Juz Amma"
+                }
+            ]
+        },
+
+        7: {
+            title: "Tajweed Basics",
+            description:
+                "Learn introductory recitation rules.",
+            study:
+                "Press each Tajweed rule to review its meaning.",
+            reward: "Tajweed Master",
+            xp: 300,
+
+            items: [
+                [
+                    "ـَا",
+                    "Madd",
+                    "Lengthening a vowel sound."
+                ],
+                [
+                    "ق ط ب ج د",
+                    "Qalqalah",
+                    "A light bouncing or echoing sound."
+                ],
+                [
+                    "نّ مّ",
+                    "Ghunnah",
+                    "A nasal sound used with Noon or Meem."
+                ],
+                [
+                    "إِدْغَام",
+                    "Idgham",
+                    "Merging one sound into the next."
+                ],
+                [
+                    "إِخْفَاء",
+                    "Ikhfa",
+                    "Partly hiding a Noon sound."
+                ]
+            ],
+
+            questions: [
+                {
+                    question:
+                        "Which rule means lengthening a vowel?",
+                    options: [
+                        "Madd",
+                        "Qalqalah",
+                        "Ghunnah",
+                        "Ikhfa"
+                    ],
+                    answer: "Madd"
+                },
+                {
+                    question:
+                        "Which rule creates a light bouncing sound?",
+                    options: [
+                        "Qalqalah",
+                        "Madd",
+                        "Idgham",
+                        "Ghunnah"
+                    ],
+                    answer: "Qalqalah"
+                },
+                {
+                    question:
+                        "Which rule uses a nasal sound?",
+                    options: [
+                        "Ghunnah",
+                        "Madd",
+                        "Qalqalah",
+                        "Idgham"
+                    ],
+                    answer: "Ghunnah"
+                },
+                {
+                    question:
+                        "Which rule means merging sounds?",
+                    options: [
+                        "Idgham",
+                        "Ikhfa",
+                        "Madd",
+                        "Qalqalah"
+                    ],
+                    answer: "Idgham"
+                },
+                {
+                    question:
+                        "Which rule partly hides a Noon sound?",
+                    options: [
+                        "Ikhfa",
+                        "Madd",
+                        "Ghunnah",
+                        "Qalqalah"
+                    ],
+                    answer: "Ikhfa"
+                }
+            ]
+        }
+    };
+
+    const parameters =
+        new URLSearchParams(window.location.search);
+
+    const levelNumber =
+        Number(parameters.get("level")) || 1;
+
+    const lesson =
+        LESSONS[levelNumber] || LESSONS[1];
+
+    const levelLabel =
+        document.getElementById("levelLabel");
+
+    const lessonTitle =
+        document.getElementById("lessonTitle");
+
+    const lessonDescription =
+        document.getElementById("lessonDescription");
+
+    const rewardPreview =
+        document.getElementById("rewardPreview");
+
+    const studyDescription =
+        document.getElementById("studyDescription");
+
+    const selectedSymbol =
+        document.getElementById("selectedSymbol");
+
+    const selectedTitle =
+        document.getElementById("selectedTitle");
+
+    const selectedDetail =
+        document.getElementById("selectedDetail");
+
+    const explorerGrid =
+        document.getElementById("explorerGrid");
+
+    const resourceLink =
+        document.getElementById("resourceLink");
+
+    const quizPanel =
+        document.getElementById("quizPanel");
+
+    const questionCounter =
+        document.getElementById("questionCounter");
+
+    const questionText =
+        document.getElementById("questionText");
+
+    const optionGrid =
+        document.getElementById("optionGrid");
+
+    const quizFeedback =
+        document.getElementById("quizFeedback");
+
+    const nextQuestionButton =
+        document.getElementById("nextQuestionButton");
+
+    const restartQuizButton =
+        document.getElementById("restartQuizButton");
+
+    const lessonContent =
+        document.getElementById("lessonContent");
+
+    const completionPanel =
+        document.getElementById("completionPanel");
+
+    const completionText =
+        document.getElementById("completionText");
+
+    const rewardResult =
+        document.getElementById("rewardResult");
+
+    const claimRewardButton =
+        document.getElementById("claimRewardButton");
+
+    const emojiLayer =
+        document.getElementById("emojiLayer");
+
+    const toast =
+        document.getElementById("toast");
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+    let currentUser = null;
+    let currentProfile = null;
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("show");
+
+        void toast.offsetWidth;
+
+        toast.classList.add("show");
+    }
+
+    function popEmojis(
+        emojis = ["✨", "⭐", "🎉", "🌙"],
+        amount = 12
+    ) {
+        for (let index = 0; index < amount; index += 1) {
+            const emoji =
+                document.createElement("span");
+
+            emoji.className = "emoji-burst";
+
+            emoji.textContent =
+                emojis[
+                    Math.floor(
+                        Math.random() * emojis.length
+                    )
+                ];
+
+            emoji.style.setProperty(
+                "--left",
+                `${10 + Math.random() * 80}%`
+            );
+
+            emoji.style.setProperty(
+                "--top",
+                `${55 + Math.random() * 30}%`
+            );
+
+            emoji.style.setProperty(
+                "--size",
+                `${1.3 + Math.random() * 1.7}rem`
+            );
+
+            emoji.style.setProperty(
+                "--drift",
+                `${-90 + Math.random() * 180}px`
+            );
+
+            emojiLayer.appendChild(emoji);
+
+            window.setTimeout(
+                () => emoji.remove(),
+                1500
+            );
+        }
+    }
+
+    function shuffle(values) {
+        const copy = [...values];
+
+        for (
+            let index = copy.length - 1;
+            index > 0;
+            index -= 1
+        ) {
+            const randomIndex =
+                Math.floor(
+                    Math.random() * (index + 1)
+                );
+
+            [
+                copy[index],
+                copy[randomIndex]
+            ] = [
+                copy[randomIndex],
+                copy[index]
+            ];
+        }
+
+        return copy;
+    }
+
+    function selectStudyItem(item, button) {
+        selectedSymbol.textContent = item[0];
+        selectedTitle.textContent = item[1];
+        selectedDetail.textContent = item[2];
+
+        document
+            .querySelectorAll(".explorer-button")
+            .forEach((itemButton) => {
+                itemButton.classList.remove("active");
+            });
+
+        button.classList.add("active");
+
+        popEmojis(
+            ["✨", "⭐", "🌙", "💫"],
+            5
+        );
+    }
+
+    function renderStudyItems() {
+        explorerGrid.innerHTML = "";
+
+        lesson.items.forEach((item, index) => {
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+            button.className = "explorer-button";
+            button.textContent = item[0];
+            button.title = item[1];
+
+            button.addEventListener("click", () => {
+                selectStudyItem(item, button);
+            });
+
+            explorerGrid.appendChild(button);
+
+            if (index === 0) {
+                selectStudyItem(item, button);
+            }
+        });
+
+        if (lesson.resource) {
+            const link =
+                document.createElement("a");
+
+            link.className =
+                "button button-secondary";
+
+            link.href = lesson.resource;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            link.textContent =
+                "▶ Open Alphabet Pronunciation Video";
+
+            resourceLink.appendChild(link);
+        }
+    }
+
+    function renderQuestion() {
+        answered = false;
+
+        nextQuestionButton.disabled = true;
+
+        optionGrid.innerHTML = "";
+
+        quizFeedback.textContent =
+            "Choose an answer.";
+
+        quizFeedback.className =
+            "quiz-feedback";
+
+        const question =
+            lesson.questions[currentQuestion];
+
+        questionCounter.textContent =
+            `Question ${currentQuestion + 1} of ${lesson.questions.length}`;
+
+        questionText.textContent =
+            question.question;
+
+        shuffle(question.options).forEach(
+            (option) => {
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+                button.className =
+                    "option-button";
+
+                button.textContent = option;
+
+                button.addEventListener(
+                    "click",
+                    () => answerQuestion(
+                        option,
+                        button
+                    )
+                );
+
+                optionGrid.appendChild(button);
+            }
+        );
+    }
+
+    function answerQuestion(option, selectedButton) {
+        if (answered) {
+            return;
+        }
+
+        answered = true;
+
+        const question =
+            lesson.questions[currentQuestion];
+
+        const buttons =
+            optionGrid.querySelectorAll(
+                ".option-button"
+            );
+
+        buttons.forEach((button) => {
+            button.disabled = true;
+
+            if (
+                button.textContent ===
+                question.answer
+            ) {
+                button.classList.add("correct");
+            }
+        });
+
+        if (option === question.answer) {
+            score += 1;
+
+            selectedButton.classList.add("correct");
+
+            quizFeedback.textContent =
+                "Correct! Excellent work!";
+
+            quizFeedback.className =
+                "quiz-feedback correct";
+
+            popEmojis(
+                ["🎉", "⭐", "✨", "🥳", "🌙"],
+                15
+            );
+        } else {
+            selectedButton.classList.add("wrong");
+
+            quizFeedback.textContent =
+                `Good try. The correct answer is ${question.answer}.`;
+
+            quizFeedback.className =
+                "quiz-feedback wrong";
+        }
+
+        nextQuestionButton.disabled = false;
+
+        nextQuestionButton.textContent =
+            currentQuestion ===
+            lesson.questions.length - 1
+                ? "See Results"
+                : "Next Question";
+    }
+
+    function nextQuestion() {
+        if (!answered) {
+            return;
+        }
+
+        currentQuestion += 1;
+
+        if (
+            currentQuestion >=
+            lesson.questions.length
+        ) {
+            finishQuiz();
+            return;
+        }
+
+        renderQuestion();
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        answered = false;
+
+        lessonContent.classList.remove("hidden");
+        completionPanel.classList.remove("show");
+
+        renderQuestion();
+    }
+
+    function finishQuiz() {
+        const requiredScore =
+            Math.ceil(
+                lesson.questions.length * 0.7
+            );
+
+        const passed =
+            score >= requiredScore;
+
+        if (!passed) {
+            questionCounter.textContent =
+                "Keep practicing";
+
+            questionText.textContent =
+                `You scored ${score} out of ${lesson.questions.length}. You need ${requiredScore} correct answers.`;
+
+            optionGrid.innerHTML = "";
+
+            quizFeedback.textContent =
+                "Review the lesson and press Restart to try again.";
+
+            quizFeedback.className =
+                "quiz-feedback wrong";
+
+            nextQuestionButton.disabled = true;
+            return;
+        }
+
+        lessonContent.classList.add("hidden");
+        completionPanel.classList.add("show");
+
+        completionText.textContent =
+            `You scored ${score} out of ${lesson.questions.length}. Claim ${lesson.xp} XP and unlock your new game.`;
+
+        rewardResult.textContent =
+            `🎮 Game reward: ${lesson.reward}`;
+
+        if (
+            currentProfile?.completed_levels
+                ?.includes(levelNumber)
+        ) {
+            claimRewardButton.textContent =
+                "Level Already Completed";
+        }
+
+        popEmojis(
+            ["🎉", "🏆", "⭐", "🥳", "🌙", "✨"],
+            32
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    async function claimReward() {
+        if (!currentUser) {
+            showToast(
+                "Sign in first to save XP and rewards."
+            );
+
+            window.setTimeout(() => {
+                window.location.href = "signin.html";
+            }, 900);
+
+            return;
+        }
+
+        claimRewardButton.disabled = true;
+
+        claimRewardButton.textContent =
+            "Saving reward...";
+
+        try {
+            const {
+                data,
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .rpc(
+                        "complete_level",
+                        {
+                            p_level: levelNumber
+                        }
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            currentProfile =
+                data.profile;
+
+            if (data.newly_completed) {
+                rewardResult.textContent =
+                    `🎉 +${data.xp_awarded} XP and ${data.reward} unlocked!`;
+            } else {
+                rewardResult.textContent =
+                    `✓ ${data.reward} was already unlocked.`;
+            }
+
+            claimRewardButton.textContent =
+                "Reward Saved ✓";
+
+            popEmojis(
+                ["🏆", "🎮", "⭐", "💎", "🌙"],
+                28
+            );
+        } catch (error) {
+            console.error(error);
+
+            showToast(
+                error.message ||
+                "Your reward could not be saved."
+            );
+
+            claimRewardButton.disabled = false;
+
+            claimRewardButton.textContent =
+                "Try Claiming Again";
+        }
+    }
+
+    async function loadUserAndCheckLevel() {
+        try {
+            const {
+                data: userData
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getUser();
+
+            currentUser =
+                userData?.user || null;
+
+            if (!currentUser) {
+                if (levelNumber > 1) {
+                    showToast(
+                        "Sign in to unlock this level."
+                    );
+
+                    window.setTimeout(() => {
+                        window.location.href =
+                            "signin.html";
+                    }, 900);
+                }
+
+                return;
+            }
+
+            const {
+                data: profile,
+                error
+            } =
+                await window
+                    .quranAcademySupabase
+                    .from("profiles")
+                    .select(
+                        "id, username, xp, completed_levels, unlocked_rewards"
+                    )
+                    .eq("id", currentUser.id)
+                    .single();
+
+            if (error) {
+                throw error;
+            }
+
+            currentProfile = profile;
+
+            if (
+                levelNumber > 1 &&
+                !profile.completed_levels.includes(
+                    levelNumber - 1
+                )
+            ) {
+                showToast(
+                    `Complete Level ${levelNumber - 1} first.`
+                );
+
+                window.setTimeout(() => {
+                    window.location.href =
+                        "learn.html";
+                }, 1100);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function initializeLesson() {
+        document.title =
+            `${lesson.title} | QuranAcademy`;
+
+        levelLabel.textContent =
+            `Level ${levelNumber}`;
+
+        lessonTitle.textContent =
+            lesson.title;
+
+        lessonDescription.textContent =
+            lesson.description;
+
+        rewardPreview.textContent =
+            `🎮 Reward: ${lesson.reward}`;
+
+        studyDescription.textContent =
+            lesson.study;
+
+        renderStudyItems();
+        renderQuestion();
+    }
+
+    nextQuestionButton.addEventListener(
+        "click",
+        nextQuestion
+    );
+
+    restartQuizButton.addEventListener(
+        "click",
+        restartQuiz
+    );
+
+    claimRewardButton.addEventListener(
+        "click",
+        claimReward
+    );
+
+    initializeLesson();
+    loadUserAndCheckLevel();
+</script>
 
 </body>
 </html>
