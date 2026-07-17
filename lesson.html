@@ -1954,6 +1954,84 @@ a {
     }
 }
 
+    
+
+/* ================================================================
+   Lesson word explanation button
+   ================================================================ */
+
+.selected-practice-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.selected-practice-copy {
+    min-width: 0;
+    flex: 1;
+}
+
+.explain-word-button {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 50%;
+    color: white;
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #8b5cf6
+        );
+    cursor: pointer;
+    font-size: 1.45rem;
+    font-weight: 950;
+    box-shadow:
+        0 13px 26px rgba(37, 99, 235, 0.23);
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.explain-word-button:hover {
+    transform:
+        translateY(-3px)
+        scale(1.04);
+    box-shadow:
+        0 18px 34px rgba(37, 99, 235, 0.3);
+}
+
+.explain-word-button:focus-visible {
+    outline:
+        4px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 3px;
+}
+
+.explain-helper-note {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+@media (max-width: 560px) {
+    .selected-practice-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .explain-word-button {
+        width: 100%;
+        height: 46px;
+        border-radius: 14px;
+    }
+}
+
     </style>
 
     <style>
@@ -2418,6 +2496,8 @@ a {
         <a href="index.html">Home</a>
         <a class="active" href="learn.html">Levels</a>
         <a href="reader.html">Full Quran</a>
+        <a href="recitation.html">Recitation</a>
+        <a href="explain.html">Ask</a>
         <a href="leaderboard.html">Leaderboard</a>
         <a href="rewards.html">Rewards</a>
         <a class="account-link" href="account.html">Account</a>
@@ -2450,11 +2530,41 @@ a {
                 <p class="practice-instruction" id="practiceInstruction"></p>
 
                 <div class="selected-practice">
-                    <div>
-                        <div class="selected-arabic" id="selectedArabic" dir="rtl"></div>
-                        <h3 id="selectedLabel"></h3>
-                        <p id="selectedMeaning"></p>
+
+                    <div class="selected-practice-row">
+
+                        <div class="selected-practice-copy">
+
+                            <div
+                                class="selected-arabic"
+                                id="selectedArabic"
+                                dir="rtl"
+                                translate="no"
+                            ></div>
+
+                            <h3 id="selectedLabel"></h3>
+
+                            <p id="selectedMeaning"></p>
+
+                            <p class="explain-helper-note">
+                                Press the question button for a simple
+                                explanation and follow-up messages.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="explain-word-button"
+                            id="explainItemButton"
+                            type="button"
+                            aria-label="Explain this lesson item"
+                            title="Explain this word"
+                        >
+                            ?
+                        </button>
+
                     </div>
+
                 </div>
 
                 <section class="voice-lab">
@@ -3953,6 +4063,7 @@ window.quranAcademySupabase =
     const selectedArabic = document.getElementById("selectedArabic");
     const selectedLabel = document.getElementById("selectedLabel");
     const selectedMeaning = document.getElementById("selectedMeaning");
+    const explainItemButton = document.getElementById("explainItemButton");
     const pronunciationTarget = document.getElementById("pronunciationTarget");
     const practiceItems = document.getElementById("practiceItems");
     const voiceSpeed = document.getElementById("voiceSpeed");
@@ -4257,6 +4368,28 @@ window.quranAcademySupabase =
 
         button.classList.add("active");
         popEmojis(["✨", "⭐", lesson.icon], 7);
+    }
+
+
+    function openSelectedExplanation() {
+        const explanationParameters =
+            new URLSearchParams({
+                level:
+                    String(lesson.number),
+                arabic:
+                    selectedItem.arabic || "",
+                label:
+                    selectedItem.label || "",
+                meaning:
+                    selectedItem.meaning || "",
+                voice:
+                    selectedItem.voice ||
+                    selectedItem.arabic ||
+                    ""
+            });
+
+        window.location.href =
+            `explain.html?${explanationParameters.toString()}`;
     }
 
     function renderPracticeItems() {
@@ -4789,6 +4922,11 @@ window.quranAcademySupabase =
         renderQuestion();
         loadVoices();
     }
+
+    explainItemButton.addEventListener(
+        "click",
+        openSelectedExplanation
+    );
 
     playEnglishButton.addEventListener("click", playSelectedEnglish);
     playArabicButton.addEventListener("click", playSelectedArabic);
