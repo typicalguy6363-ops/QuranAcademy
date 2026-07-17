@@ -1854,6 +1854,119 @@ a {
 }
 
 
+    
+
+/* ================================================================
+   Animated rainbow Quran Academy title in the top-left header
+   ================================================================ */
+
+.academy-logo {
+    min-width: 235px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.academy-logo .academy-logo-icon {
+    width: 50px;
+    max-width: none;
+    height: 50px;
+    display: block;
+    object-fit: contain;
+    flex-shrink: 0;
+    transform: none;
+    opacity: 1;
+}
+
+.academy-logo:hover .academy-logo-icon {
+    transform: translateY(-2px) rotate(-3deg);
+    opacity: 1;
+}
+
+.rainbow-logo-text {
+    display: inline-block;
+    background:
+        linear-gradient(
+            90deg,
+            #ff3b30,
+            #ff9500,
+            #ffcc00,
+            #34c759,
+            #00c7be,
+            #007aff,
+            #5856d6,
+            #af52de,
+            #ff2d55,
+            #ff3b30
+        );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.42rem;
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    white-space: nowrap;
+    filter:
+        drop-shadow(
+            0 2px 7px rgba(15, 157, 120, 0.12)
+        );
+    animation:
+        rainbowTitleMove 5s linear infinite;
+}
+
+.academy-logo:hover .rainbow-logo-text {
+    animation-duration: 2.4s;
+}
+
+@keyframes rainbowTitleMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rainbow-logo-text {
+        animation: none;
+        background-position: 50% 50%;
+    }
+}
+
+@media (max-width: 680px) {
+    .academy-logo {
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .academy-logo .academy-logo-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .rainbow-logo-text {
+        font-size: 1.12rem;
+    }
+}
+
+@media (max-width: 390px) {
+    .academy-logo .academy-logo-icon {
+        width: 37px;
+        height: 37px;
+    }
+
+    .rainbow-logo-text {
+        font-size: 0.98rem;
+    }
+}
+
     </style>
 </head>
 
@@ -1867,9 +1980,15 @@ a {
         aria-label="Quran Academy home"
     >
         <img
-            src="quran-academy-header-logo.png"
-            alt="Quran Academy — Learn, Understand, Practice"
+            class="academy-logo-icon"
+            src="quran-academy-icon.png"
+            alt=""
+            aria-hidden="true"
         >
+
+        <span class="rainbow-logo-text">
+            Quran Academy
+        </span>
     </a>
 
     <button
