@@ -2,452 +2,412 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson | QuranAcademy</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Learning Journey | QuranAcademy</title>
+
     <link rel="stylesheet" href="academy.css">
 
     <style>
-        .lesson-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 24px;
-            margin-bottom: 24px;
+        .journey-hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 30px;
         }
 
-        .lesson-top-copy {
-            max-width: 760px;
-        }
-
-        .lesson-meta {
-            margin-top: 16px;
+        .journey-badges {
+            margin-top: 22px;
             display: flex;
             flex-wrap: wrap;
             gap: 9px;
         }
 
-        .lesson-meta span {
-            padding: 8px 12px;
+        .journey-badge {
+            padding: 9px 13px;
             border: 1px solid var(--border);
             border-radius: 999px;
             color: var(--dark-green);
             background: white;
+            font-size: 0.75rem;
+            font-weight: 900;
+        }
+
+        .journey-stats {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .journey-stat {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: white;
+        }
+
+        .journey-stat strong {
+            display: block;
+            color: var(--navy);
+            font-size: 1.35rem;
+        }
+
+        .journey-stat span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .rank-progress-card {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 17px;
+            background: #f5fbf8;
+        }
+
+        .rank-progress-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            color: var(--muted);
             font-size: 0.73rem;
             font-weight: 900;
         }
 
-        .lesson-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
-            gap: 22px;
-            align-items: start;
+        .level-section {
+            margin-top: 55px;
         }
 
-        .practice-panel,
-        .quiz-panel {
-            padding: 24px;
+        .level-group-heading {
+            margin: 43px 0 18px;
+            padding-bottom: 13px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 2px solid var(--border);
         }
 
-        .practice-instruction {
-            margin-top: 10px;
-            padding: 14px 16px;
-            border-radius: 16px;
-            color: var(--dark-green);
-            background: var(--light-green);
-            line-height: 1.6;
-        }
-
-        .selected-practice {
-            margin-top: 18px;
-            min-height: 185px;
-            padding: 24px;
-            display: grid;
-            place-items: center;
-            text-align: center;
-            border: 2px solid var(--border);
-            border-radius: 22px;
-            background: linear-gradient(135deg, #ffffff, #f1faf6);
-        }
-
-        .selected-arabic {
+        .level-group-heading h2 {
             color: var(--navy);
-            font-size: clamp(2.4rem, 7vw, 5.2rem);
-            font-weight: 900;
-            line-height: 1.35;
+            font-size: 1.7rem;
         }
 
-        .selected-practice h3 {
-            margin-top: 10px;
-            color: var(--navy);
-            font-size: 1.25rem;
-        }
-
-        .selected-practice p {
-            margin-top: 7px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .practice-items {
-            margin-top: 18px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
-            gap: 10px;
-        }
-
-        .practice-item {
-            min-height: 78px;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            color: var(--navy);
-            background: white;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 900;
-            transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
-        }
-
-        .practice-item:hover,
-        .practice-item.active {
-            transform: translateY(-3px);
-            border-color: var(--green);
-            background: var(--light-green);
-        }
-
-        .voice-lab {
-            margin-top: 20px;
-            padding: 18px;
-            border: 2px solid rgba(15, 157, 120, 0.3);
-            border-radius: 19px;
-            background: #f7fcfa;
-        }
-
-        .voice-lab h3 {
-            color: var(--navy);
-        }
-
-        .voice-lab p {
+        .level-group-heading p {
             margin-top: 6px;
             color: var(--muted);
-            line-height: 1.5;
-        }
-
-        .voice-buttons {
-            margin-top: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .voice-button {
-            min-height: 44px;
-            padding: 10px 14px;
-            border: 0;
-            border-radius: 13px;
-            color: white;
-            background: var(--green);
-            cursor: pointer;
-            font-weight: 900;
-        }
-
-        .voice-button.secondary {
-            color: var(--navy);
-            background: white;
-            border: 1px solid var(--border);
-        }
-
-        .voice-speed {
-            min-height: 44px;
-            padding: 9px 12px;
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            color: var(--navy);
-            background: white;
-            font-weight: 800;
-        }
-
-        .voice-status {
-            min-height: 22px;
-            margin-top: 11px;
-            color: var(--muted);
-            font-size: 0.75rem;
-            line-height: 1.5;
-        }
-
-        .pronunciation-box {
-            margin-top: 16px;
-            padding: 17px;
-            border: 2px solid #d8e7e2;
-            border-radius: 18px;
-            background: white;
-        }
-
-        .pronunciation-box h3 {
-            color: var(--navy);
-        }
-
-        .pronunciation-target {
-            margin-top: 8px;
-            color: var(--dark-green);
-            font-size: 1.55rem;
-            font-weight: 900;
-        }
-
-        .pronunciation-result {
-            margin-top: 12px;
-            padding: 13px;
-            border-radius: 14px;
-            color: var(--navy);
-            background: #f3f8f6;
+            font-size: 0.8rem;
             line-height: 1.6;
         }
 
-        .score-badge {
-            margin-top: 10px;
-            display: inline-flex;
+        .group-range {
             padding: 7px 11px;
+            border-radius: 999px;
+            color: var(--dark-green);
+            background: var(--light-green);
+            font-size: 0.7rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .level-card {
+            position: relative;
+            min-height: 390px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .level-card.completed {
+            border: 2px solid rgba(15, 157, 120, 0.55);
+        }
+
+        .level-card.current-level {
+            border: 3px solid var(--green);
+            box-shadow:
+                0 0 0 6px rgba(15, 157, 120, 0.1),
+                0 19px 38px rgba(25, 76, 68, 0.14);
+        }
+
+        .level-card.current-level::after {
+            content: "Your next level";
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 6px 10px;
             border-radius: 999px;
             color: white;
             background: var(--green);
+            font-size: 0.64rem;
             font-weight: 900;
         }
 
-        .quiz-progress-box {
-            margin-top: 16px;
-            padding: 14px;
-            border-radius: 16px;
-            background: #f4faf7;
+        .level-card.locked {
+            opacity: 0.68;
         }
 
-        .quiz-progress-label {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            color: var(--muted);
-            font-size: 0.75rem;
-            font-weight: 900;
-        }
-
-        .question-number {
-            margin-top: 20px;
-            color: var(--green);
-            font-size: 0.75rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .question-text {
-            margin-top: 8px;
-            color: var(--navy);
-            font-size: 1.35rem;
-            line-height: 1.45;
-        }
-
-        .question-audio {
-            margin-top: 14px;
-            padding: 13px;
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            background: white;
-        }
-
-        .question-audio strong {
-            color: var(--navy);
-        }
-
-        .question-audio p {
-            margin-top: 5px;
-            color: var(--muted);
-            font-size: 0.76rem;
-            line-height: 1.5;
-        }
-
-        .answer-lock {
-            margin-top: 12px;
-            padding: 11px 13px;
-            border-radius: 13px;
-            color: var(--dark-green);
-            background: var(--light-green);
-            font-size: 0.76rem;
-            font-weight: 800;
-        }
-
-        .answer-grid {
-            margin-top: 15px;
-            display: grid;
-            gap: 10px;
-        }
-
-        .answer-button {
-            width: 100%;
-            min-height: 54px;
-            padding: 13px 15px;
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            color: var(--navy);
-            background: white;
-            cursor: pointer;
-            font-size: 0.96rem;
-            font-weight: 850;
-            text-align: left;
-            transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
-        }
-
-        .answer-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            border-color: var(--green);
-        }
-
-        .answer-button:disabled {
-            cursor: not-allowed;
-            opacity: 0.55;
-        }
-
-        .answer-button.correct {
-            border-color: #16a36a;
-            color: #087447;
-            background: #e8fff3;
-            opacity: 1;
-        }
-
-        .answer-button.wrong {
-            border-color: #d85555;
-            color: #a52e2e;
-            background: #fff0f0;
-            opacity: 1;
-        }
-
-        .quiz-feedback {
-            min-height: 48px;
-            margin-top: 14px;
-            padding: 13px 15px;
-            border-radius: 14px;
-            color: var(--muted);
-            background: #f5f8f7;
-            line-height: 1.55;
-        }
-
-        .quiz-feedback.correct {
-            color: #087447;
-            background: #e8fff3;
-        }
-
-        .quiz-feedback.wrong {
-            color: #a52e2e;
-            background: #fff0f0;
-        }
-
-        .quiz-actions {
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .completion-panel {
-            display: none;
-            margin-top: 24px;
-            padding: 34px;
-            text-align: center;
-        }
-
-        .completion-panel.show {
-            display: block;
-        }
-
-        .completion-icon {
-            font-size: 3.5rem;
-        }
-
-        .completion-panel h2 {
-            margin-top: 12px;
-            color: var(--navy);
-        }
-
-        .completion-panel p {
-            margin-top: 9px;
+        .level-card-description {
+            min-height: 65px;
+            margin-top: 10px;
             color: var(--muted);
             line-height: 1.6;
         }
 
-        .completion-score {
+        .level-difficulty {
             margin-top: 14px;
-            color: var(--green);
-            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .difficulty-bars {
+            height: 18px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .difficulty-bar {
+            width: 6px;
+            border-radius: 999px;
+            background: #d7e3df;
+        }
+
+        .difficulty-bar:nth-child(1) {
+            height: 6px;
+        }
+
+        .difficulty-bar:nth-child(2) {
+            height: 10px;
+        }
+
+        .difficulty-bar:nth-child(3) {
+            height: 14px;
+        }
+
+        .difficulty-bar:nth-child(4) {
+            height: 18px;
+        }
+
+        .difficulty-bar.active {
+            background: var(--green);
+        }
+
+        .difficulty-text {
+            color: var(--muted);
+            font-size: 0.7rem;
             font-weight: 900;
         }
 
-        .completion-actions {
-            margin-top: 20px;
+        .lesson-feature-list {
+            margin-top: 15px;
+            display: grid;
+            gap: 7px;
+        }
+
+        .lesson-feature {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 800;
         }
 
-        .locked-panel {
-            max-width: 650px;
-            margin: 55px auto;
-            padding: 36px;
-            text-align: center;
+        .lesson-feature-icon {
+            width: 25px;
+            height: 25px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: var(--light-green);
+            font-size: 0.75rem;
         }
 
-        .locked-panel .lock-icon {
-            font-size: 3.4rem;
+        .level-card-action {
+            width: 100%;
+            margin-top: auto;
+            padding-top: 18px;
         }
 
-        .locked-panel h1 {
-            margin-top: 14px;
+        .rank-ladder {
+            margin-top: 60px;
+        }
+
+        .rank-grid {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+
+        .rank-card {
+            position: relative;
+            padding: 19px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: white;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .rank-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--green);
+        }
+
+        .rank-card.current-rank {
+            border: 3px solid var(--green);
+            background: var(--light-green);
+        }
+
+        .rank-card.current-rank::after {
+            content: "Current";
+            position: absolute;
+            top: 11px;
+            right: 11px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            color: white;
+            background: var(--green);
+            font-size: 0.62rem;
+            font-weight: 900;
+        }
+
+        .rank-card.rank-locked {
+            opacity: 0.55;
+        }
+
+        .rank-icon {
+            font-size: 2rem;
+        }
+
+        .rank-card h3 {
+            margin-top: 10px;
             color: var(--navy);
         }
 
-        .locked-panel p {
-            margin-top: 10px;
+        .rank-card p {
+            margin-top: 5px;
             color: var(--muted);
-            line-height: 1.7;
+            font-size: 0.75rem;
         }
 
-        .hidden {
-            display: none !important;
+        .loading-cover {
+            position: fixed;
+            inset: 0;
+            z-index: 4000;
+            display: grid;
+            place-items: center;
+            background: rgba(247, 252, 250, 0.94);
+            transition:
+                opacity 0.35s ease,
+                visibility 0.35s ease;
         }
 
-        @media (max-width: 980px) {
-            .lesson-grid {
+        .loading-cover.hidden-loading {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-box {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 23px;
+            text-align: center;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .loading-icon {
+            font-size: 2.5rem;
+            animation: loadingFloat 1.1s ease-in-out infinite;
+        }
+
+        .loading-box p {
+            margin-top: 11px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        @keyframes loadingFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @media (max-width: 950px) {
+            .journey-hero {
                 grid-template-columns: 1fr;
+            }
+
+            .rank-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 650px) {
-            .lesson-top {
+            .journey-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .rank-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .level-group-heading {
+                align-items: flex-start;
                 flex-direction: column;
             }
 
-            .practice-panel,
-            .quiz-panel {
-                padding: 18px;
-            }
-
-            .voice-buttons,
-            .quiz-actions,
-            .completion-actions {
-                flex-direction: column;
-            }
-
-            .voice-button,
-            .voice-speed,
-            .quiz-actions .button,
-            .completion-actions .button {
-                width: 100%;
+            .level-card.current-level::after {
+                position: static;
+                width: fit-content;
+                margin-bottom: 10px;
+                display: block;
             }
         }
     </style>
 </head>
 
 <body>
+
+<div
+    class="loading-cover"
+    id="loadingCover"
+>
+    <div class="loading-box">
+
+        <div class="loading-icon">
+            🌙
+        </div>
+
+        <p>
+            Loading your journey...
+        </p>
+
+    </div>
+</div>
+
 <header class="academy-header">
-    <a class="academy-logo" href="index.html">QuranAcademy</a>
+
+    <a class="academy-logo" href="index.html">
+        QuranAcademy
+    </a>
 
     <nav class="academy-nav">
         <a href="index.html">Home</a>
@@ -457,2377 +417,1519 @@
         <a href="rewards.html">Rewards</a>
         <a class="account-link" href="account.html">Account</a>
     </nav>
+
 </header>
 
 <main class="page-shell">
-    <section id="lessonArea">
-        <div class="lesson-top">
-            <div class="lesson-top-copy">
-                <a class="back-link" href="learn.html">← Back to Levels</a>
-                <p class="eyebrow" id="levelLabel">Level</p>
-                <h1 class="page-title" id="lessonTitle">Loading lesson...</h1>
-                <p class="page-description" id="lessonDescription"></p>
 
-                <div class="lesson-meta">
-                    <span id="xpChip"></span>
-                    <span id="passChip"></span>
-                    <span id="rewardChip"></span>
-                    <span>🇺🇸 English voice</span>
-                    <span>🔊 Arabic voice</span>
-                    <span>🎤 Pronunciation practice</span>
-                </div>
+    <section class="journey-hero">
+
+        <div>
+
+            <p class="eyebrow">
+                Extended Quran learning journey
+            </p>
+
+            <h1 class="page-title">
+                Twenty different levels.
+                One Quran Champion.
+            </h1>
+
+            <p class="page-description">
+                Build Arabic reading and pronunciation skills,
+                learn Quran vocabulary, study Tajweed foundations,
+                and complete the final mastery examination.
+            </p>
+
+            <div class="journey-badges">
+
+                <span class="journey-badge">
+                    🔊 Arabic voice
+                </span>
+
+                <span class="journey-badge">
+                    🇺🇸 English voice
+                </span>
+
+                <span class="journey-badge">
+                    🎤 Pronunciation checks
+                </span>
+
+                <span class="journey-badge">
+                    🧠 Harder questions
+                </span>
+
+                <span class="journey-badge">
+                    🎮 20 game rewards
+                </span>
+
+                <span class="journey-badge">
+                    🏆 8 ranks
+                </span>
+
             </div>
+
+            <div class="journey-stats">
+
+                <div class="journey-stat">
+
+                    <strong>
+                        20
+                    </strong>
+
+                    <span>
+                        Different levels
+                    </span>
+
+                </div>
+
+                <div class="journey-stat">
+
+                    <strong>
+                        7,375
+                    </strong>
+
+                    <span>
+                        Total available XP
+                    </span>
+
+                </div>
+
+                <div class="journey-stat">
+
+                    <strong>
+                        80–90%
+                    </strong>
+
+                    <span>
+                        Required quiz scores
+                    </span>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="lesson-grid">
-            <section class="surface-card practice-panel">
-                <h2>Learn and Practice</h2>
-                <p class="practice-instruction" id="practiceInstruction"></p>
+        <aside class="profile-panel">
 
-                <div class="selected-practice">
-                    <div>
-                        <div class="selected-arabic" id="selectedArabic" dir="rtl"></div>
-                        <h3 id="selectedLabel"></h3>
-                        <p id="selectedMeaning"></p>
-                    </div>
+            <div class="profile-heading">
+
+                <div
+                    class="profile-avatar"
+                    id="profileAvatar"
+                >
+                    QA
                 </div>
 
-                <section class="voice-lab">
-                    <h3>Realistic voice practice</h3>
-                    <p>Hear the English explanation and the Arabic example using the best voices available on this device.</p>
+                <div>
 
-                    <div class="voice-buttons">
-                        <select class="voice-speed" id="voiceSpeed" aria-label="Voice speed">
-                            <option value="0.62">Very slow</option>
-                            <option value="0.78" selected>Learning speed</option>
-                            <option value="0.95">Normal speed</option>
-                        </select>
+                    <h2 id="profileName">
+                        Guest Learner
+                    </h2>
 
-                        <button class="voice-button" id="playEnglishButton" type="button">🇺🇸 Play English</button>
-                        <button class="voice-button" id="playArabicButton" type="button">🔊 Play Arabic</button>
-                        <button class="voice-button secondary" id="stopVoiceButton" type="button">■ Stop</button>
-                    </div>
+                    <p id="profileRank">
+                        Sign in to save progress
+                    </p>
 
-                    <p class="voice-status" id="voiceStatus" aria-live="polite">Loading voices...</p>
-                </section>
-
-                <section class="pronunciation-box">
-                    <h3>Check My Pronunciation</h3>
-                    <p>Listen first, then press the microphone and repeat the Arabic example.</p>
-                    <div class="pronunciation-target" id="pronunciationTarget" dir="rtl"></div>
-
-                    <div class="voice-buttons">
-                        <button class="voice-button" id="pronunciationButton" type="button">🎤 Start Check</button>
-                        <button class="voice-button secondary" id="retryPronunciationButton" type="button">↻ Retry</button>
-                    </div>
-
-                    <div class="pronunciation-result" id="pronunciationResult" aria-live="polite">
-                        Your practice result will appear here.
-                    </div>
-                </section>
-
-                <div class="practice-items" id="practiceItems"></div>
-            </section>
-
-            <section class="surface-card quiz-panel">
-                <h2>Lesson Challenge</h2>
-                <p id="quizRequirement"></p>
-
-                <div class="quiz-progress-box">
-                    <div class="quiz-progress-label">
-                        <span>Quiz progress</span>
-                        <span id="quizProgressText">0%</span>
-                    </div>
-
-                    <div class="progress-track">
-                        <div class="progress-fill" id="quizProgressFill"></div>
-                    </div>
                 </div>
 
-                <p class="question-number" id="questionNumber"></p>
-                <h3 class="question-text" id="questionText"></h3>
+            </div>
 
-                <div class="question-audio">
-                    <strong>Question voices</strong>
-                    <p>The English question and Arabic example play before the answers unlock.</p>
+            <div class="stat-grid">
 
-                    <div class="voice-buttons">
-                        <button class="voice-button" id="replayQuestionButton" type="button">▶ Replay Voices</button>
-                        <button class="voice-button secondary" id="skipAudioButton" type="button">Skip Audio</button>
-                    </div>
+                <div class="stat-card">
+
+                    <span>Total XP</span>
+
+                    <strong id="profileXP">
+                        0
+                    </strong>
+
                 </div>
 
-                <div class="answer-lock" id="answerLock">
-                    🔒 Listen to the question voices to unlock the answers.
+                <div class="stat-card">
+
+                    <span>Rank</span>
+
+                    <strong id="profileRankShort">
+                        Guest
+                    </strong>
+
                 </div>
 
-                <div class="answer-grid" id="answerGrid"></div>
+                <div class="stat-card">
 
-                <div class="quiz-feedback" id="quizFeedback" aria-live="polite">
-                    Listen, then choose your answer.
+                    <span>Levels</span>
+
+                    <strong id="profileLevels">
+                        0/20
+                    </strong>
+
                 </div>
 
-                <div class="quiz-actions">
-                    <button class="button button-primary" id="nextQuestionButton" type="button" disabled>
-                        Next Question
-                    </button>
+            </div>
 
-                    <button class="button button-secondary" id="restartQuizButton" type="button">
-                        Restart Quiz
-                    </button>
+            <div class="progress-label">
+
+                <span>
+                    Full journey
+                </span>
+
+                <span id="journeyPercent">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    id="journeyProgress"
+                ></div>
+
+            </div>
+
+            <div class="rank-progress-card">
+
+                <div class="rank-progress-label">
+
+                    <span id="rankProgressTitle">
+                        Rank progress
+                    </span>
+
+                    <span id="rankProgressAmount">
+                        0 XP
+                    </span>
+
                 </div>
 
-                <p class="voice-status" id="accountStatus"></p>
-            </section>
-        </div>
+                <div class="progress-track">
+
+                    <div
+                        class="progress-fill"
+                        id="rankProgressFill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
     </section>
 
-    <section class="surface-card completion-panel" id="completionPanel">
-        <div class="completion-icon">🎉</div>
-        <h2 id="completionTitle">Level Complete!</h2>
-        <p id="completionText"></p>
-        <div class="completion-score" id="completionScore"></div>
-        <p id="rewardText"></p>
+    <section class="level-section">
 
-        <div class="completion-actions">
-            <button class="button button-primary" id="claimRewardButton" type="button">
-                Claim XP and Game
-            </button>
+        <div class="section-heading">
 
-            <a class="button button-secondary" id="continueButton" href="learn.html">
-                Continue
+            <div>
+
+                <h2>
+                    Your 20-Level Path
+                </h2>
+
+                <p>
+                    Complete levels in order. Later levels contain
+                    more questions and require higher scores.
+                </p>
+
+            </div>
+
+            <a
+                class="button button-secondary"
+                href="leaderboard.html"
+            >
+                🏆 Global Leaderboard
             </a>
 
-            <a class="button button-secondary" href="rewards.html">
-                🎮 Reward Arcade
-            </a>
-
-            <a class="button button-secondary" href="learn.html">
-                Back to Levels
-            </a>
         </div>
+
+        <div id="levelGroups"></div>
+
     </section>
+
+    <section class="rank-ladder">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Rank Ladder
+                </h2>
+
+                <p>
+                    Earn XP and climb from Bronze to Quran Champion.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div
+            class="rank-grid"
+            id="rankGrid"
+        ></div>
+
+    </section>
+
 </main>
 
-<div class="emoji-layer" id="emojiLayer"></div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 
 <script>
-    const LESSONS = [
-  {
-    "number": 1,
-    "title": "Arabic Alphabet",
-    "icon": "🔤",
-    "description": "Recognize all 28 Arabic letters and hear their Arabic names.",
-    "xp": 100,
-    "reward": "Crescent Runner",
-    "pass": 80,
-    "questionCount": 10,
-    "instruction": "Choose a letter, listen to its Arabic name, then repeat it.",
-    "items": [
-      {
-        "arabic": "ا",
-        "label": "Alif",
-        "meaning": "The first Arabic letter.",
-        "voice": "أَلِف"
-      },
-      {
-        "arabic": "ب",
-        "label": "Baa",
-        "meaning": "One dot underneath.",
-        "voice": "بَاء"
-      },
-      {
-        "arabic": "ت",
-        "label": "Taa",
-        "meaning": "Two dots above.",
-        "voice": "تَاء"
-      },
-      {
-        "arabic": "ث",
-        "label": "Thaa",
-        "meaning": "Three dots above.",
-        "voice": "ثَاء"
-      },
-      {
-        "arabic": "ج",
-        "label": "Jeem",
-        "meaning": "One dot underneath.",
-        "voice": "جِيم"
-      },
-      {
-        "arabic": "ح",
-        "label": "Haa",
-        "meaning": "A breathy throat sound with no dots.",
-        "voice": "حَاء"
-      },
-      {
-        "arabic": "خ",
-        "label": "Khaa",
-        "meaning": "A throat sound with one dot above.",
-        "voice": "خَاء"
-      },
-      {
-        "arabic": "د",
-        "label": "Daal",
-        "meaning": "Does not connect to the next letter.",
-        "voice": "دَال"
-      },
-      {
-        "arabic": "ذ",
-        "label": "Dhaal",
-        "meaning": "Daal with one dot above.",
-        "voice": "ذَال"
-      },
-      {
-        "arabic": "ر",
-        "label": "Raa",
-        "meaning": "A rolled or tapped r sound.",
-        "voice": "رَاء"
-      },
-      {
-        "arabic": "ز",
-        "label": "Zay",
-        "meaning": "Raa with one dot above.",
-        "voice": "زَاي"
-      },
-      {
-        "arabic": "س",
-        "label": "Seen",
-        "meaning": "A light s sound.",
-        "voice": "سِين"
-      },
-      {
-        "arabic": "ش",
-        "label": "Sheen",
-        "meaning": "Three dots above.",
-        "voice": "شِين"
-      },
-      {
-        "arabic": "ص",
-        "label": "Saad",
-        "meaning": "A heavy s sound.",
-        "voice": "صَاد"
-      },
-      {
-        "arabic": "ض",
-        "label": "Daad",
-        "meaning": "A heavy d sound.",
-        "voice": "ضَاد"
-      },
-      {
-        "arabic": "ط",
-        "label": "Heavy Taa",
-        "meaning": "A heavy t sound.",
-        "voice": "طَاء"
-      },
-      {
-        "arabic": "ظ",
-        "label": "Heavy Dhaa",
-        "meaning": "A heavy dh sound.",
-        "voice": "ظَاء"
-      },
-      {
-        "arabic": "ع",
-        "label": "Ayn",
-        "meaning": "A deep throat sound.",
-        "voice": "عَيْن"
-      },
-      {
-        "arabic": "غ",
-        "label": "Ghayn",
-        "meaning": "A throat sound with one dot.",
-        "voice": "غَيْن"
-      },
-      {
-        "arabic": "ف",
-        "label": "Faa",
-        "meaning": "One dot above.",
-        "voice": "فَاء"
-      },
-      {
-        "arabic": "ق",
-        "label": "Qaaf",
-        "meaning": "A deep q sound.",
-        "voice": "قَاف"
-      },
-      {
-        "arabic": "ك",
-        "label": "Kaaf",
-        "meaning": "A k sound.",
-        "voice": "كَاف"
-      },
-      {
-        "arabic": "ل",
-        "label": "Laam",
-        "meaning": "An l sound.",
-        "voice": "لَام"
-      },
-      {
-        "arabic": "م",
-        "label": "Meem",
-        "meaning": "An m sound.",
-        "voice": "مِيم"
-      },
-      {
-        "arabic": "ن",
-        "label": "Noon",
-        "meaning": "An n sound.",
-        "voice": "نُون"
-      },
-      {
-        "arabic": "ه",
-        "label": "Soft Haa",
-        "meaning": "A soft h sound.",
-        "voice": "هَاء"
-      },
-      {
-        "arabic": "و",
-        "label": "Waaw",
-        "meaning": "W or long oo.",
-        "voice": "وَاو"
-      },
-      {
-        "arabic": "ي",
-        "label": "Yaa",
-        "meaning": "Y or long ee.",
-        "voice": "يَاء"
-      }
-    ]
-  },
-  {
-    "number": 2,
-    "title": "Similar Letters and Dots",
-    "icon": "🔍",
-    "description": "Tell commonly confused Arabic letters apart by shape and dots.",
-    "xp": 125,
-    "reward": "Dot Detective",
-    "pass": 80,
-    "questionCount": 12,
-    "instruction": "Compare each letter family and focus on the number and position of the dots.",
-    "items": [
-      {
-        "arabic": "ب ت ث",
-        "label": "Baa family",
-        "meaning": "Baa has one below, Taa two above, Thaa three above.",
-        "voice": "بَاء، تَاء، ثَاء"
-      },
-      {
-        "arabic": "ج ح خ",
-        "label": "Jeem family",
-        "meaning": "Jeem has one below, Haa none, Khaa one above.",
-        "voice": "جِيم، حَاء، خَاء"
-      },
-      {
-        "arabic": "د ذ",
-        "label": "Daal family",
-        "meaning": "Dhaal is Daal with one dot above.",
-        "voice": "دَال، ذَال"
-      },
-      {
-        "arabic": "ر ز",
-        "label": "Raa family",
-        "meaning": "Zay is Raa with one dot above.",
-        "voice": "رَاء، زَاي"
-      },
-      {
-        "arabic": "س ش",
-        "label": "Seen family",
-        "meaning": "Sheen is Seen with three dots above.",
-        "voice": "سِين، شِين"
-      },
-      {
-        "arabic": "ص ض",
-        "label": "Saad family",
-        "meaning": "Daad is Saad with one dot above.",
-        "voice": "صَاد، ضَاد"
-      },
-      {
-        "arabic": "ط ظ",
-        "label": "Heavy Taa family",
-        "meaning": "Heavy Dhaa has one dot above.",
-        "voice": "طَاء، ظَاء"
-      },
-      {
-        "arabic": "ع غ",
-        "label": "Ayn family",
-        "meaning": "Ghayn is Ayn with one dot above.",
-        "voice": "عَيْن، غَيْن"
-      },
-      {
-        "arabic": "ف ق",
-        "label": "Faa and Qaaf",
-        "meaning": "Faa has one dot; Qaaf has two.",
-        "voice": "فَاء، قَاف"
-      },
-      {
-        "arabic": "ن ي",
-        "label": "Noon and Yaa",
-        "meaning": "Noon has one above; Yaa has two below.",
-        "voice": "نُون، يَاء"
-      }
-    ]
-  },
-  {
-    "number": 3,
-    "title": "Short Vowels",
-    "icon": "🎵",
-    "description": "Read Fatha, Kasra, and Damma with clear sound examples.",
-    "xp": 150,
-    "reward": "Vowel Catcher",
-    "pass": 80,
-    "questionCount": 12,
-    "instruction": "Listen for the short a, i, and u sounds.",
-    "items": [
-      {
-        "arabic": "بَ",
-        "label": "Ba",
-        "meaning": "Baa with Fatha: short a.",
-        "voice": "بَ"
-      },
-      {
-        "arabic": "بِ",
-        "label": "Bi",
-        "meaning": "Baa with Kasra: short i.",
-        "voice": "بِ"
-      },
-      {
-        "arabic": "بُ",
-        "label": "Bu",
-        "meaning": "Baa with Damma: short u.",
-        "voice": "بُ"
-      },
-      {
-        "arabic": "تَ",
-        "label": "Ta",
-        "meaning": "Taa with Fatha.",
-        "voice": "تَ"
-      },
-      {
-        "arabic": "تِ",
-        "label": "Ti",
-        "meaning": "Taa with Kasra.",
-        "voice": "تِ"
-      },
-      {
-        "arabic": "تُ",
-        "label": "Tu",
-        "meaning": "Taa with Damma.",
-        "voice": "تُ"
-      },
-      {
-        "arabic": "مَ",
-        "label": "Ma",
-        "meaning": "Meem with Fatha.",
-        "voice": "مَ"
-      },
-      {
-        "arabic": "مِ",
-        "label": "Mi",
-        "meaning": "Meem with Kasra.",
-        "voice": "مِ"
-      },
-      {
-        "arabic": "مُ",
-        "label": "Mu",
-        "meaning": "Meem with Damma.",
-        "voice": "مُ"
-      }
-    ]
-  },
-  {
-    "number": 4,
-    "title": "Long Vowels and Sukoon",
-    "icon": "〰️",
-    "description": "Compare short sounds, long sounds, and letters without vowels.",
-    "xp": 175,
-    "reward": "Sound Surfer",
-    "pass": 80,
-    "questionCount": 14,
-    "instruction": "Notice how long vowels are held longer than short vowels.",
-    "items": [
-      {
-        "arabic": "بَا",
-        "label": "Baa — long aa",
-        "meaning": "Fatha followed by Alif.",
-        "voice": "بَا، بَا"
-      },
-      {
-        "arabic": "بِي",
-        "label": "Bee — long ee",
-        "meaning": "Kasra followed by Yaa.",
-        "voice": "بِي، بِي"
-      },
-      {
-        "arabic": "بُو",
-        "label": "Boo — long oo",
-        "meaning": "Damma followed by Waaw.",
-        "voice": "بُو، بُو"
-      },
-      {
-        "arabic": "قَالَ",
-        "label": "Qaala",
-        "meaning": "He said; includes long aa.",
-        "voice": "قَالَ"
-      },
-      {
-        "arabic": "فِي",
-        "label": "Fee",
-        "meaning": "In; includes long ee.",
-        "voice": "فِي"
-      },
-      {
-        "arabic": "نُور",
-        "label": "Noor",
-        "meaning": "Light; includes long oo.",
-        "voice": "نُور"
-      },
-      {
-        "arabic": "بْ",
-        "label": "Baa with Sukoon",
-        "meaning": "No vowel after the consonant.",
-        "voice": "بْ"
-      },
-      {
-        "arabic": "مِنْ",
-        "label": "Min",
-        "meaning": "From; Noon ends with Sukoon.",
-        "voice": "مِنْ"
-      }
-    ]
-  },
-  {
-    "number": 5,
-    "title": "Joining Arabic Letters",
-    "icon": "🔗",
-    "description": "Learn beginning, middle, ending, and separate letter forms.",
-    "xp": 200,
-    "reward": "Letter Builder",
-    "pass": 80,
-    "questionCount": 14,
-    "instruction": "Study how the same letter changes shape depending on its position.",
-    "items": [
-      {
-        "arabic": "ب بـ ـبـ ـب",
-        "label": "Baa forms",
-        "meaning": "Separate, beginning, middle, and ending forms.",
-        "voice": "بَاء"
-      },
-      {
-        "arabic": "ت تـ ـتـ ـت",
-        "label": "Taa forms",
-        "meaning": "Taa connects on both sides.",
-        "voice": "تَاء"
-      },
-      {
-        "arabic": "ج جـ ـجـ ـج",
-        "label": "Jeem forms",
-        "meaning": "Jeem changes shape when connected.",
-        "voice": "جِيم"
-      },
-      {
-        "arabic": "س سـ ـسـ ـس",
-        "label": "Seen forms",
-        "meaning": "Seen stretches through the word.",
-        "voice": "سِين"
-      },
-      {
-        "arabic": "ع عـ ـعـ ـع",
-        "label": "Ayn forms",
-        "meaning": "Ayn has noticeably different connected forms.",
-        "voice": "عَيْن"
-      },
-      {
-        "arabic": "م مـ ـمـ ـم",
-        "label": "Meem forms",
-        "meaning": "Meem connects on both sides.",
-        "voice": "مِيم"
-      },
-      {
-        "arabic": "ا ـا",
-        "label": "Alif forms",
-        "meaning": "Alif connects only to the letter before it.",
-        "voice": "أَلِف"
-      },
-      {
-        "arabic": "د ـد",
-        "label": "Daal forms",
-        "meaning": "Daal does not connect to the next letter.",
-        "voice": "دَال"
-      }
-    ]
-  },
-  {
-    "number": 6,
-    "title": "Shaddah and Tanween",
-    "icon": "✍️",
-    "description": "Practice doubled letters and the three Tanween endings.",
-    "xp": 225,
-    "reward": "Shaddah Smash",
-    "pass": 80,
-    "questionCount": 15,
-    "instruction": "Shaddah doubles a consonant. Tanween adds an n sound at the end.",
-    "items": [
-      {
-        "arabic": "رَبِّ",
-        "label": "Rabbi",
-        "meaning": "The Baa is doubled with Shaddah.",
-        "voice": "رَبِّ"
-      },
-      {
-        "arabic": "إِنَّ",
-        "label": "Inna",
-        "meaning": "The Noon is doubled with Shaddah.",
-        "voice": "إِنَّ"
-      },
-      {
-        "arabic": "ثُمَّ",
-        "label": "Thumma",
-        "meaning": "The Meem is doubled.",
-        "voice": "ثُمَّ"
-      },
-      {
-        "arabic": "كِتَابٌ",
-        "label": "Kitaabun",
-        "meaning": "Dammatain gives an un ending.",
-        "voice": "كِتَابٌ"
-      },
-      {
-        "arabic": "كِتَابًا",
-        "label": "Kitaaban",
-        "meaning": "Fathatain gives an an ending.",
-        "voice": "كِتَابًا"
-      },
-      {
-        "arabic": "كِتَابٍ",
-        "label": "Kitaabin",
-        "meaning": "Kasratain gives an in ending.",
-        "voice": "كِتَابٍ"
-      },
-      {
-        "arabic": "حَقٌّ",
-        "label": "Haqqun",
-        "meaning": "Shaddah and Tanween appear together.",
-        "voice": "حَقٌّ"
-      }
-    ]
-  },
-  {
-    "number": 7,
-    "title": "Reading Complete Words",
-    "icon": "🧩",
-    "description": "Combine letters and vowel marks to read complete Arabic words.",
-    "xp": 250,
-    "reward": "Word Wizard",
-    "pass": 80,
-    "questionCount": 16,
-    "instruction": "Read from right to left and blend each sound smoothly.",
-    "items": [
-      {
-        "arabic": "كِتَاب",
-        "label": "Kitaab",
-        "meaning": "Book",
-        "voice": "كِتَاب"
-      },
-      {
-        "arabic": "قَلَم",
-        "label": "Qalam",
-        "meaning": "Pen",
-        "voice": "قَلَم"
-      },
-      {
-        "arabic": "بَيْت",
-        "label": "Bayt",
-        "meaning": "House",
-        "voice": "بَيْت"
-      },
-      {
-        "arabic": "بَاب",
-        "label": "Baab",
-        "meaning": "Door",
-        "voice": "بَاب"
-      },
-      {
-        "arabic": "نُور",
-        "label": "Noor",
-        "meaning": "Light",
-        "voice": "نُور"
-      },
-      {
-        "arabic": "قَمَر",
-        "label": "Qamar",
-        "meaning": "Moon",
-        "voice": "قَمَر"
-      },
-      {
-        "arabic": "شَمْس",
-        "label": "Shams",
-        "meaning": "Sun",
-        "voice": "شَمْس"
-      },
-      {
-        "arabic": "مَاء",
-        "label": "Maa",
-        "meaning": "Water",
-        "voice": "مَاء"
-      },
-      {
-        "arabic": "أَرْض",
-        "label": "Ard",
-        "meaning": "Earth",
-        "voice": "أَرْض"
-      },
-      {
-        "arabic": "سَمَاء",
-        "label": "Samaa",
-        "meaning": "Sky",
-        "voice": "سَمَاء"
-      }
-    ]
-  },
-  {
-    "number": 8,
-    "title": "Islamic Phrases",
-    "icon": "💬",
-    "description": "Read, pronounce, and understand important everyday Islamic phrases.",
-    "xp": 275,
-    "reward": "Phrase Flyer",
-    "pass": 80,
-    "questionCount": 16,
-    "instruction": "Listen to the full phrase, then repeat it naturally.",
-    "items": [
-      {
-        "arabic": "بِسْمِ اللَّه",
-        "label": "Bismillah",
-        "meaning": "In the name of Allah.",
-        "voice": "بِسْمِ اللَّه"
-      },
-      {
-        "arabic": "الْحَمْدُ لِلَّهِ",
-        "label": "Alhamdulillah",
-        "meaning": "All praise belongs to Allah.",
-        "voice": "الْحَمْدُ لِلَّهِ"
-      },
-      {
-        "arabic": "سُبْحَانَ اللَّه",
-        "label": "SubhanAllah",
-        "meaning": "Glory be to Allah.",
-        "voice": "سُبْحَانَ اللَّه"
-      },
-      {
-        "arabic": "اللَّهُ أَكْبَر",
-        "label": "Allahu Akbar",
-        "meaning": "Allah is the Greatest.",
-        "voice": "اللَّهُ أَكْبَر"
-      },
-      {
-        "arabic": "السَّلَامُ عَلَيْكُمْ",
-        "label": "Assalamu Alaikum",
-        "meaning": "Peace be upon you.",
-        "voice": "السَّلَامُ عَلَيْكُمْ"
-      },
-      {
-        "arabic": "وَعَلَيْكُمُ السَّلَام",
-        "label": "Wa Alaikum Assalam",
-        "meaning": "And peace be upon you.",
-        "voice": "وَعَلَيْكُمُ السَّلَام"
-      },
-      {
-        "arabic": "إِنْ شَاءَ اللَّه",
-        "label": "InshaAllah",
-        "meaning": "If Allah wills.",
-        "voice": "إِنْ شَاءَ اللَّه"
-      },
-      {
-        "arabic": "مَا شَاءَ اللَّه",
-        "label": "MashaAllah",
-        "meaning": "What Allah has willed.",
-        "voice": "مَا شَاءَ اللَّه"
-      }
-    ]
-  },
-  {
-    "number": 9,
-    "title": "Quran Vocabulary I",
-    "icon": "📗",
-    "description": "Learn frequently repeated Quran words about Allah, people, and guidance.",
-    "xp": 300,
-    "reward": "Quran Word Quest",
-    "pass": 85,
-    "questionCount": 16,
-    "instruction": "Connect each Quran word with its basic English meaning.",
-    "items": [
-      {
-        "arabic": "اللَّه",
-        "label": "Allah",
-        "meaning": "Allah",
-        "voice": "اللَّه"
-      },
-      {
-        "arabic": "رَبّ",
-        "label": "Rabb",
-        "meaning": "Lord and Sustainer",
-        "voice": "رَبّ"
-      },
-      {
-        "arabic": "كِتَاب",
-        "label": "Kitaab",
-        "meaning": "Book",
-        "voice": "كِتَاب"
-      },
-      {
-        "arabic": "هُدًى",
-        "label": "Hudan",
-        "meaning": "Guidance",
-        "voice": "هُدًى"
-      },
-      {
-        "arabic": "رَحْمَة",
-        "label": "Rahmah",
-        "meaning": "Mercy",
-        "voice": "رَحْمَة"
-      },
-      {
-        "arabic": "نَاس",
-        "label": "Naas",
-        "meaning": "People",
-        "voice": "نَاس"
-      },
-      {
-        "arabic": "آمَنُوا",
-        "label": "Aamanu",
-        "meaning": "They believed",
-        "voice": "آمَنُوا"
-      },
-      {
-        "arabic": "عِلْم",
-        "label": "Ilm",
-        "meaning": "Knowledge",
-        "voice": "عِلْم"
-      },
-      {
-        "arabic": "حَقّ",
-        "label": "Haqq",
-        "meaning": "Truth",
-        "voice": "حَقّ"
-      }
-    ]
-  },
-  {
-    "number": 10,
-    "title": "Quran Vocabulary II",
-    "icon": "🧠",
-    "description": "Match more advanced Quran words with their English meanings.",
-    "xp": 325,
-    "reward": "Meaning Match",
-    "pass": 85,
-    "questionCount": 18,
-    "instruction": "Listen carefully because several words may look or sound similar.",
-    "items": [
-      {
-        "arabic": "عِبَادَة",
-        "label": "Ibaadah",
-        "meaning": "Worship",
-        "voice": "عِبَادَة"
-      },
-      {
-        "arabic": "يَوْم",
-        "label": "Yawm",
-        "meaning": "Day",
-        "voice": "يَوْم"
-      },
-      {
-        "arabic": "جَنَّة",
-        "label": "Jannah",
-        "meaning": "Paradise or garden",
-        "voice": "جَنَّة"
-      },
-      {
-        "arabic": "نَار",
-        "label": "Naar",
-        "meaning": "Fire",
-        "voice": "نَار"
-      },
-      {
-        "arabic": "سَمَاوَات",
-        "label": "Samaawaat",
-        "meaning": "Heavens",
-        "voice": "سَمَاوَات"
-      },
-      {
-        "arabic": "أَرْض",
-        "label": "Ard",
-        "meaning": "Earth",
-        "voice": "أَرْض"
-      },
-      {
-        "arabic": "صَلَاة",
-        "label": "Salaah",
-        "meaning": "Prayer",
-        "voice": "صَلَاة"
-      },
-      {
-        "arabic": "صَبْر",
-        "label": "Sabr",
-        "meaning": "Patience",
-        "voice": "صَبْر"
-      },
-      {
-        "arabic": "شُكْر",
-        "label": "Shukr",
-        "meaning": "Gratitude",
-        "voice": "شُكْر"
-      },
-      {
-        "arabic": "مَغْفِرَة",
-        "label": "Maghfirah",
-        "meaning": "Forgiveness",
-        "voice": "مَغْفِرَة"
-      }
-    ]
-  },
-  {
-    "number": 11,
-    "title": "Mouth Pronunciation Points",
-    "icon": "👄",
-    "description": "Practice letters formed using the lips, tongue, and teeth.",
-    "xp": 350,
-    "reward": "Mouth Mission",
-    "pass": 85,
-    "questionCount": 18,
-    "instruction": "Focus on where the lips or tongue touch while making each sound.",
-    "items": [
-      {
-        "arabic": "ب م و",
-        "label": "Two lips",
-        "meaning": "Baa, Meem, and Waaw use the lips.",
-        "voice": "بَاء، مِيم، وَاو"
-      },
-      {
-        "arabic": "ف",
-        "label": "Lower lip and upper teeth",
-        "meaning": "Faa uses the lower lip with the upper front teeth.",
-        "voice": "فَاء"
-      },
-      {
-        "arabic": "ث ذ ظ",
-        "label": "Tongue tip and teeth",
-        "meaning": "The tongue tip reaches the front teeth.",
-        "voice": "ثَاء، ذَال، ظَاء"
-      },
-      {
-        "arabic": "ت د ط",
-        "label": "Tongue tip and gum ridge",
-        "meaning": "These use the tongue tip near the upper teeth.",
-        "voice": "تَاء، دَال، طَاء"
-      },
-      {
-        "arabic": "س ز ص",
-        "label": "Whistling letters",
-        "meaning": "Air passes between the tongue and teeth.",
-        "voice": "سِين، زَاي، صَاد"
-      },
-      {
-        "arabic": "ل ن ر",
-        "label": "Tongue-tip letters",
-        "meaning": "These use nearby tongue-tip positions.",
-        "voice": "لَام، نُون، رَاء"
-      },
-      {
-        "arabic": "ق ك",
-        "label": "Back of tongue",
-        "meaning": "Qaaf is deeper than Kaaf.",
-        "voice": "قَاف، كَاف"
-      }
-    ]
-  },
-  {
-    "number": 12,
-    "title": "Throat Pronunciation Points",
-    "icon": "🗣️",
-    "description": "Practice Arabic letters produced from different throat areas.",
-    "xp": 375,
-    "reward": "Throat Trail",
-    "pass": 85,
-    "questionCount": 18,
-    "instruction": "Listen to each throat pair and notice where the sound begins.",
-    "items": [
-      {
-        "arabic": "ء ه",
-        "label": "Deepest throat",
-        "meaning": "Hamzah and Haa come from the deepest throat area.",
-        "voice": "هَمْزَة، هَاء"
-      },
-      {
-        "arabic": "ع ح",
-        "label": "Middle throat",
-        "meaning": "Ayn and Haa come from the middle throat.",
-        "voice": "عَيْن، حَاء"
-      },
-      {
-        "arabic": "غ خ",
-        "label": "Upper throat",
-        "meaning": "Ghayn and Khaa come from the upper throat.",
-        "voice": "غَيْن، خَاء"
-      },
-      {
-        "arabic": "أَحَد",
-        "label": "Ahad",
-        "meaning": "Practice Hamzah and Haa.",
-        "voice": "أَحَد"
-      },
-      {
-        "arabic": "عَلِيم",
-        "label": "Aleem",
-        "meaning": "Practice Ayn.",
-        "voice": "عَلِيم"
-      },
-      {
-        "arabic": "خَلَقَ",
-        "label": "Khalaqa",
-        "meaning": "Practice Khaa.",
-        "voice": "خَلَقَ"
-      },
-      {
-        "arabic": "غَفُور",
-        "label": "Ghafoor",
-        "meaning": "Practice Ghayn.",
-        "voice": "غَفُور"
-      }
-    ]
-  },
-  {
-    "number": 13,
-    "title": "Heavy and Light Letters",
-    "icon": "⚖️",
-    "description": "Hear and compare heavy Arabic sounds with lighter sounds.",
-    "xp": 400,
-    "reward": "Heavy Letter Hero",
-    "pass": 85,
-    "questionCount": 20,
-    "instruction": "Compare each heavy letter with a lighter sound made nearby.",
-    "items": [
-      {
-        "arabic": "س / ص",
-        "label": "Seen and Saad",
-        "meaning": "Seen is light; Saad is heavy.",
-        "voice": "سِين، صَاد"
-      },
-      {
-        "arabic": "د / ض",
-        "label": "Daal and Daad",
-        "meaning": "Daal is light; Daad is heavy.",
-        "voice": "دَال، ضَاد"
-      },
-      {
-        "arabic": "ت / ط",
-        "label": "Taa and Heavy Taa",
-        "meaning": "Taa is light; Heavy Taa is full-mouthed.",
-        "voice": "تَاء، طَاء"
-      },
-      {
-        "arabic": "ذ / ظ",
-        "label": "Dhaal and Heavy Dhaa",
-        "meaning": "Dhaal is light; Heavy Dhaa is heavy.",
-        "voice": "ذَال، ظَاء"
-      },
-      {
-        "arabic": "ك / ق",
-        "label": "Kaaf and Qaaf",
-        "meaning": "Kaaf is lighter; Qaaf is deeper and heavier.",
-        "voice": "كَاف، قَاف"
-      },
-      {
-        "arabic": "رِ / رُ",
-        "label": "Light and heavy Raa",
-        "meaning": "Raa may be light or heavy depending on its vowel.",
-        "voice": "رِ، رُ"
-      }
-    ]
-  },
-  {
-    "number": 14,
-    "title": "Madd Rules",
-    "icon": "⏱️",
-    "description": "Practice natural Madd and beginner vowel-lengthening rules.",
-    "xp": 425,
-    "reward": "Madd Master",
-    "pass": 85,
-    "questionCount": 20,
-    "instruction": "Count the beats and hold the vowel without changing its sound.",
-    "items": [
-      {
-        "arabic": "قَالَ",
-        "label": "Natural Madd with Alif",
-        "meaning": "Hold the aa sound for two counts.",
-        "voice": "قَالَ"
-      },
-      {
-        "arabic": "فِي",
-        "label": "Natural Madd with Yaa",
-        "meaning": "Hold the ee sound for two counts.",
-        "voice": "فِي"
-      },
-      {
-        "arabic": "يَقُولُ",
-        "label": "Natural Madd with Waaw",
-        "meaning": "Hold the oo sound for two counts.",
-        "voice": "يَقُولُ"
-      },
-      {
-        "arabic": "جَاءَ",
-        "label": "Connected Madd example",
-        "meaning": "A Madd letter is followed by Hamzah in the same word.",
-        "voice": "جَاءَ"
-      },
-      {
-        "arabic": "فِي أَنْفُسِكُمْ",
-        "label": "Separated Madd example",
-        "meaning": "The Madd letter and Hamzah are in separate words.",
-        "voice": "فِي أَنْفُسِكُمْ"
-      },
-      {
-        "arabic": "الضَّالِّينَ",
-        "label": "Necessary Madd example",
-        "meaning": "A stronger Madd caused by a permanent Sukoon or Shaddah.",
-        "voice": "الضَّالِّينَ"
-      }
-    ]
-  },
-  {
-    "number": 15,
-    "title": "Qalqalah",
-    "icon": "⚡",
-    "description": "Recognize and practice the five bouncing Qalqalah letters.",
-    "xp": 450,
-    "reward": "Qalqalah Bounce",
-    "pass": 85,
-    "questionCount": 20,
-    "instruction": "The Qalqalah letters are ق ط ب ج د when they carry Sukoon.",
-    "items": [
-      {
-        "arabic": "ق ط ب ج د",
-        "label": "Qalqalah letters",
-        "meaning": "Remember them together as قطب جد.",
-        "voice": "قَاف، طَاء، بَاء، جِيم، دَال"
-      },
-      {
-        "arabic": "يَجْعَل",
-        "label": "Jeem with Sukoon",
-        "meaning": "A light bounce occurs on Jeem.",
-        "voice": "يَجْعَل"
-      },
-      {
-        "arabic": "أَطْعَمَهُمْ",
-        "label": "Heavy Taa with Sukoon",
-        "meaning": "A bounce occurs on Heavy Taa.",
-        "voice": "أَطْعَمَهُمْ"
-      },
-      {
-        "arabic": "أَبْتَر",
-        "label": "Baa with Sukoon",
-        "meaning": "A bounce occurs on Baa.",
-        "voice": "أَبْتَر"
-      },
-      {
-        "arabic": "أَحَدْ",
-        "label": "Daal at a stop",
-        "meaning": "Stopping creates a strong Qalqalah on Daal.",
-        "voice": "أَحَدْ"
-      },
-      {
-        "arabic": "الْفَلَقْ",
-        "label": "Qaaf at a stop",
-        "meaning": "Stopping creates Qalqalah on Qaaf.",
-        "voice": "الْفَلَقْ"
-      }
-    ]
-  },
-  {
-    "number": 16,
-    "title": "Noon Sakin and Tanween",
-    "icon": "ن",
-    "description": "Study Izhar, Idgham, Iqlab, and Ikhfa with examples.",
-    "xp": 500,
-    "reward": "Noon Defender",
-    "pass": 85,
-    "questionCount": 22,
-    "instruction": "Look at the letter immediately after Noon Sakin or Tanween.",
-    "items": [
-      {
-        "arabic": "مِنْ هَادٍ",
-        "label": "Izhar",
-        "meaning": "Noon is pronounced clearly before a throat letter.",
-        "voice": "مِنْ هَادٍ"
-      },
-      {
-        "arabic": "مَنْ يَعْمَلْ",
-        "label": "Idgham",
-        "meaning": "Noon merges into Yaa.",
-        "voice": "مَنْ يَعْمَلْ"
-      },
-      {
-        "arabic": "مِنْ رَبِّهِمْ",
-        "label": "Idgham without Ghunnah",
-        "meaning": "Noon merges into Raa.",
-        "voice": "مِنْ رَبِّهِمْ"
-      },
-      {
-        "arabic": "سَمِيعٌ بَصِير",
-        "label": "Iqlab",
-        "meaning": "Tanween changes toward a hidden Meem before Baa.",
-        "voice": "سَمِيعٌ بَصِير"
-      },
-      {
-        "arabic": "مِنْ شَرِّ",
-        "label": "Ikhfa",
-        "meaning": "Noon is partially hidden before Sheen.",
-        "voice": "مِنْ شَرِّ"
-      },
-      {
-        "arabic": "عَلِيمٌ حَكِيم",
-        "label": "Izhar with Tanween",
-        "meaning": "Tanween is clear before Haa.",
-        "voice": "عَلِيمٌ حَكِيم"
-      }
-    ]
-  },
-  {
-    "number": 17,
-    "title": "Meem Sakin Rules",
-    "icon": "م",
-    "description": "Learn Ikhfa Shafawi, Idgham Shafawi, and Izhar Shafawi.",
-    "xp": 550,
-    "reward": "Meem Maze",
-    "pass": 85,
-    "questionCount": 22,
-    "instruction": "Look at the letter immediately after Meem Sakin.",
-    "items": [
-      {
-        "arabic": "تَرْمِيهِمْ بِحِجَارَة",
-        "label": "Ikhfa Shafawi",
-        "meaning": "Meem is lightly hidden before Baa.",
-        "voice": "تَرْمِيهِمْ بِحِجَارَة"
-      },
-      {
-        "arabic": "لَكُمْ مَا",
-        "label": "Idgham Shafawi",
-        "meaning": "Meem merges into another Meem with Ghunnah.",
-        "voice": "لَكُمْ مَا"
-      },
-      {
-        "arabic": "عَلَيْهِمْ وَلَا",
-        "label": "Izhar Shafawi",
-        "meaning": "Meem is clear before Waaw.",
-        "voice": "عَلَيْهِمْ وَلَا"
-      },
-      {
-        "arabic": "هُمْ فِيهَا",
-        "label": "Izhar Shafawi before Faa",
-        "meaning": "Meem remains clear before Faa.",
-        "voice": "هُمْ فِيهَا"
-      },
-      {
-        "arabic": "إِنَّهُمْ كَانُوا",
-        "label": "Izhar Shafawi before Kaaf",
-        "meaning": "Meem remains clear before Kaaf.",
-        "voice": "إِنَّهُمْ كَانُوا"
-      },
-      {
-        "arabic": "ثُمَّ",
-        "label": "Ghunnah on doubled Meem",
-        "meaning": "A doubled Meem carries nasalization.",
-        "voice": "ثُمَّ"
-      }
-    ]
-  },
-  {
-    "number": 18,
-    "title": "Short Surah Recognition",
-    "icon": "📖",
-    "description": "Identify short surahs from their names, openings, and themes.",
-    "xp": 600,
-    "reward": "Surah Explorer",
-    "pass": 85,
-    "questionCount": 24,
-    "instruction": "Use the surah name, opening words, and basic theme to identify it.",
-    "items": [
-      {
-        "arabic": "الْفَاتِحَة",
-        "label": "Al-Fatihah",
-        "meaning": "The opening surah and a prayer for guidance.",
-        "voice": "سُورَةُ الْفَاتِحَة"
-      },
-      {
-        "arabic": "الْإِخْلَاص",
-        "label": "Al-Ikhlas",
-        "meaning": "Declares the oneness of Allah.",
-        "voice": "قُلْ هُوَ اللَّهُ أَحَد"
-      },
-      {
-        "arabic": "الْفَلَق",
-        "label": "Al-Falaq",
-        "meaning": "Seeks refuge from external harms.",
-        "voice": "قُلْ أَعُوذُ بِرَبِّ الْفَلَق"
-      },
-      {
-        "arabic": "النَّاس",
-        "label": "An-Nas",
-        "meaning": "Seeks refuge from whispering evil.",
-        "voice": "قُلْ أَعُوذُ بِرَبِّ النَّاس"
-      },
-      {
-        "arabic": "الْكَوْثَر",
-        "label": "Al-Kawthar",
-        "meaning": "A short surah of blessing and worship.",
-        "voice": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَر"
-      },
-      {
-        "arabic": "الْعَصْر",
-        "label": "Al-Asr",
-        "meaning": "Teaches the value of time, faith, truth, and patience.",
-        "voice": "وَالْعَصْر"
-      },
-      {
-        "arabic": "الْفِيل",
-        "label": "Al-Fil",
-        "meaning": "Mentions the people of the elephant.",
-        "voice": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيل"
-      },
-      {
-        "arabic": "قُرَيْش",
-        "label": "Quraysh",
-        "meaning": "Mentions the journeys and security of Quraysh.",
-        "voice": "لِإِيلَافِ قُرَيْش"
-      }
-    ]
-  },
-  {
-    "number": 19,
-    "title": "Tajweed Application",
-    "icon": "🎓",
-    "description": "Find multiple Tajweed rules inside longer Quran examples.",
-    "xp": 700,
-    "reward": "Tajweed Trials",
-    "pass": 90,
-    "questionCount": 26,
-    "instruction": "Identify the highlighted rule, then listen to the complete example.",
-    "items": [
-      {
-        "arabic": "مِنْ شَرِّ مَا خَلَقَ",
-        "label": "Ikhfa plus throat letter",
-        "meaning": "Noon is hidden before Sheen; Khaa is a throat letter.",
-        "voice": "مِنْ شَرِّ مَا خَلَقَ"
-      },
-      {
-        "arabic": "قُلْ هُوَ اللَّهُ أَحَدْ",
-        "label": "Qalqalah at stopping",
-        "meaning": "Daal gains Qalqalah when stopping.",
-        "voice": "قُلْ هُوَ اللَّهُ أَحَدْ"
-      },
-      {
-        "arabic": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَر",
-        "label": "Ghunnah and Madd",
-        "meaning": "Doubled Noon has Ghunnah; several long vowels occur.",
-        "voice": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَر"
-      },
-      {
-        "arabic": "مَنْ يَعْمَلْ سُوءًا",
-        "label": "Idgham and Madd",
-        "meaning": "Noon merges into Yaa; long vowels appear later.",
-        "voice": "مَنْ يَعْمَلْ سُوءًا"
-      },
-      {
-        "arabic": "تَرْمِيهِمْ بِحِجَارَةٍ",
-        "label": "Ikhfa Shafawi",
-        "meaning": "Meem is hidden before Baa.",
-        "voice": "تَرْمِيهِمْ بِحِجَارَةٍ"
-      },
-      {
-        "arabic": "الضَّالِّينَ",
-        "label": "Shaddah and Madd",
-        "meaning": "Heavy Daad, doubled Laam, and extended Madd.",
-        "voice": "الضَّالِّينَ"
-      }
-    ]
-  },
-  {
-    "number": 20,
-    "title": "Final Quran Mastery Exam",
-    "icon": "👑",
-    "description": "Complete a mixed examination covering the entire learning journey.",
-    "xp": 900,
-    "reward": "Grand Quran Challenge",
-    "pass": 90,
-    "questionCount": 35,
-    "instruction": "This final level mixes letters, reading, vocabulary, Makharij, surahs, and Tajweed.",
-    "items": [
-      {
-        "arabic": "ع",
-        "label": "Ayn",
-        "meaning": "A middle-throat letter.",
-        "voice": "عَيْن"
-      },
-      {
-        "arabic": "قَالَ",
-        "label": "Qaala",
-        "meaning": "Contains natural Madd with Alif.",
-        "voice": "قَالَ"
-      },
-      {
-        "arabic": "رَحْمَة",
-        "label": "Rahmah",
-        "meaning": "Mercy.",
-        "voice": "رَحْمَة"
-      },
-      {
-        "arabic": "مِنْ شَرِّ",
-        "label": "Ikhfa example",
-        "meaning": "Noon is partly hidden before Sheen.",
-        "voice": "مِنْ شَرِّ"
-      },
-      {
-        "arabic": "لَكُمْ مَا",
-        "label": "Idgham Shafawi",
-        "meaning": "Meem merges into Meem.",
-        "voice": "لَكُمْ مَا"
-      },
-      {
-        "arabic": "قُلْ هُوَ اللَّهُ أَحَد",
-        "label": "Al-Ikhlas opening",
-        "meaning": "Declares the oneness of Allah.",
-        "voice": "قُلْ هُوَ اللَّهُ أَحَد"
-      },
-      {
-        "arabic": "ص",
-        "label": "Saad",
-        "meaning": "A heavy s sound.",
-        "voice": "صَاد"
-      },
-      {
-        "arabic": "جَنَّة",
-        "label": "Jannah",
-        "meaning": "Paradise or garden.",
-        "voice": "جَنَّة"
-      },
-      {
-        "arabic": "بِسْمِ اللَّه",
-        "label": "Bismillah",
-        "meaning": "In the name of Allah.",
-        "voice": "بِسْمِ اللَّه"
-      },
-      {
-        "arabic": "أَحَدْ",
-        "label": "Qalqalah stop",
-        "meaning": "Daal bounces when stopping.",
-        "voice": "أَحَدْ"
-      },
-      {
-        "arabic": "كِتَابٌ",
-        "label": "Tanween Damm",
-        "meaning": "The word ends with an un sound.",
-        "voice": "كِتَابٌ"
-      },
-      {
-        "arabic": "غ",
-        "label": "Ghayn",
-        "meaning": "An upper-throat letter.",
-        "voice": "غَيْن"
-      }
-    ]
-  }
-];
+    const LEVELS = [
+        {
+            number: 1,
+            group: "Arabic Foundations",
+            icon: "🔤",
+            title: "Arabic Alphabet",
+            description:
+                "Recognize all 28 Arabic letters and hear their correct Arabic names.",
+            xp: 100,
+            reward: "Crescent Runner",
+            questions: 10,
+            pass: 80,
+            difficulty: 1
+        },
+        {
+            number: 2,
+            group: "Arabic Foundations",
+            icon: "🔍",
+            title: "Similar Letters and Dots",
+            description:
+                "Separate commonly confused letters by shape and dot placement.",
+            xp: 125,
+            reward: "Dot Detective",
+            questions: 12,
+            pass: 80,
+            difficulty: 1
+        },
+        {
+            number: 3,
+            group: "Arabic Foundations",
+            icon: "🎵",
+            title: "Short Vowels",
+            description:
+                "Read Fatha, Kasra, and Damma with clear sound examples.",
+            xp: 150,
+            reward: "Vowel Catcher",
+            questions: 12,
+            pass: 80,
+            difficulty: 1
+        },
+        {
+            number: 4,
+            group: "Arabic Foundations",
+            icon: "〰️",
+            title: "Long Vowels and Sukoon",
+            description:
+                "Compare short sounds, long sounds, and letters without vowels.",
+            xp: 175,
+            reward: "Sound Surfer",
+            questions: 14,
+            pass: 80,
+            difficulty: 2
+        },
+        {
+            number: 5,
+            group: "Arabic Reading",
+            icon: "🔗",
+            title: "Joining Arabic Letters",
+            description:
+                "Learn beginning, middle, ending, and separate letter forms.",
+            xp: 200,
+            reward: "Letter Builder",
+            questions: 14,
+            pass: 80,
+            difficulty: 2
+        },
+        {
+            number: 6,
+            group: "Arabic Reading",
+            icon: "✍️",
+            title: "Shaddah and Tanween",
+            description:
+                "Practice doubled letters and the three Tanween endings.",
+            xp: 225,
+            reward: "Shaddah Smash",
+            questions: 15,
+            pass: 80,
+            difficulty: 2
+        },
+        {
+            number: 7,
+            group: "Arabic Reading",
+            icon: "🧩",
+            title: "Reading Complete Words",
+            description:
+                "Combine letters and vowel marks to read full Arabic words.",
+            xp: 250,
+            reward: "Word Wizard",
+            questions: 16,
+            pass: 80,
+            difficulty: 2
+        },
+        {
+            number: 8,
+            group: "Arabic Reading",
+            icon: "💬",
+            title: "Islamic Phrases",
+            description:
+                "Read, pronounce, and understand important everyday phrases.",
+            xp: 275,
+            reward: "Phrase Flyer",
+            questions: 16,
+            pass: 80,
+            difficulty: 2
+        },
+        {
+            number: 9,
+            group: "Quran Vocabulary",
+            icon: "📗",
+            title: "Quran Vocabulary I",
+            description:
+                "Learn frequently repeated Quran words about Allah, people, and guidance.",
+            xp: 300,
+            reward: "Quran Word Quest",
+            questions: 16,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 10,
+            group: "Quran Vocabulary",
+            icon: "🧠",
+            title: "Quran Vocabulary II",
+            description:
+                "Match more advanced Quran words with their English meanings.",
+            xp: 325,
+            reward: "Meaning Match",
+            questions: 18,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 11,
+            group: "Pronunciation",
+            icon: "👄",
+            title: "Mouth Pronunciation Points",
+            description:
+                "Practice letters formed using the lips, tongue, and teeth.",
+            xp: 350,
+            reward: "Mouth Mission",
+            questions: 18,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 12,
+            group: "Pronunciation",
+            icon: "🗣️",
+            title: "Throat Pronunciation Points",
+            description:
+                "Practice Arabic letters produced from different throat areas.",
+            xp: 375,
+            reward: "Throat Trail",
+            questions: 18,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 13,
+            group: "Pronunciation",
+            icon: "⚖️",
+            title: "Heavy and Light Letters",
+            description:
+                "Hear and compare heavy Arabic sounds with lighter sounds.",
+            xp: 400,
+            reward: "Heavy Letter Hero",
+            questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 14,
+            group: "Tajweed Foundations",
+            icon: "⏱️",
+            title: "Madd Rules",
+            description:
+                "Practice natural Madd and beginner vowel-lengthening rules.",
+            xp: 425,
+            reward: "Madd Master",
+            questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 15,
+            group: "Tajweed Foundations",
+            icon: "⚡",
+            title: "Qalqalah",
+            description:
+                "Recognize and practice the five bouncing Qalqalah letters.",
+            xp: 450,
+            reward: "Qalqalah Bounce",
+            questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 16,
+            group: "Tajweed Rules",
+            icon: "ن",
+            title: "Noon Sakin and Tanween",
+            description:
+                "Study Izhar, Idgham, Iqlab, and Ikhfa with examples.",
+            xp: 500,
+            reward: "Noon Defender",
+            questions: 22,
+            pass: 85,
+            difficulty: 4
+        },
+        {
+            number: 17,
+            group: "Tajweed Rules",
+            icon: "م",
+            title: "Meem Sakin Rules",
+            description:
+                "Learn Ikhfa Shafawi, Idgham Shafawi, and Izhar Shafawi.",
+            xp: 550,
+            reward: "Meem Maze",
+            questions: 22,
+            pass: 85,
+            difficulty: 4
+        },
+        {
+            number: 18,
+            group: "Quran Knowledge",
+            icon: "📖",
+            title: "Short Surah Recognition",
+            description:
+                "Identify short surahs from their names, openings, and themes.",
+            xp: 600,
+            reward: "Surah Explorer",
+            questions: 24,
+            pass: 85,
+            difficulty: 4
+        },
+        {
+            number: 19,
+            group: "Mastery",
+            icon: "🎓",
+            title: "Tajweed Application",
+            description:
+                "Find multiple Tajweed rules inside longer Quran examples.",
+            xp: 700,
+            reward: "Tajweed Trials",
+            questions: 26,
+            pass: 90,
+            difficulty: 4
+        },
+        {
+            number: 20,
+            group: "Mastery",
+            icon: "👑",
+            title: "Final Quran Mastery Exam",
+            description:
+                "Complete a difficult mixed examination covering all previous levels.",
+            xp: 900,
+            reward: "Grand Quran Challenge",
+            questions: 35,
+            pass: 90,
+            difficulty: 4
+        }
+    ];
 
-    const params = new URLSearchParams(window.location.search);
-    const requestedLevel = Number(params.get("level"));
-    const levelNumber =
-        Number.isInteger(requestedLevel) &&
-        requestedLevel >= 1 &&
-        requestedLevel <= 20
-            ? requestedLevel
-            : 1;
+    const GROUPS = [
+        {
+            name: "Arabic Foundations",
+            description:
+                "Master letters, dots, vowel marks, and basic sounds.",
+            range: "Levels 1–4"
+        },
+        {
+            name: "Arabic Reading",
+            description:
+                "Join letters and begin reading complete words and phrases.",
+            range: "Levels 5–8"
+        },
+        {
+            name: "Quran Vocabulary",
+            description:
+                "Learn frequently repeated words from the Quran.",
+            range: "Levels 9–10"
+        },
+        {
+            name: "Pronunciation",
+            description:
+                "Practice mouth, tongue, lip, teeth, and throat sounds.",
+            range: "Levels 11–13"
+        },
+        {
+            name: "Tajweed Foundations",
+            description:
+                "Begin applying vowel lengthening and Qalqalah.",
+            range: "Levels 14–15"
+        },
+        {
+            name: "Tajweed Rules",
+            description:
+                "Study Noon Sakin, Tanween, and Meem Sakin rules.",
+            range: "Levels 16–17"
+        },
+        {
+            name: "Quran Knowledge",
+            description:
+                "Recognize short surahs and their important features.",
+            range: "Level 18"
+        },
+        {
+            name: "Mastery",
+            description:
+                "Apply everything in advanced Tajweed and final examinations.",
+            range: "Levels 19–20"
+        }
+    ];
 
-    const lesson = LESSONS.find((item) => item.number === levelNumber);
+    const RANKS = [
+        {
+            name: "Bronze",
+            icon: "🥉",
+            minimumXP: 0
+        },
+        {
+            name: "Silver",
+            icon: "🥈",
+            minimumXP: 500
+        },
+        {
+            name: "Gold",
+            icon: "🥇",
+            minimumXP: 1200
+        },
+        {
+            name: "Platinum",
+            icon: "🏅",
+            minimumXP: 2200
+        },
+        {
+            name: "Diamond",
+            icon: "💎",
+            minimumXP: 3500
+        },
+        {
+            name: "Master",
+            icon: "👑",
+            minimumXP: 4800
+        },
+        {
+            name: "Grandmaster",
+            icon: "🔥",
+            minimumXP: 6000
+        },
+        {
+            name: "Quran Champion",
+            icon: "🌙",
+            minimumXP: 7000
+        }
+    ];
 
-    const lessonArea = document.getElementById("lessonArea");
-    const completionPanel = document.getElementById("completionPanel");
-    const levelLabel = document.getElementById("levelLabel");
-    const lessonTitle = document.getElementById("lessonTitle");
-    const lessonDescription = document.getElementById("lessonDescription");
-    const xpChip = document.getElementById("xpChip");
-    const passChip = document.getElementById("passChip");
-    const rewardChip = document.getElementById("rewardChip");
-    const practiceInstruction = document.getElementById("practiceInstruction");
-    const selectedArabic = document.getElementById("selectedArabic");
-    const selectedLabel = document.getElementById("selectedLabel");
-    const selectedMeaning = document.getElementById("selectedMeaning");
-    const pronunciationTarget = document.getElementById("pronunciationTarget");
-    const practiceItems = document.getElementById("practiceItems");
-    const voiceSpeed = document.getElementById("voiceSpeed");
-    const voiceStatus = document.getElementById("voiceStatus");
-    const playEnglishButton = document.getElementById("playEnglishButton");
-    const playArabicButton = document.getElementById("playArabicButton");
-    const stopVoiceButton = document.getElementById("stopVoiceButton");
-    const pronunciationButton = document.getElementById("pronunciationButton");
-    const retryPronunciationButton = document.getElementById("retryPronunciationButton");
-    const pronunciationResult = document.getElementById("pronunciationResult");
-    const quizRequirement = document.getElementById("quizRequirement");
-    const quizProgressText = document.getElementById("quizProgressText");
-    const quizProgressFill = document.getElementById("quizProgressFill");
-    const questionNumber = document.getElementById("questionNumber");
-    const questionText = document.getElementById("questionText");
-    const replayQuestionButton = document.getElementById("replayQuestionButton");
-    const skipAudioButton = document.getElementById("skipAudioButton");
-    const answerLock = document.getElementById("answerLock");
-    const answerGrid = document.getElementById("answerGrid");
-    const quizFeedback = document.getElementById("quizFeedback");
-    const nextQuestionButton = document.getElementById("nextQuestionButton");
-    const restartQuizButton = document.getElementById("restartQuizButton");
-    const accountStatus = document.getElementById("accountStatus");
-    const completionTitle = document.getElementById("completionTitle");
-    const completionText = document.getElementById("completionText");
-    const completionScore = document.getElementById("completionScore");
-    const rewardText = document.getElementById("rewardText");
-    const claimRewardButton = document.getElementById("claimRewardButton");
-    const continueButton = document.getElementById("continueButton");
-    const emojiLayer = document.getElementById("emojiLayer");
-    const toast = document.getElementById("toast");
+    const MAXIMUM_XP =
+        LEVELS.reduce(
+            (total, level) =>
+                total + level.xp,
+            0
+        );
 
-    let selectedItem = lesson.items[0];
+    const profileAvatar =
+        document.getElementById(
+            "profileAvatar"
+        );
+
+    const profileName =
+        document.getElementById(
+            "profileName"
+        );
+
+    const profileRank =
+        document.getElementById(
+            "profileRank"
+        );
+
+    const profileRankShort =
+        document.getElementById(
+            "profileRankShort"
+        );
+
+    const profileXP =
+        document.getElementById(
+            "profileXP"
+        );
+
+    const profileLevels =
+        document.getElementById(
+            "profileLevels"
+        );
+
+    const journeyPercent =
+        document.getElementById(
+            "journeyPercent"
+        );
+
+    const journeyProgress =
+        document.getElementById(
+            "journeyProgress"
+        );
+
+    const rankProgressTitle =
+        document.getElementById(
+            "rankProgressTitle"
+        );
+
+    const rankProgressAmount =
+        document.getElementById(
+            "rankProgressAmount"
+        );
+
+    const rankProgressFill =
+        document.getElementById(
+            "rankProgressFill"
+        );
+
+    const levelGroups =
+        document.getElementById(
+            "levelGroups"
+        );
+
+    const rankGrid =
+        document.getElementById(
+            "rankGrid"
+        );
+
+    const loadingCover =
+        document.getElementById(
+            "loadingCover"
+        );
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
     let currentUser = null;
     let currentProfile = null;
-    let voices = [];
-    let questions = [];
-    let currentQuestionIndex = 0;
-    let correctAnswers = 0;
-    let questionAnswered = false;
-    let answersUnlocked = false;
-    let voiceSequenceId = 0;
-    let recognition = null;
 
     function showToast(message) {
-        toast.textContent = message;
-        toast.classList.remove("show");
+        toast.textContent =
+            message;
+
+        toast.classList.remove(
+            "show"
+        );
+
         void toast.offsetWidth;
-        toast.classList.add("show");
+
+        toast.classList.add(
+            "show"
+        );
     }
 
-    function popEmojis(symbols = ["✨", "⭐", "🎉"], amount = 14) {
-        for (let index = 0; index < amount; index += 1) {
-            const emoji = document.createElement("span");
-            emoji.className = "emoji-burst";
-            emoji.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-            emoji.style.setProperty("--left", `${8 + Math.random() * 84}%`);
-            emoji.style.setProperty("--top", `${56 + Math.random() * 26}%`);
-            emoji.style.setProperty("--size", `${1.2 + Math.random() * 1.7}rem`);
-            emoji.style.setProperty("--drift", `${-100 + Math.random() * 200}px`);
-            emojiLayer.appendChild(emoji);
-            window.setTimeout(() => emoji.remove(), 1500);
-        }
+    function getInitials(name) {
+        return name
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(
+                (word) =>
+                    word[0].toUpperCase()
+            )
+            .join("") || "QA";
     }
 
-    function shuffle(values) {
-        const result = [...values];
+    function getRankIndex(xp) {
+        let rankIndex = 0;
 
-        for (let index = result.length - 1; index > 0; index -= 1) {
-            const randomIndex = Math.floor(Math.random() * (index + 1));
-            [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
-        }
+        RANKS.forEach(
+            (rank, index) => {
+                if (
+                    xp >=
+                    rank.minimumXP
+                ) {
+                    rankIndex =
+                        index;
+                }
+            }
+        );
 
-        return result;
+        return rankIndex;
     }
 
-    function normalizeArabic(text) {
-        return String(text || "")
-            .normalize("NFD")
-            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, "")
-            .replace(/[إأآٱ]/g, "ا")
-            .replace(/ى/g, "ي")
-            .replace(/ة/g, "ه")
-            .replace(/ؤ/g, "و")
-            .replace(/ئ/g, "ي")
-            .replace(/ـ/g, "")
-            .replace(/[^\u0621-\u064A\s]/g, "")
-            .replace(/\s+/g, " ")
-            .trim();
+    function getCurrentRank(xp) {
+        return RANKS[
+            getRankIndex(xp)
+        ];
     }
 
-    function levenshteinDistance(first, second) {
-        const rows = second.length + 1;
-        const columns = first.length + 1;
-        const matrix = Array.from({ length: rows }, () => Array(columns).fill(0));
+    function getNextRank(xp) {
+        const currentIndex =
+            getRankIndex(xp);
 
-        for (let column = 0; column < columns; column += 1) {
-            matrix[0][column] = column;
+        return (
+            RANKS[
+                currentIndex + 1
+            ] || null
+        );
+    }
+
+    function renderProfile() {
+        const completed =
+            currentProfile
+                ?.completed_levels || [];
+
+        const xp =
+            currentProfile?.xp || 0;
+
+        const journeyPercentage =
+            Math.min(
+                100,
+                Math.round(
+                    (
+                        completed.length /
+                        LEVELS.length
+                    ) *
+                    100
+                )
+            );
+
+        if (
+            !currentUser ||
+            !currentProfile
+        ) {
+            profileAvatar.textContent =
+                "QA";
+
+            profileName.textContent =
+                "Guest Learner";
+
+            profileRank.textContent =
+                "Sign in to save XP, ranks, and rewards";
+
+            profileRankShort.textContent =
+                "Guest";
+
+            profileXP.textContent =
+                "0";
+
+            profileLevels.textContent =
+                "0/20";
+
+            journeyPercent.textContent =
+                "0%";
+
+            journeyProgress.style.width =
+                "0%";
+
+            rankProgressTitle.textContent =
+                "Sign in to begin ranking";
+
+            rankProgressAmount.textContent =
+                `0 / ${MAXIMUM_XP} XP`;
+
+            rankProgressFill.style.width =
+                "0%";
+
+            return;
         }
 
-        for (let row = 0; row < rows; row += 1) {
-            matrix[row][0] = row;
+        const rank =
+            getCurrentRank(xp);
+
+        const nextRank =
+            getNextRank(xp);
+
+        profileAvatar.textContent =
+            getInitials(
+                currentProfile.username
+            );
+
+        profileName.textContent =
+            currentProfile.username;
+
+        profileRank.textContent =
+            `${rank.icon} ${rank.name} Learner`;
+
+        profileRankShort.textContent =
+            rank.name;
+
+        profileXP.textContent =
+            String(xp);
+
+        profileLevels.textContent =
+            `${completed.length}/20`;
+
+        journeyPercent.textContent =
+            `${journeyPercentage}%`;
+
+        journeyProgress.style.width =
+            `${journeyPercentage}%`;
+
+        if (!nextRank) {
+            rankProgressTitle.textContent =
+                "Highest rank achieved";
+
+            rankProgressAmount.textContent =
+                `${xp} XP`;
+
+            rankProgressFill.style.width =
+                "100%";
+
+            return;
         }
 
-        for (let row = 1; row < rows; row += 1) {
-            for (let column = 1; column < columns; column += 1) {
-                const cost =
-                    first[column - 1] === second[row - 1]
-                        ? 0
-                        : 1;
+        const currentMinimum =
+            rank.minimumXP;
 
-                matrix[row][column] = Math.min(
-                    matrix[row - 1][column] + 1,
-                    matrix[row][column - 1] + 1,
-                    matrix[row - 1][column - 1] + cost
+        const nextMinimum =
+            nextRank.minimumXP;
+
+        const rankPercentage =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    (
+                        (
+                            xp -
+                            currentMinimum
+                        ) /
+                        (
+                            nextMinimum -
+                            currentMinimum
+                        )
+                    ) *
+                    100
+                )
+            );
+
+        rankProgressTitle.textContent =
+            `Next: ${nextRank.icon} ${nextRank.name}`;
+
+        rankProgressAmount.textContent =
+            `${xp} / ${nextMinimum} XP`;
+
+        rankProgressFill.style.width =
+            `${rankPercentage}%`;
+    }
+
+    function createDifficultyElement(
+        difficulty
+    ) {
+        const wrapper =
+            document.createElement(
+                "div"
+            );
+
+        wrapper.className =
+            "level-difficulty";
+
+        const bars =
+            document.createElement(
+                "div"
+            );
+
+        bars.className =
+            "difficulty-bars";
+
+        for (
+            let index = 1;
+            index <= 4;
+            index += 1
+        ) {
+            const bar =
+                document.createElement(
+                    "span"
+                );
+
+            bar.className =
+                "difficulty-bar";
+
+            if (
+                index <= difficulty
+            ) {
+                bar.classList.add(
+                    "active"
                 );
             }
+
+            bars.appendChild(
+                bar
+            );
         }
 
-        return matrix[rows - 1][columns - 1];
-    }
+        const labels = [
+            "",
+            "Beginner",
+            "Intermediate",
+            "Hard",
+            "Expert"
+        ];
 
-    function pronunciationScore(expected, heard) {
-        const cleanExpected = normalizeArabic(expected);
-        const cleanHeard = normalizeArabic(heard);
+        const label =
+            document.createElement(
+                "span"
+            );
 
-        if (!cleanExpected || !cleanHeard) {
-            return 0;
-        }
+        label.className =
+            "difficulty-text";
 
-        if (
-            cleanExpected.includes(cleanHeard) ||
-            cleanHeard.includes(cleanExpected)
-        ) {
-            const shorter = Math.min(cleanExpected.length, cleanHeard.length);
-            const longer = Math.max(cleanExpected.length, cleanHeard.length);
-            return Math.round((shorter / longer) * 100);
-        }
+        label.textContent =
+            labels[difficulty];
 
-        const distance = levenshteinDistance(cleanExpected, cleanHeard);
-        const longest = Math.max(cleanExpected.length, cleanHeard.length);
-
-        return Math.max(0, Math.round((1 - distance / longest) * 100));
-    }
-
-    function scoreFeedback(score) {
-        if (score >= 90) {
-            return "Excellent pronunciation match! ⭐⭐⭐";
-        }
-
-        if (score >= 75) {
-            return "Very good! Repeat it once more for an even clearer match. ⭐⭐";
-        }
-
-        if (score >= 55) {
-            return "Almost there. Listen again and speak a little more slowly. ⭐";
-        }
-
-        return "Keep practicing. Listen carefully, then try one short part at a time.";
-    }
-
-    function loadVoices() {
-        if (!("speechSynthesis" in window)) {
-            voiceStatus.textContent = "Voice playback is not supported in this browser.";
-            return;
-        }
-
-        voices = window.speechSynthesis.getVoices();
-
-        const arabicVoice = findBestVoice("ar");
-        const englishVoice = findBestVoice("en");
-
-        const arabicName = arabicVoice ? arabicVoice.name : "default Arabic voice";
-        const englishName = englishVoice ? englishVoice.name : "default English voice";
-
-        voiceStatus.textContent =
-            `Arabic: ${arabicName} • English: ${englishName}`;
-    }
-
-    function voiceScore(voice, languagePrefix) {
-        const name = voice.name.toLowerCase();
-        const language = voice.lang.toLowerCase();
-        let score = 0;
-
-        if (language.startsWith(languagePrefix)) score += 80;
-        if (languagePrefix === "ar" && language === "ar-sa") score += 35;
-        if (languagePrefix === "en" && language === "en-us") score += 25;
-        if (name.includes("natural")) score += 120;
-        if (name.includes("neural")) score += 115;
-        if (name.includes("online")) score += 90;
-        if (name.includes("google")) score += 65;
-        if (name.includes("microsoft")) score += 60;
-        if (voice.localService === false) score += 15;
-
-        return score;
-    }
-
-    function findBestVoice(languagePrefix) {
-        const matching = voices.filter((voice) =>
-            voice.lang.toLowerCase().startsWith(languagePrefix)
+        wrapper.append(
+            bars,
+            label
         );
 
-        if (!matching.length) {
-            return null;
-        }
-
-        return matching
-            .slice()
-            .sort(
-                (first, second) =>
-                    voiceScore(second, languagePrefix) -
-                    voiceScore(first, languagePrefix)
-            )[0];
+        return wrapper;
     }
 
-    function cancelSpeech() {
-        voiceSequenceId += 1;
+    function createFeature(
+        icon,
+        text
+    ) {
+        const feature =
+            document.createElement(
+                "div"
+            );
 
-        if ("speechSynthesis" in window) {
-            window.speechSynthesis.cancel();
-        }
-    }
+        feature.className =
+            "lesson-feature";
 
-    function speak(text, language, rate, sequenceId) {
-        return new Promise((resolve) => {
-            if (!("speechSynthesis" in window) || !text) {
-                resolve();
-                return;
-            }
+        const featureIcon =
+            document.createElement(
+                "span"
+            );
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = language;
-            utterance.rate = rate;
-            utterance.pitch = 1;
-            utterance.volume = 1;
+        featureIcon.className =
+            "lesson-feature-icon";
 
-            const voice = findBestVoice(language.startsWith("ar") ? "ar" : "en");
+        featureIcon.textContent =
+            icon;
 
-            if (voice) {
-                utterance.voice = voice;
-            }
+        const featureText =
+            document.createElement(
+                "span"
+            );
 
-            let finished = false;
+        featureText.textContent =
+            text;
 
-            const finish = () => {
-                if (finished) return;
-                finished = true;
-                resolve();
-            };
-
-            utterance.onend = finish;
-            utterance.onerror = finish;
-
-            window.setTimeout(finish, Math.max(2500, text.length * 180));
-
-            if (sequenceId !== voiceSequenceId) {
-                finish();
-                return;
-            }
-
-            window.speechSynthesis.speak(utterance);
-        });
-    }
-
-    async function playSelectedEnglish() {
-        cancelSpeech();
-        const sequenceId = voiceSequenceId;
-        voiceStatus.textContent = "Playing the English explanation...";
-        await speak(
-            `${selectedItem.label}. ${selectedItem.meaning}`,
-            "en-US",
-            Number(voiceSpeed.value),
-            sequenceId
-        );
-        loadVoices();
-    }
-
-    async function playSelectedArabic() {
-        cancelSpeech();
-        const sequenceId = voiceSequenceId;
-        voiceStatus.textContent = "Playing the Arabic example...";
-        await speak(
-            selectedItem.voice || selectedItem.arabic,
-            "ar-SA",
-            Number(voiceSpeed.value),
-            sequenceId
-        );
-        loadVoices();
-    }
-
-    function selectPracticeItem(item, button) {
-        selectedItem = item;
-        selectedArabic.textContent = item.arabic;
-        selectedLabel.textContent = item.label;
-        selectedMeaning.textContent = item.meaning;
-        pronunciationTarget.textContent = item.voice || item.arabic;
-        pronunciationResult.textContent = "Your practice result will appear here.";
-
-        document.querySelectorAll(".practice-item").forEach((itemButton) => {
-            itemButton.classList.remove("active");
-        });
-
-        button.classList.add("active");
-        popEmojis(["✨", "⭐", lesson.icon], 7);
-    }
-
-    function renderPracticeItems() {
-        practiceItems.innerHTML = "";
-
-        lesson.items.forEach((item, index) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "practice-item";
-            button.textContent = item.arabic;
-            button.title = item.label;
-
-            button.addEventListener("click", () => {
-                selectPracticeItem(item, button);
-            });
-
-            practiceItems.appendChild(button);
-
-            if (index === 0) {
-                selectPracticeItem(item, button);
-            }
-        });
-    }
-
-    function createRecognition() {
-        const SpeechRecognition =
-            window.SpeechRecognition ||
-            window.webkitSpeechRecognition;
-
-        if (!SpeechRecognition) {
-            return null;
-        }
-
-        const recognizer = new SpeechRecognition();
-        recognizer.lang = "ar-SA";
-        recognizer.interimResults = false;
-        recognizer.continuous = false;
-        recognizer.maxAlternatives = 3;
-
-        return recognizer;
-    }
-
-    function startPronunciationCheck() {
-        recognition = createRecognition();
-
-        if (!recognition) {
-            pronunciationResult.innerHTML =
-                "Pronunciation checking is not supported in this browser. Try Chrome or Microsoft Edge. You can still use the Arabic listening voice.";
-            return;
-        }
-
-        cancelSpeech();
-        pronunciationButton.disabled = true;
-        pronunciationButton.textContent = "🎤 Listening...";
-        pronunciationResult.textContent = "Speak the Arabic example now.";
-
-        recognition.onresult = (event) => {
-            const alternatives = Array.from(event.results[0]).map((result) => result.transcript);
-
-            let bestTranscript = alternatives[0] || "";
-            let bestScore = pronunciationScore(selectedItem.voice || selectedItem.arabic, bestTranscript);
-
-            alternatives.forEach((transcript) => {
-                const score = pronunciationScore(selectedItem.voice || selectedItem.arabic, transcript);
-
-                if (score > bestScore) {
-                    bestTranscript = transcript;
-                    bestScore = score;
-                }
-            });
-
-            pronunciationResult.innerHTML = `
-                <strong>What we heard:</strong>
-                <div dir="rtl" style="margin-top:6px;font-size:1.2rem;font-weight:900;">${escapeHTML(bestTranscript)}</div>
-                <span class="score-badge">${bestScore}% practice match</span>
-                <div style="margin-top:9px;">${scoreFeedback(bestScore)}</div>
-            `;
-
-            if (bestScore >= 75) {
-                popEmojis(["🎉", "⭐", "🎤"], 15);
-            }
-        };
-
-        recognition.onerror = (event) => {
-            const messages = {
-                "not-allowed": "Microphone permission was blocked. Allow microphone access and try again.",
-                "no-speech": "No speech was detected. Move closer to the microphone and try again.",
-                "audio-capture": "No working microphone was found.",
-                "network": "Speech recognition could not connect. Check your internet connection."
-            };
-
-            pronunciationResult.textContent =
-                messages[event.error] ||
-                "The pronunciation check could not finish. Please try again.";
-        };
-
-        recognition.onend = () => {
-            pronunciationButton.disabled = false;
-            pronunciationButton.textContent = "🎤 Start Check";
-        };
-
-        try {
-            recognition.start();
-        } catch (error) {
-            pronunciationButton.disabled = false;
-            pronunciationButton.textContent = "🎤 Start Check";
-            pronunciationResult.textContent = "The microphone is already active. Wait a moment and retry.";
-        }
-    }
-
-    function escapeHTML(value) {
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    function pickDistractors(item, property, count = 3) {
-        const unique = lesson.items
-            .filter((candidate) => candidate !== item)
-            .map((candidate) => candidate[property])
-            .filter((value, index, array) => array.indexOf(value) === index)
-            .filter((value) => value !== item[property]);
-
-        return shuffle(unique).slice(0, count);
-    }
-
-    function buildQuestion(item, index) {
-        const type = index % 4;
-
-        if (type === 0) {
-            return {
-                prompt: `Which Arabic example matches “${item.label}”?`,
-                answer: item.arabic,
-                options: shuffle([item.arabic, ...pickDistractors(item, "arabic")]),
-                audioArabic: item.voice || item.arabic
-            };
-        }
-
-        if (type === 1) {
-            return {
-                prompt: `What is the name or reading of this Arabic example: ${item.arabic}?`,
-                answer: item.label,
-                options: shuffle([item.label, ...pickDistractors(item, "label")]),
-                audioArabic: item.voice || item.arabic
-            };
-        }
-
-        if (type === 2) {
-            return {
-                prompt: `What does “${item.label}” mean or teach?`,
-                answer: item.meaning,
-                options: shuffle([item.meaning, ...pickDistractors(item, "meaning")]),
-                audioArabic: item.voice || item.arabic
-            };
-        }
-
-        return {
-            prompt: "Listen to the Arabic example. Which option did you hear?",
-            answer: item.arabic,
-            options: shuffle([item.arabic, ...pickDistractors(item, "arabic")]),
-            audioArabic: item.voice || item.arabic
-        };
-    }
-
-    function generateQuestions() {
-        const result = [];
-        let index = 0;
-
-        while (result.length < lesson.questionCount) {
-            const item = lesson.items[index % lesson.items.length];
-            result.push(buildQuestion(item, index));
-            index += 1;
-        }
-
-        return shuffle(result);
-    }
-
-    function unlockAnswers() {
-        answersUnlocked = true;
-        answerLock.textContent = "🔓 Answers unlocked. Choose carefully.";
-
-        answerGrid.querySelectorAll(".answer-button").forEach((button) => {
-            button.disabled = false;
-        });
-    }
-
-    async function playQuestionVoices() {
-        cancelSpeech();
-        const sequenceId = voiceSequenceId;
-        answersUnlocked = false;
-        answerLock.textContent = "🔊 Playing the English question and Arabic example...";
-
-        answerGrid.querySelectorAll(".answer-button").forEach((button) => {
-            button.disabled = true;
-        });
-
-        const question = questions[currentQuestionIndex];
-
-        await speak(
-            question.prompt,
-            "en-US",
-            Math.min(1, Number(voiceSpeed.value) + 0.06),
-            sequenceId
+        feature.append(
+            featureIcon,
+            featureText
         );
 
-        if (sequenceId !== voiceSequenceId) return;
-
-        await speak(
-            question.audioArabic,
-            "ar-SA",
-            Number(voiceSpeed.value),
-            sequenceId
-        );
-
-        if (sequenceId !== voiceSequenceId) return;
-
-        unlockAnswers();
+        return feature;
     }
 
-    function updateQuizProgress() {
-        const percentage = Math.round(
-            (currentQuestionIndex / questions.length) * 100
-        );
+    function renderLevels() {
+        levelGroups.innerHTML =
+            "";
 
-        quizProgressText.textContent = `${percentage}%`;
-        quizProgressFill.style.width = `${percentage}%`;
-    }
+        const completed =
+            currentProfile
+                ?.completed_levels || [];
 
-    function renderQuestion() {
-        questionAnswered = false;
-        answersUnlocked = false;
-        nextQuestionButton.disabled = true;
-        answerGrid.innerHTML = "";
-        quizFeedback.className = "quiz-feedback";
-        quizFeedback.textContent = "Listen, then choose your answer.";
+        const nextIncomplete =
+            LEVELS.find(
+                (level) =>
+                    !completed.includes(
+                        level.number
+                    )
+            )?.number || 20;
 
-        const question = questions[currentQuestionIndex];
+        GROUPS.forEach(
+            (group) => {
+                const groupLevels =
+                    LEVELS.filter(
+                        (level) =>
+                            level.group ===
+                            group.name
+                    );
 
-        questionNumber.textContent =
-            `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+                const section =
+                    document.createElement(
+                        "section"
+                    );
 
-        questionText.textContent = question.prompt;
+                const heading =
+                    document.createElement(
+                        "div"
+                    );
 
-        question.options.forEach((option) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "answer-button";
-            button.textContent = option;
-            button.disabled = true;
+                heading.className =
+                    "level-group-heading";
 
-            button.addEventListener("click", () => {
-                answerQuestion(option, button);
-            });
+                const headingCopy =
+                    document.createElement(
+                        "div"
+                    );
 
-            answerGrid.appendChild(button);
-        });
+                const headingTitle =
+                    document.createElement(
+                        "h2"
+                    );
 
-        nextQuestionButton.textContent =
-            currentQuestionIndex === questions.length - 1
-                ? "See Results"
-                : "Next Question";
+                headingTitle.textContent =
+                    group.name;
 
-        updateQuizProgress();
+                const headingDescription =
+                    document.createElement(
+                        "p"
+                    );
 
-        window.setTimeout(() => {
-            playQuestionVoices();
-        }, 250);
-    }
+                headingDescription.textContent =
+                    group.description;
 
-    function answerQuestion(selectedOption, selectedButton) {
-        if (!answersUnlocked || questionAnswered) {
-            return;
-        }
+                headingCopy.append(
+                    headingTitle,
+                    headingDescription
+                );
 
-        questionAnswered = true;
-        const question = questions[currentQuestionIndex];
+                const range =
+                    document.createElement(
+                        "span"
+                    );
 
-        answerGrid.querySelectorAll(".answer-button").forEach((button) => {
-            button.disabled = true;
+                range.className =
+                    "group-range";
 
-            if (button.textContent === question.answer) {
-                button.classList.add("correct");
-            }
-        });
+                range.textContent =
+                    group.range;
 
-        if (selectedOption === question.answer) {
-            correctAnswers += 1;
-            selectedButton.classList.add("correct");
-            quizFeedback.className = "quiz-feedback correct";
-            quizFeedback.textContent = "Correct! Great listening and reading.";
-            popEmojis(["🎉", "⭐", "✨", lesson.icon], 16);
-        } else {
-            selectedButton.classList.add("wrong");
-            quizFeedback.className = "quiz-feedback wrong";
-            quizFeedback.textContent =
-                `Good try. The correct answer is “${question.answer}”.`;
-        }
+                heading.append(
+                    headingCopy,
+                    range
+                );
 
-        nextQuestionButton.disabled = false;
-    }
+                const grid =
+                    document.createElement(
+                        "div"
+                    );
 
-    function nextQuestion() {
-        if (!questionAnswered) return;
+                grid.className =
+                    "level-grid";
 
-        currentQuestionIndex += 1;
+                groupLevels.forEach(
+                    (level) => {
+                        const isCompleted =
+                            completed.includes(
+                                level.number
+                            );
 
-        if (currentQuestionIndex >= questions.length) {
-            finishQuiz();
-            return;
-        }
+                        const isUnlocked =
+                            level.number === 1 ||
+                            completed.includes(
+                                level.number - 1
+                            );
 
-        renderQuestion();
-    }
+                        const isCurrent =
+                            currentUser &&
+                            level.number ===
+                                nextIncomplete &&
+                            isUnlocked;
 
-    function restartQuiz() {
-        cancelSpeech();
-        questions = generateQuestions();
-        currentQuestionIndex = 0;
-        correctAnswers = 0;
-        questionAnswered = false;
-        lessonArea.classList.remove("hidden");
-        completionPanel.classList.remove("show");
-        renderQuestion();
-    }
+                        const card =
+                            document.createElement(
+                                "article"
+                            );
 
-    function finishQuiz() {
-        cancelSpeech();
+                        card.className =
+                            "level-card";
 
-        const score = Math.round((correctAnswers / questions.length) * 100);
-        const passed = score >= lesson.pass;
+                        if (isCompleted) {
+                            card.classList.add(
+                                "completed"
+                            );
+                        }
 
-        quizProgressText.textContent = "100%";
-        quizProgressFill.style.width = "100%";
+                        if (!isUnlocked) {
+                            card.classList.add(
+                                "locked"
+                            );
+                        }
 
-        if (!passed) {
-            questionNumber.textContent = "Practice round complete";
-            questionText.textContent =
-                `You scored ${score}%. You need ${lesson.pass}% to complete this level.`;
+                        if (isCurrent) {
+                            card.classList.add(
+                                "current-level"
+                            );
+                        }
 
-            answerGrid.innerHTML = "";
-            answerLock.textContent = "Review the practice examples, then restart the quiz.";
-            quizFeedback.className = "quiz-feedback wrong";
-            quizFeedback.textContent =
-                `You answered ${correctAnswers} of ${questions.length} correctly.`;
-            nextQuestionButton.disabled = true;
-            return;
-        }
+                        const top =
+                            document.createElement(
+                                "div"
+                            );
 
-        lessonArea.classList.add("hidden");
-        completionPanel.classList.add("show");
-        completionTitle.textContent = "Level Complete!";
-        completionText.textContent =
-            `You passed Level ${lesson.number}: ${lesson.title}.`;
-        completionScore.textContent =
-            `Score: ${score}% • ${correctAnswers} / ${questions.length} correct`;
-        rewardText.textContent =
-            `Claim +${lesson.xp} XP and unlock 🎮 ${lesson.reward}.`;
+                        top.className =
+                            "level-card-top";
 
-        const nextLevel = lesson.number + 1;
+                        const icon =
+                            document.createElement(
+                                "div"
+                            );
 
-        if (nextLevel <= 20) {
-            continueButton.textContent = `Continue to Level ${nextLevel}`;
-            continueButton.href = `lesson.html?level=${nextLevel}`;
-        } else {
-            continueButton.textContent = "Return to Levels";
-            continueButton.href = "learn.html";
-        }
+                        icon.className =
+                            "level-icon";
 
-        if (
-            currentProfile?.completed_levels?.includes(lesson.number)
-        ) {
-            claimRewardButton.textContent = "Level Already Saved ✓";
-            claimRewardButton.disabled = true;
-            rewardText.textContent =
-                `You already earned this reward. You can still continue to Level ${nextLevel <= 20 ? nextLevel : "Complete"}.`;
-        }
+                        icon.textContent =
+                            level.icon;
 
-        popEmojis(["🎉", "🏆", "⭐", "🌙", "🎮"], 34);
+                        const number =
+                            document.createElement(
+                                "span"
+                            );
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
+                        number.className =
+                            "level-number";
 
-    async function claimReward() {
-        if (!currentUser) {
-            showToast("Sign in to save XP and unlock the game reward.");
+                        number.textContent =
+                            isCompleted
+                                ? "✓ Completed"
+                                : `Level ${level.number}`;
 
-            window.setTimeout(() => {
-                window.location.href = "signin.html";
-            }, 850);
+                        top.append(
+                            icon,
+                            number
+                        );
 
-            return;
-        }
+                        const title =
+                            document.createElement(
+                                "h3"
+                            );
 
-        claimRewardButton.disabled = true;
-        claimRewardButton.textContent = "Saving Reward...";
+                        title.textContent =
+                            level.title;
 
-        try {
-            const { data, error } =
-                await window.quranAcademySupabase.rpc(
-                    "complete_level",
-                    {
-                        p_level: lesson.number
+                        const description =
+                            document.createElement(
+                                "p"
+                            );
+
+                        description.className =
+                            "level-card-description";
+
+                        description.textContent =
+                            level.description;
+
+                        const difficulty =
+                            createDifficultyElement(
+                                level.difficulty
+                            );
+
+                        const details =
+                            document.createElement(
+                                "div"
+                            );
+
+                        details.className =
+                            "level-details";
+
+                        const xpChip =
+                            document.createElement(
+                                "span"
+                            );
+
+                        xpChip.className =
+                            "detail-chip";
+
+                        xpChip.textContent =
+                            `+${level.xp} XP`;
+
+                        const rewardChip =
+                            document.createElement(
+                                "span"
+                            );
+
+                        rewardChip.className =
+                            "reward-chip";
+
+                        rewardChip.textContent =
+                            `🎮 ${level.reward}`;
+
+                        details.append(
+                            xpChip,
+                            rewardChip
+                        );
+
+                        const features =
+                            document.createElement(
+                                "div"
+                            );
+
+                        features.className =
+                            "lesson-feature-list";
+
+                        features.append(
+                            createFeature(
+                                "🇺🇸",
+                                "English question voice"
+                            ),
+                            createFeature(
+                                "🔊",
+                                "Arabic example voice"
+                            ),
+                            createFeature(
+                                "🎤",
+                                "Pronunciation practice"
+                            ),
+                            createFeature(
+                                "🧠",
+                                `${level.questions} quiz questions`
+                            ),
+                            createFeature(
+                                "✅",
+                                `${level.pass}% required to pass`
+                            )
+                        );
+
+                        const actionWrapper =
+                            document.createElement(
+                                "div"
+                            );
+
+                        actionWrapper.className =
+                            "level-card-action";
+
+                        const button =
+                            document.createElement(
+                                "button"
+                            );
+
+                        button.type =
+                            "button";
+
+                        button.className =
+                            isUnlocked
+                                ? "button button-primary"
+                                : "button button-secondary";
+
+                        button.style.width =
+                            "100%";
+
+                        if (isCompleted) {
+                            button.textContent =
+                                "Review Level";
+                        } else if (isUnlocked) {
+                            button.textContent =
+                                level.number === 1
+                                    ? "Start Journey"
+                                    : "Start Level";
+                        } else {
+                            button.textContent =
+                                "🔒 Locked";
+
+                            button.disabled =
+                                true;
+                        }
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+                                if (
+                                    !isUnlocked
+                                ) {
+                                    showToast(
+                                        `Complete Level ${level.number - 1} first.`
+                                    );
+
+                                    return;
+                                }
+
+                                window.location.href =
+                                    `lesson.html?level=${level.number}`;
+                            }
+                        );
+
+                        actionWrapper.appendChild(
+                            button
+                        );
+
+                        card.append(
+                            top,
+                            title,
+                            description,
+                            difficulty,
+                            details,
+                            features,
+                            actionWrapper
+                        );
+
+                        grid.appendChild(
+                            card
+                        );
                     }
                 );
 
-            if (error) {
-                throw error;
-            }
-
-            currentProfile = data.profile;
-
-            if (data.newly_completed) {
-                rewardText.textContent =
-                    `🎉 +${data.xp_awarded} XP and ${data.reward} unlocked!`;
-            } else {
-                rewardText.textContent =
-                    `✓ ${data.reward} was already unlocked. Continue whenever you are ready.`;
-            }
-
-            claimRewardButton.textContent = "Reward Saved ✓";
-            popEmojis(["🏆", "🎮", "⭐", "💎"], 25);
-        } catch (error) {
-            console.error(error);
-            claimRewardButton.disabled = false;
-            claimRewardButton.textContent = "Try Again";
-            showToast(error.message || "The reward could not be saved.");
-        }
-    }
-
-    function showLocked(message, linkText, link) {
-        cancelSpeech();
-
-        lessonArea.innerHTML = `
-            <section class="surface-card locked-panel">
-                <div class="lock-icon">🔒</div>
-                <h1>Level Locked</h1>
-                <p>${message}</p>
-                <a class="button button-primary" href="${link}">${linkText}</a>
-            </section>
-        `;
-    }
-
-    async function loadUserAndAccess() {
-        try {
-            const { data: userData } =
-                await window.quranAcademySupabase.auth.getUser();
-
-            currentUser = userData?.user || null;
-
-            if (!currentUser) {
-                if (lesson.number > 1) {
-                    showLocked(
-                        "Sign in and complete the previous levels to unlock this lesson.",
-                        "Sign In",
-                        "signin.html"
-                    );
-
-                    return false;
-                }
-
-                accountStatus.textContent =
-                    "You are trying Level 1 as a guest. Sign in to save XP and rewards.";
-
-                return true;
-            }
-
-            const { data: profile, error } =
-                await window.quranAcademySupabase
-                    .from("profiles")
-                    .select("id, username, xp, completed_levels, unlocked_rewards")
-                    .eq("id", currentUser.id)
-                    .single();
-
-            if (error) {
-                throw error;
-            }
-
-            currentProfile = profile;
-
-            if (
-                lesson.number > 1 &&
-                !profile.completed_levels.includes(lesson.number - 1)
-            ) {
-                showLocked(
-                    `Complete Level ${lesson.number - 1} before opening Level ${lesson.number}.`,
-                    "Return to Levels",
-                    "learn.html"
+                section.append(
+                    heading,
+                    grid
                 );
 
-                return false;
+                levelGroups.appendChild(
+                    section
+                );
             }
+        );
+    }
 
-            if (profile.completed_levels.includes(lesson.number)) {
-                accountStatus.textContent =
-                    `Signed in as ${profile.username}. This level is already completed, but you can review it and continue.`;
-            } else {
-                accountStatus.textContent =
-                    `Signed in as ${profile.username}. Your score and reward can be saved.`;
+    function renderRanks() {
+        rankGrid.innerHTML =
+            "";
+
+        const xp =
+            currentProfile?.xp || 0;
+
+        const currentRankIndex =
+            currentUser
+                ? getRankIndex(xp)
+                : -1;
+
+        RANKS.forEach(
+            (rank, index) => {
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "rank-card";
+
+                if (
+                    index ===
+                    currentRankIndex
+                ) {
+                    card.classList.add(
+                        "current-rank"
+                    );
+                }
+
+                if (
+                    !currentUser ||
+                    xp <
+                        rank.minimumXP
+                ) {
+                    card.classList.add(
+                        "rank-locked"
+                    );
+                }
+
+                const icon =
+                    document.createElement(
+                        "div"
+                    );
+
+                icon.className =
+                    "rank-icon";
+
+                icon.textContent =
+                    rank.icon;
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+                title.textContent =
+                    rank.name;
+
+                const requirement =
+                    document.createElement(
+                        "p"
+                    );
+
+                requirement.textContent =
+                    rank.minimumXP === 0
+                        ? "Starting rank"
+                        : `${rank.minimumXP.toLocaleString()} XP required`;
+
+                card.append(
+                    icon,
+                    title,
+                    requirement
+                );
+
+                rankGrid.appendChild(
+                    card
+                );
             }
+        );
+    }
 
-            return true;
+    async function loadProfile() {
+        try {
+            const {
+                data: userData
+            } =
+                await window
+                    .quranAcademySupabase
+                    .auth
+                    .getUser();
+
+            currentUser =
+                userData?.user || null;
+
+            if (currentUser) {
+                const {
+                    data: profile,
+                    error
+                } =
+                    await window
+                        .quranAcademySupabase
+                        .from("profiles")
+                        .select(
+                            "id, username, xp, plan, completed_levels, unlocked_rewards"
+                        )
+                        .eq(
+                            "id",
+                            currentUser.id
+                        )
+                        .single();
+
+                if (error) {
+                    throw error;
+                }
+
+                currentProfile =
+                    profile;
+            }
         } catch (error) {
-            console.error(error);
-            accountStatus.textContent =
-                "Your account progress could not load. Refresh and try again.";
-            return true;
+            console.error(
+                error
+            );
+
+            showToast(
+                "Your saved progress could not load."
+            );
         }
+
+        renderProfile();
+        renderLevels();
+        renderRanks();
+
+        loadingCover.classList.add(
+            "hidden-loading"
+        );
     }
 
-    function initializePage() {
-        document.title = `${lesson.title} | QuranAcademy`;
-        levelLabel.textContent = `Level ${lesson.number} of 20`;
-        lessonTitle.textContent = lesson.title;
-        lessonDescription.textContent = lesson.description;
-        xpChip.textContent = `+${lesson.xp} XP`;
-        passChip.textContent = `${lesson.pass}% required`;
-        rewardChip.textContent = `🎮 ${lesson.reward}`;
-        practiceInstruction.textContent = lesson.instruction;
-        quizRequirement.textContent =
-            `Answer at least ${lesson.pass}% correctly. Every question plays an English instruction and an Arabic example before the answers unlock.`;
-
-        renderPracticeItems();
-        questions = generateQuestions();
-        renderQuestion();
-        loadVoices();
-    }
-
-    playEnglishButton.addEventListener("click", playSelectedEnglish);
-    playArabicButton.addEventListener("click", playSelectedArabic);
-    stopVoiceButton.addEventListener("click", () => {
-        cancelSpeech();
-        loadVoices();
-    });
-
-    pronunciationButton.addEventListener("click", startPronunciationCheck);
-    retryPronunciationButton.addEventListener("click", startPronunciationCheck);
-    replayQuestionButton.addEventListener("click", playQuestionVoices);
-    skipAudioButton.addEventListener("click", () => {
-        cancelSpeech();
-        unlockAnswers();
-    });
-
-    nextQuestionButton.addEventListener("click", nextQuestion);
-    restartQuizButton.addEventListener("click", restartQuiz);
-    claimRewardButton.addEventListener("click", claimReward);
-
-    window.addEventListener("pagehide", cancelSpeech);
-
-    if ("speechSynthesis" in window) {
-        window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
-    }
-
-    initializePage();
-    loadUserAndAccess();
+    loadProfile();
 </script>
+
 </body>
 </html>
