@@ -11,6 +11,291 @@
     <title>Reward Arcade | QuranAcademy</title>
 
     <link rel="stylesheet" href="academy.css">
+
+    <style>
+        .reward-card {
+            position: relative;
+        }
+
+        .reward-card.selected-game {
+            border: 3px solid var(--green);
+            background: var(--light-green);
+            transform: translateY(-5px);
+        }
+
+        .reward-card.selected-game::after {
+            content: "Selected";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: white;
+            background: var(--green);
+            font-size: 0.67rem;
+            font-weight: 900;
+        }
+
+        .reward-card-icon {
+            width: 72px;
+            height: 72px;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--border);
+            border-radius: 22px;
+            background: var(--light-green);
+            font-size: 2.6rem;
+        }
+
+        .game-shell {
+            scroll-margin-top: 105px;
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        .game-shell.focus-game {
+            border-color: var(--green);
+            box-shadow:
+                0 0 0 6px rgba(15, 157, 120, 0.13),
+                0 24px 55px rgba(23, 77, 68, 0.18);
+            animation: gameFocus 0.7s ease;
+        }
+
+        .game-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .game-title-icon {
+            width: 58px;
+            height: 58px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 18px;
+            background: var(--light-green);
+            font-size: 2rem;
+        }
+
+        .game-instructions {
+            margin-top: 17px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-radius: 17px;
+            background: #f2faf7;
+        }
+
+        .game-instruction {
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: white;
+            text-align: center;
+        }
+
+        .game-instruction strong {
+            display: block;
+            color: var(--navy);
+            font-size: 1.8rem;
+        }
+
+        .game-instruction span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .game-progress-area {
+            margin-top: 17px;
+        }
+
+        .game-progress-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            color: var(--navy);
+            font-size: 0.8rem;
+            font-weight: 900;
+        }
+
+        .game-goal-track {
+            height: 14px;
+            margin-top: 8px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #dce9e5;
+        }
+
+        .game-goal-fill {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--green),
+                    #22c55e,
+                    #f4b942
+                );
+            transition: width 0.25s ease;
+        }
+
+        .game-canvas-wrapper {
+            position: relative;
+            margin-top: 20px;
+            overflow: hidden;
+            border: 5px solid #ffffff;
+            border-radius: 24px;
+            background: #173c5b;
+            box-shadow:
+                0 0 0 2px var(--border),
+                0 15px 30px rgba(18, 54, 80, 0.2);
+        }
+
+        #gameCanvas {
+            width: 100%;
+            height: auto;
+            min-height: 360px;
+            display: block;
+            touch-action: none;
+        }
+
+        .canvas-label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            z-index: 5;
+            padding: 9px 13px;
+            border-radius: 13px;
+            color: var(--navy);
+            background: rgba(255, 255, 255, 0.94);
+            font-size: 0.77rem;
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        .game-message {
+            min-height: 56px;
+            margin-top: 15px;
+            padding: 15px 17px;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            color: var(--navy);
+            background: white;
+            font-size: 0.86rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .game-message.success {
+            border-color: var(--green);
+            color: var(--dark-green);
+            background: var(--light-green);
+        }
+
+        .game-message.warning {
+            border-color: #e3a72d;
+            color: #715617;
+            background: #fff5d8;
+        }
+
+        .game-message.danger {
+            border-color: #d14d4d;
+            color: #ad3939;
+            background: #fff0f0;
+        }
+
+        .game-controls {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.4fr;
+            gap: 11px;
+        }
+
+        .game-control-button {
+            min-height: 62px;
+            border: 2px solid var(--border);
+            border-radius: 17px;
+            color: var(--navy);
+            background: var(--light-green);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 900;
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+        .game-control-button:active {
+            transform: scale(0.96);
+            background: #ccefe2;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .game-stat {
+            min-width: 90px;
+            padding: 11px 13px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            color: var(--navy);
+            background: white;
+            font-size: 0.78rem;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        @keyframes gameFocus {
+            0% {
+                transform: scale(0.98);
+            }
+
+            60% {
+                transform: scale(1.01);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .game-header {
+                align-items: stretch;
+            }
+
+            .game-stats {
+                width: 100%;
+            }
+
+            .game-instructions {
+                grid-template-columns: 1fr;
+            }
+
+            .game-controls {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .game-controls .button {
+                grid-column: 1 / -1;
+            }
+
+            #gameCanvas {
+                min-height: 300px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -35,7 +320,7 @@
 <main class="page-shell">
 
     <p class="eyebrow">
-        Learning rewards
+        Learning Rewards
     </p>
 
     <h1 class="page-title">
@@ -43,9 +328,8 @@
     </h1>
 
     <p class="page-description">
-        Every completed level unlocks a new game theme.
-        Move left and right, collect the good items,
-        and avoid the hazards.
+        Every completed learning level unlocks a new game.
+        Press Play Game and you will be taken directly to the game.
     </p>
 
     <section
@@ -60,30 +344,122 @@
 
         <div class="game-header">
 
-            <div>
-                <h2 id="gameTitle">
-                    Choose an unlocked reward
-                </h2>
+            <div class="game-title-row">
 
-                <p id="gameDescription">
-                    Complete Level 1 to unlock your first game.
-                </p>
+                <div
+                    class="game-title-icon"
+                    id="gameTitleIcon"
+                >
+                    🎮
+                </div>
+
+                <div>
+
+                    <h2 id="gameTitle">
+                        Choose an Unlocked Reward
+                    </h2>
+
+                    <p id="gameDescription">
+                        Complete Level 1 to unlock your first game.
+                    </p>
+
+                </div>
+
             </div>
 
             <div class="game-stats">
-                <span class="game-stat" id="scoreStat">Score: 0</span>
-                <span class="game-stat" id="livesStat">Lives: 3</span>
-                <span class="game-stat" id="timeStat">Time: 25</span>
+
+                <span
+                    class="game-stat"
+                    id="scoreStat"
+                >
+                    Score: 0
+                </span>
+
+                <span
+                    class="game-stat"
+                    id="livesStat"
+                >
+                    Lives: 3
+                </span>
+
+                <span
+                    class="game-stat"
+                    id="timeStat"
+                >
+                    Time: 30
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="game-instructions">
+
+            <div class="game-instruction">
+
+                <strong id="collectInstruction">
+                    ⭐
+                </strong>
+
+                <span>
+                    Collect these
+                </span>
+
+            </div>
+
+            <div class="game-instruction">
+
+                <strong id="hazardInstruction">
+                    ❌
+                </strong>
+
+                <span>
+                    Avoid these
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="game-progress-area">
+
+            <div class="game-progress-label">
+
+                <span>
+                    Collection Goal
+                </span>
+
+                <span id="gameGoalText">
+                    0 / 10
+                </span>
+
+            </div>
+
+            <div class="game-goal-track">
+
+                <div
+                    class="game-goal-fill"
+                    id="gameGoalFill"
+                ></div>
+
             </div>
 
         </div>
 
         <div class="game-canvas-wrapper">
 
+            <div
+                class="canvas-label"
+                id="canvasLabel"
+            >
+                Choose a game
+            </div>
+
             <canvas
                 id="gameCanvas"
-                width="720"
-                height="360"
+                width="760"
+                height="420"
             ></canvas>
 
         </div>
@@ -103,7 +479,7 @@
                 id="leftButton"
                 type="button"
             >
-                ◀ Left
+                ◀ Move Left
             </button>
 
             <button
@@ -111,7 +487,7 @@
                 id="rightButton"
                 type="button"
             >
-                Right ▶
+                Move Right ▶
             </button>
 
             <button
@@ -142,66 +518,66 @@
             name: "Crescent Runner",
             icon: "🌙",
             description:
-                "Collect crescents and avoid rocks.",
+                "Collect bright crescents and avoid the rocks.",
             collect: "🌙",
             hazard: "🪨",
             goal: 10,
-            speed: 135
+            speed: 145
         },
         {
             level: 2,
             name: "Star Jumper",
             icon: "⭐",
             description:
-                "Collect stars and avoid storm clouds.",
+                "Collect glowing stars and avoid storm clouds.",
             collect: "⭐",
             hazard: "🌩️",
             goal: 11,
-            speed: 145
+            speed: 155
         },
         {
             level: 3,
             name: "Lantern Dash",
             icon: "🏮",
             description:
-                "Collect lanterns and avoid wind.",
+                "Collect colorful lanterns and avoid strong wind.",
             collect: "🏮",
             hazard: "💨",
             goal: 12,
-            speed: 155
+            speed: 165
         },
         {
             level: 4,
             name: "Cloud Flyer",
             icon: "☁️",
             description:
-                "Collect clouds and avoid lightning.",
+                "Collect soft clouds and avoid lightning.",
             collect: "☁️",
             hazard: "⚡",
             goal: 13,
-            speed: 165
+            speed: 175
         },
         {
             level: 5,
             name: "Moon Collector",
             icon: "🌕",
             description:
-                "Collect moons and avoid black holes.",
+                "Collect bright moons and avoid black holes.",
             collect: "🌕",
             hazard: "🕳️",
             goal: 14,
-            speed: 175
+            speed: 185
         },
         {
             level: 6,
             name: "Quran Quest",
             icon: "📖",
             description:
-                "Collect books and avoid obstacles.",
+                "Collect Quran books and avoid roadblocks.",
             collect: "📖",
             hazard: "🚧",
             goal: 15,
-            speed: 185
+            speed: 195
         },
         {
             level: 7,
@@ -212,18 +588,30 @@
             collect: "🎵",
             hazard: "❌",
             goal: 16,
-            speed: 195
+            speed: 205
         }
     ];
 
     const rewardGrid =
         document.getElementById("rewardGrid");
 
+    const gameShell =
+        document.getElementById("gameShell");
+
     const gameTitle =
         document.getElementById("gameTitle");
 
+    const gameTitleIcon =
+        document.getElementById("gameTitleIcon");
+
     const gameDescription =
         document.getElementById("gameDescription");
+
+    const collectInstruction =
+        document.getElementById("collectInstruction");
+
+    const hazardInstruction =
+        document.getElementById("hazardInstruction");
 
     const scoreStat =
         document.getElementById("scoreStat");
@@ -233,6 +621,15 @@
 
     const timeStat =
         document.getElementById("timeStat");
+
+    const gameGoalText =
+        document.getElementById("gameGoalText");
+
+    const gameGoalFill =
+        document.getElementById("gameGoalFill");
+
+    const canvasLabel =
+        document.getElementById("canvasLabel");
 
     const gameMessage =
         document.getElementById("gameMessage");
@@ -260,28 +657,30 @@
 
     let unlockedRewards = [];
     let selectedGame = null;
+    let selectedRewardCard = null;
+
     let animationFrame = null;
     let lastTime = 0;
     let spawnTimer = 0;
-    let timeRemaining = 25;
+    let timeRemaining = 30;
     let score = 0;
     let lives = 3;
     let running = false;
     let movingLeft = false;
     let movingRight = false;
+    let fallingItems = [];
 
     const player = {
-        x: 330,
-        y: 300,
-        width: 55,
-        height: 45,
-        speed: 320
+        x: 340,
+        y: 340,
+        width: 72,
+        height: 62,
+        speed: 370
     };
-
-    let fallingItems = [];
 
     function showToast(message) {
         toast.textContent = message;
+
         toast.classList.remove("show");
 
         void toast.offsetWidth;
@@ -289,17 +688,43 @@
         toast.classList.add("show");
     }
 
-    function popEmojis(symbol, amount = 6) {
-        for (let index = 0; index < amount; index += 1) {
+    function setGameMessage(message, type = "") {
+        gameMessage.textContent = message;
+
+        gameMessage.className = "game-message";
+
+        if (type) {
+            gameMessage.classList.add(type);
+        }
+    }
+
+    function popEmojis(symbols, amount = 8) {
+        const options =
+            Array.isArray(symbols)
+                ? symbols
+                : [symbols];
+
+        for (
+            let index = 0;
+            index < amount;
+            index += 1
+        ) {
             const emoji =
                 document.createElement("span");
 
             emoji.className = "emoji-burst";
-            emoji.textContent = symbol;
+
+            emoji.textContent =
+                options[
+                    Math.floor(
+                        Math.random() *
+                        options.length
+                    )
+                ];
 
             emoji.style.setProperty(
                 "--left",
-                `${20 + Math.random() * 60}%`
+                `${15 + Math.random() * 70}%`
             );
 
             emoji.style.setProperty(
@@ -309,12 +734,12 @@
 
             emoji.style.setProperty(
                 "--size",
-                `${1.3 + Math.random()}rem`
+                `${1.6 + Math.random() * 1.4}rem`
             );
 
             emoji.style.setProperty(
                 "--drift",
-                `${-60 + Math.random() * 120}px`
+                `${-90 + Math.random() * 180}px`
             );
 
             emojiLayer.appendChild(emoji);
@@ -339,18 +764,25 @@
             card.className =
                 `reward-card ${unlocked ? "unlocked" : "locked"}`;
 
+            card.dataset.gameName =
+                game.name;
+
             const icon =
                 document.createElement("div");
 
-            icon.className = "reward-card-icon";
+            icon.className =
+                "reward-card-icon";
 
             icon.textContent =
-                unlocked ? game.icon : "🔒";
+                unlocked
+                    ? game.icon
+                    : "🔒";
 
             const title =
                 document.createElement("h3");
 
-            title.textContent = game.name;
+            title.textContent =
+                game.name;
 
             const description =
                 document.createElement("p");
@@ -358,7 +790,7 @@
             description.textContent =
                 unlocked
                     ? game.description
-                    : `Complete Level ${game.level} to unlock.`;
+                    : `Complete Level ${game.level} to unlock this game.`;
 
             const button =
                 document.createElement("button");
@@ -372,14 +804,20 @@
 
             button.textContent =
                 unlocked
-                    ? "Play Game"
-                    : "Locked";
+                    ? "▶ Play Game"
+                    : `🔒 Level ${game.level} Required`;
 
             button.disabled = !unlocked;
 
-            button.addEventListener("click", () => {
-                selectGame(game);
-            });
+            button.addEventListener(
+                "click",
+                () => {
+                    openAndStartGame(
+                        game,
+                        card
+                    );
+                }
+            );
 
             card.append(
                 icon,
@@ -392,21 +830,83 @@
         });
     }
 
-    function selectGame(game) {
+    function openAndStartGame(game, card) {
+        selectGame(game, card);
+
+        gameShell.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+        gameShell.classList.remove(
+            "focus-game"
+        );
+
+        void gameShell.offsetWidth;
+
+        gameShell.classList.add(
+            "focus-game"
+        );
+
+        window.setTimeout(() => {
+            startGame();
+        }, 750);
+    }
+
+    function selectGame(game, card = null) {
         stopGame();
 
         selectedGame = game;
 
+        document
+            .querySelectorAll(".reward-card")
+            .forEach((rewardCard) => {
+                rewardCard.classList.remove(
+                    "selected-game"
+                );
+            });
+
+        if (card) {
+            selectedRewardCard = card;
+
+            card.classList.add(
+                "selected-game"
+            );
+        }
+
         gameTitle.textContent =
-            `${game.icon} ${game.name}`;
+            game.name;
+
+        gameTitleIcon.textContent =
+            game.icon;
 
         gameDescription.textContent =
             `${game.description} Collect ${game.goal} items to win.`;
 
-        gameMessage.textContent =
-            "Press Start Game when you are ready.";
+        collectInstruction.textContent =
+            game.collect;
+
+        hazardInstruction.textContent =
+            game.hazard;
+
+        canvasLabel.textContent =
+            `${game.collect} Collect • ${game.hazard} Avoid`;
 
         startGameButton.disabled = false;
+
+        startGameButton.textContent =
+            "Start Game";
+
+        score = 0;
+        lives = 3;
+        timeRemaining = 30;
+
+        updateStats();
+
+        setGameMessage(
+            "Get ready! Use the arrow keys, A and D, or the buttons below.",
+            "success"
+        );
 
         drawStartScreen();
     }
@@ -420,10 +920,23 @@
                 canvas.height
             );
 
-        gradient.addColorStop(0, "#183b5b");
-        gradient.addColorStop(1, "#0d7664");
+        gradient.addColorStop(
+            0,
+            "#205980"
+        );
 
-        context.fillStyle = gradient;
+        gradient.addColorStop(
+            0.55,
+            "#117a72"
+        );
+
+        gradient.addColorStop(
+            1,
+            "#07594f"
+        );
+
+        context.fillStyle =
+            gradient;
 
         context.fillRect(
             0,
@@ -433,14 +946,20 @@
         );
 
         context.fillStyle =
-            "rgba(255,255,255,0.12)";
+            "rgba(255,255,255,0.45)";
 
-        for (let index = 0; index < 18; index += 1) {
+        for (
+            let index = 0;
+            index < 28;
+            index += 1
+        ) {
             const x =
-                (index * 83) % canvas.width;
+                (index * 97) %
+                canvas.width;
 
             const y =
-                (index * 47) % 220;
+                (index * 53) %
+                270;
 
             context.beginPath();
 
@@ -454,32 +973,160 @@
 
             context.fill();
         }
-    }
 
-    function drawPlayer() {
-        context.font = "43px Arial";
-        context.textAlign = "center";
-        context.textBaseline = "middle";
+        context.fillStyle =
+            "rgba(255,255,255,0.12)";
 
-        context.fillText(
-            "🧒",
-            player.x + player.width / 2,
-            player.y + player.height / 2
+        context.fillRect(
+            0,
+            canvas.height - 64,
+            canvas.width,
+            64
         );
     }
 
-    function drawItems() {
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.font = "31px Arial";
+    function drawRoundedRectangle(
+        x,
+        y,
+        width,
+        height,
+        radius
+    ) {
+        context.beginPath();
 
-        fallingItems.forEach((item) => {
-            context.fillText(
-                item.symbol,
-                item.x + item.size / 2,
-                item.y + item.size / 2
-            );
-        });
+        context.roundRect(
+            x,
+            y,
+            width,
+            height,
+            radius
+        );
+    }
+
+    function drawPlayer() {
+        const centerX =
+            player.x +
+            player.width / 2;
+
+        const centerY =
+            player.y +
+            player.height / 2;
+
+        context.save();
+
+        context.shadowColor =
+            "rgba(0,0,0,0.35)";
+
+        context.shadowBlur = 14;
+
+        drawRoundedRectangle(
+            player.x,
+            player.y,
+            player.width,
+            player.height,
+            20
+        );
+
+        context.fillStyle =
+            "rgba(255,255,255,0.96)";
+
+        context.fill();
+
+        context.lineWidth = 4;
+
+        context.strokeStyle =
+            "#f4b942";
+
+        context.stroke();
+
+        context.shadowBlur = 0;
+
+        context.font =
+            "47px Arial";
+
+        context.textAlign =
+            "center";
+
+        context.textBaseline =
+            "middle";
+
+        context.fillText(
+            "🧒",
+            centerX,
+            centerY + 2
+        );
+
+        context.restore();
+    }
+
+    function drawItem(item) {
+        const centerX =
+            item.x +
+            item.size / 2;
+
+        const centerY =
+            item.y +
+            item.size / 2;
+
+        context.save();
+
+        context.shadowColor =
+            item.hazard
+                ? "rgba(209,77,77,0.8)"
+                : "rgba(255,222,75,0.85)";
+
+        context.shadowBlur = 18;
+
+        context.beginPath();
+
+        context.arc(
+            centerX,
+            centerY,
+            item.size / 2,
+            0,
+            Math.PI * 2
+        );
+
+        context.fillStyle =
+            item.hazard
+                ? "rgba(255,235,235,0.97)"
+                : "rgba(255,255,255,0.98)";
+
+        context.fill();
+
+        context.lineWidth = 5;
+
+        context.strokeStyle =
+            item.hazard
+                ? "#d14d4d"
+                : "#f4b942";
+
+        context.stroke();
+
+        context.shadowBlur = 0;
+
+        context.font =
+            `${Math.round(item.size * 0.58)}px Arial`;
+
+        context.textAlign =
+            "center";
+
+        context.textBaseline =
+            "middle";
+
+        context.fillText(
+            item.symbol,
+            centerX,
+            centerY + 1
+        );
+
+        context.restore();
+    }
+
+    function drawItems() {
+        fallingItems.forEach(
+            drawItem
+        );
     }
 
     function drawStartScreen() {
@@ -487,29 +1134,54 @@
         drawPlayer();
 
         context.fillStyle =
-            "rgba(255,255,255,0.94)";
+            "rgba(255,255,255,0.96)";
+
+        drawRoundedRectangle(
+            160,
+            100,
+            440,
+            130,
+            25
+        );
+
+        context.fill();
+
+        context.strokeStyle =
+            "#f4b942";
+
+        context.lineWidth = 5;
+
+        context.stroke();
+
+        context.fillStyle =
+            "#1d3557";
+
+        context.textAlign =
+            "center";
 
         context.font =
-            "bold 24px Arial";
-
-        context.textAlign = "center";
+            "bold 30px Arial";
 
         context.fillText(
             selectedGame
                 ? selectedGame.name
                 : "Reward Arcade",
             canvas.width / 2,
-            115
+            150
         );
 
-        context.font = "16px Arial";
+        context.font =
+            "bold 19px Arial";
+
+        context.fillStyle =
+            "#08745a";
 
         context.fillText(
             selectedGame
-                ? `Collect ${selectedGame.collect} and avoid ${selectedGame.hazard}`
+                ? `Collect ${selectedGame.collect} • Avoid ${selectedGame.hazard}`
                 : "Choose an unlocked reward.",
             canvas.width / 2,
-            148
+            190
         );
     }
 
@@ -518,52 +1190,82 @@
             return;
         }
 
-        cancelAnimationFrame(animationFrame);
+        cancelAnimationFrame(
+            animationFrame
+        );
 
         score = 0;
         lives = 3;
-        timeRemaining = 25;
+        timeRemaining = 30;
         spawnTimer = 0;
         fallingItems = [];
         running = true;
-        lastTime = performance.now();
+
+        lastTime =
+            performance.now();
 
         player.x =
             canvas.width / 2 -
             player.width / 2;
 
+        player.y =
+            canvas.height -
+            player.height -
+            18;
+
         updateStats();
 
-        gameMessage.textContent =
-            `Collect ${selectedGame.collect} and avoid ${selectedGame.hazard}.`;
+        setGameMessage(
+            `Game started! Collect ${selectedGame.collect} and avoid ${selectedGame.hazard}.`,
+            "success"
+        );
 
         startGameButton.textContent =
             "Restart Game";
 
         animationFrame =
-            requestAnimationFrame(gameLoop);
+            requestAnimationFrame(
+                gameLoop
+            );
     }
 
     function stopGame() {
         running = false;
 
-        cancelAnimationFrame(animationFrame);
+        cancelAnimationFrame(
+            animationFrame
+        );
     }
 
     function spawnItem() {
         const isHazard =
-            Math.random() < 0.27;
+            Math.random() < 0.26;
 
-        const size = 38;
+        const size =
+            62 + Math.random() * 10;
 
         fallingItems.push({
-            x: Math.random() * (canvas.width - size),
-            y: -size,
+            x:
+                8 +
+                Math.random() *
+                (
+                    canvas.width -
+                    size -
+                    16
+                ),
+
+            y:
+                -size,
+
             size,
+
             speed:
                 selectedGame.speed +
-                Math.random() * 80,
-            hazard: isHazard,
+                Math.random() * 75,
+
+            hazard:
+                isHazard,
+
             symbol:
                 isHazard
                     ? selectedGame.hazard
@@ -571,88 +1273,152 @@
         });
     }
 
-    function rectanglesTouch(first, second) {
+    function rectanglesTouch(
+        first,
+        second
+    ) {
+        const padding = 8;
+
         return (
-            first.x < second.x + second.size &&
-            first.x + first.width > second.x &&
-            first.y < second.y + second.size &&
-            first.y + first.height > second.y
+            first.x + padding <
+                second.x +
+                second.size -
+                padding &&
+
+            first.x +
+                first.width -
+                padding >
+                second.x +
+                padding &&
+
+            first.y + padding <
+                second.y +
+                second.size -
+                padding &&
+
+            first.y +
+                first.height -
+                padding >
+                second.y +
+                padding
         );
     }
 
     function updateGame(deltaTime) {
         if (movingLeft) {
             player.x -=
-                player.speed * deltaTime;
+                player.speed *
+                deltaTime;
         }
 
         if (movingRight) {
             player.x +=
-                player.speed * deltaTime;
+                player.speed *
+                deltaTime;
         }
 
-        player.x = Math.max(
-            0,
-            Math.min(
-                canvas.width - player.width,
-                player.x
-            )
-        );
+        player.x =
+            Math.max(
+                0,
+                Math.min(
+                    canvas.width -
+                        player.width,
+                    player.x
+                )
+            );
 
-        spawnTimer += deltaTime;
+        spawnTimer +=
+            deltaTime;
 
-        if (spawnTimer >= 0.52) {
+        if (spawnTimer >= 0.62) {
             spawnTimer = 0;
+
             spawnItem();
         }
 
-        timeRemaining -= deltaTime;
+        timeRemaining -=
+            deltaTime;
 
-        fallingItems.forEach((item) => {
-            item.y += item.speed * deltaTime;
-        });
+        fallingItems.forEach(
+            (item) => {
+                item.y +=
+                    item.speed *
+                    deltaTime;
+            }
+        );
 
         for (
-            let index = fallingItems.length - 1;
+            let index =
+                fallingItems.length - 1;
+
             index >= 0;
+
             index -= 1
         ) {
             const item =
                 fallingItems[index];
 
-            if (rectanglesTouch(player, item)) {
+            if (
+                rectanglesTouch(
+                    player,
+                    item
+                )
+            ) {
                 if (item.hazard) {
                     lives -= 1;
 
-                    gameMessage.textContent =
-                        "Watch out! You hit a hazard.";
+                    setGameMessage(
+                        `Watch out! Avoid ${selectedGame.hazard}.`,
+                        "danger"
+                    );
 
-                    popEmojis("💥", 5);
+                    popEmojis(
+                        ["💥", "😮"],
+                        6
+                    );
                 } else {
                     score += 1;
 
-                    gameMessage.textContent =
-                        `Great! ${score} of ${selectedGame.goal} collected.`;
+                    setGameMessage(
+                        `Great catch! ${score} of ${selectedGame.goal} collected.`,
+                        "success"
+                    );
 
                     popEmojis(
-                        selectedGame.collect,
-                        5
+                        [
+                            selectedGame.collect,
+                            "⭐",
+                            "✨"
+                        ],
+                        7
                     );
                 }
 
-                fallingItems.splice(index, 1);
+                fallingItems.splice(
+                    index,
+                    1
+                );
+
                 updateStats();
 
                 continue;
             }
 
-            if (item.y > canvas.height + item.size) {
-                fallingItems.splice(index, 1);
+            if (
+                item.y >
+                canvas.height +
+                    item.size
+            ) {
+                fallingItems.splice(
+                    index,
+                    1
+                );
             }
         }
 
         if (
-            score >= selectedGame.goal
+            score >=
+            selectedGame.goal
         ) {
             finishGame(true);
         } else if (
@@ -676,7 +1442,10 @@
 
         const deltaTime =
             Math.min(
-                (timestamp - lastTime) / 1000,
+                (
+                    timestamp -
+                    lastTime
+                ) / 1000,
                 0.05
             );
 
@@ -688,19 +1457,23 @@
 
         if (running) {
             animationFrame =
-                requestAnimationFrame(gameLoop);
+                requestAnimationFrame(
+                    gameLoop
+                );
         }
     }
 
     function finishGame(won) {
         running = false;
 
-        cancelAnimationFrame(animationFrame);
+        cancelAnimationFrame(
+            animationFrame
+        );
 
         drawGame();
 
         context.fillStyle =
-            "rgba(11, 32, 49, 0.72)";
+            "rgba(11,32,49,0.78)";
 
         context.fillRect(
             0,
@@ -709,37 +1482,87 @@
             canvas.height
         );
 
-        context.fillStyle = "white";
-        context.textAlign = "center";
-        context.font = "bold 30px Arial";
+        context.fillStyle =
+            "rgba(255,255,255,0.98)";
+
+        drawRoundedRectangle(
+            190,
+            120,
+            380,
+            170,
+            28
+        );
+
+        context.fill();
+
+        context.strokeStyle =
+            won
+                ? "#22c55e"
+                : "#f4b942";
+
+        context.lineWidth = 6;
+
+        context.stroke();
+
+        context.fillStyle =
+            "#1d3557";
+
+        context.textAlign =
+            "center";
+
+        context.font =
+            "bold 35px Arial";
 
         context.fillText(
             won
                 ? "You Won! 🎉"
                 : "Good Try!",
             canvas.width / 2,
-            155
+            178
         );
 
-        context.font = "18px Arial";
+        context.font =
+            "bold 21px Arial";
 
         context.fillText(
-            `Final score: ${score}`,
+            `Final score: ${score} / ${selectedGame.goal}`,
             canvas.width / 2,
-            195
+            224
         );
 
-        gameMessage.textContent =
+        context.font =
+            "17px Arial";
+
+        context.fillStyle =
+            "#08745a";
+
+        context.fillText(
             won
-                ? `Amazing! You completed ${selectedGame.name}.`
-                : `You collected ${score}. Press Restart and try again.`;
+                ? "Amazing work!"
+                : "Press Restart and try again.",
+            canvas.width / 2,
+            260
+        );
 
         if (won) {
+            setGameMessage(
+                `Amazing! You completed ${selectedGame.name}!`,
+                "success"
+            );
+
             popEmojis(
-                ["🎉", "🏆", "⭐", selectedGame.collect][
-                    Math.floor(Math.random() * 4)
+                [
+                    "🎉",
+                    "🏆",
+                    "⭐",
+                    selectedGame.collect
                 ],
-                25
+                28
+            );
+        } else {
+            setGameMessage(
+                `You collected ${score}. Press Restart Game to try again.`,
+                "warning"
             );
         }
     }
@@ -754,11 +1577,40 @@
         timeStat.textContent =
             `Time: ${Math.max(
                 0,
-                Math.ceil(timeRemaining)
+                Math.ceil(
+                    timeRemaining
+                )
             )}`;
+
+        if (selectedGame) {
+            gameGoalText.textContent =
+                `${score} / ${selectedGame.goal}`;
+
+            const percentage =
+                Math.min(
+                    100,
+                    (
+                        score /
+                        selectedGame.goal
+                    ) *
+                    100
+                );
+
+            gameGoalFill.style.width =
+                `${percentage}%`;
+        } else {
+            gameGoalText.textContent =
+                "0 / 10";
+
+            gameGoalFill.style.width =
+                "0%";
+        }
     }
 
-    function setMovement(direction, enabled) {
+    function setMovement(
+        direction,
+        enabled
+    ) {
         if (direction === "left") {
             movingLeft = enabled;
         }
@@ -768,25 +1620,50 @@
         }
     }
 
-    function connectMovementButton(button, direction) {
+    function connectMovementButton(
+        button,
+        direction
+    ) {
         button.addEventListener(
             "pointerdown",
-            () => setMovement(direction, true)
+            (event) => {
+                event.preventDefault();
+
+                setMovement(
+                    direction,
+                    true
+                );
+            }
         );
 
         button.addEventListener(
             "pointerup",
-            () => setMovement(direction, false)
+            () => {
+                setMovement(
+                    direction,
+                    false
+                );
+            }
         );
 
         button.addEventListener(
             "pointerleave",
-            () => setMovement(direction, false)
+            () => {
+                setMovement(
+                    direction,
+                    false
+                );
+            }
         );
 
         button.addEventListener(
             "pointercancel",
-            () => setMovement(direction, false)
+            () => {
+                setMovement(
+                    direction,
+                    false
+                );
+            }
         );
     }
 
@@ -804,22 +1681,27 @@
                 userData?.user;
 
             if (!user) {
-                showToast(
-                    "Sign in to access your saved rewards."
-                );
-
                 rewardGrid.innerHTML = `
                     <div class="surface-card empty-state">
                         Sign in and complete Level 1 to unlock
-                        your first 2D game.<br><br>
-                        <a class="button button-primary"
-                           href="signin.html">
+                        your first game.
+                        <br><br>
+
+                        <a
+                            class="button button-primary"
+                            href="signin.html"
+                        >
                             Sign In
                         </a>
                     </div>
                 `;
 
+                showToast(
+                    "Sign in to access your saved rewards."
+                );
+
                 drawStartScreen();
+
                 return;
             }
 
@@ -833,7 +1715,10 @@
                     .select(
                         "unlocked_rewards"
                     )
-                    .eq("id", user.id)
+                    .eq(
+                        "id",
+                        user.id
+                    )
                     .single();
 
             if (error) {
@@ -841,17 +1726,28 @@
             }
 
             unlockedRewards =
-                profile.unlocked_rewards || [];
+                profile.unlocked_rewards ||
+                [];
 
             renderRewards();
 
             const firstUnlocked =
                 GAMES.find((game) =>
-                    unlockedRewards.includes(game.name)
+                    unlockedRewards.includes(
+                        game.name
+                    )
                 );
 
             if (firstUnlocked) {
-                selectGame(firstUnlocked);
+                const firstCard =
+                    document.querySelector(
+                        `[data-game-name="${firstUnlocked.name}"]`
+                    );
+
+                selectGame(
+                    firstUnlocked,
+                    firstCard
+                );
             } else {
                 drawStartScreen();
             }
@@ -884,17 +1780,24 @@
     window.addEventListener(
         "keydown",
         (event) => {
+            const key =
+                event.key.toLowerCase();
+
             if (
                 event.key === "ArrowLeft" ||
-                event.key.toLowerCase() === "a"
+                key === "a"
             ) {
+                event.preventDefault();
+
                 movingLeft = true;
             }
 
             if (
                 event.key === "ArrowRight" ||
-                event.key.toLowerCase() === "d"
+                key === "d"
             ) {
+                event.preventDefault();
+
                 movingRight = true;
             }
         }
@@ -903,19 +1806,30 @@
     window.addEventListener(
         "keyup",
         (event) => {
+            const key =
+                event.key.toLowerCase();
+
             if (
                 event.key === "ArrowLeft" ||
-                event.key.toLowerCase() === "a"
+                key === "a"
             ) {
                 movingLeft = false;
             }
 
             if (
                 event.key === "ArrowRight" ||
-                event.key.toLowerCase() === "d"
+                key === "d"
             ) {
                 movingRight = false;
             }
+        }
+    );
+
+    window.addEventListener(
+        "blur",
+        () => {
+            movingLeft = false;
+            movingRight = false;
         }
     );
 
