@@ -15,7 +15,7 @@
     <style>
         .journey-hero {
             display: grid;
-            grid-template-columns: 1.25fr 0.75fr;
+            grid-template-columns: 1.2fr 0.8fr;
             align-items: center;
             gap: 30px;
         }
@@ -23,8 +23,8 @@
         .journey-badges {
             margin-top: 22px;
             display: flex;
-            gap: 9px;
             flex-wrap: wrap;
+            gap: 9px;
         }
 
         .journey-badge {
@@ -35,6 +35,34 @@
             background: white;
             font-size: 0.75rem;
             font-weight: 900;
+        }
+
+        .journey-stats {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .journey-stat {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: white;
+        }
+
+        .journey-stat strong {
+            display: block;
+            color: var(--navy);
+            font-size: 1.35rem;
+        }
+
+        .journey-stat span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 800;
         }
 
         .rank-progress-card {
@@ -58,7 +86,7 @@
         }
 
         .level-group-heading {
-            margin: 42px 0 18px;
+            margin: 43px 0 18px;
             padding-bottom: 13px;
             display: flex;
             align-items: flex-end;
@@ -90,13 +118,14 @@
         }
 
         .level-card {
-            min-height: 325px;
+            position: relative;
+            min-height: 390px;
             display: flex;
             flex-direction: column;
         }
 
         .level-card.completed {
-            border: 2px solid rgba(15, 157, 120, 0.5);
+            border: 2px solid rgba(15, 157, 120, 0.55);
         }
 
         .level-card.current-level {
@@ -109,36 +138,43 @@
         .level-card.current-level::after {
             content: "Your next level";
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 14px;
+            right: 14px;
             padding: 6px 10px;
             border-radius: 999px;
             color: white;
             background: var(--green);
-            font-size: 0.65rem;
+            font-size: 0.64rem;
             font-weight: 900;
         }
 
-        .level-card.current-level .level-number {
-            margin-right: 105px;
+        .level-card.locked {
+            opacity: 0.68;
+        }
+
+        .level-card-description {
+            min-height: 65px;
+            margin-top: 10px;
+            color: var(--muted);
+            line-height: 1.6;
         }
 
         .level-difficulty {
             margin-top: 14px;
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
         }
 
         .difficulty-bars {
+            height: 18px;
             display: flex;
             align-items: flex-end;
             gap: 3px;
-            height: 17px;
         }
 
         .difficulty-bar {
-            width: 5px;
+            width: 6px;
             border-radius: 999px;
             background: #d7e3df;
         }
@@ -156,7 +192,7 @@
         }
 
         .difficulty-bar:nth-child(4) {
-            height: 17px;
+            height: 18px;
         }
 
         .difficulty-bar.active {
@@ -169,10 +205,6 @@
             font-weight: 900;
         }
 
-        .level-card-description {
-            flex: 1;
-        }
-
         .lesson-feature-list {
             margin-top: 15px;
             display: grid;
@@ -182,29 +214,31 @@
         .lesson-feature {
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
             color: var(--muted);
             font-size: 0.72rem;
             font-weight: 800;
         }
 
         .lesson-feature-icon {
-            width: 23px;
-            height: 23px;
+            width: 25px;
+            height: 25px;
             display: grid;
             place-items: center;
             flex-shrink: 0;
-            border-radius: 7px;
+            border-radius: 8px;
             background: var(--light-green);
-            font-size: 0.72rem;
+            font-size: 0.75rem;
         }
 
         .level-card-action {
-            margin-top: 18px;
+            width: 100%;
+            margin-top: auto;
+            padding-top: 18px;
         }
 
         .rank-ladder {
-            margin-top: 55px;
+            margin-top: 60px;
         }
 
         .rank-grid {
@@ -249,6 +283,10 @@
             font-weight: 900;
         }
 
+        .rank-card.rank-locked {
+            opacity: 0.55;
+        }
+
         .rank-icon {
             font-size: 2rem;
         }
@@ -262,10 +300,6 @@
             margin-top: 5px;
             color: var(--muted);
             font-size: 0.75rem;
-        }
-
-        .rank-locked {
-            opacity: 0.55;
         }
 
         .loading-cover {
@@ -327,6 +361,10 @@
         }
 
         @media (max-width: 650px) {
+            .journey-stats {
+                grid-template-columns: 1fr;
+            }
+
             .rank-grid {
                 grid-template-columns: 1fr;
             }
@@ -341,10 +379,6 @@
                 width: fit-content;
                 margin-bottom: 10px;
                 display: block;
-            }
-
-            .level-card.current-level .level-number {
-                margin-right: 0;
             }
         }
     </style>
@@ -363,7 +397,7 @@
         </div>
 
         <p>
-            Loading your learning journey...
+            Loading your journey...
         </p>
 
     </div>
@@ -393,37 +427,85 @@
         <div>
 
             <p class="eyebrow">
-                Extended learning journey
+                Extended Quran learning journey
             </p>
 
             <h1 class="page-title">
-                From beginner to
-                Quran Champion.
+                Twenty different levels.
+                One Quran Champion.
             </h1>
 
             <p class="page-description">
-                Complete 14 increasingly difficult levels.
-                Practice Arabic pronunciation, reading, Quran
-                vocabulary, surah recognition, and Tajweed.
+                Build Arabic reading and pronunciation skills,
+                learn Quran vocabulary, study Tajweed foundations,
+                and complete the final mastery examination.
             </p>
 
             <div class="journey-badges">
 
                 <span class="journey-badge">
-                    🔊 Arabic voice examples
+                    🔊 Arabic voice
                 </span>
 
                 <span class="journey-badge">
-                    🧠 Harder quizzes
+                    🇺🇸 English voice
                 </span>
 
                 <span class="journey-badge">
-                    🎮 14 game rewards
+                    🎤 Pronunciation checks
+                </span>
+
+                <span class="journey-badge">
+                    🧠 Harder questions
+                </span>
+
+                <span class="journey-badge">
+                    🎮 20 game rewards
                 </span>
 
                 <span class="journey-badge">
                     🏆 8 ranks
                 </span>
+
+            </div>
+
+            <div class="journey-stats">
+
+                <div class="journey-stat">
+
+                    <strong>
+                        20
+                    </strong>
+
+                    <span>
+                        Different levels
+                    </span>
+
+                </div>
+
+                <div class="journey-stat">
+
+                    <strong>
+                        7,375
+                    </strong>
+
+                    <span>
+                        Total available XP
+                    </span>
+
+                </div>
+
+                <div class="journey-stat">
+
+                    <strong>
+                        80–90%
+                    </strong>
+
+                    <span>
+                        Required quiz scores
+                    </span>
+
+                </div>
 
             </div>
 
@@ -481,7 +563,7 @@
                     <span>Levels</span>
 
                     <strong id="profileLevels">
-                        0/14
+                        0/20
                     </strong>
 
                 </div>
@@ -545,12 +627,12 @@
             <div>
 
                 <h2>
-                    Your 14-Level Path
+                    Your 20-Level Path
                 </h2>
 
                 <p>
-                    Every level must be completed in order.
-                    Higher levels require stronger quiz scores.
+                    Complete levels in order. Later levels contain
+                    more questions and require higher scores.
                 </p>
 
             </div>
@@ -579,8 +661,7 @@
                 </h2>
 
                 <p>
-                    Earn XP from lessons to advance from
-                    Bronze to Quran Champion.
+                    Earn XP and climb from Bronze to Quran Champion.
                 </p>
 
             </div>
@@ -605,11 +686,11 @@
     const LEVELS = [
         {
             number: 1,
-            group: "Foundation",
+            group: "Arabic Foundations",
             icon: "🔤",
             title: "Arabic Alphabet",
             description:
-                "Recognize all 28 Arabic letters and their names.",
+                "Recognize all 28 Arabic letters and hear their correct Arabic names.",
             xp: 100,
             reward: "Crescent Runner",
             questions: 10,
@@ -618,170 +699,248 @@
         },
         {
             number: 2,
-            group: "Foundation",
-            icon: "🔊",
-            title: "Vowels and Sounds",
+            group: "Arabic Foundations",
+            icon: "🔍",
+            title: "Similar Letters and Dots",
             description:
-                "Read Fatha, Kasra, Damma, Sukoon, and long vowels.",
+                "Separate commonly confused letters by shape and dot placement.",
             xp: 125,
-            reward: "Star Jumper",
-            questions: 10,
+            reward: "Dot Detective",
+            questions: 12,
             pass: 80,
             difficulty: 1
         },
         {
             number: 3,
-            group: "Foundation",
-            icon: "🔗",
-            title: "Joining Arabic Letters",
+            group: "Arabic Foundations",
+            icon: "🎵",
+            title: "Short Vowels",
             description:
-                "Learn how Arabic letters change shape when joined.",
+                "Read Fatha, Kasra, and Damma with clear sound examples.",
             xp: 150,
-            reward: "Letter Builder",
+            reward: "Vowel Catcher",
             questions: 12,
             pass: 80,
-            difficulty: 2
+            difficulty: 1
         },
         {
             number: 4,
-            group: "Foundation",
-            icon: "✍️",
-            title: "Sukoon, Shaddah and Tanween",
+            group: "Arabic Foundations",
+            icon: "〰️",
+            title: "Long Vowels and Sukoon",
             description:
-                "Read doubled sounds, silent letters, and ending vowels.",
+                "Compare short sounds, long sounds, and letters without vowels.",
             xp: 175,
-            reward: "Vowel Vault",
-            questions: 12,
+            reward: "Sound Surfer",
+            questions: 14,
             pass: 80,
             difficulty: 2
         },
         {
             number: 5,
-            group: "Reading",
-            icon: "🧩",
-            title: "Reading Arabic Words",
+            group: "Arabic Reading",
+            icon: "🔗",
+            title: "Joining Arabic Letters",
             description:
-                "Combine letters and vowel marks to read full words.",
-            xp: 225,
-            reward: "Lantern Dash",
+                "Learn beginning, middle, ending, and separate letter forms.",
+            xp: 200,
+            reward: "Letter Builder",
             questions: 14,
             pass: 80,
             difficulty: 2
         },
         {
             number: 6,
-            group: "Reading",
-            icon: "💬",
-            title: "Quran and Islamic Phrases",
+            group: "Arabic Reading",
+            icon: "✍️",
+            title: "Shaddah and Tanween",
             description:
-                "Read and understand important Arabic phrases.",
-            xp: 250,
-            reward: "Cloud Flyer",
-            questions: 14,
+                "Practice doubled letters and the three Tanween endings.",
+            xp: 225,
+            reward: "Shaddah Smash",
+            questions: 15,
             pass: 80,
             difficulty: 2
         },
         {
             number: 7,
-            group: "Reading",
-            icon: "🏆",
-            title: "Beginner Mastery Exam",
+            group: "Arabic Reading",
+            icon: "🧩",
+            title: "Reading Complete Words",
             description:
-                "A mixed exam covering Levels 1 through 6.",
-            xp: 300,
-            reward: "Beginner Champion",
-            questions: 20,
-            pass: 85,
-            difficulty: 3
+                "Combine letters and vowel marks to read full Arabic words.",
+            xp: 250,
+            reward: "Word Wizard",
+            questions: 16,
+            pass: 80,
+            difficulty: 2
         },
         {
             number: 8,
-            group: "Pronunciation",
-            icon: "👄",
-            title: "Makharij",
+            group: "Arabic Reading",
+            icon: "💬",
+            title: "Islamic Phrases",
             description:
-                "Learn where Arabic letters are pronounced in the mouth and throat.",
-            xp: 350,
-            reward: "Makharij Mission",
-            questions: 15,
+                "Read, pronounce, and understand important everyday phrases.",
+            xp: 275,
+            reward: "Phrase Flyer",
+            questions: 16,
             pass: 80,
-            difficulty: 3
+            difficulty: 2
         },
         {
             number: 9,
-            group: "Pronunciation",
-            icon: "〰️",
-            title: "Madd and Qalqalah",
+            group: "Quran Vocabulary",
+            icon: "📗",
+            title: "Quran Vocabulary I",
             description:
-                "Practice vowel lengthening and bouncing letter sounds.",
-            xp: 375,
-            reward: "Madd Master",
+                "Learn frequently repeated Quran words about Allah, people, and guidance.",
+            xp: 300,
+            reward: "Quran Word Quest",
             questions: 16,
             pass: 85,
             difficulty: 3
         },
         {
             number: 10,
-            group: "Pronunciation",
-            icon: "🎵",
-            title: "Noon and Meem Rules",
+            group: "Quran Vocabulary",
+            icon: "🧠",
+            title: "Quran Vocabulary II",
             description:
-                "Learn Ghunnah, Idgham, Ikhfa, Izhar, and Iqlab.",
-            xp: 425,
-            reward: "Noon Defender",
+                "Match more advanced Quran words with their English meanings.",
+            xp: 325,
+            reward: "Meaning Match",
             questions: 18,
             pass: 85,
             difficulty: 3
         },
         {
             number: 11,
-            group: "Advanced",
-            icon: "📚",
-            title: "Quran Vocabulary",
+            group: "Pronunciation",
+            icon: "👄",
+            title: "Mouth Pronunciation Points",
             description:
-                "Recognize frequently repeated words from the Quran.",
-            xp: 450,
-            reward: "Word Explorer",
+                "Practice letters formed using the lips, tongue, and teeth.",
+            xp: 350,
+            reward: "Mouth Mission",
             questions: 18,
             pass: 85,
             difficulty: 3
         },
         {
             number: 12,
-            group: "Advanced",
-            icon: "📖",
-            title: "Short Surah Recognition",
+            group: "Pronunciation",
+            icon: "🗣️",
+            title: "Throat Pronunciation Points",
             description:
-                "Identify short surahs, openings, themes, and ayah order.",
-            xp: 500,
-            reward: "Surah Quest",
+                "Practice Arabic letters produced from different throat areas.",
+            xp: 375,
+            reward: "Throat Trail",
+            questions: 18,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 13,
+            group: "Pronunciation",
+            icon: "⚖️",
+            title: "Heavy and Light Letters",
+            description:
+                "Hear and compare heavy Arabic sounds with lighter sounds.",
+            xp: 400,
+            reward: "Heavy Letter Hero",
             questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 14,
+            group: "Tajweed Foundations",
+            icon: "⏱️",
+            title: "Madd Rules",
+            description:
+                "Practice natural Madd and beginner vowel-lengthening rules.",
+            xp: 425,
+            reward: "Madd Master",
+            questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 15,
+            group: "Tajweed Foundations",
+            icon: "⚡",
+            title: "Qalqalah",
+            description:
+                "Recognize and practice the five bouncing Qalqalah letters.",
+            xp: 450,
+            reward: "Qalqalah Bounce",
+            questions: 20,
+            pass: 85,
+            difficulty: 3
+        },
+        {
+            number: 16,
+            group: "Tajweed Rules",
+            icon: "ن",
+            title: "Noon Sakin and Tanween",
+            description:
+                "Study Izhar, Idgham, Iqlab, and Ikhfa with examples.",
+            xp: 500,
+            reward: "Noon Defender",
+            questions: 22,
             pass: 85,
             difficulty: 4
         },
         {
-            number: 13,
-            group: "Advanced",
-            icon: "🎓",
-            title: "Advanced Tajweed",
+            number: 17,
+            group: "Tajweed Rules",
+            icon: "م",
+            title: "Meem Sakin Rules",
             description:
-                "Apply several Tajweed rules inside complete Quran examples.",
-            xp: 600,
-            reward: "Tajweed Trails",
+                "Learn Ikhfa Shafawi, Idgham Shafawi, and Izhar Shafawi.",
+            xp: 550,
+            reward: "Meem Maze",
             questions: 22,
+            pass: 85,
+            difficulty: 4
+        },
+        {
+            number: 18,
+            group: "Quran Knowledge",
+            icon: "📖",
+            title: "Short Surah Recognition",
+            description:
+                "Identify short surahs from their names, openings, and themes.",
+            xp: 600,
+            reward: "Surah Explorer",
+            questions: 24,
+            pass: 85,
+            difficulty: 4
+        },
+        {
+            number: 19,
+            group: "Mastery",
+            icon: "🎓",
+            title: "Tajweed Application",
+            description:
+                "Find multiple Tajweed rules inside longer Quran examples.",
+            xp: 700,
+            reward: "Tajweed Trials",
+            questions: 26,
             pass: 90,
             difficulty: 4
         },
         {
-            number: 14,
-            group: "Final Challenge",
+            number: 20,
+            group: "Mastery",
             icon: "👑",
-            title: "Grand Quran Challenge",
+            title: "Final Quran Mastery Exam",
             description:
-                "The final mixed examination across the entire learning journey.",
-            xp: 750,
+                "Complete a difficult mixed examination covering all previous levels.",
+            xp: 900,
             reward: "Grand Quran Challenge",
-            questions: 30,
+            questions: 35,
             pass: 90,
             difficulty: 4
         }
@@ -789,34 +948,52 @@
 
     const GROUPS = [
         {
-            name: "Foundation",
+            name: "Arabic Foundations",
             description:
-                "Build strong Arabic letter and vowel skills.",
+                "Master letters, dots, vowel marks, and basic sounds.",
             range: "Levels 1–4"
         },
         {
-            name: "Reading",
+            name: "Arabic Reading",
             description:
-                "Move from individual sounds to complete words and phrases.",
-            range: "Levels 5–7"
+                "Join letters and begin reading complete words and phrases.",
+            range: "Levels 5–8"
+        },
+        {
+            name: "Quran Vocabulary",
+            description:
+                "Learn frequently repeated words from the Quran.",
+            range: "Levels 9–10"
         },
         {
             name: "Pronunciation",
             description:
-                "Practice Makharij and important Tajweed foundations.",
-            range: "Levels 8–10"
-        },
-        {
-            name: "Advanced",
-            description:
-                "Build Quran vocabulary, surah knowledge, and advanced Tajweed.",
+                "Practice mouth, tongue, lip, teeth, and throat sounds.",
             range: "Levels 11–13"
         },
         {
-            name: "Final Challenge",
+            name: "Tajweed Foundations",
             description:
-                "Prove your knowledge in the complete mastery examination.",
-            range: "Level 14"
+                "Begin applying vowel lengthening and Qalqalah.",
+            range: "Levels 14–15"
+        },
+        {
+            name: "Tajweed Rules",
+            description:
+                "Study Noon Sakin, Tanween, and Meem Sakin rules.",
+            range: "Levels 16–17"
+        },
+        {
+            name: "Quran Knowledge",
+            description:
+                "Recognize short surahs and their important features.",
+            range: "Level 18"
+        },
+        {
+            name: "Mastery",
+            description:
+                "Apply everything in advanced Tajweed and final examinations.",
+            range: "Levels 19–20"
         }
     ];
 
@@ -829,37 +1006,37 @@
         {
             name: "Silver",
             icon: "🥈",
-            minimumXP: 300
+            minimumXP: 500
         },
         {
             name: "Gold",
             icon: "🥇",
-            minimumXP: 750
+            minimumXP: 1200
         },
         {
             name: "Platinum",
             icon: "🏅",
-            minimumXP: 1350
+            minimumXP: 2200
         },
         {
             name: "Diamond",
             icon: "💎",
-            minimumXP: 2200
+            minimumXP: 3500
         },
         {
             name: "Master",
             icon: "👑",
-            minimumXP: 3200
+            minimumXP: 4800
         },
         {
             name: "Grandmaster",
             icon: "🔥",
-            minimumXP: 4000
+            minimumXP: 6000
         },
         {
             name: "Quran Champion",
             icon: "🌙",
-            minimumXP: 4700
+            minimumXP: 7000
         }
     ];
 
@@ -949,13 +1126,18 @@
     let currentProfile = null;
 
     function showToast(message) {
-        toast.textContent = message;
+        toast.textContent =
+            message;
 
-        toast.classList.remove("show");
+        toast.classList.remove(
+            "show"
+        );
 
         void toast.offsetWidth;
 
-        toast.classList.add("show");
+        toast.classList.add(
+            "show"
+        );
     }
 
     function getInitials(name) {
@@ -977,9 +1159,11 @@
         RANKS.forEach(
             (rank, index) => {
                 if (
-                    xp >= rank.minimumXP
+                    xp >=
+                    rank.minimumXP
                 ) {
-                    rankIndex = index;
+                    rankIndex =
+                        index;
                 }
             }
         );
@@ -998,8 +1182,9 @@
             getRankIndex(xp);
 
         return (
-            RANKS[currentIndex + 1] ||
-            null
+            RANKS[
+                currentIndex + 1
+            ] || null
         );
     }
 
@@ -1034,7 +1219,7 @@
                 "Guest Learner";
 
             profileRank.textContent =
-                "Sign in to save XP, ranks and rewards";
+                "Sign in to save XP, ranks, and rewards";
 
             profileRankShort.textContent =
                 "Guest";
@@ -1043,7 +1228,7 @@
                 "0";
 
             profileLevels.textContent =
-                "0/14";
+                "0/20";
 
             journeyPercent.textContent =
                 "0%";
@@ -1087,7 +1272,7 @@
             String(xp);
 
         profileLevels.textContent =
-            `${completed.length}/14`;
+            `${completed.length}/20`;
 
         journeyPercent.textContent =
             `${journeyPercentage}%`;
@@ -1147,13 +1332,17 @@
         difficulty
     ) {
         const wrapper =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         wrapper.className =
             "level-difficulty";
 
         const bars =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         bars.className =
             "difficulty-bars";
@@ -1164,18 +1353,24 @@
             index += 1
         ) {
             const bar =
-                document.createElement("span");
+                document.createElement(
+                    "span"
+                );
 
             bar.className =
                 "difficulty-bar";
 
-            if (index <= difficulty) {
+            if (
+                index <= difficulty
+            ) {
                 bar.classList.add(
                     "active"
                 );
             }
 
-            bars.appendChild(bar);
+            bars.appendChild(
+                bar
+            );
         }
 
         const labels = [
@@ -1187,7 +1382,9 @@
         ];
 
         const label =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         label.className =
             "difficulty-text";
@@ -1208,13 +1405,17 @@
         text
     ) {
         const feature =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         feature.className =
             "lesson-feature";
 
         const featureIcon =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         featureIcon.className =
             "lesson-feature-icon";
@@ -1223,7 +1424,9 @@
             icon;
 
         const featureText =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         featureText.textContent =
             text;
@@ -1237,7 +1440,8 @@
     }
 
     function renderLevels() {
-        levelGroups.innerHTML = "";
+        levelGroups.innerHTML =
+            "";
 
         const completed =
             currentProfile
@@ -1249,315 +1453,345 @@
                     !completed.includes(
                         level.number
                     )
-            )?.number || 14;
+            )?.number || 20;
 
-        GROUPS.forEach((group) => {
-            const groupLevels =
-                LEVELS.filter(
-                    (level) =>
-                        level.group ===
-                        group.name
-                );
-
-            const section =
-                document.createElement(
-                    "section"
-                );
-
-            const heading =
-                document.createElement(
-                    "div"
-                );
-
-            heading.className =
-                "level-group-heading";
-
-            const headingCopy =
-                document.createElement(
-                    "div"
-                );
-
-            const headingTitle =
-                document.createElement(
-                    "h2"
-                );
-
-            headingTitle.textContent =
-                group.name;
-
-            const headingDescription =
-                document.createElement(
-                    "p"
-                );
-
-            headingDescription.textContent =
-                group.description;
-
-            headingCopy.append(
-                headingTitle,
-                headingDescription
-            );
-
-            const range =
-                document.createElement(
-                    "span"
-                );
-
-            range.className =
-                "group-range";
-
-            range.textContent =
-                group.range;
-
-            heading.append(
-                headingCopy,
-                range
-            );
-
-            const grid =
-                document.createElement(
-                    "div"
-                );
-
-            grid.className =
-                "level-grid";
-
-            groupLevels.forEach(
-                (level) => {
-                    const isCompleted =
-                        completed.includes(
-                            level.number
-                        );
-
-                    const isUnlocked =
-                        level.number === 1 ||
-                        completed.includes(
-                            level.number - 1
-                        );
-
-                    const isCurrent =
-                        currentUser &&
-                        level.number ===
-                            nextIncomplete &&
-                        isUnlocked;
-
-                    const card =
-                        document.createElement(
-                            "article"
-                        );
-
-                    card.className =
-                        "level-card";
-
-                    if (isCompleted) {
-                        card.classList.add(
-                            "completed"
-                        );
-                    }
-
-                    if (!isUnlocked) {
-                        card.classList.add(
-                            "locked"
-                        );
-                    }
-
-                    if (isCurrent) {
-                        card.classList.add(
-                            "current-level"
-                        );
-                    }
-
-                    const top =
-                        document.createElement(
-                            "div"
-                        );
-
-                    top.className =
-                        "level-card-top";
-
-                    const icon =
-                        document.createElement(
-                            "div"
-                        );
-
-                    icon.className =
-                        "level-icon";
-
-                    icon.textContent =
-                        level.icon;
-
-                    const number =
-                        document.createElement(
-                            "span"
-                        );
-
-                    number.className =
-                        "level-number";
-
-                    number.textContent =
-                        isCompleted
-                            ? "✓ Completed"
-                            : `Level ${level.number}`;
-
-                    top.append(
-                        icon,
-                        number
+        GROUPS.forEach(
+            (group) => {
+                const groupLevels =
+                    LEVELS.filter(
+                        (level) =>
+                            level.group ===
+                            group.name
                     );
 
-                    const title =
-                        document.createElement(
-                            "h3"
-                        );
-
-                    title.textContent =
-                        level.title;
-
-                    const description =
-                        document.createElement(
-                            "p"
-                        );
-
-                    description.className =
-                        "level-card-description";
-
-                    description.textContent =
-                        level.description;
-
-                    const difficulty =
-                        createDifficultyElement(
-                            level.difficulty
-                        );
-
-                    const details =
-                        document.createElement(
-                            "div"
-                        );
-
-                    details.className =
-                        "level-details";
-
-                    const xpChip =
-                        document.createElement(
-                            "span"
-                        );
-
-                    xpChip.className =
-                        "detail-chip";
-
-                    xpChip.textContent =
-                        `+${level.xp} XP`;
-
-                    const rewardChip =
-                        document.createElement(
-                            "span"
-                        );
-
-                    rewardChip.className =
-                        "reward-chip";
-
-                    rewardChip.textContent =
-                        `🎮 ${level.reward}`;
-
-                    details.append(
-                        xpChip,
-                        rewardChip
+                const section =
+                    document.createElement(
+                        "section"
                     );
 
-                    const features =
-                        document.createElement(
-                            "div"
-                        );
-
-                    features.className =
-                        "lesson-feature-list";
-
-                    features.append(
-                        createFeature(
-                            "🔊",
-                            "Arabic voice examples"
-                        ),
-                        createFeature(
-                            "🧠",
-                            `${level.questions} quiz questions`
-                        ),
-                        createFeature(
-                            "✅",
-                            `${level.pass}% required to pass`
-                        )
+                const heading =
+                    document.createElement(
+                        "div"
                     );
 
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
+                heading.className =
+                    "level-group-heading";
 
-                    button.type =
-                        "button";
+                const headingCopy =
+                    document.createElement(
+                        "div"
+                    );
 
-                    button.className =
-                        isUnlocked
-                            ? "button button-primary level-card-action"
-                            : "button button-secondary level-card-action";
+                const headingTitle =
+                    document.createElement(
+                        "h2"
+                    );
 
-                    if (isCompleted) {
-                        button.textContent =
-                            "Review Level";
-                    } else if (isUnlocked) {
-                        button.textContent =
-                            level.number === 1
-                                ? "Start Journey"
-                                : "Start Level";
-                    } else {
-                        button.textContent =
-                            "🔒 Locked";
+                headingTitle.textContent =
+                    group.name;
 
-                        button.disabled =
-                            true;
-                    }
+                const headingDescription =
+                    document.createElement(
+                        "p"
+                    );
 
-                    button.addEventListener(
-                        "click",
-                        () => {
-                            if (!isUnlocked) {
-                                showToast(
-                                    `Complete Level ${level.number - 1} first.`
-                                );
+                headingDescription.textContent =
+                    group.description;
 
-                                return;
-                            }
+                headingCopy.append(
+                    headingTitle,
+                    headingDescription
+                );
 
-                            window.location.href =
-                                `lesson.html?level=${level.number}`;
+                const range =
+                    document.createElement(
+                        "span"
+                    );
+
+                range.className =
+                    "group-range";
+
+                range.textContent =
+                    group.range;
+
+                heading.append(
+                    headingCopy,
+                    range
+                );
+
+                const grid =
+                    document.createElement(
+                        "div"
+                    );
+
+                grid.className =
+                    "level-grid";
+
+                groupLevels.forEach(
+                    (level) => {
+                        const isCompleted =
+                            completed.includes(
+                                level.number
+                            );
+
+                        const isUnlocked =
+                            level.number === 1 ||
+                            completed.includes(
+                                level.number - 1
+                            );
+
+                        const isCurrent =
+                            currentUser &&
+                            level.number ===
+                                nextIncomplete &&
+                            isUnlocked;
+
+                        const card =
+                            document.createElement(
+                                "article"
+                            );
+
+                        card.className =
+                            "level-card";
+
+                        if (isCompleted) {
+                            card.classList.add(
+                                "completed"
+                            );
                         }
-                    );
 
-                    card.append(
-                        top,
-                        title,
-                        description,
-                        difficulty,
-                        details,
-                        features,
-                        button
-                    );
+                        if (!isUnlocked) {
+                            card.classList.add(
+                                "locked"
+                            );
+                        }
 
-                    grid.appendChild(card);
-                }
-            );
+                        if (isCurrent) {
+                            card.classList.add(
+                                "current-level"
+                            );
+                        }
 
-            section.append(
-                heading,
-                grid
-            );
+                        const top =
+                            document.createElement(
+                                "div"
+                            );
 
-            levelGroups.appendChild(
-                section
-            );
-        });
+                        top.className =
+                            "level-card-top";
+
+                        const icon =
+                            document.createElement(
+                                "div"
+                            );
+
+                        icon.className =
+                            "level-icon";
+
+                        icon.textContent =
+                            level.icon;
+
+                        const number =
+                            document.createElement(
+                                "span"
+                            );
+
+                        number.className =
+                            "level-number";
+
+                        number.textContent =
+                            isCompleted
+                                ? "✓ Completed"
+                                : `Level ${level.number}`;
+
+                        top.append(
+                            icon,
+                            number
+                        );
+
+                        const title =
+                            document.createElement(
+                                "h3"
+                            );
+
+                        title.textContent =
+                            level.title;
+
+                        const description =
+                            document.createElement(
+                                "p"
+                            );
+
+                        description.className =
+                            "level-card-description";
+
+                        description.textContent =
+                            level.description;
+
+                        const difficulty =
+                            createDifficultyElement(
+                                level.difficulty
+                            );
+
+                        const details =
+                            document.createElement(
+                                "div"
+                            );
+
+                        details.className =
+                            "level-details";
+
+                        const xpChip =
+                            document.createElement(
+                                "span"
+                            );
+
+                        xpChip.className =
+                            "detail-chip";
+
+                        xpChip.textContent =
+                            `+${level.xp} XP`;
+
+                        const rewardChip =
+                            document.createElement(
+                                "span"
+                            );
+
+                        rewardChip.className =
+                            "reward-chip";
+
+                        rewardChip.textContent =
+                            `🎮 ${level.reward}`;
+
+                        details.append(
+                            xpChip,
+                            rewardChip
+                        );
+
+                        const features =
+                            document.createElement(
+                                "div"
+                            );
+
+                        features.className =
+                            "lesson-feature-list";
+
+                        features.append(
+                            createFeature(
+                                "🇺🇸",
+                                "English question voice"
+                            ),
+                            createFeature(
+                                "🔊",
+                                "Arabic example voice"
+                            ),
+                            createFeature(
+                                "🎤",
+                                "Pronunciation practice"
+                            ),
+                            createFeature(
+                                "🧠",
+                                `${level.questions} quiz questions`
+                            ),
+                            createFeature(
+                                "✅",
+                                `${level.pass}% required to pass`
+                            )
+                        );
+
+                        const actionWrapper =
+                            document.createElement(
+                                "div"
+                            );
+
+                        actionWrapper.className =
+                            "level-card-action";
+
+                        const button =
+                            document.createElement(
+                                "button"
+                            );
+
+                        button.type =
+                            "button";
+
+                        button.className =
+                            isUnlocked
+                                ? "button button-primary"
+                                : "button button-secondary";
+
+                        button.style.width =
+                            "100%";
+
+                        if (isCompleted) {
+                            button.textContent =
+                                "Review Level";
+                        } else if (isUnlocked) {
+                            button.textContent =
+                                level.number === 1
+                                    ? "Start Journey"
+                                    : "Start Level";
+                        } else {
+                            button.textContent =
+                                "🔒 Locked";
+
+                            button.disabled =
+                                true;
+                        }
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+                                if (
+                                    !isUnlocked
+                                ) {
+                                    showToast(
+                                        `Complete Level ${level.number - 1} first.`
+                                    );
+
+                                    return;
+                                }
+
+                                window.location.href =
+                                    `lesson.html?level=${level.number}`;
+                            }
+                        );
+
+                        actionWrapper.appendChild(
+                            button
+                        );
+
+                        card.append(
+                            top,
+                            title,
+                            description,
+                            difficulty,
+                            details,
+                            features,
+                            actionWrapper
+                        );
+
+                        grid.appendChild(
+                            card
+                        );
+                    }
+                );
+
+                section.append(
+                    heading,
+                    grid
+                );
+
+                levelGroups.appendChild(
+                    section
+                );
+            }
+        );
     }
 
     function renderRanks() {
-        rankGrid.innerHTML = "";
+        rankGrid.innerHTML =
+            "";
 
         const xp =
             currentProfile?.xp || 0;
@@ -1588,7 +1822,8 @@
 
                 if (
                     !currentUser ||
-                    xp < rank.minimumXP
+                    xp <
+                        rank.minimumXP
                 ) {
                     card.classList.add(
                         "rank-locked"
@@ -1622,7 +1857,7 @@
                 requirement.textContent =
                     rank.minimumXP === 0
                         ? "Starting rank"
-                        : `${rank.minimumXP} XP required`;
+                        : `${rank.minimumXP.toLocaleString()} XP required`;
 
                 card.append(
                     icon,
@@ -1630,7 +1865,9 @@
                     requirement
                 );
 
-                rankGrid.appendChild(card);
+                rankGrid.appendChild(
+                    card
+                );
             }
         );
     }
@@ -1673,7 +1910,9 @@
                     profile;
             }
         } catch (error) {
-            console.error(error);
+            console.error(
+                error
+            );
 
             showToast(
                 "Your saved progress could not load."
