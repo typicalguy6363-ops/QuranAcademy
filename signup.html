@@ -1967,6 +1967,251 @@ a {
     }
 }
 
+    
+
+/* ================================================================
+   Restored Google, email, and password-recovery controls
+   ================================================================ */
+
+.auth-card {
+    width: min(560px, 100%);
+    margin: 10px auto;
+    padding: 31px;
+    border: 1px solid var(--border);
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: var(--shadow);
+}
+
+.auth-card-header {
+    text-align: center;
+}
+
+.auth-card-logo {
+    width: 94px;
+    height: 94px;
+    margin: 0 auto 12px;
+    display: block;
+    object-fit: contain;
+}
+
+.auth-card h1 {
+    margin-top: 8px;
+    color: var(--navy);
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.035em;
+}
+
+.auth-card-intro {
+    margin: 10px auto 0;
+    max-width: 430px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.auth-choice-grid {
+    margin-top: 24px;
+    display: grid;
+    gap: 11px;
+}
+
+.auth-provider-button {
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    color: var(--navy);
+    background: white;
+    cursor: pointer;
+    font-weight: 900;
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.auth-provider-button:hover {
+    transform: translateY(-2px);
+    border-color: rgba(15, 157, 120, 0.45);
+    background: #fbfffd;
+    box-shadow: 0 12px 25px rgba(25, 76, 68, 0.09);
+}
+
+.auth-provider-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+.auth-provider-icon {
+    width: 23px;
+    height: 23px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.auth-provider-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.auth-email-button {
+    color: white;
+    border-color: var(--green);
+    background: linear-gradient(135deg, var(--green), #0b7f64);
+}
+
+.auth-email-button:hover {
+    color: white;
+    border-color: var(--dark-green);
+    background: linear-gradient(135deg, #12aa82, var(--dark-green));
+}
+
+.auth-divider {
+    margin: 22px 0;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--border);
+}
+
+.email-auth-panel {
+    overflow: hidden;
+    transition:
+        max-height 0.35s ease,
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.email-auth-panel.closed {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
+
+.email-auth-panel.open {
+    max-height: 700px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.password-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.password-label-row label {
+    margin-bottom: 7px;
+}
+
+.forgot-password-link {
+    margin-bottom: 7px;
+    color: var(--green);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+.auth-help {
+    margin-top: 18px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.auth-help a {
+    color: var(--green);
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.auth-help a:hover {
+    text-decoration: underline;
+}
+
+.password-rules {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+.recovery-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 13px;
+    display: grid;
+    place-items: center;
+    border-radius: 24px;
+    color: white;
+    background: linear-gradient(135deg, var(--green), #2563eb);
+    font-size: 2.15rem;
+    box-shadow: 0 16px 30px rgba(15, 157, 120, 0.2);
+}
+
+.auth-status-box {
+    margin-top: 17px;
+    padding: 13px 15px;
+    display: none;
+    border-radius: 14px;
+    color: var(--muted);
+    background: #f4faf7;
+    line-height: 1.55;
+}
+
+.auth-status-box.show {
+    display: block;
+}
+
+.auth-status-box.success {
+    color: var(--dark-green);
+    background: var(--light-green);
+}
+
+.auth-status-box.error {
+    color: var(--danger);
+    background: #fff0f0;
+}
+
+@media (max-width: 560px) {
+    .auth-card {
+        padding: 23px 18px;
+    }
+
+    .auth-card-logo {
+        width: 79px;
+        height: 79px;
+    }
+}
+
     </style>
 </head>
 
@@ -2029,103 +2274,163 @@ a {
 
 <main class="page-shell">
 
-    <section class="form-card">
+    <section class="auth-card">
 
-        <p class="eyebrow">
-            Begin your journey
-        </p>
+        <div class="auth-card-header">
 
-        <h1>
-            Create an account
-        </h1>
-
-        <p class="form-intro">
-            Choose a safe learner nickname.
-            Do not use a child’s full real name
-            on the public leaderboard.
-        </p>
-
-        <form id="signUpForm">
-
-            <div class="form-group">
-
-                <label for="username">
-                    Learner nickname
-                </label>
-
-                <input
-                    class="form-control"
-                    id="username"
-                    type="text"
-                    maxlength="24"
-                    autocomplete="nickname"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email
-                </label>
-
-                <input
-                    class="form-control"
-                    id="email"
-                    type="email"
-                    autocomplete="email"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    class="form-control"
-                    id="password"
-                    type="password"
-                    minlength="6"
-                    autocomplete="new-password"
-                    required
-                >
-
-            </div>
-
-            <div
-                class="button-row"
-                style="margin-top:21px;"
+            <img
+                class="auth-card-logo"
+                src="quran-academy-icon.png"
+                alt="Quran Academy"
             >
+
+            <p class="eyebrow">
+                Begin your journey
+            </p>
+
+            <h1>
+                Create an account
+            </h1>
+
+            <p class="auth-card-intro">
+                Save your lessons, XP, ranks,
+                and reward games.
+            </p>
+
+        </div>
+
+        <div class="auth-choice-grid">
+
+            <button
+                class="auth-provider-button"
+                id="googleSignUpButton"
+                type="button"
+            >
+                <span class="auth-provider-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.04H12v3.86h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.35Z"/>
+        <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.63-2.42l-3.24-2.51c-.9.6-2.05.96-3.39.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.59A10 10 0 0 0 12 22Z"/>
+        <path fill="#FBBC05" d="M6.39 13.9A6 6 0 0 1 6.08 12c0-.66.11-1.3.31-1.9V7.51H3.04A10 10 0 0 0 2 12c0 1.61.39 3.13 1.04 4.49l3.35-2.59Z"/>
+        <path fill="#EA4335" d="M12 5.97c1.47 0 2.79.51 3.82 1.5l2.87-2.87A9.61 9.61 0 0 0 12 2 10 10 0 0 0 3.04 7.51l3.35 2.59C7.18 7.73 9.39 5.97 12 5.97Z"/>
+    </svg>
+</span>
+
+                <span>
+                    Sign up with Google
+                </span>
+            </button>
+
+            <button
+                class="auth-provider-button auth-email-button"
+                id="showEmailButton"
+                type="button"
+                aria-expanded="false"
+            >
+                <span class="auth-provider-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-13Zm2.35-.5 6.65 5.22L18.65 5H5.35Zm13.65 2.1-6.38 5a1 1 0 0 1-1.24 0L5 7.1v11.4c0 .28.22.5.5.5h13a.5.5 0 0 0 .5-.5V7.1Z"/>
+    </svg>
+</span>
+
+                <span>
+                    Sign up with Email
+                </span>
+            </button>
+
+        </div>
+
+        <div class="auth-divider">
+            Choose a safe learner nickname
+        </div>
+
+        <div
+            class="email-auth-panel closed"
+            id="emailAuthPanel"
+        >
+
+            <form id="signUpForm">
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Learner nickname
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="username"
+                        type="text"
+                        maxlength="24"
+                        autocomplete="nickname"
+                        placeholder="Example: StarReader"
+                        required
+                    >
+
+                    <p class="password-rules">
+                        Do not use a child’s full real name
+                        on the public leaderboard.
+                    </p>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="email"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="password"
+                        type="password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        placeholder="At least 8 characters"
+                        required
+                    >
+
+                </div>
 
                 <button
                     class="button button-primary"
                     id="signUpButton"
                     type="submit"
+                    style="width:100%;margin-top:21px;"
                 >
-                    Create Account
+                    Create Email Account
                 </button>
 
-                <a
-                    class="button button-secondary"
-                    href="signin.html"
-                >
-                    Already Have an Account
-                </a>
+            </form>
 
-            </div>
+        </div>
 
-        </form>
-
-        <p
-            class="form-message"
+        <div
+            class="auth-status-box"
             id="message"
             aria-live="polite"
-        ></p>
+        ></div>
+
+        <p class="auth-help">
+            Already have an account?
+            <a href="signin.html">Sign in</a>
+        </p>
 
     </section>
 
@@ -2168,9 +2473,21 @@ const quranAcademySupabase =
         }
     );
 
-window.quranAcademySupabase =
-    quranAcademySupabase;
 
+const googleSignUpButton =
+    document.getElementById(
+        "googleSignUpButton"
+    );
+
+const showEmailButton =
+    document.getElementById(
+        "showEmailButton"
+    );
+
+const emailAuthPanel =
+    document.getElementById(
+        "emailAuthPanel"
+    );
 
 const signUpForm =
     document.getElementById(
@@ -2202,30 +2519,123 @@ const message =
         "message"
     );
 
-async function signUp(event) {
+function showMessage(
+    text,
+    type = ""
+) {
+    message.textContent = text;
+    message.className =
+        `auth-status-box show ${type}`;
+}
+
+function toggleEmailPanel() {
+    const opening =
+        emailAuthPanel.classList.contains(
+            "closed"
+        );
+
+    emailAuthPanel.classList.toggle(
+        "closed",
+        !opening
+    );
+
+    emailAuthPanel.classList.toggle(
+        "open",
+        opening
+    );
+
+    showEmailButton.setAttribute(
+        "aria-expanded",
+        String(opening)
+    );
+
+    showEmailButton.querySelector(
+        "span:last-child"
+    ).textContent =
+        opening
+            ? "Hide Email Sign Up"
+            : "Sign up with Email";
+
+    if (opening) {
+        window.setTimeout(
+            function () {
+                usernameInput.focus();
+            },
+            250
+        );
+    }
+}
+
+async function signUpWithGoogle() {
+    googleSignUpButton.disabled =
+        true;
+
+    showMessage(
+        "Opening Google sign-up..."
+    );
+
+    try {
+        const {
+            error
+        } =
+            await quranAcademySupabase
+                .auth
+                .signInWithOAuth({
+                    provider: "google",
+                    options: {
+                        redirectTo:
+                            "https://quranacademy24.com/account.html"
+                    }
+                });
+
+        if (error) {
+            throw error;
+        }
+    }
+    catch (error) {
+        console.error(error);
+
+        showMessage(
+            error.message ||
+            "Google sign-up is not enabled yet.",
+            "error"
+        );
+
+        googleSignUpButton.disabled =
+            false;
+    }
+}
+
+async function signUpWithEmail(event) {
     event.preventDefault();
 
     const nickname =
         usernameInput.value.trim();
 
     if (nickname.length < 2) {
-        message.className =
-            "form-message error";
-
-        message.textContent =
-            "Enter a nickname with at least two characters.";
+        showMessage(
+            "Enter a nickname with at least two characters.",
+            "error"
+        );
 
         return;
     }
 
-    message.className =
-        "form-message";
+    if (passwordInput.value.length < 8) {
+        showMessage(
+            "Use a password with at least eight characters.",
+            "error"
+        );
 
-    message.textContent =
-        "Creating your account...";
+        return;
+    }
 
     signUpButton.disabled =
         true;
+
+    showMessage(
+        "Creating your account..."
+    );
 
     try {
         const {
@@ -2255,37 +2665,49 @@ async function signUp(event) {
             throw error;
         }
 
-        message.className =
-            "form-message success";
-
         if (data.session) {
-            message.textContent =
-                "Account created successfully.";
+            showMessage(
+                "Account created successfully.",
+                "success"
+            );
 
             window.location.href =
                 "learn.html";
         }
         else {
-            message.textContent =
-                "Account created. Check your email if confirmation is enabled.";
+            showMessage(
+                "Account created. Check your email if confirmation is enabled.",
+                "success"
+            );
         }
     }
     catch (error) {
-        message.className =
-            "form-message error";
+        console.error(error);
 
-        message.textContent =
+        showMessage(
             error.message ||
-            "Account creation failed.";
+            "Account creation failed.",
+            "error"
+        );
 
         signUpButton.disabled =
             false;
     }
 }
 
+googleSignUpButton.addEventListener(
+    "click",
+    signUpWithGoogle
+);
+
+showEmailButton.addEventListener(
+    "click",
+    toggleEmailPanel
+);
+
 signUpForm.addEventListener(
     "submit",
-    signUp
+    signUpWithEmail
 );
 
 
