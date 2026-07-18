@@ -2044,7 +2044,270 @@ a {
     </p>
 
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const SUPABASE_URL="https://oovjvffmzphwksbvsoyd.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A";
-const quranAcademySupabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const statusBox=document.getElementById('premiumStatus');const buttons=document.querySelectorAll('[data-plan]');function status(m,t=''){statusBox.textContent=m;statusBox.className=`premium-status show ${t}`;}function disabled(v){buttons.forEach(b=>b.disabled=v);}async function checkout(plan){disabled(true);status('Opening secure checkout...');try{const{data:u}=await quranAcademySupabase.auth.getUser();if(!u?.user){location.href='signin.html';return;}const{data,error}=await quranAcademySupabase.functions.invoke('create-checkout-session',{body:{plan}});if(error){let m=error.message||'Checkout could not start.';try{const d=await error.context.json();if(d?.error)m=d.error;}catch{}throw new Error(m);}if(!data?.url)throw new Error('Stripe did not return a checkout link.');location.href=data.url;}catch(e){status(e.message||'Checkout could not start.','error');disabled(false);}}buttons.forEach(b=>b.addEventListener('click',()=>checkout(b.dataset.plan)));if(new URLSearchParams(location.search).get('canceled'))status('Checkout was canceled. You were not charged.');const mobileMenuButton=document.getElementById("mobileMenuButton");const academyNav=document.getElementById("academyNav");if(mobileMenuButton&&academyNav){mobileMenuButton.addEventListener("click",()=>{const open=academyNav.classList.toggle("open");mobileMenuButton.setAttribute("aria-expanded",String(open));mobileMenuButton.textContent=open?"✕":"☰";});}</script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+    "https://oovjvffmzphwksbvsoyd.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A";
+
+const quranAcademySupabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+            auth: {
+                persistSession:
+                    true,
+                autoRefreshToken:
+                    true,
+                detectSessionInUrl:
+                    true
+            }
+        }
+    );
+
+const statusBox =
+    document.getElementById(
+        "premiumStatus"
+    );
+
+const planButtons =
+    document.querySelectorAll(
+        "[data-plan]"
+    );
+
+function showStatus(
+    message,
+    type = ""
+) {
+    statusBox.textContent =
+        message;
+
+    statusBox.className =
+        `premium-status show ${type}`;
+
+    statusBox.scrollIntoView({
+        behavior:
+            "smooth",
+        block:
+            "center"
+    });
+}
+
+function disableButtons(
+    disabled
+) {
+    planButtons.forEach(
+        function (button) {
+            button.disabled =
+                disabled;
+        }
+    );
+}
+
+async function readFunctionError(
+    error
+) {
+    let message =
+        error?.message ||
+        "Checkout could not start.";
+
+    try {
+        const response =
+            error.context;
+
+        if (response) {
+            const body =
+                await response
+                    .clone()
+                    .json();
+
+            if (body?.error) {
+                message =
+                    body.error;
+            }
+        }
+    }
+    catch {
+        // Keep the original message.
+    }
+
+    return message;
+}
+
+async function startCheckout(
+    plan
+) {
+    disableButtons(true);
+
+    showStatus(
+        "Checking your account..."
+    );
+
+    try {
+        if (
+            !window.supabase ||
+            !quranAcademySupabase
+        ) {
+            throw new Error(
+                "Supabase did not load. Refresh the page and try again."
+            );
+        }
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await quranAcademySupabase
+                .auth
+                .getSession();
+
+        if (sessionError) {
+            throw sessionError;
+        }
+
+        const session =
+            sessionData?.session;
+
+        if (!session) {
+            showStatus(
+                "Sign in before buying Premium.",
+                "error"
+            );
+
+            window.setTimeout(
+                function () {
+                    window.location.href =
+                        "signin.html";
+                },
+                900
+            );
+
+            return;
+        }
+
+        showStatus(
+            "Opening secure Stripe checkout..."
+        );
+
+        const {
+            data,
+            error
+        } =
+            await quranAcademySupabase
+                .functions
+                .invoke(
+                    "create-checkout-session",
+                    {
+                        body: {
+                            plan
+                        }
+                    }
+                );
+
+        if (error) {
+            const message =
+                await readFunctionError(
+                    error
+                );
+
+            throw new Error(
+                message
+            );
+        }
+
+        if (!data?.url) {
+            throw new Error(
+                "Stripe did not return a checkout link."
+            );
+        }
+
+        window.location.assign(
+            data.url
+        );
+    }
+    catch (error) {
+        console.error(
+            "Premium checkout error:",
+            error
+        );
+
+        showStatus(
+            error?.message ||
+            "Checkout could not start.",
+            "error"
+        );
+
+        disableButtons(false);
+    }
+}
+
+planButtons.forEach(
+    function (button) {
+        button.addEventListener(
+            "click",
+            function () {
+                startCheckout(
+                    button.dataset.plan
+                );
+            }
+        );
+    }
+);
+
+const pageParameters =
+    new URLSearchParams(
+        window.location.search
+    );
+
+if (
+    pageParameters.get(
+        "canceled"
+    )
+) {
+    showStatus(
+        "Checkout was canceled. You were not charged."
+    );
+}
+
+const mobileMenuButton =
+    document.getElementById(
+        "mobileMenuButton"
+    );
+
+const academyNav =
+    document.getElementById(
+        "academyNav"
+    );
+
+if (
+    mobileMenuButton &&
+    academyNav
+) {
+    mobileMenuButton.addEventListener(
+        "click",
+        function () {
+            const isOpen =
+                academyNav.classList.toggle(
+                    "open"
+                );
+
+            mobileMenuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            mobileMenuButton.textContent =
+                isOpen
+                    ? "✕"
+                    : "☰";
+        }
+    );
+}
+</script>
+
+</body>
+</html>
