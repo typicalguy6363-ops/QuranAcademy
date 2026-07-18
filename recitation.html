@@ -2551,8 +2551,8 @@ a {
 
             <p class="recording-help">
                 Sign in before using the AI check.
-                Your recording is sent securely for transcription
-                and is not saved by this page.
+                Speak in a normal clear voice for at least two seconds.
+                Shouting can make the Arabic harder to recognize.
             </p>
 
             <div class="recording-actions">
@@ -3334,30 +3334,40 @@ async function checkRecitation(audioBlob) {
             `${currentSurah.number}:${currentAyah.numberInSurah}`
         );
 
-        const response =
-            await fetch(
-                `${SUPABASE_URL}/functions/v1/recitation-check`,
-                {
-                    method:
-                        "POST",
-                    headers: {
-                        Authorization:
-                            `Bearer ${session.access_token}`,
-                        apikey:
-                            SUPABASE_PUBLISHABLE_KEY
-                    },
-                    body:
-                        formData
+        const {
+            data: result,
+            error
+        } =
+            await quranAcademySupabase
+                .functions
+                .invoke(
+                    "recitation-check",
+                    {
+                        body:
+                            formData
+                    }
+                );
+
+        if (error) {
+            let errorMessage =
+                error.message ||
+                "The recitation check failed.";
+
+            try {
+                const details =
+                    await error.context.json();
+
+                if (details?.error) {
+                    errorMessage =
+                        details.error;
                 }
-            );
+            }
+            catch {
+                // Use the original error message.
+            }
 
-        const result =
-            await response.json();
-
-        if (!response.ok) {
             throw new Error(
-                result.error ||
-                "The recitation check failed."
+                errorMessage
             );
         }
 
