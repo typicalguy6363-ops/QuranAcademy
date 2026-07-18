@@ -2294,6 +2294,98 @@ a {
     }
 }
 
+    
+
+/* ================================================================
+   Strict recitation score breakdown
+   ================================================================ */
+
+.score-breakdown-grid {
+    margin-top: 19px;
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.score-metric {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #f9fcfb;
+}
+
+.score-metric span {
+    color: var(--muted);
+    font-size: 0.67rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.score-metric strong {
+    margin-top: 6px;
+    display: block;
+    color: var(--navy);
+    font-size: 1.25rem;
+}
+
+.word-feedback-grid {
+    margin-top: 13px;
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.word-feedback-box {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: white;
+}
+
+.word-feedback-box span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.word-feedback-box p {
+    margin-top: 7px;
+    color: var(--navy);
+    line-height: 1.65;
+}
+
+.evaluation-reasons {
+    margin-top: 13px;
+    padding: 14px 16px;
+    display: none;
+    border-radius: 16px;
+    color: #805d05;
+    background: #fff7db;
+    line-height: 1.65;
+}
+
+.evaluation-reasons.show {
+    display: block;
+}
+
+@media (max-width: 720px) {
+    .score-breakdown-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 470px) {
+    .score-breakdown-grid,
+    .word-feedback-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
     </style>
 </head>
 
@@ -2349,6 +2441,7 @@ a {
         <a href="rewards.html">
             Rewards
         </a>
+        <a href="premium.html">Premium</a>
         <a class="account-link" href="account.html">
             Account
         </a>
@@ -2640,11 +2733,65 @@ a {
 
             </div>
 
+            <div class="score-breakdown-grid">
+
+                <article class="score-metric">
+                    <span>Word accuracy</span>
+                    <strong id="wordAccuracyScore">0%</strong>
+                </article>
+
+                <article class="score-metric">
+                    <span>Word order</span>
+                    <strong id="wordOrderScore">0%</strong>
+                </article>
+
+                <article class="score-metric">
+                    <span>Letter match</span>
+                    <strong id="letterAccuracyScore">0%</strong>
+                </article>
+
+                <article class="score-metric">
+                    <span>AI confidence</span>
+                    <strong id="aiConfidenceScore">0%</strong>
+                </article>
+
+                <article class="score-metric">
+                    <span>Arabic confidence</span>
+                    <strong id="languageConfidenceScore">0%</strong>
+                </article>
+
+                <article class="score-metric">
+                    <span>Audio quality</span>
+                    <strong id="audioQualityScore">0%</strong>
+                </article>
+
+            </div>
+
+            <div class="word-feedback-grid">
+
+                <article class="word-feedback-box">
+                    <span>Missing words</span>
+                    <p id="missingWordsText">None</p>
+                </article>
+
+                <article class="word-feedback-box">
+                    <span>Extra words</span>
+                    <p id="extraWordsText">None</p>
+                </article>
+
+            </div>
+
+            <div
+                class="evaluation-reasons"
+                id="evaluationReasons"
+            ></div>
+
             <div class="practice-warning">
-                This is a text-matching practice estimate.
-                It does not fully judge Tajweed, makhraj,
-                rhythm, or the quality of Quran recitation.
-                A qualified teacher should check those details.
+                The percentage is now a strict practice score based
+                on word accuracy, word order, letter matching,
+                transcription confidence, Arabic confidence,
+                and recording quality. It still cannot fully judge
+                Tajweed, makhraj, rhythm, or recitation beauty.
             </div>
 
         </section>
@@ -2795,6 +2942,51 @@ const heardText =
         "heardText"
     );
 
+const wordAccuracyScore =
+    document.getElementById(
+        "wordAccuracyScore"
+    );
+
+const wordOrderScore =
+    document.getElementById(
+        "wordOrderScore"
+    );
+
+const letterAccuracyScore =
+    document.getElementById(
+        "letterAccuracyScore"
+    );
+
+const aiConfidenceScore =
+    document.getElementById(
+        "aiConfidenceScore"
+    );
+
+const languageConfidenceScore =
+    document.getElementById(
+        "languageConfidenceScore"
+    );
+
+const audioQualityScore =
+    document.getElementById(
+        "audioQualityScore"
+    );
+
+const missingWordsText =
+    document.getElementById(
+        "missingWordsText"
+    );
+
+const extraWordsText =
+    document.getElementById(
+        "extraWordsText"
+    );
+
+const evaluationReasons =
+    document.getElementById(
+        "evaluationReasons"
+    );
+
 const toast =
     document.getElementById(
         "toast"
@@ -2803,6 +2995,7 @@ const toast =
 let currentSurah = null;
 let currentAyahs = [];
 let currentAyah = null;
+let premiumPlanActive = false;
 
 let mediaRecorder = null;
 let mediaStream = null;
@@ -3082,16 +3275,38 @@ async function updateSignInState() {
     const session =
         await currentSession();
 
-    if (session) {
-        signInButton.textContent =
-            "✓ Signed In";
+    if (!session) {
+        return;
+    }
 
+    const { data: profile } =
+        await quranAcademySupabase
+            .from("profiles")
+            .select("plan")
+            .eq("id", session.user.id)
+            .maybeSingle();
+
+    premiumPlanActive =
+        profile?.plan === "premium";
+
+    if (premiumPlanActive) {
+        signInButton.textContent =
+            "👑 Premium Active";
         signInButton.href =
             "account.html";
-
         setStatus(
-            "Your account is ready for AI recitation checks.",
+            "Premium is active. Advanced recitation scoring is ready.",
             "success"
+        );
+    }
+    else {
+        signInButton.textContent =
+            "Unlock Premium";
+        signInButton.href =
+            "premium.html";
+        setStatus(
+            "Advanced recitation scoring requires Premium.",
+            "error"
         );
     }
 }
@@ -3112,6 +3327,23 @@ async function startRecording() {
 
         showToast(
             "Please sign in before recording."
+        );
+
+        return;
+    }
+
+    if (!premiumPlanActive) {
+        setStatus(
+            "Upgrade to Premium to use advanced recitation scoring.",
+            "error"
+        );
+
+        window.setTimeout(
+            function () {
+                window.location.href =
+                    "premium.html";
+            },
+            700
         );
 
         return;
@@ -3263,6 +3495,151 @@ function stopRecording() {
     );
 }
 
+
+async function analyzeAudioQuality(
+    audioBlob
+) {
+    const fallback = {
+        duration:
+            recordingSeconds,
+        rms:
+            0,
+        peak:
+            0,
+        clippingRatio:
+            0,
+        silenceRatio:
+            0
+    };
+
+    const AudioContextClass =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+        return fallback;
+    }
+
+    const audioContext =
+        new AudioContextClass();
+
+    try {
+        const arrayBuffer =
+            await audioBlob.arrayBuffer();
+
+        const audioBuffer =
+            await audioContext.decodeAudioData(
+                arrayBuffer.slice(0)
+            );
+
+        let totalSamples = 0;
+        let squaredTotal = 0;
+        let peak = 0;
+        let clippedSamples = 0;
+        let silentSamples = 0;
+
+        for (
+            let channelIndex = 0;
+            channelIndex <
+                audioBuffer.numberOfChannels;
+            channelIndex += 1
+        ) {
+            const channel =
+                audioBuffer.getChannelData(
+                    channelIndex
+                );
+
+            for (
+                let sampleIndex = 0;
+                sampleIndex < channel.length;
+                sampleIndex += 1
+            ) {
+                const sample =
+                    Math.abs(
+                        channel[sampleIndex]
+                    );
+
+                squaredTotal +=
+                    sample * sample;
+
+                peak =
+                    Math.max(
+                        peak,
+                        sample
+                    );
+
+                if (sample >= 0.985) {
+                    clippedSamples += 1;
+                }
+
+                if (sample <= 0.008) {
+                    silentSamples += 1;
+                }
+
+                totalSamples += 1;
+            }
+        }
+
+        return {
+            duration:
+                Number(
+                    audioBuffer.duration.toFixed(3)
+                ),
+            rms:
+                Number(
+                    Math.sqrt(
+                        squaredTotal /
+                        Math.max(
+                            totalSamples,
+                            1
+                        )
+                    ).toFixed(5)
+                ),
+            peak:
+                Number(
+                    peak.toFixed(5)
+                ),
+            clippingRatio:
+                Number(
+                    (
+                        clippedSamples /
+                        Math.max(
+                            totalSamples,
+                            1
+                        )
+                    ).toFixed(5)
+                ),
+            silenceRatio:
+                Number(
+                    (
+                        silentSamples /
+                        Math.max(
+                            totalSamples,
+                            1
+                        )
+                    ).toFixed(5)
+                )
+        };
+    }
+    catch (error) {
+        console.warn(
+            "Audio quality analysis was unavailable:",
+            error
+        );
+
+        return fallback;
+    }
+    finally {
+        await audioContext
+            .close()
+            .catch(
+                function () {
+                    // Ignore close errors.
+                }
+            );
+    }
+}
+
 async function handleRecordingFinished() {
     if (mediaStream) {
         mediaStream
@@ -3296,12 +3673,22 @@ async function handleRecordingFinished() {
         return;
     }
 
+    setStatus(
+        "Checking word accuracy, order, confidence, and audio quality..."
+    );
+
+    const audioQuality =
+        await analyzeAudioQuality(
+            audioBlob
+        );
+
     await checkRecitation(
-        audioBlob
+        audioBlob,
+        audioQuality
     );
 }
 
-async function checkRecitation(audioBlob) {
+async function checkRecitation(audioBlob, audioQuality) {
     const session =
         await currentSession();
 
@@ -3332,6 +3719,13 @@ async function checkRecitation(audioBlob) {
         formData.append(
             "verseKey",
             `${currentSurah.number}:${currentAyah.numberInSurah}`
+        );
+
+        formData.append(
+            "audioQuality",
+            JSON.stringify(
+                audioQuality || {}
+            )
         );
 
         const {
@@ -3394,24 +3788,34 @@ function showResult(result) {
         result.color ||
         "red";
 
+    const score =
+        Number(
+            result.score ||
+            0
+        );
+
+    const breakdown =
+        result.breakdown ||
+        {};
+
     resultLight.className =
         `result-light ${color}`;
 
     resultLight.textContent =
-        `${result.score || 0}%`;
+        `${score}%`;
 
     const titles = {
         green:
-            "Green — Correct",
+            `Green — Correct (${score}%)`,
         orange:
-            "Orange — Almost",
+            `Orange — Almost (${score}%)`,
         red:
-            "Red — Try Again"
+            `Red — Try Again (${score}%)`
     };
 
     resultTitle.textContent =
         titles[color] ||
-        "Practice result";
+        `Practice result (${score}%)`;
 
     resultFeedback.textContent =
         result.feedback ||
@@ -3424,6 +3828,90 @@ function showResult(result) {
     heardText.textContent =
         result.transcript ||
         "No clear Arabic words were recognized.";
+
+    wordAccuracyScore.textContent =
+        `${Number(
+            breakdown.wordAccuracy ||
+            0
+        )}%`;
+
+    wordOrderScore.textContent =
+        `${Number(
+            breakdown.wordOrder ||
+            0
+        )}%`;
+
+    letterAccuracyScore.textContent =
+        `${Number(
+            breakdown.letterAccuracy ||
+            0
+        )}%`;
+
+    aiConfidenceScore.textContent =
+        `${Number(
+            breakdown.aiConfidence ||
+            0
+        )}%`;
+
+    languageConfidenceScore.textContent =
+        `${Number(
+            breakdown.languageConfidence ||
+            0
+        )}%`;
+
+    audioQualityScore.textContent =
+        `${Number(
+            breakdown.audioQuality ||
+            0
+        )}%`;
+
+    const missingWords =
+        Array.isArray(
+            result.missingWords
+        )
+            ? result.missingWords
+            : [];
+
+    const extraWords =
+        Array.isArray(
+            result.extraWords
+        )
+            ? result.extraWords
+            : [];
+
+    missingWordsText.textContent =
+        missingWords.length
+            ? missingWords.join(" • ")
+            : "None";
+
+    extraWordsText.textContent =
+        extraWords.length
+            ? extraWords.join(" • ")
+            : "None";
+
+    const reasons =
+        Array.isArray(
+            result.reasons
+        )
+            ? result.reasons
+            : [];
+
+    if (reasons.length) {
+        evaluationReasons.textContent =
+            reasons.join(" ");
+
+        evaluationReasons.classList.add(
+            "show"
+        );
+    }
+    else {
+        evaluationReasons.textContent =
+            "";
+
+        evaluationReasons.classList.remove(
+            "show"
+        );
+    }
 
     resultPanel.classList.add(
         "show"
