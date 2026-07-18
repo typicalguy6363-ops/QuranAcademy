@@ -1,0 +1,2050 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Premium | Quran Academy</title>
+
+    <meta
+        name="description"
+        content="Quran Academy — learn Arabic, Quran vocabulary, pronunciation, and Tajweed."
+    >
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="favicon.ico"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="quran-academy-icon.png"
+    >
+
+    <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --green: #0f9d78;
+    --dark-green: #08745a;
+    --light-green: #e8f8f2;
+    --navy: #1d3557;
+    --text: #41566b;
+    --muted: #728499;
+    --border: #dce9e5;
+    --white: #ffffff;
+    --gold: #f4b942;
+    --danger: #d14d4d;
+    --background: #f7fcfa;
+    --shadow: 0 18px 45px rgba(23, 77, 68, 0.1);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--text);
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(15, 157, 120, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(37, 99, 235, 0.09),
+            transparent 32%
+        ),
+        var(--background);
+    font-family: Arial, sans-serif;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a {
+    color: inherit;
+}
+
+.academy-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    min-height: 74px;
+    padding: 12px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid rgba(220, 233, 229, 0.9);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+}
+
+.academy-logo {
+    color: var(--green);
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.academy-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.academy-nav a {
+    padding: 10px 13px;
+    border-radius: 12px;
+    color: var(--navy);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.academy-nav a:hover,
+.academy-nav a.active {
+    color: var(--dark-green);
+    background: var(--light-green);
+    transform: translateY(-1px);
+}
+
+.academy-nav .account-link {
+    color: white;
+    background: var(--green);
+}
+
+.page-shell {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 55px 22px 90px;
+    animation: pageFade 0.55s ease both;
+}
+
+.eyebrow {
+    color: var(--green);
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.page-title {
+    margin-top: 8px;
+    color: var(--navy);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+}
+
+.page-description {
+    max-width: 700px;
+    margin-top: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    align-items: center;
+    gap: 30px;
+}
+
+.profile-panel,
+.surface-card {
+    border: 1px solid var(--border);
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow);
+}
+
+.profile-panel {
+    padding: 25px;
+}
+
+.profile-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-avatar {
+    width: 65px;
+    height: 65px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 20px;
+    color: white;
+    background: linear-gradient(135deg, var(--green), #2563eb);
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.profile-heading h2 {
+    color: var(--navy);
+    font-size: 1.35rem;
+}
+
+.profile-heading p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.stat-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+}
+
+.stat-card {
+    padding: 14px 10px;
+    border-radius: 16px;
+    text-align: center;
+    background: var(--light-green);
+}
+
+.stat-card span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.stat-card strong {
+    display: block;
+    margin-top: 5px;
+    color: var(--navy);
+    font-size: 1.1rem;
+}
+
+.progress-label {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.progress-track {
+    height: 11px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #dfebe7;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        var(--green),
+        #22c55e,
+        var(--gold)
+    );
+    transition: width 0.55s ease;
+}
+
+.section-heading {
+    margin-top: 52px;
+    margin-bottom: 21px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-heading h2 {
+    color: var(--navy);
+    font-size: 2rem;
+}
+
+.section-heading p {
+    max-width: 540px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.65;
+}
+
+.button {
+    min-height: 47px;
+    padding: 12px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 900;
+    text-align: center;
+    text-decoration: none;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button-primary {
+    color: white;
+    background: linear-gradient(135deg, var(--green), #13b989);
+    box-shadow: 0 10px 24px rgba(15, 157, 120, 0.19);
+}
+
+.button-secondary {
+    color: var(--dark-green);
+    background: var(--light-green);
+}
+
+.button-dark {
+    color: white;
+    background: var(--navy);
+}
+
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 17px;
+}
+
+.level-card {
+    position: relative;
+    padding: 23px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: white;
+    box-shadow: 0 11px 28px rgba(25, 76, 68, 0.07);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(15, 157, 120, 0.45);
+    box-shadow: 0 19px 38px rgba(25, 76, 68, 0.12);
+}
+
+.level-card.completed {
+    border-color: rgba(15, 157, 120, 0.5);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(232, 248, 242, 0.72),
+            white
+        );
+}
+
+.level-card.locked {
+    opacity: 0.65;
+}
+
+.level-card.locked:hover {
+    transform: none;
+    box-shadow: 0 11px 28px rgba(25, 76, 68, 0.07);
+}
+
+.level-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.level-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: var(--light-green);
+    font-size: 1.75rem;
+    animation: softFloat 3.5s ease-in-out infinite;
+}
+
+.level-number {
+    padding: 7px 11px;
+    border-radius: 999px;
+    color: var(--dark-green);
+    background: var(--light-green);
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.level-card h3 {
+    margin-top: 17px;
+    color: var(--navy);
+    font-size: 1.35rem;
+}
+
+.level-card-description {
+    min-height: 48px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.81rem;
+    line-height: 1.65;
+}
+
+.level-details {
+    margin-top: 17px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.detail-chip,
+.rank-badge,
+.reward-chip {
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.detail-chip {
+    color: #5d6e80;
+    background: #f1f5f7;
+}
+
+.reward-chip {
+    color: #785d16;
+    background: #fff2c7;
+}
+
+.level-card-action {
+    width: 100%;
+    margin-top: 19px;
+}
+
+.lock-message {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.71rem;
+    text-align: center;
+}
+
+.lesson-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.lesson-heading-copy {
+    flex: 1;
+}
+
+.back-link {
+    margin-bottom: 15px;
+    display: inline-flex;
+    color: var(--green);
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.lesson-layout {
+    margin-top: 31px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+    gap: 22px;
+}
+
+.study-panel,
+.quiz-panel {
+    padding: 26px;
+}
+
+.study-panel h2,
+.quiz-panel h2 {
+    color: var(--navy);
+    font-size: 1.55rem;
+}
+
+.study-description,
+.quiz-description {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+}
+
+.selected-display {
+    min-height: 175px;
+    margin-top: 20px;
+    padding: 25px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    text-align: center;
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(15, 157, 120, 0.13),
+            transparent 45%
+        ),
+        #fbfefd;
+}
+
+.selected-symbol {
+    color: var(--navy);
+    font-size: clamp(4rem, 11vw, 7rem);
+    line-height: 1;
+}
+
+.selected-display h3 {
+    margin-top: 12px;
+    color: var(--green);
+    font-size: 1.25rem;
+}
+
+.selected-display p {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.explorer-grid {
+    margin-top: 19px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.explorer-button {
+    min-height: 59px;
+    padding: 7px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--navy);
+    background: #f4fbf8;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 800;
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.explorer-button:hover,
+.explorer-button.active {
+    color: white;
+    background: var(--green);
+    transform: translateY(-3px) scale(1.03);
+}
+
+.resource-link {
+    margin-top: 17px;
+}
+
+.question-counter {
+    color: var(--green);
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.question-text {
+    min-height: 68px;
+    margin-top: 14px;
+    color: var(--navy);
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.option-grid {
+    margin-top: 18px;
+    display: grid;
+    gap: 10px;
+}
+
+.option-button {
+    min-height: 50px;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    color: var(--navy);
+    background: white;
+    cursor: pointer;
+    font-weight: 800;
+    text-align: left;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.option-button:hover {
+    border-color: var(--green);
+    transform: translateX(3px);
+}
+
+.option-button.correct {
+    border-color: var(--green);
+    color: var(--dark-green);
+    background: var(--light-green);
+}
+
+.option-button.wrong {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: #fff0f0;
+}
+
+.option-button:disabled {
+    cursor: default;
+    transform: none;
+}
+
+.quiz-feedback {
+    min-height: 46px;
+    margin-top: 15px;
+    padding: 12px 14px;
+    border-radius: 13px;
+    color: var(--muted);
+    background: #f3f7f8;
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.quiz-feedback.correct {
+    color: var(--dark-green);
+    background: var(--light-green);
+}
+
+.quiz-feedback.wrong {
+    color: var(--danger);
+    background: #fff0f0;
+}
+
+.quiz-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.completion-panel {
+    display: none;
+    padding: 28px;
+    text-align: center;
+}
+
+.completion-panel.show {
+    display: block;
+    animation: popIn 0.45s ease both;
+}
+
+.completion-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    border-radius: 29px;
+    background: var(--light-green);
+    font-size: 2.8rem;
+}
+
+.completion-panel h2 {
+    margin-top: 17px;
+    color: var(--navy);
+    font-size: 2rem;
+}
+
+.completion-panel p {
+    margin-top: 9px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.reward-result {
+    margin-top: 19px;
+    padding: 18px;
+    border-radius: 18px;
+    color: #765a16;
+    background: #fff3c9;
+    font-weight: 900;
+}
+
+.completion-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.podium-grid {
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: end;
+    gap: 14px;
+}
+
+.podium-card {
+    padding: 22px 15px;
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    text-align: center;
+    background: white;
+    box-shadow: 0 11px 28px rgba(25, 76, 68, 0.08);
+}
+
+.podium-card.first {
+    min-height: 235px;
+    border-color: rgba(244, 185, 66, 0.65);
+    background: linear-gradient(180deg, #fff9e7, white);
+}
+
+.podium-card.second {
+    min-height: 205px;
+}
+
+.podium-card.third {
+    min-height: 185px;
+}
+
+.podium-place {
+    font-size: 2.1rem;
+}
+
+.podium-avatar {
+    width: 60px;
+    height: 60px;
+    margin: 12px auto;
+    display: grid;
+    place-items: center;
+    border-radius: 19px;
+    color: white;
+    background: linear-gradient(135deg, var(--green), #2563eb);
+    font-weight: 900;
+}
+
+.podium-card h3 {
+    color: var(--navy);
+    word-break: break-word;
+}
+
+.podium-card p {
+    margin-top: 7px;
+    color: var(--green);
+    font-weight: 900;
+}
+
+.leaderboard-card {
+    margin-top: 22px;
+    overflow: hidden;
+}
+
+.leaderboard-row {
+    padding: 15px 20px;
+    display: grid;
+    grid-template-columns: 65px 1fr 135px 100px;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-row:last-child {
+    border-bottom: 0;
+}
+
+.leaderboard-row.header {
+    color: var(--muted);
+    background: #f4f8f7;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.leaderboard-row.current-user {
+    background: var(--light-green);
+}
+
+.leader-name {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    color: var(--navy);
+    font-weight: 900;
+}
+
+.leader-name-avatar {
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 12px;
+    color: white;
+    background: linear-gradient(135deg, var(--green), #2563eb);
+    font-size: 0.72rem;
+}
+
+.leader-name span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rank-badge {
+    display: inline-flex;
+    width: fit-content;
+    color: var(--dark-green);
+    background: var(--light-green);
+}
+
+.reward-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.reward-card {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 21px;
+    background: white;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.reward-card.unlocked:hover {
+    transform: translateY(-4px);
+    border-color: var(--green);
+}
+
+.reward-card.locked {
+    opacity: 0.55;
+}
+
+.reward-card-icon {
+    font-size: 2.2rem;
+}
+
+.reward-card h3 {
+    margin-top: 12px;
+    color: var(--navy);
+}
+
+.reward-card p {
+    min-height: 44px;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 0.77rem;
+    line-height: 1.55;
+}
+
+.reward-card .button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.game-shell {
+    margin-top: 25px;
+    padding: 23px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.game-header h2 {
+    color: var(--navy);
+}
+
+.game-header p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.game-stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.game-stat {
+    padding: 8px 12px;
+    border-radius: 12px;
+    color: var(--dark-green);
+    background: var(--light-green);
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.game-canvas-wrapper {
+    margin-top: 18px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--navy);
+}
+
+#gameCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    touch-action: none;
+}
+
+.game-message {
+    min-height: 44px;
+    margin-top: 13px;
+    padding: 12px 14px;
+    border-radius: 13px;
+    color: var(--muted);
+    background: #f3f7f8;
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.game-controls {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 9px;
+}
+
+.game-control-button {
+    min-height: 54px;
+    border: 0;
+    border-radius: 15px;
+    color: var(--navy);
+    background: var(--light-green);
+    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: 900;
+    user-select: none;
+}
+
+.account-summary {
+    margin-top: 28px;
+    padding: 28px;
+}
+
+.account-main {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.account-main h2 {
+    color: var(--navy);
+}
+
+.account-email {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.account-action-grid {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 11px;
+}
+
+.empty-state {
+    padding: 45px 20px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+}
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 3000;
+    max-width: min(390px, calc(100% - 40px));
+    padding: 14px 17px;
+    border-radius: 16px;
+    color: white;
+    background: var(--navy);
+    box-shadow: 0 18px 35px rgba(24, 53, 87, 0.25);
+    font-size: 0.82rem;
+    font-weight: 800;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(15px);
+}
+
+.toast.show {
+    animation: toastShow 2.8s ease forwards;
+}
+
+.emoji-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.emoji-burst {
+    position: absolute;
+    left: var(--left);
+    top: var(--top);
+    font-size: var(--size);
+    animation: emojiBurst 1.4s ease-out forwards;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(13px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes softFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.87);
+    }
+
+    75% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes emojiBurst {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.4) rotate(0deg);
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translateY(-150px)
+            translateX(var(--drift))
+            scale(1.3)
+            rotate(220deg);
+    }
+}
+
+@keyframes toastShow {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    12%,
+    82% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-grid,
+    .lesson-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .reward-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .account-action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .academy-header {
+        position: static;
+        padding: 13px 4%;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .academy-nav {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .academy-nav a {
+        padding: 8px 9px;
+        font-size: 0.73rem;
+    }
+
+    .page-shell {
+        padding: 42px 15px 75px;
+    }
+
+    .level-grid,
+    .reward-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .explorer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .podium-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .podium-card,
+    .podium-card.first,
+    .podium-card.second,
+    .podium-card.third {
+        min-height: auto;
+    }
+
+    .leaderboard-row {
+        grid-template-columns: 42px 1fr 80px;
+        padding: 13px 12px;
+    }
+
+    .leaderboard-row > :nth-child(3) {
+        display: none;
+    }
+
+    .leaderboard-row.header > :nth-child(3) {
+        display: none;
+    }
+
+    .game-header {
+        flex-direction: column;
+    }
+
+    .game-controls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .game-controls .button {
+        grid-column: 1 / -1;
+    }
+
+    .account-main {
+        align-items: flex-start;
+    }
+
+    .account-action-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ================================================================
+   Quran Academy logo and shared full-page additions
+   ================================================================ */
+
+.academy-logo {
+    min-width: 205px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--green);
+    text-decoration: none;
+}
+
+.academy-logo img {
+    width: 220px;
+    max-width: 42vw;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.academy-logo:hover img {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+.mobile-menu-button {
+    display: none;
+    width: 46px;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    color: var(--navy);
+    background: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.academy-footer {
+    padding: 28px 18px 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.academy-footer img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.button-row,
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hero-actions {
+    margin-top: 24px;
+}
+
+.home-hero {
+    min-height: 610px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(350px, 0.92fr);
+    align-items: center;
+    gap: 44px;
+}
+
+.home-hero-copy h1 {
+    margin-top: 15px;
+    color: var(--navy);
+    font-size: clamp(2.55rem, 6.6vw, 5.15rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+}
+
+.home-hero-copy > p:not(.eyebrow) {
+    max-width: 680px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.8;
+}
+
+.homepage-logo {
+    margin-top: 14px;
+}
+
+.homepage-logo img {
+    width: min(650px, 100%);
+    height: auto;
+    display: block;
+}
+
+.home-hero-art {
+    position: relative;
+    min-height: 450px;
+    padding: 34px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 34px;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(244, 185, 66, 0.22),
+            transparent 36%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(232, 248, 242, 0.95)
+        );
+    box-shadow: var(--shadow);
+}
+
+.home-hero-art::before,
+.home-hero-art::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.home-hero-art::before {
+    width: 220px;
+    height: 220px;
+    top: -70px;
+    right: -55px;
+    background: rgba(244, 185, 66, 0.16);
+}
+
+.home-hero-art::after {
+    width: 180px;
+    height: 180px;
+    left: -55px;
+    bottom: -60px;
+    background: rgba(15, 157, 120, 0.12);
+}
+
+.home-hero-art img {
+    position: relative;
+    z-index: 2;
+    width: min(340px, 78%);
+    height: auto;
+    animation: softFloat 3.4s ease-in-out infinite;
+}
+
+.home-stats {
+    margin-top: 29px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.home-stat {
+    padding: 15px 12px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.home-stat span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.home-stat strong {
+    margin-top: 5px;
+    display: block;
+    color: var(--navy);
+    font-size: 1.25rem;
+}
+
+.content-section {
+    margin-top: 78px;
+}
+
+.content-section-heading {
+    margin-bottom: 23px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.content-section-heading h2 {
+    margin-top: 7px;
+    color: var(--navy);
+    font-size: clamp(1.8rem, 4vw, 2.65rem);
+}
+
+.content-section-heading p {
+    max-width: 620px;
+    margin-top: 9px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.feature-grid,
+.path-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.feature-card,
+.path-card,
+.rank-card,
+.callout-card,
+.form-card,
+.reader-panel {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 12px 31px rgba(25, 76, 68, 0.075);
+}
+
+.feature-card,
+.path-card,
+.rank-card {
+    padding: 22px;
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.feature-card:hover,
+.path-card:hover,
+.rank-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(15, 157, 120, 0.4);
+    box-shadow: 0 18px 38px rgba(25, 76, 68, 0.11);
+}
+
+.feature-icon,
+.path-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: var(--light-green);
+    font-size: 1.8rem;
+}
+
+.feature-card h3,
+.path-card h3,
+.rank-card h3 {
+    margin-top: 15px;
+    color: var(--navy);
+}
+
+.feature-card p,
+.path-card p,
+.rank-card p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.65;
+}
+
+.rank-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13px;
+}
+
+.rank-card {
+    min-height: 156px;
+}
+
+.rank-card-icon {
+    font-size: 2rem;
+}
+
+.callout-card {
+    padding: 28px;
+}
+
+.callout-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.callout-content h2 {
+    margin-top: 7px;
+    color: var(--navy);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.callout-content p {
+    max-width: 680px;
+    margin-top: 9px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.level-group-heading {
+    margin: 48px 0 18px;
+    padding-bottom: 13px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 2px solid var(--border);
+}
+
+.level-group-heading h2 {
+    color: var(--navy);
+    font-size: 1.8rem;
+}
+
+.level-group-heading p {
+    margin-top: 6px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.group-range {
+    padding: 7px 11px;
+    border-radius: 999px;
+    color: var(--dark-green);
+    background: var(--light-green);
+    font-size: 0.7rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.current-level {
+    border: 3px solid var(--green);
+    box-shadow:
+        0 0 0 5px rgba(15, 157, 120, 0.08),
+        0 19px 38px rgba(25, 76, 68, 0.12);
+}
+
+.lesson-feature-list {
+    margin-top: 14px;
+    display: grid;
+    gap: 7px;
+}
+
+.lesson-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.73rem;
+    font-weight: 800;
+}
+
+.form-card {
+    width: min(540px, 100%);
+    margin: 25px auto;
+    padding: 30px;
+}
+
+.form-card h1 {
+    margin-top: 8px;
+    color: var(--navy);
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.form-intro {
+    margin-top: 10px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.form-group {
+    margin-top: 17px;
+}
+
+.form-group label {
+    margin-bottom: 7px;
+    display: block;
+    color: var(--navy);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.form-control {
+    width: 100%;
+    min-height: 49px;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--navy);
+    background: white;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(15, 157, 120, 0.1);
+}
+
+.form-message {
+    min-height: 25px;
+    margin-top: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.form-message.success {
+    color: var(--dark-green);
+}
+
+.form-message.error {
+    color: var(--danger);
+}
+
+.reader-layout {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 315px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.reader-panel {
+    padding: 22px;
+}
+
+.surah-list {
+    max-height: 760px;
+    overflow-y: auto;
+}
+
+.surah-search {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding-bottom: 12px;
+    background: white;
+}
+
+.surah-button {
+    width: 100%;
+    margin-top: 7px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--navy);
+    background: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.surah-button:hover,
+.surah-button.active {
+    border-color: var(--green);
+    background: var(--light-green);
+}
+
+.surah-button small {
+    color: var(--muted);
+}
+
+.reader-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.reader-heading h2 {
+    color: var(--navy);
+}
+
+.reader-heading p {
+    margin-top: 5px;
+    color: var(--muted);
+}
+
+.ayah {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.ayah:last-child {
+    border-bottom: 0;
+}
+
+.ayah-arabic {
+    color: var(--navy);
+    font-family:
+        "Noto Naskh Arabic",
+        "Traditional Arabic",
+        serif;
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    line-height: 2.1;
+    text-align: right;
+}
+
+.ayah-translation {
+    margin-top: 10px;
+    color: var(--muted);
+    line-height: 1.75;
+}
+
+.ayah-audio {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.reader-status {
+    padding: 35px 15px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+}
+
+.security-note {
+    margin-top: 18px;
+    padding: 13px 15px;
+    border-radius: 15px;
+    color: var(--dark-green);
+    background: var(--light-green);
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+    .home-hero,
+    .reader-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-grid,
+    .path-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rank-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .academy-header {
+        position: sticky;
+        top: 0;
+        padding: 12px 15px;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .academy-logo {
+        min-width: 0;
+    }
+
+    .academy-logo img {
+        width: 178px;
+        max-width: 64vw;
+    }
+
+    .mobile-menu-button {
+        margin-left: auto;
+        display: grid;
+        place-items: center;
+    }
+
+    .academy-nav {
+        width: 100%;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .academy-nav.open {
+        display: flex;
+    }
+
+    .academy-nav a {
+        width: 100%;
+        padding: 10px 11px;
+    }
+
+    .home-hero {
+        min-height: auto;
+    }
+
+    .home-hero-art {
+        min-height: 320px;
+    }
+
+    .feature-grid,
+    .path-grid,
+    .rank-grid,
+    .home-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .content-section-heading,
+    .callout-content,
+    .level-group-heading,
+    .reader-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .form-card {
+        padding: 22px;
+    }
+}
+
+
+    
+
+/* ================================================================
+   Animated rainbow Quran Academy title in the top-left header
+   ================================================================ */
+
+.academy-logo {
+    min-width: 235px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.academy-logo .academy-logo-icon {
+    width: 50px;
+    max-width: none;
+    height: 50px;
+    display: block;
+    object-fit: contain;
+    flex-shrink: 0;
+    transform: none;
+    opacity: 1;
+}
+
+.academy-logo:hover .academy-logo-icon {
+    transform: translateY(-2px) rotate(-3deg);
+    opacity: 1;
+}
+
+.rainbow-logo-text {
+    display: inline-block;
+    background:
+        linear-gradient(
+            90deg,
+            #ff3b30,
+            #ff9500,
+            #ffcc00,
+            #34c759,
+            #00c7be,
+            #007aff,
+            #5856d6,
+            #af52de,
+            #ff2d55,
+            #ff3b30
+        );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.42rem;
+    font-weight: 950;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    white-space: nowrap;
+    filter:
+        drop-shadow(
+            0 2px 7px rgba(15, 157, 120, 0.12)
+        );
+    animation:
+        rainbowTitleMove 5s linear infinite;
+}
+
+.academy-logo:hover .rainbow-logo-text {
+    animation-duration: 2.4s;
+}
+
+@keyframes rainbowTitleMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rainbow-logo-text {
+        animation: none;
+        background-position: 50% 50%;
+    }
+}
+
+@media (max-width: 680px) {
+    .academy-logo {
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .academy-logo .academy-logo-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .rainbow-logo-text {
+        font-size: 1.12rem;
+    }
+}
+
+@media (max-width: 390px) {
+    .academy-logo .academy-logo-icon {
+        width: 37px;
+        height: 37px;
+    }
+
+    .rainbow-logo-text {
+        font-size: 0.98rem;
+    }
+}
+
+    
+.premium-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;min-height:500px}.premium-hero h1{margin-top:12px;color:var(--navy);font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.02;letter-spacing:-.055em}.premium-hero p:not(.eyebrow){margin-top:16px;color:var(--muted);line-height:1.8}.crown-card{min-height:360px;padding:30px;display:grid;place-items:center;border:1px solid rgba(244,185,66,.5);border-radius:32px;background:radial-gradient(circle at top,rgba(255,230,120,.55),transparent 42%),linear-gradient(145deg,#fff,#effbf4);box-shadow:var(--shadow);text-align:center}.crown-card .crown{font-size:7rem}.crown-card h2{color:var(--navy);font-size:2rem}.crown-card p{color:var(--muted)}.plan-grid{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:18px}.plan-card{position:relative;padding:27px;border:1px solid var(--border);border-radius:26px;background:#fff;box-shadow:0 15px 35px rgba(25,76,68,.09)}.plan-card.featured{border:3px solid var(--green);box-shadow:0 0 0 6px rgba(15,157,120,.08),0 20px 42px rgba(25,76,68,.13)}.best-value{position:absolute;top:-14px;right:20px;padding:8px 12px;border-radius:999px;background:var(--gold);font-size:.7rem;font-weight:950}.plan-card h2{margin-top:10px;color:var(--navy);font-size:1.8rem}.plan-card p{margin-top:7px;color:var(--muted);line-height:1.65}.price-note{margin-top:16px;padding:12px;border-radius:14px;color:var(--dark-green);background:var(--light-green);font-size:.78rem;font-weight:850}.features{margin:19px 0;display:grid;gap:10px}.feature{display:flex;gap:9px;color:var(--navy);line-height:1.55}.feature:before{content:'✓';width:23px;height:23px;display:grid;place-items:center;flex-shrink:0;border-radius:50%;color:#fff;background:var(--green);font-weight:950}.premium-status{margin-top:18px;padding:14px 16px;display:none;border-radius:15px;background:#f4faf7;color:var(--navy)}.premium-status.show{display:block}.premium-status.error{color:var(--danger);background:#fff0f0}.premium-status.success{color:var(--dark-green);background:var(--light-green)}.parent-note{margin-top:22px;padding:15px 17px;border:1px solid #f4d57a;border-radius:17px;color:#6f5308;background:#fff8df;line-height:1.65}@media(max-width:850px){.premium-hero,.plan-grid{grid-template-columns:1fr}}
+
+    </style>
+</head>
+<body>
+<header class="academy-header">
+
+    <a
+        class="academy-logo"
+        href="index.html"
+        aria-label="Quran Academy home"
+    >
+        <img
+            class="academy-logo-icon"
+            src="quran-academy-icon.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+        <span class="rainbow-logo-text">
+            Quran Academy
+        </span>
+    </a>
+
+    <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+    >
+        ☰
+    </button>
+
+    <nav
+        class="academy-nav"
+        id="academyNav"
+    >
+        <a href="index.html">
+            Home
+        </a>
+        <a href="learn.html">
+            Levels
+        </a>
+        <a href="reader.html">
+            Full Quran
+        </a>
+        <a href="recitation.html">Recitation</a>
+        <a href="explain.html">Ask</a>
+        <a href="leaderboard.html">
+            Leaderboard
+        </a>
+        <a href="rewards.html">
+            Rewards
+        </a>
+        <a class="active" href="premium.html">Premium</a>
+        <a class="account-link" href="account.html">
+            Account
+        </a>
+    </nav>
+
+</header>
+<main class="page-shell">
+<section class="premium-hero"><div><p class="eyebrow">Quran Academy Premium</p><h1>Unlock advanced Quran practice.</h1><p>Regular levels stay free. Premium adds advanced recitation feedback, full AI explanation messages, a Premium badge, and future parent progress tools.</p><div class="premium-status" id="premiumStatus"></div></div><aside class="crown-card"><div><div class="crown">👑</div><h2>Premium Learner</h2><p>Secure subscription checkout powered by Stripe.</p></div></aside></section>
+<section class="content-section"><div class="content-section-heading"><div><p class="eyebrow">Choose a billing option</p><h2>Monthly or yearly.</h2><p>The exact price, currency, renewal date, and payment details appear in secure Stripe checkout before payment.</p></div></div><div class="plan-grid"><article class="plan-card"><div style="font-size:2.5rem">🌙</div><h2>Monthly</h2><p>Flexible month-to-month Premium access.</p><div class="price-note">Exact monthly price shown at checkout.</div><div class="features"><div class="feature">Advanced recitation percentages</div><div class="feature">Full AI explanation messages</div><div class="feature">Premium account badge</div><div class="feature">Cancel in the billing portal</div></div><button class="button button-secondary" data-plan="monthly" style="width:100%">Choose Monthly</button></article><article class="plan-card featured"><span class="best-value">BEST VALUE</span><div style="font-size:2.5rem">⭐</div><h2>Yearly</h2><p>One yearly payment for Premium access.</p><div class="price-note">Exact yearly price shown at checkout.</div><div class="features"><div class="feature">Everything in Monthly</div><div class="feature">Fewer renewal payments</div><div class="feature">Premium account badge</div><div class="feature">Cancel in the billing portal</div></div><button class="button button-primary" data-plan="yearly" style="width:100%">Choose Yearly</button></article></div><div class="parent-note"><strong>Parent or guardian payment:</strong> A parent or guardian should review and complete any subscription purchase.</div></section>
+</main><footer class="academy-footer">
+
+    <img
+        src="quran-academy-icon.png"
+        alt=""
+        aria-hidden="true"
+    >
+
+    <p>
+        Quran Academy • Learn • Understand • Practice
+    </p>
+
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const SUPABASE_URL="https://oovjvffmzphwksbvsoyd.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A";
+const quranAcademySupabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const statusBox=document.getElementById('premiumStatus');const buttons=document.querySelectorAll('[data-plan]');function status(m,t=''){statusBox.textContent=m;statusBox.className=`premium-status show ${t}`;}function disabled(v){buttons.forEach(b=>b.disabled=v);}async function checkout(plan){disabled(true);status('Opening secure checkout...');try{const{data:u}=await quranAcademySupabase.auth.getUser();if(!u?.user){location.href='signin.html';return;}const{data,error}=await quranAcademySupabase.functions.invoke('create-checkout-session',{body:{plan}});if(error){let m=error.message||'Checkout could not start.';try{const d=await error.context.json();if(d?.error)m=d.error;}catch{}throw new Error(m);}if(!data?.url)throw new Error('Stripe did not return a checkout link.');location.href=data.url;}catch(e){status(e.message||'Checkout could not start.','error');disabled(false);}}buttons.forEach(b=>b.addEventListener('click',()=>checkout(b.dataset.plan)));if(new URLSearchParams(location.search).get('canceled'))status('Checkout was canceled. You were not charged.');const mobileMenuButton=document.getElementById("mobileMenuButton");const academyNav=document.getElementById("academyNav");if(mobileMenuButton&&academyNav){mobileMenuButton.addEventListener("click",()=>{const open=academyNav.classList.toggle("open");mobileMenuButton.setAttribute("aria-expanded",String(open));mobileMenuButton.textContent=open?"✕":"☰";});}</script></body></html>
