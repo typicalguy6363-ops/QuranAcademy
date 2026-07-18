@@ -1967,6 +1967,7 @@ a {
     }
 }
 
+    .account-plan-banner{margin-top:20px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(135deg,#f9fffc,#fff9de)}.account-plan-banner.premium{border-color:rgba(244,185,66,.65);box-shadow:0 0 0 5px rgba(244,185,66,.09)}.account-plan-banner h3{color:var(--navy)}.account-plan-banner p{margin-top:5px;color:var(--muted);line-height:1.55}@media(max-width:620px){.account-plan-banner{align-items:stretch;flex-direction:column}}
     </style>
 </head>
 
@@ -2014,12 +2015,15 @@ a {
         <a href="reader.html">
             Full Quran
         </a>
+        <a href="recitation.html">Recitation</a>
+        <a href="explain.html">Ask</a>
         <a href="leaderboard.html">
             Leaderboard
         </a>
         <a href="rewards.html">
             Rewards
         </a>
+        <a href="premium.html">Premium</a>
         <a class="active account-link" href="account.html">
             Account
         </a>
@@ -2186,6 +2190,8 @@ function initials(name) {
         .join("") || "QA";
 }
 
+async function openBillingPortal(){const b=document.getElementById("manageBillingButton");if(b){b.disabled=true;b.textContent="Opening Billing...";}try{const{data,error}=await quranAcademySupabase.functions.invoke("create-portal-session",{body:{}});if(error){let m=error.message||"Billing portal could not open.";try{const d=await error.context.json();if(d?.error)m=d.error;}catch{}throw new Error(m);}if(!data?.url)throw new Error("Stripe did not return a billing link.");location.href=data.url;}catch(e){alert(e.message||"Billing portal could not open.");if(b){b.disabled=false;b.textContent="Manage Billing";}}}
+
 async function signOut() {
     await quranAcademySupabase
         .auth
@@ -2255,7 +2261,7 @@ async function loadAccount() {
             await quranAcademySupabase
                 .from("profiles")
                 .select(
-                    "username, xp, plan, completed_levels, unlocked_rewards"
+                    "username, xp, plan, subscription_status, premium_until, completed_levels, unlocked_rewards"
                 )
                 .eq(
                     "id",
@@ -2278,6 +2284,9 @@ async function loadAccount() {
 
         const rank =
             rankForXP(xp);
+
+        const isPremium = profile.plan === "premium";
+        const premiumUntil = profile.premium_until ? new Date(profile.premium_until).toLocaleDateString() : "";
 
         const progress =
             Math.round(
@@ -2337,6 +2346,16 @@ async function loadAccount() {
                     <strong>${rewards.length}</strong>
                 </article>
 
+                <article class="stat-card">
+                    <span>Plan</span>
+                    <strong>${isPremium ? "Premium" : "Free"}</strong>
+                </article>
+
+            </div>
+
+            <div class="account-plan-banner ${isPremium ? "premium" : ""}">
+                <div><h3>${isPremium ? "👑 Premium Membership" : "🌙 Free Membership"}</h3><p>${isPremium ? `Status: ${escapeHTML(profile.subscription_status || "active")}${premiumUntil ? ` • Current period ends ${premiumUntil}` : ""}` : "Upgrade to unlock advanced AI practice and full AI explanations."}</p></div>
+                ${isPremium ? `<button class="button button-secondary" id="manageBillingButton" type="button">Manage Billing</button>` : `<a class="button button-primary" href="premium.html">View Premium</a>`}
             </div>
 
             <div class="progress-label">
@@ -2415,14 +2434,9 @@ async function loadAccount() {
             </div>
         `;
 
-        document
-            .getElementById(
-                "signOutButton"
-            )
-            .addEventListener(
-                "click",
-                signOut
-            );
+        document.getElementById("signOutButton").addEventListener("click",signOut);
+        const manageBillingButton=document.getElementById("manageBillingButton");
+        if(manageBillingButton) manageBillingButton.addEventListener("click",openBillingPortal);
     }
     catch (error) {
         console.error(error);
