@@ -2821,38 +2821,45 @@ async function askHelper(question) {
     }
 
     try {
-        const response =
-            await fetch(
-                `${SUPABASE_URL}/functions/v1/quran-explain`,
-                {
-                    method:
-                        "POST",
-                    headers: {
-                        Authorization:
-                            `Bearer ${session.access_token}`,
-                        apikey:
-                            SUPABASE_PUBLISHABLE_KEY,
-                        "Content-Type":
-                            "application/json"
-                    },
-                    body:
-                        JSON.stringify({
+        const {
+            data: result,
+            error
+        } =
+            await quranAcademySupabase
+                .functions
+                .invoke(
+                    "quran-explain",
+                    {
+                        body: {
                             question,
                             context:
                                 lessonContext,
                             conversation:
                                 conversation.slice(-6)
-                        })
+                        }
+                    }
+                );
+
+        if (error) {
+            let errorMessage =
+                error.message ||
+                "The Quran helper could not answer.";
+
+            try {
+                const details =
+                    await error.context.json();
+
+                if (details?.error) {
+                    errorMessage =
+                        details.error;
                 }
-            );
+            }
+            catch {
+                // Use the original error message.
+            }
 
-        const result =
-            await response.json();
-
-        if (!response.ok) {
             throw new Error(
-                result.error ||
-                "The Quran helper could not answer."
+                errorMessage
             );
         }
 
@@ -2871,8 +2878,8 @@ async function askHelper(question) {
 
         chatStatus.textContent =
             result.mode === "ai"
-                ? "AI answer grounded in the available lesson and Quran source context."
-                : "Basic explanation mode is active.";
+                ? "AI answer ready."
+                : "Basic explanation is working. Add OPENAI_API_KEY in Supabase for full AI chat.";
     }
     catch (error) {
         console.error(error);
