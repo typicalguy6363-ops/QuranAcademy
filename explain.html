@@ -2268,6 +2268,7 @@ a {
         <a href="rewards.html">
             Rewards
         </a>
+        <a href="premium.html">Premium</a>
         <a class="account-link" href="account.html">
             Account
         </a>
@@ -2770,6 +2771,17 @@ async function getSession() {
     return data?.session || null;
 }
 
+async function hasPremiumAccess(userId) {
+    const { data: profile } =
+        await quranAcademySupabase
+            .from("profiles")
+            .select("plan")
+            .eq("id", userId)
+            .maybeSingle();
+
+    return profile?.plan === "premium";
+}
+
 async function askHelper(question) {
     addMessage(
         "user",
@@ -2817,6 +2829,30 @@ async function askHelper(question) {
         sendButton.disabled =
             false;
 
+        return;
+    }
+
+    const premiumAccess =
+        await hasPremiumAccess(
+            session.user.id
+        );
+
+    if (!premiumAccess) {
+        addMessage(
+            "assistant",
+            localFallbackAnswer(question),
+            [
+                {
+                    name: "Unlock full AI explanations",
+                    url: "premium.html"
+                }
+            ]
+        );
+
+        chatStatus.textContent =
+            "Basic explanations are free. Full AI messages require Premium.";
+
+        sendButton.disabled = false;
         return;
     }
 
