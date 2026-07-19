@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Cancel Premium | Quran Academy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #0d8b5f;
+            --green-dark: #086341;
+            --green-soft: #e9f8f1;
+            --gold: #f3b72d;
+            --ink: #18332a;
+            --muted: #60736c;
+            --line: #d9e8e1;
+            --danger: #b3261e;
+            --danger-soft: #fff0ef;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #fff7d6 0,
+                    transparent 34%
+                ),
+                linear-gradient(
+                    180deg,
+                    #f4fff9 0%,
+                    #ffffff 55%,
+                    #f8fbfa 100%
+                );
+            font-family:
+                Inter,
+                ui-rounded,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .site-header {
+            width: min(1120px, calc(100% - 28px));
+            margin: 18px auto 0;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            border: 1px solid rgba(13, 139, 95, 0.14);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 16px 45px rgba(20, 70, 52, 0.08);
+            backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            color: var(--white);
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    #12ad77
+                );
+            box-shadow: 0 10px 24px rgba(13, 139, 95, 0.2);
+        }
+
+        .brand-text {
+            font-size: 1.05rem;
+        }
+
+        .header-link {
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            text-decoration: none;
+            font-weight: 800;
+            background: var(--white);
+        }
+
+        main {
+            width: min(780px, calc(100% - 28px));
+            margin: 64px auto;
+        }
+
+        .cancel-card {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 26px 70px rgba(25, 64, 51, 0.12);
+        }
+
+        .card-top {
+            padding: 44px 38px 30px;
+            text-align: center;
+            background:
+                linear-gradient(
+                    180deg,
+                    #f0fff7,
+                    #ffffff
+                );
+        }
+
+        .icon-circle {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 24px;
+            font-size: 2rem;
+            background: var(--green-soft);
+            border: 1px solid #c7eadb;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            line-height: 1.05;
+        }
+
+        .lead {
+            max-width: 590px;
+            margin: 16px auto 0;
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .card-body {
+            padding: 8px 38px 40px;
+        }
+
+        .info-box {
+            margin: 18px 0 24px;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: #fbfefd;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .status {
+            display: none;
+            margin: 0 0 18px;
+            padding: 14px 16px;
+            border-radius: 15px;
+            line-height: 1.5;
+            background: var(--green-soft);
+            border: 1px solid #bfe7d5;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.error {
+            color: var(--danger);
+            background: var(--danger-soft);
+            border-color: #f2c8c5;
+        }
+
+        .button-stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        button,
+        .button-link {
+            width: 100%;
+            min-height: 55px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            border-radius: 16px;
+            font: inherit;
+            font-weight: 900;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            border: 0;
+            color: var(--white);
+            background:
+                linear-gradient(
+                    135deg,
+                    #c73b32,
+                    #9f211b
+                );
+            box-shadow: 0 14px 30px rgba(179, 38, 30, 0.2);
+        }
+
+        .cancel-button:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+
+        .back-button {
+            border: 1px solid var(--line);
+            color: var(--ink);
+            background: var(--white);
+        }
+
+        .small-note {
+            margin: 18px 0 0;
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 600px) {
+            .site-header {
+                margin-top: 10px;
+                border-radius: 18px;
+            }
+
+            .brand-text {
+                font-size: 0.95rem;
+            }
+
+            main {
+                margin: 32px auto;
+            }
+
+            .card-top,
+            .card-body {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <a
+            class="brand"
+            href="index.html"
+        >
+            <span class="brand-icon">☾</span>
+            <span class="brand-text">
+                Quran Academy
+            </span>
+        </a>
+
+        <a
+            class="header-link"
+            href="account.html"
+        >
+            My Account
+        </a>
+    </header>
+
+    <main>
+        <section class="cancel-card">
+            <div class="card-top">
+                <div class="icon-circle">
+                    🛡️
+                </div>
+
+                <h1>
+                    Cancel Premium
+                </h1>
+
+                <p class="lead">
+                    Open Stripe’s secure cancellation page.
+                    Stripe will show the exact date your trial
+                    or subscription ends before you confirm.
+                </p>
+            </div>
+
+            <div class="card-body">
+                <div class="info-box">
+                    <strong>
+                        During your free trial
+                    </strong>
+
+                    <p>
+                        Cancel before the trial ends to avoid
+                        the first subscription charge. Your
+                        exact cancellation timing will appear
+                        on Stripe’s confirmation screen.
+                    </p>
+                </div>
+
+                <div
+                    class="status"
+                    id="cancelStatus"
+                    aria-live="polite"
+                ></div>
+
+                <div class="button-stack">
+                    <button
+                        class="cancel-button"
+                        id="openCancelButton"
+                        type="button"
+                    >
+                        Open Secure Cancellation Page
+                    </button>
+
+                    <a
+                        class="button-link back-button"
+                        href="account.html"
+                    >
+                        Keep Premium and Go Back
+                    </a>
+                </div>
+
+                <p class="small-note">
+                    A parent or guardian should review billing
+                    or cancellation changes for a child’s
+                    account.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL =
+            "https://oovjvffmzphwksbvsoyd.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A";
+
+        const quranAcademySupabase =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY,
+                {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true
+                    }
+                }
+            );
+
+        const openCancelButton =
+            document.getElementById(
+                "openCancelButton"
+            );
+
+        const cancelStatus =
+            document.getElementById(
+                "cancelStatus"
+            );
+
+        function showStatus(
+            message,
+            type = ""
+        ) {
+            cancelStatus.textContent =
+                message;
+
+            cancelStatus.className =
+                `status show ${type}`;
+        }
+
+        async function readFunctionError(
+            error
+        ) {
+            let message =
+                error?.message ||
+                "The cancellation page could not open.";
+
+            try {
+                const response =
+                    error.context;
+
+                if (response) {
+                    const body =
+                        await response
+                            .clone()
+                            .json();
+
+                    if (body?.error) {
+                        message =
+                            body.error;
+                    }
+                }
+            }
+            catch {
+                // Keep the original error.
+            }
+
+            return message;
+        }
+
+        async function openCancellationPage() {
+            openCancelButton.disabled =
+                true;
+
+            openCancelButton.textContent =
+                "Opening Stripe...";
+
+            showStatus(
+                "Checking your subscription..."
+            );
+
+            try {
+                const {
+                    data: sessionData,
+                    error: sessionError
+                } =
+                    await quranAcademySupabase
+                        .auth
+                        .getSession();
+
+                if (sessionError) {
+                    throw sessionError;
+                }
+
+                if (!sessionData?.session) {
+                    showStatus(
+                        "Please sign in first.",
+                        "error"
+                    );
+
+                    window.setTimeout(
+                        function () {
+                            window.location.href =
+                                "signin.html";
+                        },
+                        900
+                    );
+
+                    return;
+                }
+
+                const {
+                    data,
+                    error
+                } =
+                    await quranAcademySupabase
+                        .functions
+                        .invoke(
+                            "cancel-subscription",
+                            {
+                                body: {}
+                            }
+                        );
+
+                if (error) {
+                    throw new Error(
+                        await readFunctionError(
+                            error
+                        )
+                    );
+                }
+
+                if (!data?.url) {
+                    throw new Error(
+                        "Stripe did not return a cancellation link."
+                    );
+                }
+
+                window.location.assign(
+                    data.url
+                );
+            }
+            catch (error) {
+                console.error(
+                    error
+                );
+
+                showStatus(
+                    error?.message ||
+                    "The cancellation page could not open.",
+                    "error"
+                );
+
+                openCancelButton.disabled =
+                    false;
+
+                openCancelButton.textContent =
+                    "Open Secure Cancellation Page";
+            }
+        }
+
+        openCancelButton.addEventListener(
+            "click",
+            openCancellationPage
+        );
+
+        const parameters =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        if (
+            parameters.get(
+                "complete"
+            ) === "1"
+        ) {
+            showStatus(
+                "Your cancellation choice was saved. Stripe will email the billing account with the details."
+            );
+        }
+    </script>
+</body>
+</html>
