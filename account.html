@@ -2355,7 +2355,7 @@ async function loadAccount() {
 
             <div class="account-plan-banner ${isPremium ? "premium" : ""}">
                 <div><h3>${isPremium ? "👑 Premium Membership" : "🌙 Free Membership"}</h3><p>${isPremium ? `Status: ${escapeHTML(profile.subscription_status || "active")}${premiumUntil ? ` • Current period ends ${premiumUntil}` : ""}` : "Upgrade to unlock advanced AI practice and full AI explanations."}</p></div>
-                ${isPremium ? `<button class="button button-secondary" id="manageBillingButton" type="button">Manage Billing</button>` : `<a class="button button-primary" href="premium.html">View Premium</a>`}
+                ${isPremium ? `<a class="button button-secondary" href="cancel-subscription.html">Cancel or Manage Subscription</a>` : `<a class="button button-primary" href="premium.html">View Premium</a>`}
             </div>
 
             <div class="progress-label">
@@ -2435,8 +2435,6 @@ async function loadAccount() {
         `;
 
         document.getElementById("signOutButton").addEventListener("click",signOut);
-        const manageBillingButton=document.getElementById("manageBillingButton");
-        if(manageBillingButton) manageBillingButton.addEventListener("click",openBillingPortal);
     }
     catch (error) {
         console.error(error);
