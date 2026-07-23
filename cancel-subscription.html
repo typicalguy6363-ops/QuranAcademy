@@ -28,22 +28,30 @@
 
             font-family: Arial, Helvetica, sans-serif;
             color: #16382d;
-            background: linear-gradient(135deg, #e9fff5, #eef4ff);
+
+            background: linear-gradient(
+                135deg,
+                #e9fff5,
+                #eef4ff
+            );
         }
 
         .cancel-card {
             width: 100%;
-            max-width: 520px;
+            max-width: 540px;
             padding: 38px;
+
             background: white;
             border-radius: 24px;
+
             box-shadow: 0 18px 55px rgba(0, 0, 0, 0.13);
+
             text-align: center;
         }
 
         .icon {
-            width: 70px;
-            height: 70px;
+            width: 72px;
+            height: 72px;
             margin: 0 auto 18px;
 
             display: flex;
@@ -51,6 +59,7 @@
             align-items: center;
 
             border-radius: 50%;
+
             background: #fff0f0;
             font-size: 34px;
         }
@@ -67,7 +76,7 @@
         }
 
         .warning-box {
-            margin: 25px 0;
+            margin: 25px 0 18px;
             padding: 17px;
 
             border: 1px solid #f2d79b;
@@ -75,11 +84,33 @@
 
             background: #fff8e8;
             color: #71520d;
+
             line-height: 1.5;
         }
 
+        .streak-box {
+            margin-bottom: 22px;
+            padding: 18px;
+
+            border: 1px solid #ffd1a8;
+            border-radius: 14px;
+
+            background: #fff5eb;
+            color: #754014;
+
+            line-height: 1.5;
+        }
+
+        .streak-title {
+            display: block;
+            margin-bottom: 6px;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
         button,
-        .back-button {
+        .action-button {
             width: 100%;
             min-height: 52px;
             padding: 14px 18px;
@@ -88,6 +119,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 8px;
 
             border: none;
             border-radius: 13px;
@@ -105,7 +137,7 @@
         }
 
         button:hover,
-        .back-button:hover {
+        .action-button:hover {
             transform: translateY(-2px);
         }
 
@@ -124,16 +156,40 @@
             transform: none;
         }
 
-        .back-button {
+        .xp-button {
+            background: #ff9f1c;
+            color: white;
+        }
+
+        .xp-button:hover {
+            background: #e8890b;
+        }
+
+        .keep-button {
+            background: #168a55;
+            color: white;
+        }
+
+        .keep-button:hover {
+            background: #107343;
+        }
+
+        .home-button {
             background: #eaf2ef;
             color: #16382d;
+        }
+
+        .home-button:hover {
+            background: #dce9e4;
         }
 
         #message {
             display: none;
             margin-top: 22px;
             padding: 14px;
+
             border-radius: 12px;
+
             line-height: 1.5;
             font-weight: 700;
         }
@@ -177,16 +233,42 @@
 
         <div class="warning-box">
             You will keep Premium access until the end of your
-            current paid billing period. You will not be charged
-            again after that.
+            current billing period or free trial. You will not
+            be charged again after cancellation.
         </div>
 
+        <div class="streak-box">
+            <span class="streak-title">
+                🔥 Keep Your Streak Going
+            </span>
+
+            Complete a quick lesson to earn XP and protect your
+            learning streak.
+        </div>
+
+        <a
+            class="action-button xp-button"
+            href="/dashboard.html?activity=daily-practice"
+        >
+            ⚡ Earn XP Instead
+        </a>
+
+        <a
+            class="action-button keep-button"
+            href="/account.html"
+        >
+            💚 Keep My Subscription
+        </a>
+
         <button id="cancelButton" type="button">
-            Confirm Cancellation
+            Cancel My Subscription
         </button>
 
-        <a class="back-button" href="/account.html">
-            Keep My Subscription
+        <a
+            class="action-button home-button"
+            href="/index.html"
+        >
+            🏠 Return to Home
         </a>
 
         <div id="message"></div>
@@ -239,6 +321,14 @@
         }
 
         async function cancelSubscription() {
+            const confirmed = window.confirm(
+                "Are you sure you want to cancel Premium?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
             cancelButton.disabled = true;
             cancelButton.textContent = "Canceling...";
 
@@ -281,7 +371,7 @@
 
                 showMessage(
                     data.message ||
-                    "Your subscription cancellation has been scheduled.",
+                    "Your subscription will end after your current billing period.",
                     "success"
                 );
 
@@ -301,7 +391,7 @@
 
                 cancelButton.disabled = false;
                 cancelButton.textContent =
-                    "Confirm Cancellation";
+                    "Cancel My Subscription";
             }
         }
 
