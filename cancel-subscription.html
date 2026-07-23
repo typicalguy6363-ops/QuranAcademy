@@ -3,12 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cancel Subscription | QuranAcademy</title>
-</head>
-<body>
-  <h1>Manage Subscription</h1>
-  <p>To cancel your subscription, open your account page.</p>
 
-  <a href="/account.html">Go to My Account</a>
+  <title>Cancel Subscription | QuranAcademy</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #effff7, #eaf4ff);
+      color: #17352b;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      padding: 36px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 32px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #52625d;
+    }
+
+    .warning {
+      margin: 24px 0;
+      padding: 16px;
+      border-radius: 14px;
+      background: #fff7e6;
+      color: #73510b;
+    }
+
+    button,
+    .back-link {
+      width: 100%;
+      display: block;
+      padding: 15px 18px;
+      margin-top: 12px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #cancelButton {
+      border: none;
+      background: #d9363e;
+      color: white;
+    }
+
+    #cancelButton:hover {
+      background: #b9272f;
+    }
+
+    #cancelButton:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .back-link {
+      background: #edf3f0;
+      color: #17352b;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #18864b;
+    }
+
+    .error {
+      color: #c52b34;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <h1>Cancel Premium</h1>
+
+    <p>
+      Are you sure you want to cancel your QuranAcademy Premium subscription?
+    </p>
+
+    <div class="warning">
+      You will keep Premium until the end of your current paid billing period.
+      You will not be charged again afterward.
+    </div>
+
+    <button id="cancelButton">
+      Confirm Cancellation
+    </button>
+
+    <a class="back-link" href="/account.html">
+      Keep My Subscription
+    </a>
+
+    <div id="message"></div>
+  </main>
+
+  <script>
+    const SUPABASE_URL =
+      "https://oovjvffmzphwksbvsoyd.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+    const cancelButton = document.getElementById("cancelButton");
+    const message = document.getElementById("message");
+
+    async function cancelSubscription() {
+      cancelButton.disabled = true;
+      cancelButton.textContent = "Canceling...";
+      message.textContent = "";
+      message.className = "";
+
+      try {
+        const {
+          data: { session },
+        } = await supabaseClient.auth.getSession();
+
+        if (!session) {
+          window.location.href = "/signin.html";
+          return;
+        }
+
+        const { data, error } =
+          await supabaseClient.functions.invoke(
+            "cancel-subscription",
+            {
+              body: {},
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        message.textContent =
+          data.message || "Your subscription has been canceled.";
+        message.className = "success";
+
+        cancelButton.textContent = "Cancellation Scheduled";
+      } catch (error) {
+        console.error(error);
+
+        message.textContent =
+          "Cancellation failed. Please try again.";
+        message.className = "error";
+
+        cancelButton.disabled = false;
+        cancelButton.textContent = "Confirm Cancellation";
+      }
+    }
+
+    cancelButton.addEventListener("click", cancelSubscription);
+  </script>
 </body>
 </html>
