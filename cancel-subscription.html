@@ -1,191 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
 
-  <title>Cancel Subscription | QuranAcademy</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Cancel Subscription | QuranAcademy</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #effff7, #eaf4ff);
-      color: #17352b;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    .card {
-      width: 100%;
-      max-width: 520px;
-      padding: 36px;
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
-      text-align: center;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
 
-    h1 {
-      margin-top: 0;
-      font-size: 32px;
-    }
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    p {
-      line-height: 1.6;
-      color: #52625d;
-    }
+            font-family: Arial, Helvetica, sans-serif;
+            color: #16382d;
+            background: linear-gradient(135deg, #e9fff5, #eef4ff);
+        }
 
-    .warning {
-      margin: 24px 0;
-      padding: 16px;
-      border-radius: 14px;
-      background: #fff7e6;
-      color: #73510b;
-    }
+        .cancel-card {
+            width: 100%;
+            max-width: 520px;
+            padding: 38px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.13);
+            text-align: center;
+        }
 
-    button,
-    .back-link {
-      width: 100%;
-      display: block;
-      padding: 15px 18px;
-      margin-top: 12px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-      cursor: pointer;
-    }
+        .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
 
-    #cancelButton {
-      border: none;
-      background: #d9363e;
-      color: white;
-    }
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    #cancelButton:hover {
-      background: #b9272f;
-    }
+            border-radius: 50%;
+            background: #fff0f0;
+            font-size: 34px;
+        }
 
-    #cancelButton:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+        h1 {
+            margin: 0 0 14px;
+            font-size: 32px;
+        }
 
-    .back-link {
-      background: #edf3f0;
-      color: #17352b;
-    }
+        .description {
+            margin: 0;
+            line-height: 1.6;
+            color: #5c6c66;
+        }
 
-    #message {
-      margin-top: 20px;
-      font-weight: bold;
-    }
+        .warning-box {
+            margin: 25px 0;
+            padding: 17px;
 
-    .success {
-      color: #18864b;
-    }
+            border: 1px solid #f2d79b;
+            border-radius: 14px;
 
-    .error {
-      color: #c52b34;
-    }
-  </style>
+            background: #fff8e8;
+            color: #71520d;
+            line-height: 1.5;
+        }
+
+        button,
+        .back-button {
+            width: 100%;
+            min-height: 52px;
+            padding: 14px 18px;
+            margin-top: 12px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border: none;
+            border-radius: 13px;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease,
+                background 0.2s ease;
+        }
+
+        button:hover,
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+
+        #cancelButton {
+            background: #d9363e;
+            color: white;
+        }
+
+        #cancelButton:hover {
+            background: #b9252d;
+        }
+
+        #cancelButton:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-button {
+            background: #eaf2ef;
+            color: #16382d;
+        }
+
+        #message {
+            display: none;
+            margin-top: 22px;
+            padding: 14px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-weight: 700;
+        }
+
+        #message.success {
+            display: block;
+            background: #e9fff1;
+            color: #167545;
+        }
+
+        #message.error {
+            display: block;
+            background: #fff0f0;
+            color: #b6252d;
+        }
+
+        @media (max-width: 550px) {
+            .cancel-card {
+                padding: 28px 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <main class="card">
-    <h1>Cancel Premium</h1>
 
-    <p>
-      Are you sure you want to cancel your QuranAcademy Premium subscription?
-    </p>
+    <main class="cancel-card">
 
-    <div class="warning">
-      You will keep Premium until the end of your current paid billing period.
-      You will not be charged again afterward.
-    </div>
+        <div class="icon">⚠️</div>
 
-    <button id="cancelButton">
-      Confirm Cancellation
-    </button>
+        <h1>Cancel Premium</h1>
 
-    <a class="back-link" href="/account.html">
-      Keep My Subscription
-    </a>
+        <p class="description">
+            Are you sure you want to cancel your QuranAcademy
+            Premium subscription?
+        </p>
 
-    <div id="message"></div>
-  </main>
+        <div class="warning-box">
+            You will keep Premium access until the end of your
+            current paid billing period. You will not be charged
+            again after that.
+        </div>
 
-  <script>
-    const SUPABASE_URL =
-      "https://oovjvffmzphwksbvsoyd.supabase.co";
+        <button id="cancelButton" type="button">
+            Confirm Cancellation
+        </button>
 
-    const SUPABASE_ANON_KEY =
-      "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+        <a class="back-button" href="/account.html">
+            Keep My Subscription
+        </a>
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+        <div id="message"></div>
 
-    const cancelButton = document.getElementById("cancelButton");
-    const message = document.getElementById("message");
+    </main>
 
-    async function cancelSubscription() {
-      cancelButton.disabled = true;
-      cancelButton.textContent = "Canceling...";
-      message.textContent = "";
-      message.className = "";
+    <script>
+        const SUPABASE_URL =
+            "https://oovjvffmzphwksbvsoyd.supabase.co";
 
-      try {
-        const {
-          data: { session },
-        } = await supabaseClient.auth.getSession();
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A";
 
-        if (!session) {
-          window.location.href = "/signin.html";
-          return;
+        const quranAcademySupabase =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY,
+                {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true
+                    }
+                }
+            );
+
+        const cancelButton =
+            document.getElementById("cancelButton");
+
+        const message =
+            document.getElementById("message");
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = type;
         }
 
-        const { data, error } =
-          await supabaseClient.functions.invoke(
-            "cancel-subscription",
-            {
-              body: {},
+        async function getSession() {
+            const {
+                data: { session },
+                error
+            } = await quranAcademySupabase.auth.getSession();
+
+            if (error) {
+                console.error("Session error:", error);
+                return null;
             }
-          );
 
-        if (error) {
-          throw error;
+            return session;
         }
 
-        message.textContent =
-          data.message || "Your subscription has been canceled.";
-        message.className = "success";
+        async function cancelSubscription() {
+            cancelButton.disabled = true;
+            cancelButton.textContent = "Canceling...";
 
-        cancelButton.textContent = "Cancellation Scheduled";
-      } catch (error) {
-        console.error(error);
+            message.textContent = "";
+            message.className = "";
 
-        message.textContent =
-          "Cancellation failed. Please try again.";
-        message.className = "error";
+            try {
+                const session = await getSession();
 
-        cancelButton.disabled = false;
-        cancelButton.textContent = "Confirm Cancellation";
-      }
-    }
+                if (!session) {
+                    window.location.href = "/signin.html";
+                    return;
+                }
 
-    cancelButton.addEventListener("click", cancelSubscription);
-  </script>
+                const { data, error } =
+                    await quranAcademySupabase.functions.invoke(
+                        "cancel-subscription",
+                        {
+                            body: {}
+                        }
+                    );
+
+                if (error) {
+                    console.error(
+                        "Cancel function error:",
+                        error
+                    );
+
+                    throw new Error(
+                        "The cancellation request failed."
+                    );
+                }
+
+                if (!data || data.success !== true) {
+                    throw new Error(
+                        data?.error ||
+                        "The subscription could not be canceled."
+                    );
+                }
+
+                showMessage(
+                    data.message ||
+                    "Your subscription cancellation has been scheduled.",
+                    "success"
+                );
+
+                cancelButton.textContent =
+                    "Cancellation Scheduled";
+
+                cancelButton.disabled = true;
+
+            } catch (error) {
+                console.error(error);
+
+                showMessage(
+                    error.message ||
+                    "Cancellation failed. Please try again.",
+                    "error"
+                );
+
+                cancelButton.disabled = false;
+                cancelButton.textContent =
+                    "Confirm Cancellation";
+            }
+        }
+
+        cancelButton.addEventListener(
+            "click",
+            cancelSubscription
+        );
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            async () => {
+                const session = await getSession();
+
+                if (!session) {
+                    window.location.href = "/signin.html";
+                }
+            }
+        );
+    </script>
+
 </body>
 </html>
