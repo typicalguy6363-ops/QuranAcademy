@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Arabic Typing Practice | QuranAcademy</title>
+    <title>Arabic Typing Course | QuranAcademy</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -20,21 +20,27 @@
         body {
             margin: 0;
             min-height: 100vh;
+
             font-family: Arial, Helvetica, sans-serif;
             color: #16372d;
+
             background:
                 linear-gradient(135deg, #effff8, #eef5ff);
         }
 
         header {
             padding: 18px 24px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 18px;
+
             background: white;
             border-bottom: 1px solid #dcebe5;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.05);
         }
 
         .brand {
@@ -46,9 +52,12 @@
 
         .back-link {
             padding: 11px 16px;
+
             border-radius: 12px;
+
             background: #eaf5f1;
             color: #174538;
+
             font-weight: 700;
             text-decoration: none;
         }
@@ -60,20 +69,29 @@
 
         .hero {
             padding: 32px;
+
             border-radius: 26px;
-            background: linear-gradient(135deg, #0e9e72, #177e67);
+
+            background:
+                linear-gradient(135deg, #0e9e72, #177e67);
+
             color: white;
-            box-shadow: 0 18px 45px rgba(12, 124, 92, 0.22);
+
+            box-shadow:
+                0 18px 45px rgba(12, 124, 92, 0.22);
         }
 
         .hero h1 {
             margin: 0 0 10px;
-            font-size: clamp(30px, 5vw, 48px);
+
+            font-size:
+                clamp(30px, 5vw, 48px);
         }
 
         .hero p {
             margin: 0;
             max-width: 700px;
+
             line-height: 1.6;
             opacity: 0.94;
         }
@@ -82,19 +100,24 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 14px;
+
             margin-top: 24px;
         }
 
         .stat {
             padding: 17px;
+
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.16);
-            backdrop-filter: blur(8px);
+
+            background:
+                rgba(255, 255, 255, 0.16);
         }
 
         .stat-label {
             display: block;
+
             margin-bottom: 5px;
+
             font-size: 13px;
             opacity: 0.85;
         }
@@ -106,100 +129,136 @@
 
         .course-layout {
             display: grid;
-            grid-template-columns: 320px minmax(0, 1fr);
+            grid-template-columns: 330px minmax(0, 1fr);
             gap: 24px;
+
             margin-top: 26px;
         }
 
-        .lesson-panel,
+        .level-panel,
         .practice-card {
             background: white;
+
             border: 1px solid #dfece7;
             border-radius: 22px;
-            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.07);
+
+            box-shadow:
+                0 14px 38px rgba(0, 0, 0, 0.07);
         }
 
-        .lesson-panel {
+        .level-panel {
             padding: 18px;
             align-self: start;
         }
 
-        .lesson-panel h2 {
+        .level-panel h2 {
             margin: 4px 4px 16px;
             font-size: 21px;
         }
 
-        .lesson-list {
+        .level-list {
             display: grid;
             gap: 10px;
         }
 
-        .lesson-button {
+        .level-button {
             width: 100%;
             padding: 15px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
+
             border: 1px solid #dce9e4;
             border-radius: 15px;
+
             background: #f8fbfa;
             color: #173d32;
+
             text-align: left;
             cursor: pointer;
+
             transition: 0.2s ease;
         }
 
-        .lesson-button:hover {
+        .level-button:hover {
             transform: translateY(-1px);
             border-color: #38aa85;
         }
 
-        .lesson-button.active {
+        .level-button.active {
             border-color: #129b70;
             background: #e9fff6;
         }
 
-        .lesson-button.completed {
+        .level-button.completed {
             border-color: #9ddbc5;
         }
 
-        .lesson-button.locked {
-            opacity: 0.68;
-            cursor: pointer;
-            background: #f2f1f7;
+        .level-button.locked {
+            opacity: 0.72;
+            background: #f3f1f7;
         }
 
-        .lesson-name {
+        .level-name {
             display: block;
             font-size: 15px;
             font-weight: 800;
         }
 
-        .lesson-meta {
+        .level-meta {
             display: block;
+
             margin-top: 4px;
+
             color: #6a7c76;
             font-size: 12px;
         }
 
-        .lesson-status {
+        .level-status {
             flex-shrink: 0;
             font-size: 20px;
         }
 
         .practice-card {
             padding: 34px;
-            min-height: 500px;
+            min-height: 570px;
         }
 
-        .eyebrow {
-            margin-bottom: 8px;
-            color: #07825f;
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .progress-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+
+            margin-bottom: 14px;
+        }
+
+        .question-count {
+            font-weight: 800;
+            color: #087e5b;
+        }
+
+        .progress-track {
+            height: 10px;
+            margin-bottom: 24px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+            background: #e7efec;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: #0e9e72;
+
+            transition: width 0.3s ease;
         }
 
         .practice-title {
@@ -209,24 +268,29 @@
 
         .instructions {
             margin: 10px 0 24px;
+
             color: #60716b;
             line-height: 1.6;
         }
 
         .word-card {
-            min-height: 145px;
+            min-height: 160px;
             padding: 26px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border: 2px solid #d9eee6;
             border-radius: 20px;
+
             background: #f4fff9;
             text-align: center;
         }
 
         .arabic-word {
             direction: rtl;
+
             font-family: "Times New Roman", serif;
             font-size: clamp(40px, 8vw, 68px);
             font-weight: 700;
@@ -235,7 +299,9 @@
 
         .answer-label {
             display: block;
+
             margin: 25px 0 8px;
+
             font-weight: 800;
         }
 
@@ -243,13 +309,15 @@
             width: 100%;
             min-height: 62px;
             padding: 14px 18px;
+
             border: 2px solid #d7e6e0;
             border-radius: 15px;
+
             outline: none;
             direction: rtl;
+
             font-family: "Times New Roman", serif;
             font-size: 27px;
-            transition: border 0.2s ease;
         }
 
         #answerInput:focus {
@@ -260,6 +328,7 @@
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 12px;
+
             margin-top: 16px;
         }
 
@@ -272,20 +341,19 @@
         .premium-button {
             min-height: 52px;
             padding: 13px 22px;
+
             border: none;
             border-radius: 14px;
+
             font-size: 16px;
             font-weight: 850;
+
             cursor: pointer;
         }
 
         #checkButton {
             background: #0d9d71;
             color: white;
-        }
-
-        #checkButton:hover {
-            background: #087f5c;
         }
 
         #checkButton:disabled {
@@ -295,15 +363,19 @@
 
         #nextButton {
             display: none;
+
             background: #eaf2ef;
             color: #173d32;
         }
 
         #feedback {
             display: none;
+
             margin-top: 18px;
             padding: 16px;
+
             border-radius: 14px;
+
             line-height: 1.5;
             font-weight: 750;
         }
@@ -328,10 +400,13 @@
 
         .premium-wall {
             display: none;
-            min-height: 420px;
+
+            min-height: 470px;
             padding: 30px;
+
             align-items: center;
             justify-content: center;
+
             text-align: center;
         }
 
@@ -359,16 +434,21 @@
 
         .premium-button {
             display: inline-flex;
+
             margin-top: 13px;
+
             background: #7557e8;
             color: white;
+
             text-decoration: none;
         }
 
         .loading {
             padding: 50px 20px;
+
             text-align: center;
             color: #61726c;
+
             font-weight: 700;
         }
 
@@ -381,7 +461,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .lesson-panel {
+            .level-panel {
                 order: 2;
             }
 
@@ -408,10 +488,6 @@
             .actions {
                 grid-template-columns: 1fr;
             }
-
-            #nextButton {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -431,51 +507,98 @@
 <main class="page">
 
     <section class="hero">
-        <h1>⌨️ Arabic Typing Practice</h1>
+
+        <h1>⌨️ Arabic Typing Course</h1>
 
         <p>
-            Look carefully at each Arabic word, type it correctly,
-            earn XP, and keep your daily learning streak alive.
+            Each level contains five Arabic typing questions.
+            Complete the entire level to earn XP and protect
+            your daily streak.
         </p>
 
         <div class="stats">
+
             <div class="stat">
-                <span class="stat-label">Total XP</span>
-                <span class="stat-value" id="xpValue">0</span>
+                <span class="stat-label">
+                    Total XP
+                </span>
+
+                <span class="stat-value" id="xpValue">
+                    0
+                </span>
             </div>
 
             <div class="stat">
-                <span class="stat-label">Daily Streak</span>
-                <span class="stat-value" id="streakValue">0 🔥</span>
+                <span class="stat-label">
+                    Daily Streak
+                </span>
+
+                <span class="stat-value" id="streakValue">
+                    0 🔥
+                </span>
             </div>
 
             <div class="stat">
-                <span class="stat-label">Plan</span>
-                <span class="stat-value" id="planValue">Free</span>
+                <span class="stat-label">
+                    Plan
+                </span>
+
+                <span class="stat-value" id="planValue">
+                    Free
+                </span>
             </div>
+
         </div>
     </section>
 
     <section class="course-layout">
 
-        <aside class="lesson-panel">
-            <h2>Typing Lessons</h2>
-            <div class="lesson-list" id="lessonList"></div>
+        <aside class="level-panel">
+
+            <h2>Typing Levels</h2>
+
+            <div
+                class="level-list"
+                id="levelList"
+            ></div>
+
         </aside>
 
         <section class="practice-card">
 
             <div id="loadingArea" class="loading">
-                Loading your course...
+                Loading your typing course...
             </div>
 
             <div id="practiceArea" hidden>
-                <div class="eyebrow" id="lessonEyebrow">
-                    Lesson
+
+                <div class="progress-row">
+
+                    <span id="levelLabel">
+                        Level 1
+                    </span>
+
+                    <span
+                        class="question-count"
+                        id="questionCount"
+                    >
+                        Question 1 of 5
+                    </span>
+
                 </div>
 
-                <h2 class="practice-title" id="lessonTitle">
-                    Typing Practice
+                <div class="progress-track">
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+                </div>
+
+                <h2
+                    class="practice-title"
+                    id="levelTitle"
+                >
+                    Typing Level
                 </h2>
 
                 <p class="instructions">
@@ -484,10 +607,18 @@
                 </p>
 
                 <div class="word-card">
-                    <div class="arabic-word" id="arabicWord"></div>
+
+                    <div
+                        class="arabic-word"
+                        id="arabicWord"
+                    ></div>
+
                 </div>
 
-                <label class="answer-label" for="answerInput">
+                <label
+                    class="answer-label"
+                    for="answerInput"
+                >
                     Type your answer:
                 </label>
 
@@ -502,38 +633,61 @@
                 >
 
                 <div class="actions">
-                    <button id="checkButton" type="button">
+
+                    <button
+                        id="checkButton"
+                        type="button"
+                    >
                         Check Answer
                     </button>
 
-                    <button id="nextButton" type="button">
-                        Next Lesson →
+                    <button
+                        id="nextButton"
+                        type="button"
+                    >
+                        Next →
                     </button>
+
                 </div>
 
                 <div id="feedback"></div>
+
             </div>
 
-            <div id="premiumWall" class="premium-wall">
-                <div class="premium-content">
-                    <div class="premium-icon">👑</div>
+            <div
+                id="premiumWall"
+                class="premium-wall"
+            >
 
-                    <h2>Premium Lesson</h2>
+                <div class="premium-content">
+
+                    <div class="premium-icon">
+                        👑
+                    </div>
+
+                    <h2>Premium Level</h2>
 
                     <p>
-                        Upgrade to QuranAcademy Premium to unlock harder
-                        Arabic typing exercises, Quranic phrases, bonus XP,
-                        and unlimited practice.
+                        Upgrade to QuranAcademy Premium to unlock
+                        harder Quranic typing levels, longer phrases,
+                        bonus XP, and unlimited practice.
                     </p>
 
-                    <a class="premium-button" href="/premium.html">
+                    <a
+                        class="premium-button"
+                        href="/premium.html"
+                    >
                         Unlock Premium
                     </a>
+
                 </div>
+
             </div>
 
         </section>
+
     </section>
+
 </main>
 
 <script>
@@ -556,68 +710,97 @@
             }
         );
 
-    const lessons = [
+    const levels = [
         {
-            id: "typing-1",
-            title: "Peace",
-            arabic: "السلام",
-            xp: 10,
-            premium: false
+            id: "typing-level-1",
+            title: "Easy Arabic Words",
+            xp: 30,
+            premium: false,
+            questions: [
+                "السلام",
+                "كتاب",
+                "قلم",
+                "باب",
+                "بيت"
+            ]
         },
+
         {
-            id: "typing-2",
-            title: "Book",
-            arabic: "كتاب",
-            xp: 10,
-            premium: false
+            id: "typing-level-2",
+            title: "Everyday Words",
+            xp: 40,
+            premium: false,
+            questions: [
+                "مدرسة",
+                "طالب",
+                "معلم",
+                "مسجد",
+                "صديق"
+            ]
         },
+
         {
-            id: "typing-3",
-            title: "Pen",
-            arabic: "قلم",
-            xp: 10,
-            premium: false
+            id: "typing-level-3",
+            title: "Islamic Words",
+            xp: 50,
+            premium: false,
+            questions: [
+                "الله",
+                "قرآن",
+                "صلاة",
+                "إيمان",
+                "رحمة"
+            ]
         },
+
         {
-            id: "typing-4",
-            title: "School",
-            arabic: "مدرسة",
-            xp: 15,
-            premium: false
+            id: "typing-level-4",
+            title: "Short Phrases",
+            xp: 60,
+            premium: false,
+            questions: [
+                "الحمد لله",
+                "سبحان الله",
+                "الله أكبر",
+                "إن شاء الله",
+                "السلام عليكم"
+            ]
         },
+
         {
-            id: "typing-5",
-            title: "Praise Be to Allah",
-            arabic: "الحمد لله",
-            xp: 15,
-            premium: false
+            id: "typing-level-5",
+            title: "Quran Words",
+            xp: 75,
+            premium: true,
+            questions: [
+                "الرحمن",
+                "الرحيم",
+                "العالمين",
+                "الصراط",
+                "المستقيم"
+            ]
         },
+
         {
-            id: "typing-6",
-            title: "The Most Merciful",
-            arabic: "الرحمن",
-            xp: 20,
-            premium: true
-        },
-        {
-            id: "typing-7",
-            title: "The Especially Merciful",
-            arabic: "الرحيم",
-            xp: 20,
-            premium: true
-        },
-        {
-            id: "typing-8",
-            title: "Lord of the Worlds",
-            arabic: "رب العالمين",
-            xp: 25,
-            premium: true
+            id: "typing-level-6",
+            title: "Quranic Phrases",
+            xp: 100,
+            premium: true,
+            questions: [
+                "بسم الله الرحمن الرحيم",
+                "رب العالمين",
+                "مالك يوم الدين",
+                "إياك نعبد",
+                "وإياك نستعين"
+            ]
         }
     ];
 
     let currentUser = null;
     let profile = null;
-    let currentLessonIndex = 0;
+
+    let currentLevelIndex = 0;
+    let currentQuestionIndex = 0;
 
     const loadingArea =
         document.getElementById("loadingArea");
@@ -628,14 +811,20 @@
     const premiumWall =
         document.getElementById("premiumWall");
 
-    const lessonList =
-        document.getElementById("lessonList");
+    const levelList =
+        document.getElementById("levelList");
 
-    const lessonEyebrow =
-        document.getElementById("lessonEyebrow");
+    const levelLabel =
+        document.getElementById("levelLabel");
 
-    const lessonTitle =
-        document.getElementById("lessonTitle");
+    const questionCount =
+        document.getElementById("questionCount");
+
+    const progressBar =
+        document.getElementById("progressBar");
+
+    const levelTitle =
+        document.getElementById("levelTitle");
 
     const arabicWord =
         document.getElementById("arabicWord");
@@ -684,32 +873,31 @@
                 : "Free";
     }
 
-    function isCompleted(lessonId) {
+    function isCompleted(levelId) {
         return (
             profile?.typing_completed_lessons || []
-        ).includes(lessonId);
+        ).includes(levelId);
     }
 
-    function renderLessonList() {
-        lessonList.innerHTML = "";
+    function renderLevelList() {
+        levelList.innerHTML = "";
 
-        lessons.forEach((lesson, index) => {
+        levels.forEach((level, index) => {
             const button =
                 document.createElement("button");
 
             const locked =
-                lesson.premium &&
+                level.premium &&
                 profile?.plan !== "premium";
 
             button.type = "button";
+            button.className = "level-button";
 
-            button.className = "lesson-button";
-
-            if (index === currentLessonIndex) {
+            if (index === currentLevelIndex) {
                 button.classList.add("active");
             }
 
-            if (isCompleted(lesson.id)) {
+            if (isCompleted(level.id)) {
                 button.classList.add("completed");
             }
 
@@ -719,19 +907,19 @@
 
             button.innerHTML = `
                 <span>
-                    <span class="lesson-name">
-                        ${index + 1}. ${lesson.title}
+                    <span class="level-name">
+                        ${index + 1}. ${level.title}
                     </span>
 
-                    <span class="lesson-meta">
-                        ${lesson.xp} XP
-                        ${lesson.premium ? " • Premium" : " • Free"}
+                    <span class="level-meta">
+                        5 questions • ${level.xp} XP
+                        ${level.premium ? " • Premium" : " • Free"}
                     </span>
                 </span>
 
-                <span class="lesson-status">
+                <span class="level-status">
                     ${
-                        isCompleted(lesson.id)
+                        isCompleted(level.id)
                             ? "✅"
                             : locked
                             ? "🔒"
@@ -741,19 +929,20 @@
             `;
 
             button.addEventListener("click", () => {
-                currentLessonIndex = index;
-                renderLesson();
+                currentLevelIndex = index;
+                currentQuestionIndex = 0;
+                renderCurrentLevel();
             });
 
-            lessonList.appendChild(button);
+            levelList.appendChild(button);
         });
     }
 
-    function renderLesson() {
-        const lesson = lessons[currentLessonIndex];
+    function renderCurrentLevel() {
+        const level = levels[currentLevelIndex];
 
         const locked =
-            lesson.premium &&
+            level.premium &&
             profile?.plan !== "premium";
 
         clearFeedback();
@@ -773,16 +962,32 @@
             premiumWall.classList.remove("visible");
             practiceArea.hidden = false;
 
-            lessonEyebrow.textContent =
-                `Lesson ${currentLessonIndex + 1} of ${lessons.length}`;
+            levelLabel.textContent =
+                `Level ${currentLevelIndex + 1}`;
 
-            lessonTitle.textContent = lesson.title;
-            arabicWord.textContent = lesson.arabic;
+            levelTitle.textContent =
+                level.title;
 
-            setTimeout(() => answerInput.focus(), 100);
+            questionCount.textContent =
+                `Question ${currentQuestionIndex + 1} of ${level.questions.length}`;
+
+            const progress =
+                ((currentQuestionIndex + 1) /
+                    level.questions.length) *
+                100;
+
+            progressBar.style.width =
+                `${progress}%`;
+
+            arabicWord.textContent =
+                level.questions[currentQuestionIndex];
+
+            setTimeout(() => {
+                answerInput.focus();
+            }, 100);
         }
 
-        renderLessonList();
+        renderLevelList();
     }
 
     async function loadProfile() {
@@ -809,31 +1014,36 @@
             .eq("id", currentUser.id)
             .maybeSingle();
 
-        if (error) {
-            console.error("Profile error:", error);
+        if (error || !data) {
+            console.error(error);
 
             loadingArea.textContent =
-                "Could not load your profile. Please refresh.";
-            return;
-        }
-
-        if (!data) {
-            loadingArea.textContent =
-                "Your profile could not be found.";
+                "Could not load your profile.";
             return;
         }
 
         profile = data;
 
+        if (
+            !Array.isArray(
+                profile.typing_completed_lessons
+            )
+        ) {
+            profile.typing_completed_lessons = [];
+        }
+
         loadingArea.hidden = true;
 
         updateStats();
-        renderLesson();
+        renderCurrentLevel();
     }
 
     async function checkAnswer() {
-        const lesson = lessons[currentLessonIndex];
-        const answer = answerInput.value.trim();
+        const level =
+            levels[currentLevelIndex];
+
+        const answer =
+            answerInput.value.trim();
 
         if (!answer) {
             showFeedback(
@@ -854,74 +1064,36 @@
             const {
                 data,
                 error
-            } = await quranAcademySupabase.functions.invoke(
-                "typing-answer",
-                {
-                    body: {
-                        questionId: lesson.id,
-                        answer
+            } = await quranAcademySupabase
+                .functions
+                .invoke(
+                    "typing-answer",
+                    {
+                        body: {
+                            levelId: level.id,
+                            questionIndex:
+                                currentQuestionIndex,
+                            answer
+                        }
                     }
-                }
-            );
-
-            if (error) {
-                console.error(
-                    "Typing function error:",
-                    error
                 );
 
+            if (error) {
                 throw new Error(
                     "The answer could not be checked."
                 );
             }
 
             if (data?.premiumRequired) {
-                premiumWall.classList.add("visible");
                 practiceArea.hidden = true;
+                premiumWall.classList.add("visible");
                 return;
             }
 
-            if (data?.correct) {
-                showFeedback(
-                    data.feedback ||
-                    `Correct! You earned ${data.xpEarned || 0} XP.`,
-                    "correct"
-                );
-
-                profile.xp =
-                    data.totalXp ?? profile.xp;
-
-                profile.streak =
-                    data.streak ?? profile.streak;
-
-                if (
-                    !data.alreadyCompleted &&
-                    !profile.typing_completed_lessons.includes(
-                        lesson.id
-                    )
-                ) {
-                    profile.typing_completed_lessons.push(
-                        lesson.id
-                    );
-                }
-
-                updateStats();
-                renderLessonList();
-
-                answerInput.disabled = true;
-                checkButton.disabled = true;
-                checkButton.textContent = "Correct ✓";
-
-                if (
-                    currentLessonIndex <
-                    lessons.length - 1
-                ) {
-                    nextButton.style.display = "block";
-                }
-            } else {
+            if (!data?.correct) {
                 showFeedback(
                     data?.feedback ||
-                    "Not quite. Check the letters and try again.",
+                    "Not quite. Try again.",
                     "incorrect"
                 );
 
@@ -930,6 +1102,50 @@
 
                 answerInput.focus();
                 answerInput.select();
+                return;
+            }
+
+            showFeedback(
+                data.feedback ||
+                "Correct!",
+                "correct"
+            );
+
+            answerInput.disabled = true;
+            checkButton.textContent = "Correct ✓";
+
+            if (data.completedLevel) {
+                profile.xp =
+                    data.totalXp ?? profile.xp;
+
+                profile.streak =
+                    data.streak ?? profile.streak;
+
+                if (
+                    !profile
+                        .typing_completed_lessons
+                        .includes(level.id)
+                ) {
+                    profile
+                        .typing_completed_lessons
+                        .push(level.id);
+                }
+
+                updateStats();
+                renderLevelList();
+
+                nextButton.textContent =
+                    currentLevelIndex <
+                    levels.length - 1
+                        ? "Next Level →"
+                        : "Course Complete ✓";
+
+                nextButton.style.display = "block";
+            } else {
+                nextButton.textContent =
+                    "Next Question →";
+
+                nextButton.style.display = "block";
             }
 
         } catch (error) {
@@ -937,19 +1153,36 @@
 
             showFeedback(
                 error.message ||
-                "Something went wrong. Please try again.",
+                "Something went wrong.",
                 "incorrect"
             );
 
             checkButton.disabled = false;
-            checkButton.textContent = "Check Answer";
+            checkButton.textContent =
+                "Check Answer";
         }
     }
 
-    function goToNextLesson() {
-        if (currentLessonIndex < lessons.length - 1) {
-            currentLessonIndex += 1;
-            renderLesson();
+    function goNext() {
+        const level =
+            levels[currentLevelIndex];
+
+        if (
+            currentQuestionIndex <
+            level.questions.length - 1
+        ) {
+            currentQuestionIndex += 1;
+            renderCurrentLevel();
+            return;
+        }
+
+        if (
+            currentLevelIndex <
+            levels.length - 1
+        ) {
+            currentLevelIndex += 1;
+            currentQuestionIndex = 0;
+            renderCurrentLevel();
         }
     }
 
@@ -960,7 +1193,7 @@
 
     nextButton.addEventListener(
         "click",
-        goToNextLesson
+        goNext
     );
 
     answerInput.addEventListener(
