@@ -138,16 +138,16 @@ body{overscroll-behavior-y:auto}
 const GAMES=[
 {level:1,name:'Crescent Runner',game:'Labyrinth Escape',code:'MAZE',type:'maze',goal:1,description:'Explore a textured first-person maze, move forward and backward, use the minimap, and find the glowing exit.'},
 {level:2,name:'Dot Detective',game:'Quran Crossword',code:'WORD',type:'crossword',goal:3,description:'Solve a crossword-style Arabic and Quran vocabulary puzzle using clues and keyboard letters.'},
-{level:3,name:'Vowel Catcher',game:'Crossroads',code:'CROSS',type:'crossroads',goal:4,description:'Cross roads, rivers, moving traffic, and floating platforms without getting hit or falling in.'},
+{level:3,name:'Vowel Catcher',game:'Crossroads',code:'CROSS',type:'crossroads',goal:3,description:'Cross roads, rivers, moving traffic, and floating platforms without getting hit or falling in.'},
 {level:4,name:'Sound Surfer',game:'Ice Slope',code:'ICE',type:'ice',goal:18,description:'Speed down a snowy mountain, carve left and right, launch from ramps, and dodge rocks, trees, and ice cracks.'},
 {level:5,name:'Letter Builder',game:'Super Jumper',code:'JUMP',type:'jumper',goal:10,description:'Jump across city platforms while a shadow creature chases you from behind. Keep moving and reach the rooftop finish.'},
-{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:1400,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
+{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:3200,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
 {level:7,name:'Word Wizard',game:'Coin Collectors',code:'COIN',type:'coins',goal:15,description:'Search a detailed town map and collect every coin before the timer runs out while avoiding moving hazards.'},
 {level:8,name:'Phrase Flyer',game:'Spaceship Tag',code:'TAG',type:'tag',goal:18,description:'Play tag inside a spaceship with computer-controlled crewmates, vents, rooms, doors, and a moving tagger.'},
 {level:9,name:'Quran Word Quest',game:'Space Invaders',code:'ALIEN',type:'invaders',goal:20,description:'Defend the Quran Academy station from organized alien waves, shields, enemy fire, and a final commander.'},
 {level:10,name:'Meaning Match',game:'Night Dungeon Maze',code:'DUNGEON',type:'maze2',goal:1,description:'A larger first-person dungeon maze with torch lighting, darker corridors, and a hidden exit chamber.'},
 {level:11,name:'Mouth Mission',game:'Rooftop Parkour',code:'PARK',type:'platformer',goal:8,description:'Run and jump across moving rooftop platforms, signs, cranes, and city construction zones.'},
-{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:1700,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
+{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:3800,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
 {level:13,name:'Heavy Letter Hero',game:'Castle Defense',code:'CASTLE',type:'defender',goal:12,description:'Protect a detailed city gate from waves using aimed shots, walls, and defensive towers.'},
 {level:14,name:'Madd Master',game:'Rhythm Roads',code:'BEAT',type:'rhythm',goal:12,description:'Hit four music lanes with accurate timing while the city pulses to the beat.'},
 {level:15,name:'Qalqalah Bounce',game:'Sky Islands',code:'SKY',type:'platformer2',goal:9,description:'Climb floating islands, bounce pads, clouds, elevators, and airships without falling.'},
@@ -280,16 +280,16 @@ function updateControls(){
  leftButton.disabled=false;rightButton.disabled=false;upButton.disabled=false;downButton.disabled=false;actionButton.disabled=false;leftButton.textContent='◀ Left';rightButton.textContent='Right ▶';upButton.textContent='▲ Up';downButton.textContent='▼ Down';actionButton.textContent='● Action';
  if(t==='maze'||t==='maze2'){leftButton.textContent='↶ Turn';rightButton.textContent='Turn ↷';upButton.textContent='▲ Forward';downButton.textContent='▼ Back';actionButton.textContent='Open / Use';controlHelp.textContent='Third-person maze: move your visible character with WASD, arrow keys, or all four movement buttons.'}
  else if(t==='blocks'){upButton.textContent='↻ Rotate';downButton.textContent='▼ Soft Drop';actionButton.textContent='⤓ Hard Drop';controlHelp.textContent='Blocks: Left/Right move, Up rotates, Down soft-drops, Space hard-drops.'}
- else if(t==='crossword'){leftButton.textContent='◀ Cell';rightButton.textContent='Cell ▶';upButton.textContent='▲ Cell';downButton.textContent='Cell ▼';actionButton.textContent='Enter Letter';controlHelp.textContent='Crossword: move between squares with arrows or WASD, then type letters on your keyboard.'}
- else if(t==='crossroads'){actionButton.textContent='Hop';controlHelp.textContent='Crossroads: move one tile at a time with arrows or WASD. Reach the top safely.'}
+ else if(t==='crossword'){leftButton.textContent='◀ Cell';rightButton.textContent='Cell ▶';upButton.textContent='▲ Cell';downButton.textContent='Cell ▼';actionButton.textContent='Enter Letter';controlHelp.textContent='Random Crossword: move between squares and type letters. Press Action to fill the selected square as a hint.'}
+ else if(t==='crossroads'){actionButton.textContent='Hop';controlHelp.textContent='Crossroads: traffic is slower and safe grass rows separate hazards. Reach the top three times.'}
  else if(t==='ice'){upButton.textContent='▲ Jump';downButton.textContent='▼ Brake';actionButton.textContent='Jump';controlHelp.textContent='Ice Slope: steer left/right, brake with Down, and jump with Up or Action.'}
  else if(t==='jumper'){upButton.textContent='▲ Jump';actionButton.textContent='Jump';controlHelp.textContent='Super Jumper: run left/right and jump. Keep ahead of the chasing shadow.'}
  else if(t==='coins'||t==='tag'){actionButton.textContent=t==='tag'?'Tag / Dash':'Collect';controlHelp.textContent=t==='tag'?'Spaceship Tag: Action toggles a dash. When you become the tagger, touch an AI player to tag them.':'Move freely in four directions. Action gives a short speed boost.'}
- else if(t==='invaders'){upButton.disabled=true;downButton.disabled=true;actionButton.textContent='Fire';controlHelp.textContent='Space Invaders: move left/right and hold Action, Space, or Enter to fire. Clear three waves, then defeat the boss.'}
+ else if(t==='invaders'){upButton.disabled=true;downButton.disabled=true;actionButton.textContent='Fire';controlHelp.textContent='Space Invaders: clear three waves and a boss. Collect R for rapid fire, S for shield, and 3 for triple shot.'}
  else controlHelp.textContent='Move in four directions with Arrow keys or WASD. Use Space or Enter for Action.';
 }
 function setup(){
- score=0;lives=3;time=['maze','maze2'].includes(selected.type)?120:['racer','racer2','ice'].includes(selected.type)?90:selected.type==='coins'?70:selected.type==='crossword'?120:75;
+ score=0;lives=3;time=['maze','maze2'].includes(selected.type)?120:['racer','racer2'].includes(selected.type)?150:selected.type==='ice'?90:selected.type==='coins'?70:selected.type==='crossword'?120:75;
  const t=selected.type;
  if(t==='platformer'||t==='platformer2')state={x:120,y:410,vx:0,vy:0,camera:0,onGround:false,platforms:makePlatforms(t==='platformer2'),coins:makeCoins(),checkpoint:0};
  else if(t==='jumper')state={x:160,y:390,vx:0,vy:0,camera:0,onGround:false,chaser:-140,platforms:makeChasePlatforms(),coins:[]};
@@ -299,7 +299,7 @@ function setup(){
    const exit=farthestOpenCell(map,1,1);
    state={x:1.5,y:1.5,a:0,map,exit,doorPulse:0,footstep:0,cameraX:1.5,cameraY:1.5,face:1,walk:0};
  }
- else if(t==='crossword')state={grid:['QURAN','U###A','R#DIN','A###A','NUR##'],x:0,y:0,answers:Array.from({length:5},()=>Array(5).fill('')),clue:0};
+ else if(t==='crossword')state=makeRandomCrossword();
  else if(t==='crossroads')state={x:7,y:11,rows:makeRoadRows(),moveLock:0};
  else if(t==='ice')state={x:480,speed:260,dist:0,obstacles:[],spawn:0,jump:0,vy:0};
  else if(t==='coins')state={x:480,y:300,coins:makeTownCoins(),hazards:makeTownHazards(),boost:0};
@@ -336,13 +336,49 @@ function drawPlatformer(){
 }
 
 function updateRacer(dt){
- state.speed=Math.min(selected.type==='racer2'?430:360,state.speed+110*dt);
- if(keys.left)state.target-=1.8*dt;if(keys.right)state.target+=1.8*dt;
- state.target=clamp(state.target,-1,1);state.lane+=(state.target-state.lane)*Math.min(1,8*dt);
- state.dist+=state.speed*dt;state.curve=Math.sin(state.dist/420)*.4;state.spawn+=dt;
- if(state.spawn>.9){state.spawn=0;state.traffic.push({z:1.2,lane:-.8+Math.random()*1.6,color:['#ef4444','#f4b942','#22c55e','#8b5cf6'][Math.floor(Math.random()*4)]})}
- state.traffic.forEach(o=>o.z-=state.speed*dt/2600);
- for(let i=state.traffic.length-1;i>=0;i--){const o=state.traffic[i];if(o.z<.12&&Math.abs(o.lane-state.lane)<.24){lives--;state.speed*=.45;state.traffic.splice(i,1)}else if(o.z<0)state.traffic.splice(i,1)}
+ state.speed=Math.min(selected.type==='racer2'?440:375,state.speed+105*dt);
+
+ if(keys.left)state.target-=1.65*dt;
+ if(keys.right)state.target+=1.65*dt;
+
+ state.target=clamp(state.target,-.82,.82);
+ state.lane+=(state.target-state.lane)*Math.min(1,8*dt);
+
+ state.dist+=state.speed*dt;
+ state.curve=Math.sin(state.dist/520)*.34;
+ state.spawn+=dt;
+
+ if(state.spawn>1.05){
+   state.spawn=0;
+
+   // Traffic is always generated within the road lanes.
+   const lanes=[-.62,-.3,0,.3,.62];
+   const chosenLane=lanes[Math.floor(Math.random()*lanes.length)];
+
+   state.traffic.push({
+     z:1.18,
+     lane:chosenLane,
+     color:['#ef4444','#f4b942','#22c55e','#8b5cf6','#06b6d4'][Math.floor(Math.random()*5)]
+   });
+ }
+
+ state.traffic.forEach(car=>{
+   car.z-=state.speed*dt/3100;
+   car.lane=clamp(car.lane,-.68,.68);
+ });
+
+ for(let i=state.traffic.length-1;i>=0;i--){
+   const car=state.traffic[i];
+
+   if(car.z<.13&&Math.abs(car.lane-state.lane)<.21){
+     lives--;
+     state.speed*=.5;
+     state.traffic.splice(i,1);
+   }else if(car.z<0){
+     state.traffic.splice(i,1);
+   }
+ }
+
  score=state.dist;
 }
 function drawRacer(){
@@ -350,7 +386,7 @@ function drawRacer(){
  const horizon=150;for(let i=0;i<18;i++){const x=(i*110-(state.dist*.05)%110)-80,h=60+(i*41)%120;rect(x,horizon-h,78,h,night?'#142a48':'#547f94');for(let y=horizon-h+12;y<horizon-8;y+=20)for(let xx=x+10;xx<x+68;xx+=18)rect(xx,y,7,9,night?'#ffd166':'#bde8ff')}
  rect(0,horizon,W,H-horizon,night?'#0b2730':'#2f743d');
  for(let i=80;i>=1;i--){const z=i/80,y=horizon+(1-z*z)*(H-horizon),next=(i-1)/80,y2=horizon+(1-next*next)*(H-horizon),rw=65+(1-z)*820,rw2=65+(1-next)*820,c=W/2+state.curve*Math.pow(1-z,2)*300;ctx.fillStyle=i%2?'#3c4148':'#30343a';ctx.beginPath();ctx.moveTo(c-rw/2,y);ctx.lineTo(c+rw/2,y);ctx.lineTo(c+rw2/2,y2);ctx.lineTo(c-rw2/2,y2);ctx.fill();if(i%10<5)rect(c-3,y,6,Math.max(3,y2-y+2),'#f8fafc')}
- state.traffic.sort((a,b)=>b.z-a.z).forEach(o=>{const scale=1/(o.z+.18),y=horizon+(1-o.z*o.z)*(H-horizon),x=W/2+o.lane*(70+(1-o.z)*360)+state.curve*(1-o.z)*170,w=36*scale,h=58*scale;if(y<H+80){rect(x-w/2,y-h,w,h,o.color);rect(x-w*.3,y-h*.82,w*.6,h*.25,'#bde8ff');rect(x-w*.62,y-h*.22,w*.18,h*.3,'#111827');rect(x+w*.44,y-h*.22,w*.18,h*.3,'#111827')}});
+ state.traffic.sort((a,b)=>b.z-a.z).forEach(o=>{const scale=1/(o.z+.18),y=horizon+(1-o.z*o.z)*(H-horizon),x=clamp(W/2+o.lane*(70+(1-o.z)*330)+state.curve*(1-o.z)*150,125,W-125),w=36*scale,h=58*scale;if(y<H+80){rect(x-w/2,y-h,w,h,o.color);rect(x-w*.3,y-h*.82,w*.6,h*.25,'#bde8ff');rect(x-w*.62,y-h*.22,w*.18,h*.3,'#111827');rect(x+w*.44,y-h*.22,w*.18,h*.3,'#111827')}});
  const carX=W/2+state.lane*330;
  ctx.fillStyle=night?'#f43f5e':'#2563eb';
  ctx.beginPath();
@@ -573,66 +609,167 @@ function lockPiece(){state.piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v&&st
 function updateBlocks(dt){state.drop+=dt;if(keys.left&&!collide(state.piece,-1,0)){state.piece.x--;keys.left=false}if(keys.right&&!collide(state.piece,1,0)){state.piece.x++;keys.right=false}if(keys.up){const r=rotateShape(state.piece.shape);if(!collide(state.piece,0,0,r))state.piece.shape=r;keys.up=false}if(keys.action){while(!collide(state.piece,0,1))state.piece.y++;lockPiece();keys.action=false}const interval=keys.down?.08:.48;if(state.drop>interval){state.drop=0;if(!collide(state.piece,0,1))state.piece.y++;else lockPiece()}}
 function drawBlocks(){clear('#06101a','#10263d');const s=24,ox=340,oy=28,colors=['','#22c55e','#3b82f6','#f4b942','#ef4444','#8b5cf6','#06b6d4'];rect(ox-12,oy-12,264,504,'#02070c');for(let y=0;y<20;y++)for(let x=0;x<10;x++){const c=state.board[y][x];rect(ox+x*s,oy+y*s,s-2,s-2,c?colors[c]:'#10263d');if(c)rect(ox+x*s+4,oy+y*s+4,s-10,5,'rgba(255,255,255,.35)')}state.piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v){rect(ox+(state.piece.x+x)*s,oy+(state.piece.y+y)*s,s-2,s-2,colors[state.piece.color]);rect(ox+(state.piece.x+x)*s+4,oy+(state.piece.y+y)*s+4,s-10,5,'rgba(255,255,255,.35)')}}));txt('NEXT',760,80,20,'#fff');state.next.shape.forEach((r,y)=>r.forEach((v,x)=>v&&rect(715+x*28,115+y*28,26,26,colors[state.next.color])));txt('LINES',120,100,22,'#fff');txt(String(score),120,145,42,'#f4b942')}
 
-function updateCrossword(dt){if(keys.left){state.x=clamp(state.x-1,0,4);keys.left=false}if(keys.right){state.x=clamp(state.x+1,0,4);keys.right=false}if(keys.up){state.y=clamp(state.y-1,0,4);keys.up=false}if(keys.down){state.y=clamp(state.y+1,0,4);keys.down=false}while(state.grid[state.y]?.[state.x]==='#'){state.x=(state.x+1)%5}const correct=state.answers.flat().filter((v,i)=>{const y=Math.floor(i/5),x=i%5;return state.grid[y][x]!=='#'&&v===state.grid[y][x]}).length;score=Math.min(selected.goal,correct/4)}
-function drawCrossword(){clear('#eef8f4','#d6eee5');txt('QURAN CROSSWORD',480,42,28,'#163451');const ox=240,oy=90,s=64;for(let y=0;y<5;y++)for(let x=0;x<5;x++){const target=state.grid[y][x],sel=x===state.x&&y===state.y;if(target==='#')rect(ox+x*s,oy+y*s,s-4,s-4,'#163451');else{rect(ox+x*s,oy+y*s,s-4,s-4,sel?'#f4b942':'#fff');ctx.strokeStyle='#87a9a0';ctx.lineWidth=2;ctx.strokeRect(ox+x*s,oy+y*s,s-4,s-4);txt(state.answers[y][x]||'',ox+x*s+s/2-2,oy+y*s+s/2-2,30,'#17324a')}}txt('Clues',680,120,24,'#163451','left');txt('1. Holy book',680,165,17,'#456','left');txt('2. Religion',680,200,17,'#456','left');txt('3. Light',680,235,17,'#456','left');txt('Type letters',680,300,18,'#0f9d78','left')}
 
-function updateCatcher(dt){const speed=270;state.x+=((keys.right?1:0)-(keys.left?1:0))*speed*dt;state.y+=((keys.down?1:0)-(keys.up?1:0))*speed*dt;state.x=clamp(state.x,35,W-35);state.y=clamp(state.y,100,H-35);state.spawn+=dt;if(state.spawn>.55){state.spawn=0;state.objects.push({x:30+Math.random()*(W-60),y:-20,vy:120+Math.random()*130,bad:Math.random()<.25})}state.objects.forEach(o=>o.y+=o.vy*dt);for(let i=state.objects.length-1;i>=0;i--){const o=state.objects[i];if(Math.hypot(o.x-state.x,o.y-state.y)<40){o.bad?lives--:score++;state.objects.splice(i,1)}else if(o.y>H+30)state.objects.splice(i,1)}}
-function drawCatcher(){drawSkyline(0,false);rect(0,450,W,90,'#2f743d');state.objects.forEach(o=>{rect(o.x-18,o.y-18,36,36,o.bad?'#ef4444':'#f4b942');txt(o.bad?'X':'َ',o.x,o.y,24,'#fff')});rect(state.x-42,state.y-18,84,32,'#8b5a2b');rect(state.x-33,state.y-26,66,10,'#d69b58');pixelPerson(state.x,state.y-44,'#2563eb',.9)}
-
-function updateRhythm(dt){state.spawn+=dt;if(state.spawn>.6){state.spawn=0;state.notes.push({lane:Math.floor(Math.random()*4),y:-20,hit:false})}state.notes.forEach(n=>n.y+=260*dt);if(keys.left||keys.right||keys.up||keys.down){const lane=keys.left?0:keys.down?1:keys.up?2:3;let best=state.notes.find(n=>n.lane===lane&&!n.hit&&Math.abs(n.y-445)<55);if(best){best.hit=true;score++}else lives--;Object.keys(keys).forEach(k=>keys[k]=false)}state.notes=state.notes.filter(n=>n.y<570&&!n.hit)}
-function drawRhythm(){clear('#160b2c','#3b1568');for(let i=0;i<4;i++){rect(220+i*130,0,110,H,'rgba(255,255,255,.05)');rect(220+i*130,430,110,55,['#ef4444','#f4b942','#22c55e','#3b82f6'][i])}state.notes.forEach(n=>{rect(245+n.lane*130,n.y-18,60,36,['#ef4444','#f4b942','#22c55e','#3b82f6'][n.lane]);rect(255+n.lane*130,n.y-8,40,8,'rgba(255,255,255,.5)')});line(190,445,770,445,5,'#fff');txt('←',275,458,28,'#fff');txt('↓',405,458,28,'#fff');txt('↑',535,458,28,'#fff');txt('→',665,458,28,'#fff')}
-
-function updateDefender(dt){state.spawn+=dt;if(state.spawn>.75){state.spawn=0;state.enemies.push({x:W+20,y:370+Math.random()*80,hp:2})}state.enemies.forEach(e=>e.x-=75*dt);if(keys.action){state.shots.push({x:150,y:390,v:360});keys.action=false}state.shots.forEach(s=>s.x+=s.v*dt);for(let i=state.enemies.length-1;i>=0;i--){const e=state.enemies[i];for(let j=state.shots.length-1;j>=0;j--){if(Math.abs(e.x-state.shots[j].x)<25){e.hp--;state.shots.splice(j,1);if(e.hp<=0){state.enemies.splice(i,1);score++;break}}}if(e.x<115){lives--;state.enemies.splice(i,1)}}}
-function drawDefender(){drawSkyline(0,true);rect(0,455,W,85,'#182b35');rect(40,280,110,180,'#5b6674');rect(58,245,28,55,'#75808d');rect(104,245,28,55,'#75808d');rect(78,390,38,70,'#1f2937');state.enemies.forEach(e=>{rect(e.x-18,e.y-26,36,52,'#7f1d1d');rect(e.x-12,e.y-20,24,12,'#ef4444')});state.shots.forEach(s=>rect(s.x,s.y,18,7,'#f4b942'));txt('CITY GATE',28,26,18,'#fff','left')}
-
-function updateBoss(dt){state.x+=((keys.right?1:0)-(keys.left?1:0))*270*dt;state.y+=((keys.down?1:0)-(keys.up?1:0))*220*dt;state.x=clamp(state.x,30,W-30);state.y=clamp(state.y,290,H-35);state.cool-=dt;if(keys.action&&state.cool<=0){state.shots.push({x:state.x,y:state.y-28,vy:-480});state.cool=.18}state.shots.forEach(s=>s.y+=s.vy*dt);state.bossX=480+Math.sin(performance.now()/700)*280;if(Math.random()<dt*2.2)state.enemyShots.push({x:state.bossX,y:state.bossY+40,vx:(state.x-state.bossX)*.35,vy:170});state.enemyShots.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt});for(let i=state.shots.length-1;i>=0;i--)if(Math.hypot(state.shots[i].x-state.bossX,state.shots[i].y-state.bossY)<60){state.shots.splice(i,1);state.bossHp--;score++}for(let i=state.enemyShots.length-1;i>=0;i--)if(Math.hypot(state.enemyShots[i].x-state.x,state.enemyShots[i].y-state.y)<30){state.enemyShots.splice(i,1);lives--}}
-function drawBoss(){clear('#130b2d','#32175e');for(let i=0;i<100;i++)rect((i*83)%W,(i*47)%H,2,2,'rgba(255,255,255,.35)');rect(state.bossX-65,state.bossY-42,130,84,'#7c3aed');rect(state.bossX-48,state.bossY-28,96,20,'#c4b5fd');rect(state.bossX-38,state.bossY+14,76,18,'#4c1d95');rect(250,35,460,18,'#2b1748');rect(250,35,460*(state.bossHp/30),18,'#ef4444');state.shots.forEach(s=>rect(s.x-4,s.y-12,8,24,'#22c55e'));state.enemyShots.forEach(s=>rect(s.x-7,s.y-7,14,14,'#f4b942'));pixelPerson(state.x,state.y,'#0f9d78',1)}
-
-function updateGeneric(dt){
- const speed=245;
- state.x+=((keys.right?1:0)-(keys.left?1:0))*speed*dt;
- state.y+=((keys.down?1:0)-(keys.up?1:0))*speed*dt;
- state.x=clamp(state.x,35,W-35);
- state.y=clamp(state.y,90,H-35);
- state.spawn+=dt;
- if(state.spawn>.8){
-   state.spawn=0;
-   state.objects.push({
-     x:W+30,
-     y:110+Math.random()*350,
-     v:135+Math.random()*95,
-     kind:Math.floor(Math.random()*3)
-   });
+const CROSSWORD_PUZZLES=[
+ {
+   title:'Quran Basics',
+   grid:['QURAN','U###A','R#DIN','A###A','NUR##'],
+   clues:['QURAN — the holy book','DIN — religion','NUR — light']
+ },
+ {
+   title:'Prayer Words',
+   grid:['SALAT','A###A','L#DUA','A###W','TAW##'],
+   clues:['SALAT — prayer','DUA — supplication','TAW — begin the word tawhid']
+ },
+ {
+   title:'Faith Words',
+   grid:['IMAN#','M###D','A#DEEN','N###E','SABR#'],
+   clues:['IMAN — faith','DEEN — religion','SABR — patience']
+ },
+ {
+   title:'Good Character',
+   grid:['AMANA','M###D','A#ADAB','N###A','SIDQ#'],
+   clues:['AMANA — trust','ADAB — manners','SIDQ — truthfulness']
  }
- state.objects.forEach(o=>o.x-=o.v*dt);
- for(let i=state.objects.length-1;i>=0;i--){
-   const o=state.objects[i];
-   if(Math.hypot(o.x-state.x,o.y-state.y)<38){
-     lives--;
-     state.objects.splice(i,1);
-   }else if(o.x<-45){
-     score++;
-     state.objects.splice(i,1);
+];
+function makeRandomCrossword(){
+ const puzzle=CROSSWORD_PUZZLES[Math.floor(Math.random()*CROSSWORD_PUZZLES.length)];
+ const width=Math.max(...puzzle.grid.map(row=>row.length));
+ const grid=puzzle.grid.map(row=>row.padEnd(width,'#'));
+
+ return{
+   title:puzzle.title,
+   grid,
+   clues:puzzle.clues,
+   x:0,
+   y:0,
+   answers:Array.from({length:grid.length},()=>Array(width).fill('')),
+   hintUses:0
+ };
+}
+function nextCrosswordCell(){
+ const height=state.grid.length;
+ const width=state.grid[0].length;
+
+ for(let step=0;step<width*height;step++){
+   state.x++;
+   if(state.x>=width){
+     state.x=0;
+     state.y=(state.y+1)%height;
+   }
+
+   if(state.grid[state.y][state.x]!=='#')return;
+ }
+}
+
+function updateCrossword(dt){
+ const height=state.grid.length;
+ const width=state.grid[0].length;
+
+ if(keys.left){
+   state.x=clamp(state.x-1,0,width-1);
+   keys.left=false;
+ }
+ if(keys.right){
+   state.x=clamp(state.x+1,0,width-1);
+   keys.right=false;
+ }
+ if(keys.up){
+   state.y=clamp(state.y-1,0,height-1);
+   keys.up=false;
+ }
+ if(keys.down){
+   state.y=clamp(state.y+1,0,height-1);
+   keys.down=false;
+ }
+
+ while(state.grid[state.y]?.[state.x]==='#'){
+   state.x=(state.x+1)%width;
+ }
+
+ // Action acts as an easy hint/fill button.
+ if(keys.action){
+   const correct=state.grid[state.y][state.x];
+
+   if(correct&&correct!=='#'){
+     state.answers[state.y][state.x]=correct;
+     state.hintUses++;
+     nextCrosswordCell();
+   }
+
+   keys.action=false;
+ }
+
+ const openCells=[];
+ for(let y=0;y<height;y++){
+   for(let x=0;x<width;x++){
+     if(state.grid[y][x]!=='#')openCells.push([x,y]);
    }
  }
+
+ const correctCount=openCells.filter(
+   ([x,y])=>state.answers[y][x]===state.grid[y][x]
+ ).length;
+
+ score=Math.min(
+   selected.goal,
+   correctCount/Math.max(1,Math.ceil(openCells.length/selected.goal))
+ );
 }
 function updateCrossroads(dt){
  state.moveLock-=dt;
+
  if(state.moveLock<=0){
-  let moved=false;
-  if(keys.left){state.x--;moved=true} if(keys.right){state.x++;moved=true}
-  if(keys.up||keys.action){state.y--;moved=true} if(keys.down){state.y++;moved=true}
-  if(moved){state.x=clamp(state.x,0,14);state.y=clamp(state.y,0,11);state.moveLock=.14;Object.keys(keys).forEach(k=>keys[k]=false)}
+   let moved=false;
+
+   if(keys.left){state.x--;moved=true}
+   if(keys.right){state.x++;moved=true}
+   if(keys.up||keys.action){state.y--;moved=true}
+   if(keys.down){state.y++;moved=true}
+
+   if(moved){
+     state.x=clamp(state.x,0,14);
+     state.y=clamp(state.y,0,11);
+     state.moveLock=.18;
+     Object.keys(keys).forEach(key=>keys[key]=false);
+   }
  }
- state.rows.forEach(r=>r.objects.forEach(o=>{o.x+=o.speed*dt;if(o.speed>0&&o.x>W+220)o.x=-220;if(o.speed<0&&o.x<-220)o.x=W+220}));
- if(state.y===0){score++;state.y=11;state.x=7;state.rows=makeRoadRows()}
- const row=state.rows.find(r=>r.y===state.y);
+
+ state.rows.forEach(row=>{
+   row.objects.forEach(object=>{
+     object.x+=object.speed*dt;
+
+     if(object.speed>0&&object.x>W+260)object.x=-260;
+     if(object.speed<0&&object.x<-260)object.x=W+260;
+   });
+ });
+
+ if(state.y===0){
+   score++;
+   state.y=11;
+   state.x=7;
+   state.rows=makeRoadRows();
+ }
+
+ const row=state.rows.find(item=>item.y===state.y);
+
  if(row){
-  const px=state.x*64+32,py=state.y*42+42;
-  const hit=row.objects.some(o=>Math.abs(o.x-px)<o.size*.48);
-  if(row.kind==='river'){
-   if(!hit){lives--;state.y=11;state.x=7}
-  }else if(hit){lives--;state.y=11;state.x=7}
+   const playerX=state.x*64+32;
+   const touching=row.objects.some(
+     object=>Math.abs(object.x-playerX)<object.size*.42
+   );
+
+   if(row.kind==='river'){
+     if(!touching){
+       lives--;
+       state.y=11;
+       state.x=7;
+     }
+   }else if(touching){
+     lives--;
+     state.y=11;
+     state.x=7;
+   }
  }
 }
 function drawChicken(x,y){
@@ -674,30 +811,126 @@ function updateJumper(dt){
  score=Math.max(score,Math.floor(wx/260));
 }
 function drawJumper(){
- drawSkyline(state.camera,true);rect(0,470,W,70,'#142b35');
- state.platforms.forEach((p,i)=>{const x=p.x-state.camera+(p.m?Math.sin(performance.now()/650+i)*38:0);if(x>-160&&x<W+100){rect(x,p.y,p.w,p.h,'#475569');rect(x,p.y,p.w,5,'#38bdf8');rect(x+12,p.y+8,p.w-24,6,'#1e293b')}});
- const cx=state.chaser-state.camera;rect(cx-26,350,52,95,'#09090b');rect(cx-18,330,36,28,'#18181b');rect(cx-9,339,6,6,'#ef4444');rect(cx+5,339,6,6,'#ef4444');
- pixelPerson(state.x,state.y,'#22c55e',1);txt('KEEP MOVING!',480,30,24,'#f4b942')
+ drawSkyline(state.camera,true);
+ rect(0,470,W,70,'#142b35');
+
+ state.platforms.forEach((platform,index)=>{
+   const x=
+     platform.x-state.camera+
+     (platform.m?Math.sin(performance.now()/650+index)*38:0);
+
+   if(x>-160&&x<W+100){
+     rect(x,platform.y,platform.w,platform.h,'#475569');
+     rect(x,platform.y,platform.w,5,'#38bdf8');
+     rect(x+12,platform.y+8,platform.w-24,6,'#1e293b');
+   }
+ });
+
+ const monsterX=state.chaser-state.camera;
+ const run=Math.sin(performance.now()/95);
+ const bodyY=390+run*3;
+
+ // Large shadow beast with legs, arms, claws, horns and animated mouth.
+ ctx.save();
+ ctx.globalAlpha=.2;
+ ctx.fillStyle='#000';
+ ctx.beginPath();
+ ctx.ellipse(monsterX,455,48,13,0,0,Math.PI*2);
+ ctx.fill();
+ ctx.globalAlpha=1;
+
+ // Legs.
+ rect(monsterX-28,bodyY+38+run*5,18,55,'#17151d');
+ rect(monsterX+10,bodyY+38-run*5,18,55,'#17151d');
+ rect(monsterX-35,bodyY+84+run*5,29,12,'#08070b');
+ rect(monsterX+7,bodyY+84-run*5,29,12,'#08070b');
+
+ // Body and shoulders.
+ rect(monsterX-42,bodyY-22,84,70,'#16131c');
+ rect(monsterX-55,bodyY-13,18,58,'#211b29');
+ rect(monsterX+37,bodyY-13,18,58,'#211b29');
+
+ // Claws.
+ for(let claw=0;claw<3;claw++){
+   rect(monsterX-58-claw*4,bodyY+40+claw*3,13,4,'#d1d5db');
+   rect(monsterX+45+claw*4,bodyY+40+claw*3,13,4,'#d1d5db');
+ }
+
+ // Head, jaw and horns.
+ rect(monsterX-31,bodyY-61,62,45,'#211b29');
+ ctx.fillStyle='#31263b';
+ ctx.beginPath();
+ ctx.moveTo(monsterX-28,bodyY-57);
+ ctx.lineTo(monsterX-47,bodyY-88);
+ ctx.lineTo(monsterX-13,bodyY-68);
+ ctx.fill();
+ ctx.beginPath();
+ ctx.moveTo(monsterX+28,bodyY-57);
+ ctx.lineTo(monsterX+47,bodyY-88);
+ ctx.lineTo(monsterX+13,bodyY-68);
+ ctx.fill();
+
+ // Glowing eyes.
+ rect(monsterX-20,bodyY-48,11,8,'#ef4444');
+ rect(monsterX+9,bodyY-48,11,8,'#ef4444');
+ rect(monsterX-16,bodyY-46,4,4,'#fff');
+ rect(monsterX+12,bodyY-46,4,4,'#fff');
+
+ // Animated mouth and teeth.
+ const mouthHeight=10+Math.abs(run)*8;
+ rect(monsterX-21,bodyY-31,42,mouthHeight,'#050407');
+ for(let tooth=0;tooth<5;tooth++){
+   ctx.fillStyle='#e5e7eb';
+   ctx.beginPath();
+   ctx.moveTo(monsterX-18+tooth*9,bodyY-30);
+   ctx.lineTo(monsterX-14+tooth*9,bodyY-20);
+   ctx.lineTo(monsterX-10+tooth*9,bodyY-30);
+   ctx.fill();
+ }
+
+ ctx.restore();
+
+ pixelPerson(
+   state.x,
+   state.y,
+   '#22c55e',
+   1,
+   3,
+   keys.left?-1:1,
+   performance.now()/100
+ );
+
+ txt('KEEP MOVING!',480,30,24,'#f4b942');
+ txt('THE SHADOW BEAST IS CATCHING UP',480,57,15,'#fca5a5');
 }
 
 
 function makeRoadRows(){
  const rows=[];
- for(let y=1;y<11;y++){
-   const kind=y%4===0?'river':y%3===0?'rail':'road';
-   const dir=y%2?1:-1;
+ const pattern=['safe','road','safe','river','safe','road','safe','rail','safe','road'];
+
+ for(let index=0;index<pattern.length;index++){
+   const y=index+1;
+   const kind=pattern[index];
+
+   if(kind==='safe')continue;
+
+   const direction=y%2?1:-1;
    const objects=[];
-   const count=kind==='river'?3:kind==='rail'?2:4;
+   const count=kind==='river'?3:kind==='rail'?1:3;
+   const spacing=W/count;
 
    for(let i=0;i<count;i++){
      objects.push({
-       x:i*(W/count)+Math.random()*80,
-       speed:(70+y*9)*dir,
-       size:kind==='river'?150:kind==='rail'?190:75
+       x:i*spacing+spacing*.5,
+       speed:(kind==='rail'?78:kind==='river'?48:58+y*2)*direction,
+       size:kind==='river'?210:kind==='rail'?230:88
      });
    }
-   rows.push({y,kind,dir,objects});
+
+   rows.push({y,kind,dir:direction,objects});
  }
+
  return rows;
 }
 function updateCrossroads(dt){
@@ -837,14 +1070,147 @@ function updateCoins(dt){
  state.coins.forEach(c=>{if(!c.taken&&Math.hypot(c.x-state.x,c.y-state.y)<30){c.taken=true;score++}})
 }
 function drawCoins(){
- rect(0,0,W,H,'#8ac5db');for(let y=70;y<H;y+=115)for(let x=0;x<W;x+=170){rect(x+8,y,120,75,'#b9653b');rect(x+18,y+12,24,30,'#9bd5f5');rect(x+76,y+12,24,30,'#9bd5f5');rect(x+51,y+43,30,32,'#593a27')}
- rect(0,250,W,80,'#454b52');for(let x=0;x<W;x+=80)rect(x,288,42,5,'#f8fafc');rect(410,0,100,H,'#454b52');for(let y=0;y<H;y+=80)rect(457,y,6,42,'#f8fafc');
- state.coins.forEach(c=>{if(!c.taken){
-      ctx.fillStyle='#d99a17';ctx.beginPath();ctx.arc(c.x,c.y,14,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='#fff0a6';ctx.lineWidth=4;ctx.beginPath();ctx.arc(c.x,c.y,9,0,Math.PI*2);ctx.stroke();
-      rect(c.x-2,c.y-8,4,16,'#fff2b2');
-    }});
- state.hazards.forEach(h=>{rect(h.x-24,h.y-14,48,28,'#ef4444');rect(h.x-14,h.y-10,28,8,'#bde8ff')});pixelPerson(state.x,state.y,'#2563eb',.9);txt(`${25-score} coins left`,18,24,18,'#fff','left')
+ // Grass and sidewalks.
+ rect(0,0,W,H,'#75b68a');
+ rect(0,222,W,116,'#4b5563');
+ rect(392,0,176,H,'#4b5563');
+
+ // Road borders and sidewalks.
+ rect(0,214,W,8,'#d1d5db');
+ rect(0,338,W,8,'#d1d5db');
+ rect(384,0,8,H,'#d1d5db');
+ rect(568,0,8,H,'#d1d5db');
+
+ // Road lane markings.
+ for(let x=0;x<W;x+=86){
+   rect(x,276,45,6,'#f8fafc');
+ }
+ for(let y=0;y<H;y+=86){
+   rect(477,y,6,45,'#f8fafc');
+ }
+
+ // Crosswalks.
+ for(let x=360;x<600;x+=22){
+   rect(x,204,12,28,'#f8fafc');
+   rect(x,328,12,28,'#f8fafc');
+ }
+ for(let y=190;y<370;y+=22){
+   rect(374,y,28,12,'#f8fafc');
+   rect(558,y,28,12,'#f8fafc');
+ }
+
+ // Buildings around four neighborhoods.
+ const buildings=[
+   {x:28,y:32,w:132,h:120,c:'#b9653b',roof:'#7c3f27'},
+   {x:188,y:45,w:142,h:105,c:'#d49a56',roof:'#8b5a2b'},
+   {x:620,y:28,w:145,h:122,c:'#9866b8',roof:'#5d3972'},
+   {x:792,y:48,w:135,h:105,c:'#4f8ea8',roof:'#31596b'},
+   {x:35,y:378,w:140,h:125,c:'#b76d63',roof:'#7f433d'},
+   {x:210,y:390,w:125,h:108,c:'#5a9c72',roof:'#356247'},
+   {x:620,y:382,w:140,h:120,c:'#c2864a',roof:'#80562e'},
+   {x:790,y:392,w:135,h:105,c:'#687fb2',roof:'#405179'}
+ ];
+
+ buildings.forEach((building,index)=>{
+   rect(building.x,building.y,building.w,building.h,building.c);
+   rect(building.x-7,building.y-12,building.w+14,16,building.roof);
+
+   for(let row=0;row<2;row++){
+     for(let col=0;col<3;col++){
+       rect(
+         building.x+15+col*38,
+         building.y+18+row*35,
+         23,
+         23,
+         '#9bd5f5'
+       );
+       rect(
+         building.x+18+col*38,
+         building.y+21+row*35,
+         8,
+         8,
+         'rgba(255,255,255,.45)'
+       );
+     }
+   }
+
+   rect(
+     building.x+building.w/2-15,
+     building.y+building.h-35,
+     30,
+     35,
+     '#513424'
+   );
+
+   txt(
+     ['SHOP','CAFE','LIBRARY','SCHOOL','BAKERY','PARK','MARKET','ARCADE'][index],
+     building.x+building.w/2,
+     building.y+building.h+18,
+     12,
+     '#17324a'
+   );
+ });
+
+ // Park area and trees.
+ rect(190,150,145,58,'#4f9d65');
+ for(let i=0;i<4;i++){
+   const treeX=210+i*35;
+   rect(treeX,172,8,27,'#6b4423');
+   ctx.fillStyle='#166534';
+   ctx.beginPath();
+   ctx.arc(treeX+4,163,16,0,Math.PI*2);
+   ctx.fill();
+ }
+ rect(630,155,145,52,'#4f9d65');
+ rect(660,174,85,8,'#d1a66d');
+
+ // Street lamps.
+ [
+   [360,175],[600,175],[360,365],[600,365]
+ ].forEach(([x,y])=>{
+   rect(x,y,6,36,'#334155');
+   rect(x-7,y-4,20,10,'#f4b942');
+ });
+
+ // Coins.
+ state.coins.forEach(coin=>{
+   if(!coin.taken){
+     ctx.fillStyle='#d99a17';
+     ctx.beginPath();
+     ctx.arc(coin.x,coin.y,14,0,Math.PI*2);
+     ctx.fill();
+
+     ctx.strokeStyle='#fff0a6';
+     ctx.lineWidth=4;
+     ctx.beginPath();
+     ctx.arc(coin.x,coin.y,9,0,Math.PI*2);
+     ctx.stroke();
+
+     rect(coin.x-2,coin.y-8,4,16,'#fff2b2');
+   }
+ });
+
+ // Moving cars.
+ state.hazards.forEach((car,index)=>{
+   rect(car.x-27,car.y-15,54,30,index%2?'#2563eb':'#ef4444');
+   rect(car.x-16,car.y-11,32,9,'#bde8ff');
+   rect(car.x-23,car.y+12,12,7,'#111827');
+   rect(car.x+11,car.y+12,12,7,'#111827');
+ });
+
+ pixelPerson(
+   state.x,
+   state.y,
+   '#2563eb',
+   .92,
+   1,
+   keys.left?-1:1,
+   performance.now()/110
+ );
+
+ const remaining=state.coins.filter(coin=>!coin.taken).length;
+ txt(`${remaining} coins left`,18,24,18,'#fff','left');
+ txt('Explore the town, roads and park',W-18,24,16,'#fff','right');
 }
 
 function makeShipRooms(){return[{x:50,y:70,w:250,h:150},{x:355,y:55,w:250,h:165},{x:660,y:70,w:245,h:150},{x:80,y:310,w:260,h:165},{x:390,y:300,w:200,h:180},{x:650,y:300,w:250,h:165}]}
@@ -1179,6 +1545,10 @@ function makeInvaderState(){
    enemyShots:[],
    enemies:[],
    particles:[],
+   powerUps:[],
+   rapidFire:0,
+   shield:0,
+   multiShot:0,
    wave:1,
    spawnQueue:[],
    spawnClock:0,
@@ -1238,9 +1608,20 @@ function updateInvaders(dt){
  );
  state.cool-=dt;
 
+ state.rapidFire=Math.max(0,state.rapidFire-dt);
+ state.shield=Math.max(0,state.shield-dt);
+ state.multiShot=Math.max(0,state.multiShot-dt);
+
  if(keys.action&&state.cool<=0){
-   state.shots.push({x:state.x,y:458,vy:-530});
-   state.cool=.17;
+   if(state.multiShot>0){
+     state.shots.push({x:state.x,y:458,vy:-530,vx:0});
+     state.shots.push({x:state.x-10,y:458,vy:-520,vx:-85});
+     state.shots.push({x:state.x+10,y:458,vy:-520,vx:85});
+   }else{
+     state.shots.push({x:state.x,y:458,vy:-530,vx:0});
+   }
+
+   state.cool=state.rapidFire>0?.075:.17;
  }
 
  if(!state.waveStarted&&!state.completed){
@@ -1252,7 +1633,30 @@ function updateInvaders(dt){
    spawnInvader(state.spawnQueue.shift());
  }
 
- state.shots.forEach(s=>s.y+=s.vy*dt);
+ state.shots.forEach(shot=>{
+   shot.y+=shot.vy*dt;
+   shot.x+=(shot.vx||0)*dt;
+ });
+ state.powerUps.forEach(power=>power.y+=power.vy*dt);
+
+ for(let i=state.powerUps.length-1;i>=0;i--){
+   const power=state.powerUps[i];
+
+   if(Math.abs(power.x-state.x)<34&&power.y>430&&power.y<515){
+     if(power.kind==='rapid')state.rapidFire=10;
+     if(power.kind==='shield')state.shield=10;
+     if(power.kind==='multi')state.multiShot=10;
+
+     gameMessage.textContent=
+       power.kind==='rapid'?'Rapid Fire activated!':
+       power.kind==='shield'?'Shield activated!':
+       'Triple Shot activated!';
+
+     state.powerUps.splice(i,1);
+   }else if(power.y>H+30){
+     state.powerUps.splice(i,1);
+   }
+ }
  state.enemyShots.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt});
  state.particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=70*dt;p.life-=dt});
  state.particles=state.particles.filter(p=>p.life>0);
@@ -1335,6 +1739,14 @@ function updateInvaders(dt){
        if(enemy.hp<=0){
          invaderExplosion(enemy.x,enemy.y,enemy.kind==='tank'?'#ef4444':enemy.kind==='charger'?'#f4b942':'#22c55e',enemy.kind==='tank'?20:12);
          score+=enemy.kind==='tank'?3:enemy.kind==='charger'?2:1;
+         if(Math.random()<.22){
+           state.powerUps.push({
+             x:enemy.x,
+             y:enemy.y,
+             vy:95,
+             kind:['rapid','shield','multi'][Math.floor(Math.random()*3)]
+           });
+         }
          state.enemies.splice(j,1);
        }
        break;
@@ -1362,8 +1774,15 @@ function updateInvaders(dt){
    const shot=state.enemyShots[i];
    if(Math.abs(shot.x-state.x)<30&&shot.y>438&&shot.y<515){
      state.enemyShots.splice(i,1);
-     lives--;
-     invaderExplosion(state.x,470,'#60a5fa',16);
+
+     if(state.shield>0){
+       state.shield=0;
+       invaderExplosion(state.x,470,'#5eead4',14);
+       gameMessage.textContent='Shield blocked the hit!';
+     }else{
+       lives--;
+       invaderExplosion(state.x,470,'#60a5fa',16);
+     }
    }else if(shot.y>H+40||shot.x<-50||shot.x>W+50){
      state.enemyShots.splice(i,1);
    }
@@ -1477,6 +1896,26 @@ function drawInvaders(){
    ctx.globalAlpha=1;
  });
 
+ state.powerUps.forEach(power=>{
+   const color=
+     power.kind==='rapid'?'#f4b942':
+     power.kind==='shield'?'#5eead4':
+     '#c084fc';
+
+   ctx.fillStyle=color;
+   ctx.beginPath();
+   ctx.arc(power.x,power.y,14,0,Math.PI*2);
+   ctx.fill();
+
+   txt(
+     power.kind==='rapid'?'R':power.kind==='shield'?'S':'3',
+     power.x,
+     power.y,
+     15,
+     '#07131e'
+   );
+ });
+
  // Player ship.
  rect(state.x-36,474,72,28,'#2563eb');
  rect(state.x-24,458,48,21,'#3b82f6');
@@ -1486,8 +1925,24 @@ function drawInvaders(){
  rect(state.x-31,498,14,8,'#f97316');
  rect(state.x+17,498,14,8,'#f97316');
 
+ if(state.shield>0){
+   ctx.strokeStyle='#5eead4';
+   ctx.lineWidth=4;
+   ctx.beginPath();
+   ctx.arc(state.x,474,54,0,Math.PI*2);
+   ctx.stroke();
+ }
+
  txt(`WAVE ${state.wave}/4`,18,24,18,'#fff','left');
  txt(`${state.enemies.length+state.spawnQueue.length} remaining`,W-18,24,16,'#dbeafe','right');
+
+ const activePowers=[];
+ if(state.rapidFire>0)activePowers.push(`Rapid ${Math.ceil(state.rapidFire)}s`);
+ if(state.shield>0)activePowers.push(`Shield ${Math.ceil(state.shield)}s`);
+ if(state.multiShot>0)activePowers.push(`Triple ${Math.ceil(state.multiShot)}s`);
+ if(activePowers.length){
+   txt(activePowers.join(' • '),W/2,72,15,'#5eead4');
+ }
 
  if(state.banner>0){
    state.banner-=1/60;
@@ -1568,7 +2023,16 @@ function drawGeneric(){
  txt('DODGE THE OBSTACLES',20,28,18,'#fff','left');
 }
 
-function handleLetter(letter){if(!running||selected?.type!=='crossword')return;const target=state.grid[state.y]?.[state.x];if(target&&target!=='#'){state.answers[state.y][state.x]=letter.toUpperCase();if(letter.toUpperCase()===target)score+=.34;state.x=(state.x+1)%5;while(state.grid[state.y][state.x]==='#')state.x=(state.x+1)%5}}
+function handleLetter(letter){
+ if(!running||selected?.type!=='crossword')return;
+
+ const target=state.grid[state.y]?.[state.x];
+
+ if(target&&target!=='#'){
+   state.answers[state.y][state.x]=letter.toUpperCase();
+   nextCrosswordCell();
+ }
+}
 
 function update(dt){
  time-=dt;const t=selected.type;
