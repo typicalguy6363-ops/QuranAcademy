@@ -1699,16 +1699,113 @@ document.addEventListener('fullscreenchange',()=>fullscreenButton.textContent=do
 const mobileMenuButton=$('mobileMenuButton'),academyNav=$('academyNav');
 if(mobileMenuButton&&academyNav)mobileMenuButton.addEventListener('click',()=>{const open=academyNav.classList.toggle('open');mobileMenuButton.setAttribute('aria-expanded',String(open));mobileMenuButton.textContent=open?'✕':'☰'});
 
+
+function getCompletedLessonCount(profile){
+ const completed=Array.isArray(profile?.completed_levels)?profile.completed_levels:[];
+ const typing=Array.isArray(profile?.typing_completed_lessons)?profile.typing_completed_lessons:[];
+
+ let highestNumber=0;
+
+ [...completed,...typing].forEach(value=>{
+   if(typeof value==='number'&&Number.isFinite(value)){
+     highestNumber=Math.max(highestNumber,value);
+     return;
+   }
+
+   const match=String(value??'').match(/\d+/g);
+   if(match){
+     match.forEach(number=>{
+       highestNumber=Math.max(highestNumber,Number(number)||0);
+     });
+   }
+ });
+
+ return Math.max(completed.length,typing.length,highestNumber);
+}
+function rewardsForCompletedLessons(profile){
+ const saved=Array.isArray(profile?.unlocked_rewards)?profile.unlocked_rewards:[];
+ const completedCount=getCompletedLessonCount(profile);
+
+ const lessonRewards=GAMES
+   .filter(game=>game.level<=completedCount)
+   .map(game=>game.name);
+
+ return{
+   completedCount,
+   rewards:[...new Set([...saved,...lessonRewards])]
+ };
+}
+
 async function load(){
  try{
-  const client=window.quranAcademySupabase||window.supabase?.createClient('https://oovjvffmzphwksbvsoyd.supabase.co','sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A');
-  const{data:u}=await client.auth.getUser(),user=u?.user;
-  if(!user){rewardGrid.innerHTML='<div class="empty-state">Sign in and complete Level 1 to unlock games.<div style="margin-top:15px"><a class="button button-primary" href="signin.html">Sign In</a></div></div>';splash();return}
-  const{data,error}=await client.from('profiles').select('unlocked_rewards').eq('id',user.id).single();if(error)throw error;
-  unlocked=Array.isArray(data?.unlocked_rewards)?data.unlocked_rewards:[];
-  renderCards();const first=GAMES.find(g=>unlocked.includes(g.name));
-  if(first){selectGame(first);document.querySelector('.reward-card.unlocked')?.classList.add('selected')}else splash();
- }catch(e){console.error(e);gameMessage.textContent='Could not load saved rewards. Refresh and try again.';splash()}
+  const client=
+    window.quranAcademySupabase||
+    window.supabase?.createClient(
+      'https://oovjvffmzphwksbvsoyd.supabase.co',
+      'sb_publishable_bohSHjn_0eZTWPHn2tR3dg_7nmoB65A'
+    );
+
+  const{data:userData}=await client.auth.getUser();
+  const user=userData?.user;
+
+  if(!user){
+    rewardGrid.innerHTML=
+      '<div class="empty-state">Sign in and complete Level 1 to unlock games.'+
+      '<div style="margin-top:15px"><a class="button button-primary" href="signin.html">Sign In</a></div></div>';
+    splash();
+    return;
+  }
+
+  const{data:profile,error}=await client
+    .from('profiles')
+    .select('unlocked_rewards,completed_levels,typing_completed_lessons,xp')
+    .eq('id',user.id)
+    .single();
+
+  if(error)throw error;
+
+  const repaired=rewardsForCompletedLessons(profile);
+  unlocked=repaired.rewards;
+
+  // Repair the saved reward list when lesson progress exists but rewards
+  // were not written correctly by an older lesson page.
+  const saved=Array.isArray(profile?.unlocked_rewards)?profile.unlocked_rewards:[];
+  const changed=
+    unlocked.length!==saved.length||
+    unlocked.some(name=>!saved.includes(name));
+
+  if(changed){
+    const{error:updateError}=await client
+      .from('profiles')
+      .update({unlocked_rewards:unlocked})
+      .eq('id',user.id);
+
+    if(updateError){
+      console.warn('Rewards displayed correctly, but the repaired list could not be saved.',updateError);
+    }
+  }
+
+  renderCards();
+
+  const first=GAMES.find(game=>unlocked.includes(game.name));
+
+  if(first){
+    selectGame(first);
+    document.querySelector('.reward-card.unlocked')?.classList.add('selected');
+    gameMessage.textContent=
+      `${repaired.completedCount} completed lessons detected. `+
+      `${unlocked.length} rewards are available.`;
+  }else{
+    gameMessage.textContent=
+      `No completed lessons were detected on this account yet.`;
+    splash();
+  }
+ }catch(error){
+  console.error(error);
+  gameMessage.textContent=
+    'Could not load your lesson progress. Refresh and try again.';
+  splash();
+ }
 }
 splash();load();
 </script>
