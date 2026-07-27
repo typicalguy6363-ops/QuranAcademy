@@ -141,13 +141,13 @@ const GAMES=[
 {level:3,name:'Vowel Catcher',game:'Crossroads',code:'CROSS',type:'crossroads',goal:3,description:'Cross roads, rivers, moving traffic, and floating platforms without getting hit or falling in.'},
 {level:4,name:'Sound Surfer',game:'Ice Slope',code:'ICE',type:'ice',goal:18,description:'Speed down a snowy mountain, carve left and right, launch from ramps, and dodge rocks, trees, and ice cracks.'},
 {level:5,name:'Letter Builder',game:'Super Jumper',code:'JUMP',type:'jumper',goal:10,description:'Jump across city platforms while a shadow creature chases you from behind. Keep moving and reach the rooftop finish.'},
-{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:3200,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
+{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:8500,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
 {level:7,name:'Word Wizard',game:'Coin Collectors',code:'COIN',type:'coins',goal:15,description:'Search a detailed town map and collect every coin before the timer runs out while avoiding moving hazards.'},
 {level:8,name:'Phrase Flyer',game:'Spaceship Tag',code:'TAG',type:'tag',goal:18,description:'Play tag inside a spaceship with computer-controlled crewmates, vents, rooms, doors, and a moving tagger.'},
 {level:9,name:'Quran Word Quest',game:'Space Invaders',code:'ALIEN',type:'invaders',goal:20,description:'Defend the Quran Academy station from organized alien waves, shields, enemy fire, and a final commander.'},
 {level:10,name:'Meaning Match',game:'Night Dungeon Maze',code:'DUNGEON',type:'maze2',goal:1,description:'A larger first-person dungeon maze with torch lighting, darker corridors, and a hidden exit chamber.'},
 {level:11,name:'Mouth Mission',game:'Rooftop Parkour',code:'PARK',type:'platformer',goal:8,description:'Run and jump across moving rooftop platforms, signs, cranes, and city construction zones.'},
-{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:3800,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
+{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:10000,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
 {level:13,name:'Heavy Letter Hero',game:'Castle Defense',code:'CASTLE',type:'defender',goal:12,description:'Protect a detailed city gate from waves using aimed shots, walls, and defensive towers.'},
 {level:14,name:'Madd Master',game:'Rhythm Roads',code:'BEAT',type:'rhythm',goal:12,description:'Hit four music lanes with accurate timing while the city pulses to the beat.'},
 {level:15,name:'Qalqalah Bounce',game:'Sky Islands',code:'SKY',type:'platformer2',goal:9,description:'Climb floating islands, bounce pads, clouds, elevators, and airships without falling.'},
@@ -289,11 +289,11 @@ function updateControls(){
  else controlHelp.textContent='Move in four directions with Arrow keys or WASD. Use Space or Enter for Action.';
 }
 function setup(){
- score=0;lives=3;time=['maze','maze2'].includes(selected.type)?120:['racer','racer2'].includes(selected.type)?150:selected.type==='ice'?90:selected.type==='coins'?70:selected.type==='crossword'?120:75;
+ score=0;lives=3;time=['maze','maze2'].includes(selected.type)?120:['racer','racer2'].includes(selected.type)?260:selected.type==='ice'?90:selected.type==='coins'?70:selected.type==='crossword'?120:75;
  const t=selected.type;
  if(t==='platformer'||t==='platformer2')state={x:120,y:410,vx:0,vy:0,camera:0,onGround:false,platforms:makePlatforms(t==='platformer2'),coins:makeCoins(),checkpoint:0};
  else if(t==='jumper')state={x:160,y:390,vx:0,vy:0,camera:0,onGround:false,chaser:-140,platforms:makeChasePlatforms(),coins:[]};
- else if(t==='racer'||t==='racer2')state={lane:0,target:0,speed:0,dist:0,curve:0,traffic:[],spawn:0,night:t==='racer2'};
+ else if(t==='racer'||t==='racer2')state={lane:0,target:0,speed:0,dist:0,curve:0,traffic:[],spawn:0,night:t==='racer2',boost:0,combo:0,passed:0,roadPhase:0};
  else if(t==='maze'||t==='maze2'){
    const map=generateMaze(t==='maze2'?19:15,t==='maze2'?17:15);
    const exit=farthestOpenCell(map,1,1);
@@ -336,69 +336,279 @@ function drawPlatformer(){
 }
 
 function updateRacer(dt){
- state.speed=Math.min(selected.type==='racer2'?440:375,state.speed+105*dt);
+ const maxSpeed=selected.type==='racer2'?470:410;
+ const acceleration=keys.action?145:95;
 
- if(keys.left)state.target-=1.65*dt;
- if(keys.right)state.target+=1.65*dt;
+ state.speed=Math.min(maxSpeed,state.speed+acceleration*dt);
+ state.boost=Math.max(0,state.boost-dt);
 
- state.target=clamp(state.target,-.82,.82);
- state.lane+=(state.target-state.lane)*Math.min(1,8*dt);
+ if(keys.left)state.target-=1.55*dt;
+ if(keys.right)state.target+=1.55*dt;
+
+ state.target=clamp(state.target,-.78,.78);
+ state.lane+=(state.target-state.lane)*Math.min(1,7.5*dt);
 
  state.dist+=state.speed*dt;
- state.curve=Math.sin(state.dist/520)*.34;
+ state.roadPhase+=state.speed*dt;
+ state.curve=
+   Math.sin(state.dist/720)*.23+
+   Math.sin(state.dist/1450)*.14;
+
  state.spawn+=dt;
 
- if(state.spawn>1.05){
+ const spawnDelay=state.dist<1800?1.45:state.dist<4500?1.15:.92;
+
+ if(state.spawn>spawnDelay){
    state.spawn=0;
 
-   // Traffic is always generated within the road lanes.
-   const lanes=[-.62,-.3,0,.3,.62];
-   const chosenLane=lanes[Math.floor(Math.random()*lanes.length)];
+   const lanes=[-.62,-.31,0,.31,.62];
+   let lane=lanes[Math.floor(Math.random()*lanes.length)];
+
+   // Avoid spawning directly in the player's current lane too often.
+   if(Math.abs(lane-state.lane)<.2&&Math.random()<.72){
+     lane=lanes[(lanes.indexOf(lane)+2+Math.floor(Math.random()*2))%lanes.length];
+   }
 
    state.traffic.push({
-     z:1.18,
-     lane:chosenLane,
-     color:['#ef4444','#f4b942','#22c55e','#8b5cf6','#06b6d4'][Math.floor(Math.random()*5)]
+     z:1.08,
+     lane,
+     speedFactor:.72+Math.random()*.18,
+     color:['#ef4444','#f4b942','#22c55e','#8b5cf6','#06b6d4','#f97316'][Math.floor(Math.random()*6)],
+     model:Math.floor(Math.random()*3),
+     passed:false
    });
  }
 
  state.traffic.forEach(car=>{
-   car.z-=state.speed*dt/3100;
+   // Cars move along the road toward the player instead of falling downward.
+   car.z-=state.speed*dt/(3600*car.speedFactor);
    car.lane=clamp(car.lane,-.68,.68);
  });
 
  for(let i=state.traffic.length-1;i>=0;i--){
    const car=state.traffic[i];
 
-   if(car.z<.13&&Math.abs(car.lane-state.lane)<.21){
+   if(car.z<.16&&car.z>.02&&Math.abs(car.lane-state.lane)<.2){
      lives--;
-     state.speed*=.5;
+     state.speed*=.58;
+     state.combo=0;
      state.traffic.splice(i,1);
    }else if(car.z<0){
+     if(!car.passed){
+       state.passed++;
+       state.combo++;
+       score+=120+Math.min(300,state.combo*12);
+     }
      state.traffic.splice(i,1);
    }
  }
 
- score=state.dist;
+ score=Math.max(score,state.dist);
 }
+
+function roadPoint(z){
+ const horizon=150;
+ const depth=clamp(z,0,1.08);
+ const y=horizon+(1-depth*depth)*(H-horizon);
+ const halfWidth=65+(1-depth)*820;
+ const center=W/2+state.curve*Math.pow(1-depth,2)*285;
+ return{y,halfWidth,center,depth};
+}
+function drawTrafficCar(car){
+ const point=roadPoint(car.z);
+ if(point.y>H+80||car.z<0)return;
+
+ const scale=clamp(1/(car.z+.2),.55,4.8);
+ const roadLaneWidth=point.halfWidth*.72;
+ const x=point.center+car.lane*roadLaneWidth;
+
+ const w=34*scale;
+ const h=54*scale;
+ const y=point.y;
+
+ // Car shadow sits directly on the road.
+ ctx.fillStyle='rgba(0,0,0,.24)';
+ ctx.beginPath();
+ ctx.ellipse(x,y+2,w*.6,h*.16,0,0,Math.PI*2);
+ ctx.fill();
+
+ // Three different traffic-car models.
+ if(car.model===0){
+   rect(x-w*.5,y-h,w,h,car.color);
+   rect(x-w*.32,y-h*.8,w*.64,h*.25,'#a8ddf5');
+   rect(x-w*.58,y-h*.22,w*.18,h*.31,'#111827');
+   rect(x+w*.4,y-h*.22,w*.18,h*.31,'#111827');
+   rect(x-w*.35,y-h*.04,w*.22,h*.08,'#ef4444');
+   rect(x+w*.13,y-h*.04,w*.22,h*.08,'#ef4444');
+ }else if(car.model===1){
+   rect(x-w*.54,y-h*.9,w*1.08,h*.88,car.color);
+   rect(x-w*.38,y-h*.72,w*.76,h*.26,'#9bd5f5');
+   rect(x-w*.64,y-h*.2,w*.2,h*.33,'#111827');
+   rect(x+w*.44,y-h*.2,w*.2,h*.33,'#111827');
+   rect(x-w*.44,y-h*.07,w*.3,h*.08,'#ef4444');
+   rect(x+w*.14,y-h*.07,w*.3,h*.08,'#ef4444');
+ }else{
+   rect(x-w*.47,y-h,w*.94,h,car.color);
+   rect(x-w*.28,y-h*.82,w*.56,h*.22,'#bde8ff');
+   rect(x-w*.6,y-h*.2,w*.18,h*.3,'#111827');
+   rect(x+w*.42,y-h*.2,w*.18,h*.3,'#111827');
+   rect(x-w*.28,y-h*.03,w*.18,h*.07,'#ef4444');
+   rect(x+w*.1,y-h*.03,w*.18,h*.07,'#ef4444');
+   rect(x-w*.4,y-h*.98,w*.8,h*.08,'rgba(255,255,255,.18)');
+ }
+}
+
 function drawRacer(){
- const night=state.night;rect(0,0,W,H,night?'#061225':'#65bde7');
- const horizon=150;for(let i=0;i<18;i++){const x=(i*110-(state.dist*.05)%110)-80,h=60+(i*41)%120;rect(x,horizon-h,78,h,night?'#142a48':'#547f94');for(let y=horizon-h+12;y<horizon-8;y+=20)for(let xx=x+10;xx<x+68;xx+=18)rect(xx,y,7,9,night?'#ffd166':'#bde8ff')}
- rect(0,horizon,W,H-horizon,night?'#0b2730':'#2f743d');
- for(let i=80;i>=1;i--){const z=i/80,y=horizon+(1-z*z)*(H-horizon),next=(i-1)/80,y2=horizon+(1-next*next)*(H-horizon),rw=65+(1-z)*820,rw2=65+(1-next)*820,c=W/2+state.curve*Math.pow(1-z,2)*300;ctx.fillStyle=i%2?'#3c4148':'#30343a';ctx.beginPath();ctx.moveTo(c-rw/2,y);ctx.lineTo(c+rw/2,y);ctx.lineTo(c+rw2/2,y2);ctx.lineTo(c-rw2/2,y2);ctx.fill();if(i%10<5)rect(c-3,y,6,Math.max(3,y2-y+2),'#f8fafc')}
- state.traffic.sort((a,b)=>b.z-a.z).forEach(o=>{const scale=1/(o.z+.18),y=horizon+(1-o.z*o.z)*(H-horizon),x=clamp(W/2+o.lane*(70+(1-o.z)*330)+state.curve*(1-o.z)*150,125,W-125),w=36*scale,h=58*scale;if(y<H+80){rect(x-w/2,y-h,w,h,o.color);rect(x-w*.3,y-h*.82,w*.6,h*.25,'#bde8ff');rect(x-w*.62,y-h*.22,w*.18,h*.3,'#111827');rect(x+w*.44,y-h*.22,w*.18,h*.3,'#111827')}});
- const carX=W/2+state.lane*330;
+ const night=state.night;
+
+ // Sky.
+ const sky=ctx.createLinearGradient(0,0,0,170);
+ sky.addColorStop(0,night?'#030712':'#3da9dc');
+ sky.addColorStop(1,night?'#12213d':'#8ad7f2');
+ ctx.fillStyle=sky;
+ ctx.fillRect(0,0,W,170);
+
+ // Sun/moon.
+ ctx.fillStyle=night?'#dbeafe':'#f8d66d';
+ ctx.beginPath();
+ ctx.arc(790,72,night?25:34,0,Math.PI*2);
+ ctx.fill();
+
+ // Distant mountains.
+ ctx.fillStyle=night?'#16283e':'#547d89';
+ ctx.beginPath();
+ ctx.moveTo(0,150);
+ for(let x=0;x<=W;x+=90){
+   ctx.lineTo(x,95+((x*37)%60));
+ }
+ ctx.lineTo(W,170);
+ ctx.lineTo(0,170);
+ ctx.fill();
+
+ // City and roadside map.
+ for(let i=0;i<20;i++){
+   const x=(i*76-(state.dist*.025)%76)-70;
+   const buildingH=48+(i*31)%95;
+   rect(x,150-buildingH,58,buildingH,night?'#152b47':'#668b98');
+
+   for(let wy=150-buildingH+12;wy<145;wy+=18){
+     for(let wx=x+9;wx<x+51;wx+=15){
+       rect(
+         wx,
+         wy,
+         6,
+         8,
+         night&&((wx+wy+i)%3)?'#f4d06f':'rgba(255,255,255,.3)'
+       );
+     }
+   }
+ }
+
+ rect(0,150,W,H-150,night?'#102b25':'#327340');
+
+ // Road segments.
+ for(let i=90;i>=1;i--){
+   const z=i/90;
+   const next=(i-1)/90;
+   const a=roadPoint(z);
+   const b=roadPoint(next);
+
+   ctx.fillStyle=i%2?'#353b43':'#2e343b';
+   ctx.beginPath();
+   ctx.moveTo(a.center-a.halfWidth/2,a.y);
+   ctx.lineTo(a.center+a.halfWidth/2,a.y);
+   ctx.lineTo(b.center+b.halfWidth/2,b.y);
+   ctx.lineTo(b.center-b.halfWidth/2,b.y);
+   ctx.closePath();
+   ctx.fill();
+
+   // Road shoulders.
+   ctx.strokeStyle=i%2?'#d9d9d9':'#ef4444';
+   ctx.lineWidth=Math.max(1,(1-z)*8);
+   ctx.beginPath();
+   ctx.moveTo(a.center-a.halfWidth/2,a.y);
+   ctx.lineTo(b.center-b.halfWidth/2,b.y);
+   ctx.stroke();
+   ctx.beginPath();
+   ctx.moveTo(a.center+a.halfWidth/2,a.y);
+   ctx.lineTo(b.center+b.halfWidth/2,b.y);
+   ctx.stroke();
+
+   // Lane markers.
+   if(i%9<4){
+     [-.33,.33].forEach(lane=>{
+       const ax=a.center+lane*a.halfWidth*.72;
+       const bx=b.center+lane*b.halfWidth*.72;
+       ctx.strokeStyle='#f8fafc';
+       ctx.lineWidth=Math.max(1,(1-z)*6);
+       ctx.beginPath();
+       ctx.moveTo(ax,a.y);
+       ctx.lineTo(bx,b.y);
+       ctx.stroke();
+     });
+   }
+ }
+
+ // Roadside trees, signs and lights.
+ for(let i=0;i<12;i++){
+   const z=((i*0.083+(state.roadPhase*.00022))%1);
+   const point=roadPoint(z);
+   const scale=clamp((1-z)*1.7,.18,1.6);
+   const side=i%2?-1:1;
+   const x=point.center+side*(point.halfWidth*.62+55*scale);
+
+   rect(x-5*scale,point.y-36*scale,10*scale,36*scale,'#6b4423');
+   ctx.fillStyle=night?'#214d38':'#22733d';
+   ctx.beginPath();
+   ctx.arc(x,point.y-45*scale,19*scale,0,Math.PI*2);
+   ctx.fill();
+ }
+
+ // Traffic cars are projected onto the road.
+ state.traffic
+   .slice()
+   .sort((a,b)=>b.z-a.z)
+   .forEach(drawTrafficCar);
+
+ // Player car.
+ const roadNow=roadPoint(0);
+ const carX=roadNow.center+state.lane*roadNow.halfWidth*.72;
+
+ ctx.fillStyle='rgba(0,0,0,.3)';
+ ctx.beginPath();
+ ctx.ellipse(carX,502,60,13,0,0,Math.PI*2);
+ ctx.fill();
+
  ctx.fillStyle=night?'#f43f5e':'#2563eb';
  ctx.beginPath();
- ctx.moveTo(carX-52,494);ctx.lineTo(carX-43,435);ctx.lineTo(carX-25,405);
- ctx.lineTo(carX+25,405);ctx.lineTo(carX+43,435);ctx.lineTo(carX+52,494);ctx.fill();
- rect(carX-29,418,58,30,'#9bdcf6');
- rect(carX-23,423,46,19,'#163451');
- rect(carX-54,464,18,35,'#111827');rect(carX+36,464,18,35,'#111827');
+ ctx.moveTo(carX-53,494);
+ ctx.lineTo(carX-44,437);
+ ctx.lineTo(carX-25,405);
+ ctx.lineTo(carX+25,405);
+ ctx.lineTo(carX+44,437);
+ ctx.lineTo(carX+53,494);
+ ctx.fill();
+
+ rect(carX-30,418,60,30,'#9bdcf6');
+ rect(carX-24,423,48,19,'#163451');
+ rect(carX-55,465,19,35,'#111827');
+ rect(carX+36,465,19,35,'#111827');
  rect(carX-40,452,80,10,night?'#fb7185':'#60a5fa');
- rect(carX-35,487,20,8,'#ef4444');rect(carX+15,487,20,8,'#ef4444');
- rect(carX-37,400,74,8,'#94a3b8');
- txt(`${Math.floor(state.speed)} km/h`,20,28,20,'#fff','left');txt(`${Math.floor(state.dist)} m`,940,28,20,'#fff','right');
+ rect(carX-36,487,21,8,'#ef4444');
+ rect(carX+15,487,21,8,'#ef4444');
+ rect(carX-38,400,76,8,'#94a3b8');
+
+ // HUD.
+ rect(14,14,180,56,'rgba(3,10,18,.72)');
+ rect(W-204,14,190,56,'rgba(3,10,18,.72)');
+ txt(`${Math.floor(state.speed)} km/h`,27,38,20,'#fff','left');
+ txt(`Passed ${state.passed}`,27,60,14,'#5eead4','left');
+ txt(`${Math.floor(state.dist)} / ${selected.goal} m`,W-27,38,18,'#fff','right');
+ txt(`Combo x${Math.max(1,state.combo)}`,W-27,60,14,'#f4b942','right');
+
+ // Progress bar.
+ rect(250,18,460,16,'rgba(3,10,18,.65)');
+ rect(254,22,452*clamp(state.dist/selected.goal,0,1),8,'#5eead4');
 }
 
 
@@ -814,6 +1024,27 @@ function drawJumper(){
  drawSkyline(state.camera,true);
  rect(0,470,W,70,'#142b35');
 
+ // More detailed city map.
+ for(let i=0;i<14;i++){
+   const x=((i*135-state.camera*.22)%(W+180))-100;
+   const h=90+(i*47)%180;
+   rect(x,470-h,95,h,'#183247');
+
+   for(let y=470-h+18;y<455;y+=23){
+     for(let wx=x+12;wx<x+82;wx+=20){
+       rect(wx,y,8,11,(i+y+wx)%3?'#f4d06f':'#304b61');
+     }
+   }
+ }
+
+ // Rooftop vents and antennas.
+ for(let i=0;i<8;i++){
+   const x=((i*190-state.camera*.35)%(W+220))-100;
+   rect(x,420,54,30,'#334155');
+   rect(x+17,389,8,31,'#64748b');
+   line(x+21,389,x+21,365,3,'#94a3b8');
+ }
+
  state.platforms.forEach((platform,index)=>{
    const x=
      platform.x-state.camera+
@@ -827,65 +1058,114 @@ function drawJumper(){
  });
 
  const monsterX=state.chaser-state.camera;
- const run=Math.sin(performance.now()/95);
- const bodyY=390+run*3;
+ const run=Math.sin(performance.now()/90);
+ const bodyY=382+run*3;
 
- // Large shadow beast with legs, arms, claws, horns and animated mouth.
  ctx.save();
- ctx.globalAlpha=.2;
+
+ // Large moving shadow.
+ ctx.globalAlpha=.28;
  ctx.fillStyle='#000';
  ctx.beginPath();
- ctx.ellipse(monsterX,455,48,13,0,0,Math.PI*2);
+ ctx.ellipse(monsterX,462,62,16,0,0,Math.PI*2);
  ctx.fill();
  ctx.globalAlpha=1;
 
- // Legs.
- rect(monsterX-28,bodyY+38+run*5,18,55,'#17151d');
- rect(monsterX+10,bodyY+38-run*5,18,55,'#17151d');
- rect(monsterX-35,bodyY+84+run*5,29,12,'#08070b');
- rect(monsterX+7,bodyY+84-run*5,29,12,'#08070b');
+ // Tail.
+ ctx.strokeStyle='#211827';
+ ctx.lineWidth=16;
+ ctx.beginPath();
+ ctx.moveTo(monsterX-35,bodyY+35);
+ ctx.quadraticCurveTo(monsterX-90,bodyY+28,monsterX-105,bodyY-10);
+ ctx.stroke();
+ ctx.lineWidth=5;
+ ctx.strokeStyle='#5b2333';
+ ctx.beginPath();
+ ctx.moveTo(monsterX-101,bodyY-13);
+ ctx.lineTo(monsterX-115,bodyY-28);
+ ctx.stroke();
 
- // Body and shoulders.
- rect(monsterX-42,bodyY-22,84,70,'#16131c');
- rect(monsterX-55,bodyY-13,18,58,'#211b29');
- rect(monsterX+37,bodyY-13,18,58,'#211b29');
+ // Legs and feet.
+ rect(monsterX-32,bodyY+35+run*6,22,61,'#17131c');
+ rect(monsterX+10,bodyY+35-run*6,22,61,'#17131c');
+ rect(monsterX-43,bodyY+86+run*6,36,14,'#08070b');
+ rect(monsterX+7,bodyY+86-run*6,36,14,'#08070b');
 
- // Claws.
- for(let claw=0;claw<3;claw++){
-   rect(monsterX-58-claw*4,bodyY+40+claw*3,13,4,'#d1d5db');
-   rect(monsterX+45+claw*4,bodyY+40+claw*3,13,4,'#d1d5db');
+ // Toes/claws.
+ for(let toe=0;toe<3;toe++){
+   rect(monsterX-43+toe*11,bodyY+96+run*6,8,5,'#d6d3d1');
+   rect(monsterX+7+toe*11,bodyY+96-run*6,8,5,'#d6d3d1');
  }
 
- // Head, jaw and horns.
- rect(monsterX-31,bodyY-61,62,45,'#211b29');
- ctx.fillStyle='#31263b';
- ctx.beginPath();
- ctx.moveTo(monsterX-28,bodyY-57);
- ctx.lineTo(monsterX-47,bodyY-88);
- ctx.lineTo(monsterX-13,bodyY-68);
- ctx.fill();
- ctx.beginPath();
- ctx.moveTo(monsterX+28,bodyY-57);
- ctx.lineTo(monsterX+47,bodyY-88);
- ctx.lineTo(monsterX+13,bodyY-68);
- ctx.fill();
+ // Torso with chest plates.
+ rect(monsterX-48,bodyY-25,96,68,'#18131d');
+ rect(monsterX-58,bodyY-16,18,62,'#251b2b');
+ rect(monsterX+40,bodyY-16,18,62,'#251b2b');
+ rect(monsterX-27,bodyY-9,54,16,'#2e2235');
+ rect(monsterX-22,bodyY+12,44,12,'#2a1e31');
 
- // Glowing eyes.
- rect(monsterX-20,bodyY-48,11,8,'#ef4444');
- rect(monsterX+9,bodyY-48,11,8,'#ef4444');
- rect(monsterX-16,bodyY-46,4,4,'#fff');
- rect(monsterX+12,bodyY-46,4,4,'#fff');
+ // Arms.
+ rect(monsterX-68,bodyY-13-run*5,19,69,'#211827');
+ rect(monsterX+49,bodyY-13+run*5,19,69,'#211827');
 
- // Animated mouth and teeth.
- const mouthHeight=10+Math.abs(run)*8;
- rect(monsterX-21,bodyY-31,42,mouthHeight,'#050407');
- for(let tooth=0;tooth<5;tooth++){
+ // Hands and claws.
+ rect(monsterX-75,bodyY+47-run*5,28,18,'#140f17');
+ rect(monsterX+47,bodyY+47+run*5,28,18,'#140f17');
+ for(let claw=0;claw<4;claw++){
+   rect(monsterX-81-claw*4,bodyY+57-run*5+claw*2,14,4,'#d1d5db');
+   rect(monsterX+67+claw*4,bodyY+57+run*5+claw*2,14,4,'#d1d5db');
+ }
+
+ // Neck and head.
+ rect(monsterX-18,bodyY-42,36,18,'#201726');
+ rect(monsterX-36,bodyY-78,72,44,'#23192a');
+
+ // Brow and cheek plates.
+ rect(monsterX-31,bodyY-70,26,9,'#34233d');
+ rect(monsterX+5,bodyY-70,26,9,'#34233d');
+ rect(monsterX-34,bodyY-52,12,17,'#2c1e34');
+ rect(monsterX+22,bodyY-52,12,17,'#2c1e34');
+
+ // Curved horns.
+ ctx.strokeStyle='#6b5a76';
+ ctx.lineWidth=10;
+ ctx.beginPath();
+ ctx.moveTo(monsterX-25,bodyY-75);
+ ctx.quadraticCurveTo(monsterX-55,bodyY-105,monsterX-72,bodyY-78);
+ ctx.stroke();
+ ctx.beginPath();
+ ctx.moveTo(monsterX+25,bodyY-75);
+ ctx.quadraticCurveTo(monsterX+55,bodyY-105,monsterX+72,bodyY-78);
+ ctx.stroke();
+
+ // Eyes with glow.
+ ctx.shadowColor='#ef4444';
+ ctx.shadowBlur=12;
+ rect(monsterX-23,bodyY-61,14,9,'#ef4444');
+ rect(monsterX+9,bodyY-61,14,9,'#ef4444');
+ ctx.shadowBlur=0;
+ rect(monsterX-18,bodyY-59,4,4,'#fff');
+ rect(monsterX+14,bodyY-59,4,4,'#fff');
+
+ // Snout and animated mouth.
+ rect(monsterX-19,bodyY-48,38,10,'#130f17');
+ const mouthHeight=11+Math.abs(run)*9;
+ rect(monsterX-25,bodyY-37,50,mouthHeight,'#050407');
+
+ for(let tooth=0;tooth<6;tooth++){
    ctx.fillStyle='#e5e7eb';
    ctx.beginPath();
-   ctx.moveTo(monsterX-18+tooth*9,bodyY-30);
-   ctx.lineTo(monsterX-14+tooth*9,bodyY-20);
-   ctx.lineTo(monsterX-10+tooth*9,bodyY-30);
+   ctx.moveTo(monsterX-22+tooth*9,bodyY-36);
+   ctx.lineTo(monsterX-18+tooth*9,bodyY-24);
+   ctx.lineTo(monsterX-14+tooth*9,bodyY-36);
    ctx.fill();
+ }
+
+ // Breath particles.
+ for(let i=0;i<4;i++){
+   const px=monsterX+28+i*12+(performance.now()/20+i*17)%28;
+   const py=bodyY-27-Math.sin(performance.now()/180+i)*8;
+   rect(px,py,7,7,'rgba(239,68,68,.35)');
  }
 
  ctx.restore();
@@ -901,7 +1181,7 @@ function drawJumper(){
  );
 
  txt('KEEP MOVING!',480,30,24,'#f4b942');
- txt('THE SHADOW BEAST IS CATCHING UP',480,57,15,'#fca5a5');
+ txt('THE NIGHT BEAST IS CATCHING UP',480,57,15,'#fca5a5');
 }
 
 
@@ -1192,10 +1472,60 @@ function drawCoins(){
 
  // Moving cars.
  state.hazards.forEach((car,index)=>{
-   rect(car.x-27,car.y-15,54,30,index%2?'#2563eb':'#ef4444');
-   rect(car.x-16,car.y-11,32,9,'#bde8ff');
-   rect(car.x-23,car.y+12,12,7,'#111827');
-   rect(car.x+11,car.y+12,12,7,'#111827');
+   const color=['#2563eb','#ef4444','#f59e0b','#8b5cf6'][index%4];
+
+   rect(car.x-30,car.y-16,60,32,color);
+   rect(car.x-18,car.y-12,36,10,'#bde8ff');
+   rect(car.x-26,car.y+12,13,7,'#111827');
+   rect(car.x+13,car.y+12,13,7,'#111827');
+   rect(car.x-24,car.y-17,12,5,'#f8fafc');
+   rect(car.x+12,car.y-17,12,5,'#f8fafc');
+ });
+
+ // Fountain.
+ ctx.fillStyle='#4fb7d3';
+ ctx.beginPath();
+ ctx.arc(480,170,32,0,Math.PI*2);
+ ctx.fill();
+ ctx.fillStyle='#bde8ff';
+ ctx.beginPath();
+ ctx.arc(480,170,18,0,Math.PI*2);
+ ctx.fill();
+ rect(474,132,12,38,'#94a3b8');
+ rect(466,126,28,10,'#cbd5e1');
+
+ // Benches and flower beds.
+ [[120,190],[770,185],[130,350],[765,350]].forEach(([x,y])=>{
+   rect(x,y,55,9,'#8b5a2b');
+   rect(x+4,y+9,6,18,'#6b4423');
+   rect(x+45,y+9,6,18,'#6b4423');
+ });
+
+ for(let i=0;i<6;i++){
+   const x=30+i*58;
+   rect(x,185,38,18,'#6b8e4e');
+   rect(x+6,177,6,8,'#ef4444');
+   rect(x+18,174,6,11,'#f4b942');
+   rect(x+29,178,6,7,'#8b5cf6');
+ }
+
+ // Pedestrians.
+ const walkers=[
+   {x:335,y:195,c:'#ef4444',v:0},
+   {x:610,y:355,c:'#22c55e',v:1},
+   {x:350,y:390,c:'#f59e0b',v:2}
+ ];
+ walkers.forEach((person,index)=>{
+   const offset=Math.sin(performance.now()/700+index)*18;
+   pixelPerson(
+     person.x+offset,
+     person.y,
+     person.c,
+     .62,
+     person.v,
+     offset<0?-1:1,
+     performance.now()/120+index
+   );
  });
 
  pixelPerson(
@@ -1210,7 +1540,7 @@ function drawCoins(){
 
  const remaining=state.coins.filter(coin=>!coin.taken).length;
  txt(`${remaining} coins left`,18,24,18,'#fff','left');
- txt('Explore the town, roads and park',W-18,24,16,'#fff','right');
+ txt('Explore shops, parks, sidewalks and traffic',W-18,24,16,'#fff','right');
 }
 
 function makeShipRooms(){return[{x:50,y:70,w:250,h:150},{x:355,y:55,w:250,h:165},{x:660,y:70,w:245,h:150},{x:80,y:310,w:260,h:165},{x:390,y:300,w:200,h:180},{x:650,y:300,w:250,h:165}]}
