@@ -17,7 +17,34 @@ body{overscroll-behavior-y:auto}
 .reward-card{padding:19px;border:1px solid var(--border);border-radius:22px;background:#fff;box-shadow:0 10px 26px rgba(25,76,68,.07);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
 .reward-card.unlocked:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:0 18px 36px rgba(25,76,68,.12)}
 .reward-card.locked{opacity:.55}.reward-card.selected{border:2px solid var(--green);box-shadow:0 0 0 4px rgba(15,157,120,.1)}
-.pixel-icon{width:66px;height:66px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#183451,#07131e);color:#fff;font-family:monospace;font-size:.8rem;font-weight:900;letter-spacing:.06em;image-rendering:pixelated;box-shadow:inset 0 0 0 3px rgba(255,255,255,.1),0 8px 18px rgba(7,19,30,.22)}
+.pixel-icon{position:relative;width:86px;height:72px;display:grid;place-items:center;overflow:hidden;border-radius:17px;background:#0b1725;color:#fff;font-family:monospace;font-size:.72rem;font-weight:900;letter-spacing:.06em;image-rendering:pixelated;box-shadow:inset 0 0 0 3px rgba(255,255,255,.1),0 8px 18px rgba(7,19,30,.22)}
+.pixel-icon::before,.pixel-icon::after{content:"";position:absolute;image-rendering:pixelated}
+.pixel-icon[data-type="maze"]{background:linear-gradient(#183451 0 42%,#273c32 42%)}
+.pixel-icon[data-type="maze"]::before{inset:13px;background:repeating-linear-gradient(90deg,#78909c 0 8px,#263847 8px 13px),repeating-linear-gradient(#78909c 0 8px,#263847 8px 13px);clip-path:polygon(0 0,100% 0,100% 23%,35% 23%,35% 48%,79% 48%,79% 72%,20% 72%,20% 100%,0 100%)}
+.pixel-icon[data-type="crossword"]{background:#f4f7f6}
+.pixel-icon[data-type="crossword"]::before{width:54px;height:54px;background:repeating-linear-gradient(90deg,#fff 0 15px,#183451 15px 18px),repeating-linear-gradient(#fff 0 15px,#183451 15px 18px);border:3px solid #183451}
+.pixel-icon[data-type="crossroads"]{background:linear-gradient(#6bc5e8 0 25%,#4eaa58 25% 42%,#31363d 42% 63%,#3187bd 63% 82%,#4eaa58 82%)}
+.pixel-icon[data-type="crossroads"]::before{width:38px;height:18px;left:9px;top:34px;background:#ef4444;box-shadow:41px 0 #2563eb}
+.pixel-icon[data-type="ice"]{background:linear-gradient(#73ccf2,#e8fbff)}
+.pixel-icon[data-type="ice"]::before{left:16px;bottom:-8px;border-left:28px solid transparent;border-right:28px solid transparent;border-bottom:67px solid #c9f4ff}
+.pixel-icon[data-type="jumper"],.pixel-icon[data-type="platformer"],.pixel-icon[data-type="platformer2"]{background:linear-gradient(#102647 0 58%,#1c3947 58%)}
+.pixel-icon[data-type="jumper"]::before,.pixel-icon[data-type="platformer"]::before,.pixel-icon[data-type="platformer2"]::before{width:62px;height:8px;left:10px;bottom:16px;background:#64748b;box-shadow:18px -22px #475569,38px -43px #334155}
+.pixel-icon[data-type="racer"],.pixel-icon[data-type="racer2"]{background:linear-gradient(#72c9ee 0 38%,#23713c 38% 53%,#343a40 53%)}
+.pixel-icon[data-type="racer"]::before,.pixel-icon[data-type="racer2"]::before{bottom:5px;width:34px;height:27px;background:#2563eb;border-radius:7px 7px 3px 3px;box-shadow:-11px 19px 0 -7px #111827,11px 19px 0 -7px #111827}
+.pixel-icon[data-type="coins"]{background:#75b9d0}
+.pixel-icon[data-type="coins"]::before{width:23px;height:31px;background:#f4b942;box-shadow:-27px 15px #f4b942,27px 12px #f4b942}
+.pixel-icon[data-type="tag"]{background:#192333}
+.pixel-icon[data-type="tag"]::before{width:25px;height:36px;background:#ef4444;border-radius:12px 12px 8px 8px;box-shadow:-29px 12px #22c55e,29px 9px #3b82f6}
+.pixel-icon[data-type="invaders"],.pixel-icon[data-type="space"]{background:radial-gradient(circle at 70% 24%,#fff 0 2px,transparent 3px),radial-gradient(circle at 22% 32%,#fff 0 1px,transparent 2px),#030712}
+.pixel-icon[data-type="invaders"]::before{width:44px;height:22px;background:#22c55e;clip-path:polygon(15% 0,85% 0,85% 18%,100% 18%,100% 82%,78% 82%,78% 100%,60% 100%,60% 82%,40% 82%,40% 100%,22% 100%,22% 82%,0 82%,0 18%,15% 18%)}
+.pixel-icon[data-type="defender"],.pixel-icon[data-type="tower"]{background:linear-gradient(#1a3454 0 55%,#1f473c 55%)}
+.pixel-icon[data-type="defender"]::before,.pixel-icon[data-type="tower"]::before{width:50px;height:38px;bottom:5px;background:#6b7280;clip-path:polygon(0 22%,18% 22%,18% 0,36% 0,36% 22%,64% 22%,64% 0,82% 0,82% 22%,100% 22%,100% 100%,0 100%)}
+.pixel-icon[data-type="rhythm"]{background:linear-gradient(135deg,#29123f,#6d28d9)}
+.pixel-icon[data-type="rhythm"]::before{width:8px;height:48px;background:#ef4444;box-shadow:18px 0 #f4b942,36px 0 #22c55e,54px 0 #3b82f6}
+.pixel-icon[data-type="boss"]{background:#170b2d}
+.pixel-icon[data-type="boss"]::before{width:52px;height:38px;background:#7c3aed;clip-path:polygon(15% 0,35% 20%,50% 0,65% 20%,85% 0,100% 45%,82% 100%,18% 100%,0 45%)}
+.pixel-icon[data-type="grand"]{background:linear-gradient(135deg,#0f9d78,#2563eb)}
+.pixel-icon span{position:relative;z-index:2;text-shadow:0 2px 4px #000}
 .reward-card h3{margin-top:13px;color:var(--navy)}.reward-name{min-height:0!important;margin-top:5px!important;color:var(--green)!important;font-weight:900}
 .reward-card p{min-height:62px;margin-top:7px;color:var(--muted);font-size:.78rem;line-height:1.55}
 .level-chip{float:right;padding:6px 9px;border-radius:999px;background:#f1f5f4;color:var(--muted);font-size:.66rem;font-weight:900}
@@ -55,7 +82,7 @@ body{overscroll-behavior-y:auto}
 <section class="arcade-hero">
 <p class="eyebrow">Learning rewards</p>
 <h1 class="page-title">Quran Academy Game World</h1>
-<p class="page-description">Every reward now uses a different game style: platforming, city racing, first-person mazes, crossword puzzles, falling blocks, rhythm, tower defense, space flight, and boss battles.</p>
+<p class="page-description">Every card now shows the real game name. Each game has its own models, rules, goal, scenery, and controls instead of reusing the same collectible format.</p>
 <div class="arcade-tags"><span class="arcade-tag">Advanced pixel art</span><span class="arcade-tag">Unique game engines</span><span class="arcade-tag">4-way movement</span><span class="arcade-tag">Fullscreen</span></div>
 </section>
 
@@ -91,25 +118,25 @@ body{overscroll-behavior-y:auto}
 <script>
 const GAMES=[
 {level:1,name:'Crescent Runner',game:'Labyrinth Escape',code:'MAZE',type:'maze',goal:1,description:'Explore a textured first-person maze, move forward and backward, use the minimap, and find the glowing exit.'},
-{level:2,name:'Dot Detective',game:'Quran Crossword',code:'WORD',type:'crossword',goal:5,description:'Solve a crossword-style Arabic and Quran vocabulary puzzle using clues and keyboard letters.'},
-{level:3,name:'Vowel Catcher',game:'Crossroads',code:'CROSS',type:'crossroads',goal:8,description:'Cross roads, rivers, moving traffic, and floating platforms without getting hit or falling in.'},
-{level:4,name:'Sound Surfer',game:'Ice Slope',code:'ICE',type:'ice',goal:1800,description:'Speed down a snowy mountain, carve left and right, launch from ramps, and dodge rocks, trees, and ice cracks.'},
-{level:5,name:'Letter Builder',game:'Super Jumper',code:'JUMP',type:'jumper',goal:16,description:'Jump across city platforms while a shadow creature chases you from behind. Keep moving and reach the rooftop finish.'},
-{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:2200,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
-{level:7,name:'Word Wizard',game:'Coin Collectors',code:'COIN',type:'coins',goal:25,description:'Search a detailed town map and collect every coin before the timer runs out while avoiding moving hazards.'},
-{level:8,name:'Phrase Flyer',game:'Spaceship Tag',code:'TAG',type:'tag',goal:35,description:'Play tag inside a spaceship with computer-controlled crewmates, vents, rooms, doors, and a moving tagger.'},
-{level:9,name:'Quran Word Quest',game:'Space Invaders',code:'ALIEN',type:'invaders',goal:32,description:'Defend the Quran Academy station from organized alien waves, shields, enemy fire, and a final commander.'},
+{level:2,name:'Dot Detective',game:'Quran Crossword',code:'WORD',type:'crossword',goal:3,description:'Solve a crossword-style Arabic and Quran vocabulary puzzle using clues and keyboard letters.'},
+{level:3,name:'Vowel Catcher',game:'Crossroads',code:'CROSS',type:'crossroads',goal:4,description:'Cross roads, rivers, moving traffic, and floating platforms without getting hit or falling in.'},
+{level:4,name:'Sound Surfer',game:'Ice Slope',code:'ICE',type:'ice',goal:18,description:'Speed down a snowy mountain, carve left and right, launch from ramps, and dodge rocks, trees, and ice cracks.'},
+{level:5,name:'Letter Builder',game:'Super Jumper',code:'JUMP',type:'jumper',goal:10,description:'Jump across city platforms while a shadow creature chases you from behind. Keep moving and reach the rooftop finish.'},
+{level:6,name:'Shaddah Smash',game:'3D City Racing',code:'RACE',type:'racer',goal:1400,description:'A behind-the-car perspective race with curves, traffic, buildings, streetlights, tunnels, and increasing speed.'},
+{level:7,name:'Word Wizard',game:'Coin Collectors',code:'COIN',type:'coins',goal:15,description:'Search a detailed town map and collect every coin before the timer runs out while avoiding moving hazards.'},
+{level:8,name:'Phrase Flyer',game:'Spaceship Tag',code:'TAG',type:'tag',goal:18,description:'Play tag inside a spaceship with computer-controlled crewmates, vents, rooms, doors, and a moving tagger.'},
+{level:9,name:'Quran Word Quest',game:'Space Invaders',code:'ALIEN',type:'invaders',goal:20,description:'Defend the Quran Academy station from organized alien waves, shields, enemy fire, and a final commander.'},
 {level:10,name:'Meaning Match',game:'Night Dungeon Maze',code:'DUNGEON',type:'maze2',goal:1,description:'A larger first-person dungeon maze with torch lighting, darker corridors, and a hidden exit chamber.'},
-{level:11,name:'Mouth Mission',game:'Rooftop Parkour',code:'PARK',type:'platformer',goal:14,description:'Run and jump across moving rooftop platforms, signs, cranes, and city construction zones.'},
-{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:2600,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
-{level:13,name:'Heavy Letter Hero',game:'Castle Defense',code:'CASTLE',type:'defender',goal:20,description:'Protect a detailed city gate from waves using aimed shots, walls, and defensive towers.'},
-{level:14,name:'Madd Master',game:'Rhythm Roads',code:'BEAT',type:'rhythm',goal:22,description:'Hit four music lanes with accurate timing while the city pulses to the beat.'},
-{level:15,name:'Qalqalah Bounce',game:'Sky Islands',code:'SKY',type:'platformer2',goal:15,description:'Climb floating islands, bounce pads, clouds, elevators, and airships without falling.'},
-{level:16,name:'Noon Defender',game:'Tower Defense',code:'TOWER',type:'tower',goal:24,description:'Defend a winding route from enemy waves using towers and projectiles.'},
+{level:11,name:'Mouth Mission',game:'Rooftop Parkour',code:'PARK',type:'platformer',goal:8,description:'Run and jump across moving rooftop platforms, signs, cranes, and city construction zones.'},
+{level:12,name:'Throat Trail',game:'Neon Night Racing',code:'NIGHT',type:'racer2',goal:1700,description:'Race faster at night through neon streets, tunnels, traffic, roadworks, and sharp city curves.'},
+{level:13,name:'Heavy Letter Hero',game:'Castle Defense',code:'CASTLE',type:'defender',goal:12,description:'Protect a detailed city gate from waves using aimed shots, walls, and defensive towers.'},
+{level:14,name:'Madd Master',game:'Rhythm Roads',code:'BEAT',type:'rhythm',goal:12,description:'Hit four music lanes with accurate timing while the city pulses to the beat.'},
+{level:15,name:'Qalqalah Bounce',game:'Sky Islands',code:'SKY',type:'platformer2',goal:9,description:'Climb floating islands, bounce pads, clouds, elevators, and airships without falling.'},
+{level:16,name:'Noon Defender',game:'Tower Defense',code:'TOWER',type:'tower',goal:14,description:'Defend a winding route from enemy waves using towers and projectiles.'},
 {level:17,name:'Meem Maze',game:'Meem Temple',code:'TEMPLE',type:'maze2',goal:1,description:'Navigate a first-person ancient temple with textured stone walls, a larger map, and hidden passages.'},
-{level:18,name:'Surah Explorer',game:'Galaxy Rescue',code:'SPACE',type:'space',goal:26,description:'Fly freely through an asteroid field, collect energy cores, avoid collisions, and rescue stranded ships.'},
-{level:19,name:'Tajweed Trials',game:'Guardian Boss',code:'BOSS',type:'boss',goal:30,description:'Battle a multi-stage guardian with moving attacks, a health bar, projectiles, and arena hazards.'},
-{level:20,name:'Grand Quran Challenge',game:'Arcade Championship',code:'GRAND',type:'grand',goal:40,description:'A final challenge combining racing, jumping, collecting, dodging, and combat rounds.'}
+{level:18,name:'Surah Explorer',game:'Galaxy Rescue',code:'SPACE',type:'space',goal:15,description:'Fly freely through an asteroid field, collect energy cores, avoid collisions, and rescue stranded ships.'},
+{level:19,name:'Tajweed Trials',game:'Guardian Boss',code:'BOSS',type:'boss',goal:20,description:'Battle a multi-stage guardian with moving attacks, a health bar, projectiles, and arena hazards.'},
+{level:20,name:'Grand Quran Challenge',game:'Arcade Championship',code:'GRAND',type:'grand',goal:20,description:'A final challenge combining racing, jumping, collecting, dodging, and combat rounds.'}
 ];
 
 const $=id=>document.getElementById(id);
@@ -139,13 +166,13 @@ function renderCards(){
  GAMES.forEach(g=>{
   const open=unlocked.includes(g.name),card=document.createElement('article');
   card.className=`reward-card ${open?'unlocked':'locked'}`;
-  card.innerHTML=`<span class="level-chip">Level ${g.level}</span><div class="pixel-icon">${open?g.code:'LOCK'}</div><h3>${g.game}</h3><p class="reward-name">Reward: ${g.name}</p><p>${open?g.description:`Complete Level ${g.level} to unlock.`}</p>`;
+  card.innerHTML=`<span class="level-chip">Level ${g.level}</span><div class="pixel-icon" data-type="${open?g.type:'locked'}"><span>${open?g.code:'LOCK'}</span></div><h3>${g.game}</h3><p>${open?g.description:`Complete Level ${g.level} to unlock.`}</p>`;
   const b=document.createElement('button');b.className=open?'button button-primary':'button button-secondary';b.style.cssText='width:100%;margin-top:12px';b.disabled=!open;b.textContent=open?'Play game':'Locked';
   b.addEventListener('click',()=>{document.querySelectorAll('.reward-card').forEach(x=>x.classList.remove('selected'));card.classList.add('selected');selectGame(g);gameShell.scrollIntoView({behavior:'smooth',block:'start'})});
   card.appendChild(b);rewardGrid.appendChild(card);
  });
 }
-function selectGame(g){stop();selected=g;score=0;lives=3;time=['maze','maze2','racer','racer2'].includes(g.type)?90:60;gameTitle.textContent=g.game;gameDescription.textContent=g.description;startButton.disabled=false;startButton.textContent='▶ Start';updateControls();stats();splash()}
+function selectGame(g){stop();selected=g;score=0;lives=3;time=['maze','maze2'].includes(g.type)?120:['racer','racer2','ice'].includes(g.type)?90:g.type==='coins'?70:g.type==='crossword'?120:75;gameTitle.textContent=g.game;gameDescription.textContent=g.description;startButton.disabled=false;startButton.textContent='▶ Start';updateControls();stats();splash()}
 function updateControls(){
  const t=selected?.type;
  leftButton.disabled=false;rightButton.disabled=false;upButton.disabled=false;downButton.disabled=false;actionButton.disabled=false;leftButton.textContent='◀ Left';rightButton.textContent='Right ▶';upButton.textContent='▲ Up';downButton.textContent='▼ Down';actionButton.textContent='● Action';
@@ -160,7 +187,7 @@ function updateControls(){
  else controlHelp.textContent='Move in four directions with Arrow keys or WASD. Use Space or Enter for Action.';
 }
 function setup(){
- score=0;lives=3;time=['maze','maze2','racer','racer2'].includes(selected.type)?90:selected.type==='coins'?45:60;
+ score=0;lives=3;time=['maze','maze2'].includes(selected.type)?120:['racer','racer2','ice'].includes(selected.type)?90:selected.type==='coins'?70:selected.type==='crossword'?120:75;
  const t=selected.type;
  if(t==='platformer'||t==='platformer2')state={x:120,y:410,vx:0,vy:0,camera:0,onGround:false,platforms:makePlatforms(t==='platformer2'),coins:makeCoins(),checkpoint:0};
  else if(t==='jumper')state={x:160,y:390,vx:0,vy:0,camera:0,onGround:false,chaser:-140,platforms:makeChasePlatforms(),coins:[]};
@@ -218,7 +245,17 @@ function drawRacer(){
  rect(0,horizon,W,H-horizon,night?'#0b2730':'#2f743d');
  for(let i=80;i>=1;i--){const z=i/80,y=horizon+(1-z*z)*(H-horizon),next=(i-1)/80,y2=horizon+(1-next*next)*(H-horizon),rw=65+(1-z)*820,rw2=65+(1-next)*820,c=W/2+state.curve*Math.pow(1-z,2)*300;ctx.fillStyle=i%2?'#3c4148':'#30343a';ctx.beginPath();ctx.moveTo(c-rw/2,y);ctx.lineTo(c+rw/2,y);ctx.lineTo(c+rw2/2,y2);ctx.lineTo(c-rw2/2,y2);ctx.fill();if(i%10<5)rect(c-3,y,6,Math.max(3,y2-y+2),'#f8fafc')}
  state.traffic.sort((a,b)=>b.z-a.z).forEach(o=>{const scale=1/(o.z+.18),y=horizon+(1-o.z*o.z)*(H-horizon),x=W/2+o.lane*(70+(1-o.z)*360)+state.curve*(1-o.z)*170,w=36*scale,h=58*scale;if(y<H+80){rect(x-w/2,y-h,w,h,o.color);rect(x-w*.3,y-h*.82,w*.6,h*.25,'#bde8ff');rect(x-w*.62,y-h*.22,w*.18,h*.3,'#111827');rect(x+w*.44,y-h*.22,w*.18,h*.3,'#111827')}});
- const carX=W/2+state.lane*330;rect(carX-42,414,84,78,night?'#f43f5e':'#2563eb');rect(carX-28,425,56,25,'#bde8ff');rect(carX-50,470,20,32,'#111827');rect(carX+30,470,20,32,'#111827');rect(carX-34,404,68,12,'#94a3b8');
+ const carX=W/2+state.lane*330;
+ ctx.fillStyle=night?'#f43f5e':'#2563eb';
+ ctx.beginPath();
+ ctx.moveTo(carX-52,494);ctx.lineTo(carX-43,435);ctx.lineTo(carX-25,405);
+ ctx.lineTo(carX+25,405);ctx.lineTo(carX+43,435);ctx.lineTo(carX+52,494);ctx.fill();
+ rect(carX-29,418,58,30,'#9bdcf6');
+ rect(carX-23,423,46,19,'#163451');
+ rect(carX-54,464,18,35,'#111827');rect(carX+36,464,18,35,'#111827');
+ rect(carX-40,452,80,10,night?'#fb7185':'#60a5fa');
+ rect(carX-35,487,20,8,'#ef4444');rect(carX+15,487,20,8,'#ef4444');
+ rect(carX-37,400,74,8,'#94a3b8');
  txt(`${Math.floor(state.speed)} km/h`,20,28,20,'#fff','left');txt(`${Math.floor(state.dist)} m`,940,28,20,'#fff','right');
 }
 
@@ -248,7 +285,7 @@ function lockPiece(){state.piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v&&st
 function updateBlocks(dt){state.drop+=dt;if(keys.left&&!collide(state.piece,-1,0)){state.piece.x--;keys.left=false}if(keys.right&&!collide(state.piece,1,0)){state.piece.x++;keys.right=false}if(keys.up){const r=rotateShape(state.piece.shape);if(!collide(state.piece,0,0,r))state.piece.shape=r;keys.up=false}if(keys.action){while(!collide(state.piece,0,1))state.piece.y++;lockPiece();keys.action=false}const interval=keys.down?.08:.48;if(state.drop>interval){state.drop=0;if(!collide(state.piece,0,1))state.piece.y++;else lockPiece()}}
 function drawBlocks(){clear('#06101a','#10263d');const s=24,ox=340,oy=28,colors=['','#22c55e','#3b82f6','#f4b942','#ef4444','#8b5cf6','#06b6d4'];rect(ox-12,oy-12,264,504,'#02070c');for(let y=0;y<20;y++)for(let x=0;x<10;x++){const c=state.board[y][x];rect(ox+x*s,oy+y*s,s-2,s-2,c?colors[c]:'#10263d');if(c)rect(ox+x*s+4,oy+y*s+4,s-10,5,'rgba(255,255,255,.35)')}state.piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v){rect(ox+(state.piece.x+x)*s,oy+(state.piece.y+y)*s,s-2,s-2,colors[state.piece.color]);rect(ox+(state.piece.x+x)*s+4,oy+(state.piece.y+y)*s+4,s-10,5,'rgba(255,255,255,.35)')}}));txt('NEXT',760,80,20,'#fff');state.next.shape.forEach((r,y)=>r.forEach((v,x)=>v&&rect(715+x*28,115+y*28,26,26,colors[state.next.color])));txt('LINES',120,100,22,'#fff');txt(String(score),120,145,42,'#f4b942')}
 
-function updateCrossword(dt){if(keys.left){state.x=clamp(state.x-1,0,4);keys.left=false}if(keys.right){state.x=clamp(state.x+1,0,4);keys.right=false}if(keys.up){state.y=clamp(state.y-1,0,4);keys.up=false}if(keys.down){state.y=clamp(state.y+1,0,4);keys.down=false}while(state.grid[state.y]?.[state.x]==='#'){state.x=(state.x+1)%5}score=state.answers.flat().filter((v,i)=>{const y=Math.floor(i/5),x=i%5;return state.grid[y][x]!=='#'&&v===state.grid[y][x]}).length/3}
+function updateCrossword(dt){if(keys.left){state.x=clamp(state.x-1,0,4);keys.left=false}if(keys.right){state.x=clamp(state.x+1,0,4);keys.right=false}if(keys.up){state.y=clamp(state.y-1,0,4);keys.up=false}if(keys.down){state.y=clamp(state.y+1,0,4);keys.down=false}while(state.grid[state.y]?.[state.x]==='#'){state.x=(state.x+1)%5}const correct=state.answers.flat().filter((v,i)=>{const y=Math.floor(i/5),x=i%5;return state.grid[y][x]!=='#'&&v===state.grid[y][x]}).length;score=Math.min(selected.goal,correct/4)}
 function drawCrossword(){clear('#eef8f4','#d6eee5');txt('QURAN CROSSWORD',480,42,28,'#163451');const ox=240,oy=90,s=64;for(let y=0;y<5;y++)for(let x=0;x<5;x++){const target=state.grid[y][x],sel=x===state.x&&y===state.y;if(target==='#')rect(ox+x*s,oy+y*s,s-4,s-4,'#163451');else{rect(ox+x*s,oy+y*s,s-4,s-4,sel?'#f4b942':'#fff');ctx.strokeStyle='#87a9a0';ctx.lineWidth=2;ctx.strokeRect(ox+x*s,oy+y*s,s-4,s-4);txt(state.answers[y][x]||'',ox+x*s+s/2-2,oy+y*s+s/2-2,30,'#17324a')}}txt('Clues',680,120,24,'#163451','left');txt('1. Holy book',680,165,17,'#456','left');txt('2. Religion',680,200,17,'#456','left');txt('3. Light',680,235,17,'#456','left');txt('Type letters',680,300,18,'#0f9d78','left')}
 
 function updateCatcher(dt){const speed=270;state.x+=((keys.right?1:0)-(keys.left?1:0))*speed*dt;state.y+=((keys.down?1:0)-(keys.up?1:0))*speed*dt;state.x=clamp(state.x,35,W-35);state.y=clamp(state.y,100,H-35);state.spawn+=dt;if(state.spawn>.55){state.spawn=0;state.objects.push({x:30+Math.random()*(W-60),y:-20,vy:120+Math.random()*130,bad:Math.random()<.25})}state.objects.forEach(o=>o.y+=o.vy*dt);for(let i=state.objects.length-1;i>=0;i--){const o=state.objects[i];if(Math.hypot(o.x-state.x,o.y-state.y)<40){o.bad?lives--:score++;state.objects.splice(i,1)}else if(o.y>H+30)state.objects.splice(i,1)}}
@@ -263,21 +300,33 @@ function drawDefender(){drawSkyline(0,true);rect(0,455,W,85,'#182b35');rect(40,2
 function updateBoss(dt){state.x+=((keys.right?1:0)-(keys.left?1:0))*270*dt;state.y+=((keys.down?1:0)-(keys.up?1:0))*220*dt;state.x=clamp(state.x,30,W-30);state.y=clamp(state.y,290,H-35);state.cool-=dt;if(keys.action&&state.cool<=0){state.shots.push({x:state.x,y:state.y-28,vy:-480});state.cool=.18}state.shots.forEach(s=>s.y+=s.vy*dt);state.bossX=480+Math.sin(performance.now()/700)*280;if(Math.random()<dt*2.2)state.enemyShots.push({x:state.bossX,y:state.bossY+40,vx:(state.x-state.bossX)*.35,vy:170});state.enemyShots.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt});for(let i=state.shots.length-1;i>=0;i--)if(Math.hypot(state.shots[i].x-state.bossX,state.shots[i].y-state.bossY)<60){state.shots.splice(i,1);state.bossHp--;score++}for(let i=state.enemyShots.length-1;i>=0;i--)if(Math.hypot(state.enemyShots[i].x-state.x,state.enemyShots[i].y-state.y)<30){state.enemyShots.splice(i,1);lives--}}
 function drawBoss(){clear('#130b2d','#32175e');for(let i=0;i<100;i++)rect((i*83)%W,(i*47)%H,2,2,'rgba(255,255,255,.35)');rect(state.bossX-65,state.bossY-42,130,84,'#7c3aed');rect(state.bossX-48,state.bossY-28,96,20,'#c4b5fd');rect(state.bossX-38,state.bossY+14,76,18,'#4c1d95');rect(250,35,460,18,'#2b1748');rect(250,35,460*(state.bossHp/30),18,'#ef4444');state.shots.forEach(s=>rect(s.x-4,s.y-12,8,24,'#22c55e'));state.enemyShots.forEach(s=>rect(s.x-7,s.y-7,14,14,'#f4b942'));pixelPerson(state.x,state.y,'#0f9d78',1)}
 
-function updateGeneric(dt){const speed=250;state.x+=((keys.right?1:0)-(keys.left?1:0))*speed*dt;state.y+=((keys.down?1:0)-(keys.up?1:0))*speed*dt;state.x=clamp(state.x,35,W-35);state.y=clamp(state.y,90,H-35);state.spawn+=dt;if(state.spawn>.7){state.spawn=0;state.objects.push({x:W+20,y:90+Math.random()*380,v:140+Math.random()*100,bad:Math.random()<.28})}state.objects.forEach(o=>o.x-=o.v*dt);for(let i=state.objects.length-1;i>=0;i--){const o=state.objects[i];if(Math.hypot(o.x-state.x,o.y-state.y)<40){o.bad?lives--:score++;state.objects.splice(i,1)}else if(o.x<-30)state.objects.splice(i,1)}}
-function drawGeneric(){drawSkyline(state.phase||0,selected.type==='flight');state.phase=(state.phase||0)+1;rect(0,470,W,70,'#214f60');state.objects.forEach(o=>{rect(o.x-20,o.y-20,40,40,o.bad?'#ef4444':'#f4b942');rect(o.x-12,o.y-12,24,8,'rgba(255,255,255,.5)')});pixelPerson(state.x,state.y,'#06b6d4',1)}
-
-
-function makeRoadRows(){
- const rows=[];
- for(let y=1;y<11;y++){
-  const kind=y%4===0?'river':y%3===0?'rail':'road';
-  const dir=y%2?1:-1;
-  const objects=[];
-  const count=kind==='river'?3:kind==='rail'?2:4;
-  for(let i=0;i<count;i++)objects.push({x:i*(W/count)+Math.random()*80,speed:(70+y*9)*dir,size:kind==='river'?150:kind==='rail'?190:75});
-  rows.push({y,kind,dir,objects});
+function updateGeneric(dt){
+ const speed=245;
+ state.x+=((keys.right?1:0)-(keys.left?1:0))*speed*dt;
+ state.y+=((keys.down?1:0)-(keys.up?1:0))*speed*dt;
+ state.x=clamp(state.x,35,W-35);
+ state.y=clamp(state.y,90,H-35);
+ state.spawn+=dt;
+ if(state.spawn>.8){
+   state.spawn=0;
+   state.objects.push({
+     x:W+30,
+     y:110+Math.random()*350,
+     v:135+Math.random()*95,
+     kind:Math.floor(Math.random()*3)
+   });
  }
- return rows;
+ state.objects.forEach(o=>o.x-=o.v*dt);
+ for(let i=state.objects.length-1;i>=0;i--){
+   const o=state.objects[i];
+   if(Math.hypot(o.x-state.x,o.y-state.y)<38){
+     lives--;
+     state.objects.splice(i,1);
+   }else if(o.x<-45){
+     score++;
+     state.objects.splice(i,1);
+   }
+ }
 }
 function updateCrossroads(dt){
  state.moveLock-=dt;
@@ -299,7 +348,15 @@ function updateCrossroads(dt){
  }
 }
 function drawChicken(x,y){
- rect(x-16,y-14,32,28,'#f8fafc');rect(x-10,y-22,20,12,'#f8fafc');rect(x+8,y-19,11,7,'#f4b942');rect(x-9,y+14,5,8,'#f4b942');rect(x+5,y+14,5,8,'#f4b942');rect(x-5,y-19,4,4,'#111827')
+ rect(x-17,y-12,34,27,'#f8fafc');
+ rect(x-11,y-24,22,15,'#fff');
+ rect(x+9,y-20,13,7,'#f59e0b');
+ rect(x-8,y-29,6,7,'#ef4444');
+ rect(x+1,y-29,6,7,'#ef4444');
+ rect(x-7,y+15,5,9,'#f59e0b');
+ rect(x+6,y+15,5,9,'#f59e0b');
+ rect(x-5,y-20,4,4,'#111827');
+ rect(x-13,y-6,7,12,'#e5e7eb');
 }
 function drawCrossroads(){
  clear('#86d3f3','#bdefff');const rh=42;
@@ -366,7 +423,11 @@ function updateCoins(dt){
 function drawCoins(){
  rect(0,0,W,H,'#8ac5db');for(let y=70;y<H;y+=115)for(let x=0;x<W;x+=170){rect(x+8,y,120,75,'#b9653b');rect(x+18,y+12,24,30,'#9bd5f5');rect(x+76,y+12,24,30,'#9bd5f5');rect(x+51,y+43,30,32,'#593a27')}
  rect(0,250,W,80,'#454b52');for(let x=0;x<W;x+=80)rect(x,288,42,5,'#f8fafc');rect(410,0,100,H,'#454b52');for(let y=0;y<H;y+=80)rect(457,y,6,42,'#f8fafc');
- state.coins.forEach(c=>{if(!c.taken){rect(c.x-12,c.y-16,24,32,'#f4b942');rect(c.x-5,c.y-10,10,20,'#fff3a3')}});
+ state.coins.forEach(c=>{if(!c.taken){
+      ctx.fillStyle='#d99a17';ctx.beginPath();ctx.arc(c.x,c.y,14,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#fff0a6';ctx.lineWidth=4;ctx.beginPath();ctx.arc(c.x,c.y,9,0,Math.PI*2);ctx.stroke();
+      rect(c.x-2,c.y-8,4,16,'#fff2b2');
+    }});
  state.hazards.forEach(h=>{rect(h.x-24,h.y-14,48,28,'#ef4444');rect(h.x-14,h.y-10,28,8,'#bde8ff')});pixelPerson(state.x,state.y,'#2563eb',.9);txt(`${25-score} coins left`,18,24,18,'#fff','left')
 }
 
@@ -392,7 +453,7 @@ function updateInvaders(dt){
  if(keys.action&&state.cool<=0){state.shots.push({x:state.x,y:460});state.cool=.22}
  state.shots.forEach(s=>s.y-=430*dt);state.step+=dt;
  if(state.step>.6){state.step=0;let edge=false;state.aliens.forEach(a=>{if(a.alive&&(a.x>900||a.x<60))edge=true});if(edge){state.dir*=-1;state.aliens.forEach(a=>a.y+=20)}state.aliens.forEach(a=>a.x+=18*state.dir);if(Math.random()<.9){const alive=state.aliens.filter(a=>a.alive);if(alive.length){const a=alive[Math.floor(Math.random()*alive.length)];state.enemyShots.push({x:a.x,y:a.y})}}}
- state.enemyShots.forEach(s=>s.y+=210*dt);
+ state.enemyShots.forEach(s=>s.y+=210*dt);if(state.aliens.every(a=>!a.alive))score=selected.goal;
  for(let i=state.shots.length-1;i>=0;i--)for(const a of state.aliens)if(a.alive&&Math.abs(a.x-state.shots[i].x)<24&&Math.abs(a.y-state.shots[i].y)<20){a.alive=false;state.shots.splice(i,1);score++;break}
  for(let i=state.enemyShots.length-1;i>=0;i--)if(Math.abs(state.enemyShots[i].x-state.x)<28&&state.enemyShots[i].y>455){state.enemyShots.splice(i,1);lives--}
 }
