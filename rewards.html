@@ -220,6 +220,60 @@ function renderCards(){
   card.appendChild(b);rewardGrid.appendChild(card);
  });
 }
+
+function drawBackAvatar(x,y,shirt='#0f9d78',scale=1,variant=0,run=0,lean=0){
+ const skin=['#f2c09a','#d99b74','#b96f4c','#8e4b35'][variant%4];
+ const hair=['#201713','#5c3321','#c7952e','#111827','#8b3d28','#6d2949'][variant%6];
+ const pants=['#304b72','#58406f','#2f6654','#6b4c2d'][variant%4];
+ const s=n=>Math.round(n*scale);
+ const step=Math.sin(run)*s(3);
+ ctx.save();
+ ctx.translate(Math.round(x),Math.round(y));
+ ctx.rotate(lean*.035);
+
+ // Ground shadow.
+ rect(-s(14),s(28),s(28),s(6),'rgba(0,0,0,.28)');
+
+ // Legs and shoes.
+ rect(-s(11),s(12)+step,s(9),s(17),pants);
+ rect(s(2),s(12)-step,s(9),s(17),pants);
+ rect(-s(12),s(26)+step,s(11),s(5),'#111827');
+ rect(s(1),s(26)-step,s(11),s(5),'#111827');
+
+ // Back of shirt, collar, and center seam.
+ rect(-s(15),-s(10),s(30),s(24),shirt);
+ rect(-s(15),s(8),s(30),s(6),'rgba(0,0,0,.16)');
+ rect(-s(4),-s(9),s(8),s(5),'rgba(255,255,255,.22)');
+ rect(-s(1),-s(4),s(2),s(15),'rgba(0,0,0,.12)');
+
+ // Arms swinging.
+ rect(-s(20),-s(7)-step,s(7),s(18),shirt);
+ rect(s(13),-s(7)+step,s(7),s(18),shirt);
+ rect(-s(20),s(8)-step,s(7),s(7),skin);
+ rect(s(13),s(8)+step,s(7),s(7),skin);
+
+ // Back of head and hair.
+ rect(-s(11),-s(29),s(22),s(20),skin);
+ rect(-s(12),-s(32),s(24),s(9),hair);
+ rect(-s(13),-s(27),s(5),s(14),hair);
+ rect(s(8),-s(27),s(5),s(14),hair);
+ if(variant%3===1){
+   rect(-s(14),-s(24),s(5),s(18),hair);
+   rect(s(9),-s(24),s(5),s(18),hair);
+ }
+ if(variant%3===2){
+   rect(-s(7),-s(35),s(7),s(8),hair);
+   rect(s(1),-s(36),s(7),s(9),hair);
+ }
+
+ // Backpack / academy emblem.
+ rect(-s(8),-s(2),s(16),s(13),'rgba(9,31,49,.35)');
+ rect(-s(5),s(1),s(10),s(7),'rgba(255,255,255,.18)');
+ rect(-s(2),s(3),s(4),s(3),'#5eead4');
+
+ ctx.restore();
+}
+
 function selectGame(g){stop();hideEnd();selected=g;score=0;lives=3;time=['maze','maze2'].includes(g.type)?120:['racer','racer2','ice'].includes(g.type)?90:g.type==='coins'?70:g.type==='crossword'?120:75;gameTitle.textContent=g.game;gameDescription.textContent=g.description;startButton.disabled=false;startButton.textContent='▶ Start';updateControls();stats();splash()}
 function updateControls(){
  const t=selected?.type;
@@ -446,7 +500,7 @@ function drawMaze(){
  // Third-person player avatar from behind.
  const avatarY=454+bob;
  const facing=keys.left?-1:1;
- pixelPerson(W/2,avatarY,'#0f9d78',1.18,2,facing,performance.now()/100);
+ drawBackAvatar(W/2,avatarY,'#0f9d78',1.18,2,performance.now()/100,(keys.right?1:0)-(keys.left?1:0));
 
  // Shoulder shading makes the camera feel behind the player.
  const shoulder=ctx.createRadialGradient(W/2,avatarY-10,15,W/2,avatarY-10,100);
@@ -716,6 +770,12 @@ function drawCrew(x,y,c,tag=false,variant=0,facing=1,run=0,scale=1){
 function drawTag(){
  const moving=keys.up||keys.down||keys.left||keys.right;
  const bob=moving?Math.sin(performance.now()/105)*4:0;
+ const moveX=(keys.right?1:0)-(keys.left?1:0);
+ const moveY=(keys.down?1:0)-(keys.up?1:0);
+
+ // Camera follows the player's world position.
+ const camX=(state.x-480)*.7;
+ const camY=(state.y-290)*.24;
 
  // Interior ceiling.
  const ceiling=ctx.createLinearGradient(0,0,0,175);
@@ -723,105 +783,106 @@ function drawTag(){
  ceiling.addColorStop(1,'#162338');
  ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,180);
 
- // Interior back wall.
- rect(0,115,W,205,'#223247');
- for(let x=0;x<W;x+=96){
-   rect(x+4,123,88,187,x%192===0?'#2e435a':'#293b51');
-   line(x+4,123,x+4,310,3,'#111c2a');
-   line(x+92,123,x+92,310,3,'#41566c');
+ // Back wall panels move opposite the player, so movement is obvious.
+ rect(0,112,W,210,'#223247');
+ const panelOffset=((camX%96)+96)%96;
+ for(let x=-96-panelOffset;x<W+96;x+=96){
+   rect(x+4,120-camY,88,192,(Math.floor((x+panelOffset)/96)%2===0)?'#2e435a':'#293b51');
+   line(x+4,120-camY,x+4,312-camY,3,'#111c2a');
+   line(x+92,120-camY,x+92,312-camY,3,'#41566c');
  }
 
- // Windows showing space.
- for(let i=0;i<5;i++){
-   const wx=40+i*188;
-   rect(wx,48,135,68,'#52657a');
-   rect(wx+7,55,121,54,'#07131e');
+ // Space windows.
+ const windowOffset=((camX*.45)%188+188)%188;
+ for(let i=-1;i<7;i++){
+   const wx=40+i*188-windowOffset;
+   rect(wx,46-camY*.18,135,68,'#52657a');
+   rect(wx+7,53-camY*.18,121,54,'#07131e');
    for(let s=0;s<8;s++){
-     rect(wx+14+(s*37+i*11)%105,61+(s*19)%40,2,2,'rgba(255,255,255,.7)');
-   }
-   if(i===3){
-     ctx.fillStyle='rgba(59,130,246,.35)';
-     ctx.beginPath();ctx.arc(wx+95,78,18,0,Math.PI*2);ctx.fill();
+     rect(wx+14+(s*37+i*11)%105,59-camY*.18+(s*19)%40,2,2,'rgba(255,255,255,.72)');
    }
  }
 
  // Ceiling lights.
- for(let i=0;i<7;i++){
-   rect(54+i*137,18,80,10,'#5eead4');
-   const glow=ctx.createLinearGradient(0,28,0,90);
-   glow.addColorStop(0,'rgba(94,234,212,.12)');
+ const lightOffset=((camX*.3)%137+137)%137;
+ for(let i=-1;i<9;i++){
+   const lx=54+i*137-lightOffset;
+   rect(lx,18,80,10,'#5eead4');
+   const glow=ctx.createLinearGradient(0,28,0,92);
+   glow.addColorStop(0,'rgba(94,234,212,.13)');
    glow.addColorStop(1,'rgba(94,234,212,0)');
-   ctx.fillStyle=glow;ctx.fillRect(50+i*137,28,88,65);
+   ctx.fillStyle=glow;ctx.fillRect(lx-4,28,88,65);
  }
 
  // Floor in perspective.
  ctx.beginPath();
- ctx.moveTo(135,305);
- ctx.lineTo(W-135,305);
+ ctx.moveTo(135,305-camY);
+ ctx.lineTo(W-135,305-camY);
  ctx.lineTo(W,540);
  ctx.lineTo(0,540);
  ctx.closePath();
  ctx.fillStyle='#1c2635';
  ctx.fill();
 
- // Floor panels and center walkway.
- for(let y=315;y<H;y+=30){
+ // Moving floor grid makes forward/back movement visible.
+ const floorShift=((state.y*1.4)%30+30)%30;
+ for(let y=305-floorShift;y<H;y+=30){
    line(0,y,W,y,2,'rgba(255,255,255,.055)');
  }
- for(let i=-8;i<=8;i++){
-   line(W/2+i*44,305,W/2+i*82,H,1,'rgba(255,255,255,.045)');
+ for(let i=-9;i<=9;i++){
+   line(W/2+i*43-camX*.18,305-camY,W/2+i*82-camX*.5,H,1,'rgba(255,255,255,.045)');
  }
+
+ // Center walkway.
  ctx.beginPath();
- ctx.moveTo(385,305);
- ctx.lineTo(575,305);
- ctx.lineTo(700,H);
- ctx.lineTo(260,H);
+ ctx.moveTo(385-camX*.12,305-camY);
+ ctx.lineTo(575-camX*.12,305-camY);
+ ctx.lineTo(700-camX*.35,H);
+ ctx.lineTo(260-camX*.35,H);
  ctx.closePath();
  ctx.fillStyle='#26384c';
  ctx.fill();
- line(385,305,260,H,4,'#3d5369');
- line(575,305,700,H,4,'#3d5369');
 
- // Doors, consoles, crates, pipes: clearly inside the ship.
- for(let i=0;i<4;i++){
-   const x=52+i*230;
-   rect(x,180,128,140,'#172435');
-   rect(x+10,191,108,118,'#2c4055');
-   rect(x+46,208,36,72,'#0c1624');
-   rect(x+57,231,14,8,'#5eead4');
-   rect(x+15,196,18,9,'#f4b942');
+ // Doors and consoles slide with camera.
+ for(let i=-1;i<6;i++){
+   const x=52+i*230-camX*.65;
+   const y=180-camY;
+   rect(x,y,128,140,'#172435');
+   rect(x+10,y+11,108,118,'#2c4055');
+   rect(x+46,y+28,36,72,'#0c1624');
+   rect(x+57,y+51,14,8,'#5eead4');
+   rect(x+15,y+16,18,9,'#f4b942');
  }
- for(let i=0;i<3;i++){
-   const x=120+i*330;
-   rect(x,330,92,48,'#39495a');
-   rect(x+8,338,76,32,'#263544');
-   rect(x+14,344,17,7,'#ef4444');
-   rect(x+38,344,17,7,'#22c55e');
-   rect(x+62,344,14,7,'#3b82f6');
+ for(let i=-1;i<5;i++){
+   const x=120+i*330-camX*.85;
+   const y=330-camY*.6;
+   rect(x,y,92,48,'#39495a');
+   rect(x+8,y+8,76,32,'#263544');
+   rect(x+14,y+14,17,7,'#ef4444');
+   rect(x+38,y+14,17,7,'#22c55e');
+   rect(x+62,y+14,14,7,'#3b82f6');
  }
- rect(25,270,95,64,'#526171');rect(36,280,73,44,'#293848');
- rect(W-120,270,95,64,'#526171');rect(W-109,280,73,44,'#293848');
 
- // Translate the world around the player into the interior camera.
+ // World-to-screen projection relative to the player.
  const worldToScreen=(wx,wy)=>{
    const dx=wx-state.x;
    const dy=wy-state.y;
-   const sx=W/2+dx*.88;
-   const sy=325+dy*.48;
-   const scale=clamp(.54+(dy+260)/650,.48,1.08);
+   const sx=W/2+dx*.9;
+   const sy=315+dy*.5;
+   const scale=clamp(.52+(dy+270)/660,.46,1.08);
    return{x:sx,y:sy,scale};
  };
 
- // Draw AI from farthest to nearest.
+ // AI players, farthest first.
  const actors=state.players
    .map((p,i)=>({p,i,view:worldToScreen(p.x,p.y)}))
-   .filter(a=>a.view.x>-80&&a.view.x<W+80&&a.view.y>195&&a.view.y<H+60)
+   .filter(a=>a.view.x>-80&&a.view.x<W+80&&a.view.y>170&&a.view.y<H+65)
    .sort((a,b)=>a.view.y-b.view.y);
 
  actors.forEach(({p,i,view})=>{
    drawCrew(
      view.x,
-     view.y+bob*.1,
+     view.y+bob*.08,
      p.color,
      !state.playerIsTagger&&i===state.tagger,
      p.variant||i,
@@ -831,25 +892,33 @@ function drawTag(){
    );
  });
 
- // Third-person player avatar in front of the camera.
- drawCrew(
-   W/2,
-   447+bob,
+ // Player from the back, centered in third person.
+ drawBackAvatar(
+   W/2+moveX*12,
+   450+bob+moveY*2,
    '#f8fafc',
-   state.playerIsTagger,
+   1.26,
    9,
-   state.playerFace||1,
    state.playerAnim||0,
-   1.22
+   moveX
  );
 
- // HUD.
- rect(15,15,180,38,'rgba(4,10,18,.78)');
- rect(W-195,15,180,38,'rgba(4,10,18,.78)');
+ // Direction arrow and HUD.
+ const arrowY=390+bob;
+ ctx.fillStyle='rgba(94,234,212,.8)';
+ ctx.beginPath();
+ ctx.moveTo(W/2,arrowY-18);
+ ctx.lineTo(W/2-12,arrowY);
+ ctx.lineTo(W/2+12,arrowY);
+ ctx.closePath();
+ ctx.fill();
+
+ rect(15,15,180,38,'rgba(4,10,18,.8)');
+ rect(W-195,15,180,38,'rgba(4,10,18,.8)');
  txt(`Tags ${state.tagsMade}`,30,35,18,'#5eead4','left');
  txt(`${Math.max(0,Math.ceil(state.roundTime))}s`,W-30,35,20,'#fff','right');
  txt(state.playerIsTagger?'YOU ARE THE TAGGER':'ESCAPE THE TAGGER',W/2,34,22,state.playerIsTagger?'#f4b942':'#fff');
- txt('Inside the Quran Academy starship',W/2,76,15,'#cbd5e1');
+ txt('Back-view spaceship tag',W/2,76,15,'#cbd5e1');
 }
 
 function makeAliens(){const a=[];for(let r=0;r<5;r++)for(let c=0;c<9;c++)a.push({x:210+c*68,y:85+r*45,alive:true,row:r});return a}
@@ -929,14 +998,31 @@ function draw(){
 }
 function loop(now){if(!running)return;const dt=Math.min(.033,(now-last)/1000);last=now;update(dt);draw();if(running)raf=requestAnimationFrame(loop)}
 
-function bindHold(button,key){button.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true});['pointerup','pointercancel','pointerleave'].forEach(ev=>button.addEventListener(ev,()=>keys[key]=false))}
+function bindHold(button,key){
+ button.addEventListener('pointerdown',e=>{
+   e.preventDefault();
+   keys[key]=true;
+   try{button.setPointerCapture(e.pointerId)}catch{}
+ });
+ const release=e=>{
+   keys[key]=false;
+   try{
+     if(e?.pointerId!==undefined&&button.hasPointerCapture(e.pointerId)){
+       button.releasePointerCapture(e.pointerId);
+     }
+   }catch{}
+ };
+ button.addEventListener('pointerup',release);
+ button.addEventListener('pointercancel',release);
+ button.addEventListener('lostpointercapture',()=>{keys[key]=false});
+});['pointerup','pointercancel','pointerleave'].forEach(ev=>button.addEventListener(ev,()=>keys[key]=false))}
 bindHold(leftButton,'left');bindHold(rightButton,'right');bindHold(upButton,'up');bindHold(downButton,'down');bindHold(actionButton,'action');
 
 window.addEventListener('keydown',e=>{
  const map={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',' ':'action',Enter:'action'};
  if(selected?.type==='crossword'&&/^[a-zA-Z]$/.test(e.key)){handleLetter(e.key);e.preventDefault();return}
  const k=map[e.key];if(k)keys[k]=true;
- const active=document.fullscreenElement||document.activeElement===canvas;
+ const active=document.fullscreenElement||document.activeElement===canvas||running&&['tag','maze','maze2'].includes(selected?.type);
  if(active&&k)e.preventDefault();
 });
 window.addEventListener('keyup',e=>{const map={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',' ':'action',Enter:'action'};const k=map[e.key];if(k)keys[k]=false});
