@@ -303,7 +303,7 @@ function setup(){
  else if(t==='crossroads')state={x:7,y:11,rows:makeRoadRows(),moveLock:0};
  else if(t==='ice')state={x:480,speed:260,dist:0,obstacles:[],spawn:0,jump:0,vy:0};
  else if(t==='coins')state={x:480,y:300,coins:makeTownCoins(),hazards:makeTownHazards(),boost:0};
- else if(t==='tag')state={x:480,y:290,cameraX:480,cameraY:290,players:makeTagPlayers(),tagger:0,playerIsTagger:false,boost:0,rooms:makeShipRooms(),roundTime:25,tagsMade:0,invuln:0,playerFace:1,playerAnim:0};
+ else if(t==='tag')state={x:480,y:290,angle:-Math.PI/2,cameraX:480,cameraY:395,players:makeTagPlayers(),tagger:0,playerIsTagger:false,boost:0,rooms:makeShipRooms(),roundTime:25,tagsMade:0,invuln:0,playerFace:1,playerAnim:0};
  else if(t==='invaders'){state=makeInvaderState();lives=5;time=150;}
  else if(t==='blocks')state=makeBlockState();
  else if(t==='catcher'||t==='space')state={x:480,y:420,objects:[],spawn:0};
@@ -412,20 +412,49 @@ function farthestOpenCell(map,sx,sy){
 const MAZE_MAP=['111111111111','100000000001','101111011101','101000010001','101011110101','100010000101','111010111101','100010000001','101111111101','100000000001','111111111111'];
 const DUNGEON_MAP=['111111111111111','100000100000001','101110101111101','101000101000001','101011101011101','100010001010001','111010111010111','100010000010001','101111111110101','100000000000001','111111111111111'];
 function castRay(angle){let d=0;while(d<25){d+=.025;const x=state.x+Math.cos(angle)*d,y=state.y+Math.sin(angle)*d,xi=Math.floor(x),yi=Math.floor(y);if(yi<0||yi>=state.map.length||xi<0||xi>=state.map[0].length||state.map[yi][xi]==='1')return d}return 25}
+
+function mazeCellOpen(map,x,y){
+ const row=map[Math.floor(y)];
+ return !!row&&row[Math.floor(x)]==='0';
+}
+function mazeCanStand(map,x,y,radius=.26){
+ return(
+   mazeCellOpen(map,x-radius,y-radius)&&
+   mazeCellOpen(map,x+radius,y-radius)&&
+   mazeCellOpen(map,x-radius,y+radius)&&
+   mazeCellOpen(map,x+radius,y+radius)&&
+   mazeCellOpen(map,x,y)
+ );
+}
+
 function updateMaze(dt){
- const speed=3.25;
+ const speed=3.05;
  let dx=((keys.right?1:0)-(keys.left?1:0));
  let dy=((keys.down?1:0)-(keys.up?1:0));
- if(dx&&dy){dx*=.707;dy*=.707}
 
- const nx=state.x+dx*speed*dt;
- const ny=state.y+dy*speed*dt;
+ if(dx&&dy){
+   dx*=.707;
+   dy*=.707;
+ }
 
- if(state.map[Math.floor(state.y)]?.[Math.floor(nx)]==='0')state.x=nx;
- if(state.map[Math.floor(ny)]?.[Math.floor(state.x)]==='0')state.y=ny;
+ const stepX=dx*speed*dt;
+ const stepY=dy*speed*dt;
+ const radius=.28;
+
+ // Resolve movement on each axis separately with a real body radius.
+ const nextX=state.x+stepX;
+ if(mazeCanStand(state.map,nextX,state.y,radius)){
+   state.x=nextX;
+ }
+
+ const nextY=state.y+stepY;
+ if(mazeCanStand(state.map,state.x,nextY,radius)){
+   state.y=nextY;
+ }
 
  if(dx!==0)state.face=dx<0?-1:1;
  state.walk=(state.walk||0)+(Math.abs(dx)+Math.abs(dy)>0?dt*10:dt*2);
+
  state.cameraX+=(state.x-state.cameraX)*Math.min(1,dt*6);
  state.cameraY+=(state.y-state.cameraY)*Math.min(1,dt*6);
 
@@ -435,7 +464,7 @@ function updateMaze(dt){
 }
 function drawMaze(){
  const dark=selected.type==='maze2';
- const tile=54;
+ const tile=58;
  const camX=(state.cameraX||state.x)*tile-W/2;
  const camY=(state.cameraY||state.y)*tile-H/2;
 
@@ -497,7 +526,7 @@ function drawMaze(){
  const playerY=state.y*tile-camY;
  drawBackAvatar(
    playerX,
-   playerY+8,
+   playerY+4,
    '#0f9d78',
    1.0,
    2,
@@ -824,36 +853,58 @@ function updateTag(dt){
  state.roundTime-=dt;
  state.invuln=Math.max(0,state.invuln-dt);
 
- const dx=((keys.right?1:0)-(keys.left?1:0));
- const dy=((keys.down?1:0)-(keys.up?1:0));
- const boost=keys.action?1.7:1;
+ const turn=((keys.right?1:0)-(keys.left?1:0));
+ const forward=((keys.up?1:0)-(keys.down?1:0));
+ const dash=keys.action?1.65:1;
 
- // The player's real world position changes.
- state.x=clamp(state.x+dx*205*boost*dt,55,905);
- state.y=clamp(state.y+dy*205*boost*dt,75,475);
+ state.angle=(state.angle||0)+turn*2.35*dt;
 
- if(dx!==0)state.playerFace=dx<0?-1:1;
- state.playerAnim=(state.playerAnim||0)+(Math.abs(dx)+Math.abs(dy)>0?dt*11:dt*2);
+ const moveSpeed=185*dash;
+ const vx=Math.cos(state.angle)*forward*moveSpeed;
+ const vy=Math.sin(state.angle)*forward*moveSpeed;
 
- // Camera follows slowly, so the avatar visibly moves before the camera catches up.
- state.cameraX+=(state.x-state.cameraX)*Math.min(1,dt*2.2);
- state.cameraY+=(state.y-state.cameraY)*Math.min(1,dt*2.2);
+ const nextX=clamp(state.x+vx*dt,65,895);
+ const nextY=clamp(state.y+vy*dt,80,460);
+
+ state.x=nextX;
+ state.y=nextY;
+
+ state.playerFace=1;
+ state.playerAnim=(state.playerAnim||0)+(Math.abs(forward)>0?dt*11:dt*2);
+
+ // Camera is behind the player and follows the same facing angle.
+ const followDistance=105;
+ const targetCameraX=state.x-Math.cos(state.angle)*followDistance;
+ const targetCameraY=state.y-Math.sin(state.angle)*followDistance;
+ state.cameraX+=(targetCameraX-state.cameraX)*Math.min(1,dt*5);
+ state.cameraY+=(targetCameraY-state.cameraY)*Math.min(1,dt*5);
 
  if(state.playerIsTagger){
    state.players.forEach((p,i)=>{
-     const awayX=p.x-state.x,awayY=p.y-state.y,d=Math.hypot(awayX,awayY)||1;
-     p.x=clamp(p.x+awayX/d*76*dt+Math.sin(performance.now()/500+i)*18*dt,55,905);
-     p.y=clamp(p.y+awayY/d*76*dt+Math.cos(performance.now()/620+i)*18*dt,75,475);
+     const awayX=p.x-state.x;
+     const awayY=p.y-state.y;
+     const distance=Math.hypot(awayX,awayY)||1;
+
+     p.x=clamp(
+       p.x+awayX/distance*76*dt+Math.sin(performance.now()/500+i)*18*dt,
+       65,
+       895
+     );
+     p.y=clamp(
+       p.y+awayY/distance*76*dt+Math.cos(performance.now()/620+i)*18*dt,
+       80,
+       460
+     );
      p.face=awayX<0?-1:1;
      p.anim=(p.anim||0)+dt*8;
 
-     if(state.invuln<=0&&Math.hypot(p.x-state.x,p.y-state.y)<34){
+     if(state.invuln<=0&&distance<34){
        state.playerIsTagger=false;
        state.tagger=i;
        state.tagsMade++;
        score++;
        state.invuln=1.25;
-       gameMessage.textContent='Tagged! Now run from the new tagger.';
+       gameMessage.textContent='Tagged! Now escape from the new tagger.';
      }
    });
  }else{
@@ -861,14 +912,28 @@ function updateTag(dt){
 
    state.players.forEach((p,i)=>{
      if(i===state.tagger){
-       const chaseX=state.x-p.x,chaseY=state.y-p.y,d=Math.hypot(chaseX,chaseY)||1;
-       p.x=clamp(p.x+chaseX/d*128*dt,55,905);
-       p.y=clamp(p.y+chaseY/d*128*dt,75,475);
+       const chaseX=state.x-p.x;
+       const chaseY=state.y-p.y;
+       const distance=Math.hypot(chaseX,chaseY)||1;
+
+       p.x=clamp(p.x+chaseX/distance*126*dt,65,895);
+       p.y=clamp(p.y+chaseY/distance*126*dt,80,460);
        p.face=chaseX<0?-1:1;
      }else{
-       const awayX=p.x-tagger.x,awayY=p.y-tagger.y,d=Math.hypot(awayX,awayY)||1;
-       p.x=clamp(p.x+awayX/d*67*dt+Math.sin(performance.now()/530+i)*13*dt,55,905);
-       p.y=clamp(p.y+awayY/d*67*dt+Math.cos(performance.now()/640+i)*13*dt,75,475);
+       const awayX=p.x-tagger.x;
+       const awayY=p.y-tagger.y;
+       const distance=Math.hypot(awayX,awayY)||1;
+
+       p.x=clamp(
+         p.x+awayX/distance*64*dt+Math.sin(performance.now()/530+i)*13*dt,
+         65,
+         895
+       );
+       p.y=clamp(
+         p.y+awayY/distance*64*dt+Math.cos(performance.now()/640+i)*13*dt,
+         80,
+         460
+       );
        p.face=awayX<0?-1:1;
      }
      p.anim=(p.anim||0)+dt*8;
@@ -877,11 +942,13 @@ function updateTag(dt){
    if(state.invuln<=0&&Math.hypot(tagger.x-state.x,tagger.y-state.y)<34){
      state.playerIsTagger=true;
      state.invuln=1.25;
-     gameMessage.textContent='You are IT! Chase an AI crewmate.';
+     gameMessage.textContent='You are IT! Chase one of the AI crewmates.';
    }
  }
 
- if(state.roundTime<=0)score=selected.goal;
+ if(state.roundTime<=0){
+   score=selected.goal;
+ }
 }
 
 function projectTagPoint(wx,wy){const relX=wx-state.x,relY=wy-state.y;const sx=W/2+relX*.92;const sy=355+relY*.5;const scale=clamp(.55+(relY+260)/620,.48,1.18);return{x:sx,y:sy,scale};}
@@ -896,114 +963,192 @@ function drawCrew(x,y,c,tag=false,variant=0,facing=1,run=0,scale=1){
  rect(-s(6),-s(20),s(3),s(3),'#17202a');rect(s(4),-s(20),s(3),s(3),'#17202a');rect(-s(2),-s(13),s(6),s(2),'rgba(90,45,32,.55)');rect(-s(4),-s(2),s(8),s(6),'rgba(255,255,255,.16)');
  ctx.restore();if(tag){ctx.strokeStyle='#f4b942';ctx.lineWidth=Math.max(2,Math.round(scale*3));ctx.strokeRect(x-s(24),y-s(38),s(48),s(69));txt('IT',x,y-s(48),Math.max(12,Math.round(scale*14)),'#f4b942')}}
 
+
+function tagWorldToCamera(wx,wy){
+ const dx=wx-state.cameraX;
+ const dy=wy-state.cameraY;
+ const cos=Math.cos(-state.angle+Math.PI/2);
+ const sin=Math.sin(-state.angle+Math.PI/2);
+
+ return{
+   side:dx*cos-dy*sin,
+   depth:dx*sin+dy*cos
+ };
+}
+function tagProject(wx,wy){
+ const camera=tagWorldToCamera(wx,wy);
+ const depth=Math.max(24,camera.depth+125);
+ const scale=clamp(210/depth,.42,1.45);
+
+ return{
+   x:W/2+camera.side*scale*1.35,
+   y:235+depth*.72,
+   scale,
+   depth:camera.depth
+ };
+}
+
 function drawTag(){
- const camX=state.cameraX||state.x;
- const camY=state.cameraY||state.y;
- const screenX=wx=>W/2+(wx-camX);
- const screenY=wy=>H/2+(wy-camY);
+ const moving=keys.up||keys.down;
+ const bob=moving?Math.sin(performance.now()/105)*4:0;
 
- // Full spaceship interior map.
- rect(0,0,W,H,'#09111d');
+ // Ceiling and far interior.
+ const ceiling=ctx.createLinearGradient(0,0,0,225);
+ ceiling.addColorStop(0,'#050a12');
+ ceiling.addColorStop(1,'#18263a');
+ ctx.fillStyle=ceiling;
+ ctx.fillRect(0,0,W,230);
 
- // Ship rooms and corridors.
- const rooms=[
-   {x:35,y:45,w:255,h:165,label:'ENGINE'},
-   {x:335,y:40,w:290,h:170,label:'CAFETERIA'},
-   {x:675,y:45,w:250,h:165,label:'MED BAY'},
-   {x:55,y:300,w:260,h:175,label:'STORAGE'},
-   {x:365,y:285,w:225,h:195,label:'CONTROL'},
-   {x:645,y:295,w:280,h:175,label:'LAB'}
- ];
+ // Far bulkhead wall.
+ rect(0,105,W,180,'#24364b');
+ for(let x=0;x<W;x+=96){
+   rect(x+3,112,90,166,(x/96)%2===0?'#30465d':'#293d53');
+   line(x+3,112,x+3,278,3,'#101a27');
+   line(x+93,112,x+93,278,3,'#465d73');
+ }
 
- // Main corridor floor.
- rect(screenX(25),screenY(230),900,70,'#26384c');
- rect(screenX(440),screenY(20),80,500,'#26384c');
-
- rooms.forEach((r,i)=>{
-   const x=screenX(r.x),y=screenY(r.y);
-   rect(x,y,r.w,r.h,i%2?'#263a4f':'#213448');
-   ctx.strokeStyle='#60758a';ctx.lineWidth=5;ctx.strokeRect(x,y,r.w,r.h);
-
-   // Interior wall panels.
-   for(let px=x+12;px<x+r.w-12;px+=54){
-     rect(px,y+12,42,14,'#3f566d');
-     rect(px+6,y+17,7,4,'#5eead4');
-   }
-   for(let py=y+48;py<y+r.h-20;py+=42){
-     line(x+12,py,x+r.w-12,py,2,'rgba(255,255,255,.055)');
-   }
-
-   // Door.
-   rect(x+r.w/2-24,y+r.h-34,48,34,'#111c2a');
-   rect(x+r.w/2-8,y+r.h-22,16,6,'#f4b942');
-   txt(r.label,x+r.w/2,y+33,14,'#cbd5e1');
- });
-
- // Windows, consoles, crates.
+ // Windows.
  for(let i=0;i<5;i++){
-   const x=screenX(75+i*180),y=screenY(20);
-   rect(x,y,120,25,'#536b80');
-   rect(x+7,y+5,106,15,'#07131e');
-   rect(x+28,y+10,2,2,'#fff');
-   rect(x+72,y+7,2,2,'#fff');
- }
- for(let i=0;i<4;i++){
-   const x=screenX(120+i*220),y=screenY(250);
-   rect(x,y,84,34,'#3c4d5e');
-   rect(x+8,y+8,68,18,'#1d2a38');
-   rect(x+15,y+12,10,5,'#ef4444');
-   rect(x+33,y+12,10,5,'#22c55e');
-   rect(x+51,y+12,10,5,'#3b82f6');
+   const x=44+i*188;
+   rect(x,48,132,62,'#52677b');
+   rect(x+7,55,118,48,'#060d18');
+
+   for(let star=0;star<8;star++){
+     rect(
+       x+15+(star*37+i*13)%100,
+       61+(star*17)%34,
+       2,
+       2,
+       'rgba(255,255,255,.72)'
+     );
+   }
  }
 
- // Draw AI in world position. The player moves independently.
+ // Ceiling lights.
+ for(let i=0;i<7;i++){
+   const x=44+i*140;
+   rect(x,18,88,10,'#5eead4');
+
+   const glow=ctx.createLinearGradient(0,28,0,105);
+   glow.addColorStop(0,'rgba(94,234,212,.13)');
+   glow.addColorStop(1,'rgba(94,234,212,0)');
+   ctx.fillStyle=glow;
+   ctx.fillRect(x-6,28,100,77);
+ }
+
+ // Corridor floor perspective.
+ ctx.beginPath();
+ ctx.moveTo(170,235);
+ ctx.lineTo(W-170,235);
+ ctx.lineTo(W,540);
+ ctx.lineTo(0,540);
+ ctx.closePath();
+ ctx.fillStyle='#1b2635';
+ ctx.fill();
+
+ // Main walkway.
+ ctx.beginPath();
+ ctx.moveTo(395,235);
+ ctx.lineTo(565,235);
+ ctx.lineTo(720,540);
+ ctx.lineTo(240,540);
+ ctx.closePath();
+ ctx.fillStyle='#293d52';
+ ctx.fill();
+
+ line(395,235,240,540,4,'#455c72');
+ line(565,235,720,540,4,'#455c72');
+
+ // Moving floor lines show real forward movement.
+ const floorShift=((state.x+state.y)*1.7)%38;
+ for(let y=250-floorShift;y<H;y+=38){
+   line(0,y,W,y,2,'rgba(255,255,255,.055)');
+ }
+
+ // Side walls, doors, consoles and pipes.
+ for(let side=-1;side<=1;side+=2){
+   const wallX=side<0?0:W-145;
+   rect(wallX,180,145,360,side<0?'#172435':'#19283a');
+
+   for(let y=205;y<510;y+=92){
+     rect(wallX+(side<0?18:20),y,105,72,'#2b4055');
+     rect(wallX+(side<0?48:50),y+17,46,42,'#0b1522');
+     rect(wallX+(side<0?61:63),y+33,20,7,'#5eead4');
+     rect(wallX+(side<0?25:27),y+10,16,8,'#f4b942');
+   }
+ }
+
+ for(let i=0;i<3;i++){
+   const x=330+i*150;
+   rect(x,268,86,35,'#3c4f62');
+   rect(x+8,276,70,20,'#1c2b3b');
+   rect(x+15,282,12,5,'#ef4444');
+   rect(x+34,282,12,5,'#22c55e');
+   rect(x+53,282,12,5,'#3b82f6');
+ }
+
+ // Draw actors according to depth, not as a flat overhead map.
  const actors=state.players
-   .map((p,i)=>({p,i,x:screenX(p.x),y:screenY(p.y)}))
-   .filter(a=>a.x>-80&&a.x<W+80&&a.y>-80&&a.y<H+80)
-   .sort((a,b)=>a.y-b.y);
+   .map((player,index)=>{
+     const projected=tagProject(player.x,player.y);
+     return{player,index,projected};
+   })
+   .filter(actor=>
+     actor.projected.depth>-100&&
+     actor.projected.x>-100&&
+     actor.projected.x<W+100&&
+     actor.projected.y>160&&
+     actor.projected.y<H+80
+   )
+   .sort((a,b)=>a.projected.depth-b.projected.depth);
 
- actors.forEach(a=>{
+ actors.forEach(actor=>{
    drawCrew(
-     a.x,
-     a.y,
-     a.p.color,
-     !state.playerIsTagger&&a.i===state.tagger,
-     a.p.variant||a.i,
-     a.p.face||1,
-     a.p.anim||0,
-     1
+     actor.projected.x,
+     actor.projected.y,
+     actor.player.color,
+     !state.playerIsTagger&&actor.index===state.tagger,
+     actor.player.variant||actor.index,
+     actor.player.face||1,
+     actor.player.anim||0,
+     actor.projected.scale
    );
  });
 
- // Player is drawn at its actual camera-relative screen position, not fixed.
- const playerScreenX=screenX(state.x);
- const playerScreenY=screenY(state.y);
+ // Player stays in the foreground from behind.
  drawBackAvatar(
-   playerScreenX,
-   playerScreenY,
+   W/2,
+   448+bob,
    '#f8fafc',
-   1.14,
+   1.27,
    9,
    state.playerAnim||0,
-   (keys.right?1:0)-(keys.left?1:0)
+   ((keys.right?1:0)-(keys.left?1:0))
  );
 
- // Player marker.
+ // Forward indicator.
  ctx.fillStyle='#5eead4';
  ctx.beginPath();
- ctx.moveTo(playerScreenX,playerScreenY-50);
- ctx.lineTo(playerScreenX-9,playerScreenY-37);
- ctx.lineTo(playerScreenX+9,playerScreenY-37);
+ ctx.moveTo(W/2,382+bob);
+ ctx.lineTo(W/2-11,399+bob);
+ ctx.lineTo(W/2+11,399+bob);
  ctx.closePath();
  ctx.fill();
 
  // HUD.
- rect(14,14,180,40,'rgba(3,10,18,.82)');
- rect(W-194,14,180,40,'rgba(3,10,18,.82)');
+ rect(14,14,188,40,'rgba(3,10,18,.82)');
+ rect(W-202,14,188,40,'rgba(3,10,18,.82)');
+
  txt(`Tags ${state.tagsMade}`,28,35,18,'#5eead4','left');
  txt(`${Math.max(0,Math.ceil(state.roundTime))}s`,W-28,35,20,'#fff','right');
- txt(state.playerIsTagger?'YOU ARE IT':'RUN FROM IT',W/2,34,22,state.playerIsTagger?'#f4b942':'#fff');
- txt('Move your own avatar with WASD, arrows, or buttons',W/2,H-18,15,'#dbeafe');
+ txt(
+   state.playerIsTagger?'YOU ARE IT':'ESCAPE THE TAGGER',
+   W/2,
+   35,
+   22,
+   state.playerIsTagger?'#f4b942':'#fff'
+ );
+ txt('UP/DOWN move • LEFT/RIGHT turn • ACTION dashes',W/2,H-17,15,'#dbeafe');
 }
 
 function makeAliens(){const a=[];for(let r=0;r<5;r++)for(let c=0;c<9;c++)a.push({x:210+c*68,y:85+r*45,alive:true,row:r});return a}
