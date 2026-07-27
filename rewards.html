@@ -123,7 +123,17 @@
     pointer-events:none;
     background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 18%,transparent 82%,rgba(0,0,0,.12));
 }
-#gameCanvas{width:100%;height:auto;display:block;touch-action:none;image-rendering:auto}
+#gameCanvas{width:100%;height:auto;display:block;touch-action:pan-y;image-rendering:auto}
+#threeContainer{display:none;width:100%;aspect-ratio:760/420;background:#08131f}
+#threeContainer canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+.game-canvas-wrap.is-3d #gameCanvas{display:none}
+.game-canvas-wrap.is-3d #threeContainer{display:block}
+html,body{overflow-x:hidden;overflow-y:auto!important;overscroll-behavior-y:auto}
+body{touch-action:pan-y}
+.game-shell,.game-controls,.reward-grid{position:relative;inset:auto;max-height:none;overflow:visible}
+.game-canvas-wrap:fullscreen{border-radius:0;background:#050b12;display:flex;align-items:center;justify-content:center}
+.game-canvas-wrap:fullscreen #gameCanvas,.game-canvas-wrap:fullscreen #threeContainer{width:100%!important;height:100%!important;max-height:100vh;aspect-ratio:auto}
+.game-canvas-wrap:fullscreen #gameCanvas{object-fit:contain}
 .game-message{
     min-height:48px;
     margin-top:14px;
@@ -135,8 +145,8 @@
     font-size:.82rem;
     line-height:1.55;
 }
-.game-controls{margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr;gap:10px}
-.game-control,.start-game-button{
+.game-controls{margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr 1.15fr 1.15fr;gap:10px;position:static!important}
+.game-control,.start-game-button,.fullscreen-button{
     min-height:56px;
     border:0;
     border-radius:15px;
@@ -145,17 +155,21 @@
     transition:transform .16s ease,filter .16s ease,box-shadow .16s ease;
 }
 .game-control{color:var(--navy);background:var(--light-green);box-shadow:inset 0 0 0 1px rgba(15,157,120,.08)}
-.game-control:hover,.start-game-button:hover{transform:translateY(-2px);filter:brightness(.99)}
-.game-control:active,.start-game-button:active{transform:translateY(1px) scale(.99)}
-.game-control:disabled,.start-game-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.fullscreen-button{color:var(--navy);background:#eef3ff;border:2px solid #cbd8f5;box-shadow:none}
+.game-control:focus-visible,.start-game-button:focus-visible,.fullscreen-button:focus-visible,.reward-card .button:focus-visible{outline:4px solid rgba(37,99,235,.35);outline-offset:3px}
+.game-control,.start-game-button,.fullscreen-button{font-size:1rem;padding:12px 14px;min-width:0}
+.game-control[aria-pressed="true"]{background:#d9f7eb}
+.game-control:hover,.start-game-button:hover,.fullscreen-button:hover{transform:translateY(-2px);filter:brightness(.99)}
+.game-control:active,.start-game-button:active,.fullscreen-button:active{transform:translateY(1px) scale(.99)}
+.game-control:disabled,.start-game-button:disabled,.fullscreen-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .start-game-button{color:white;background:linear-gradient(135deg,var(--green),#13b989);box-shadow:0 10px 22px rgba(15,157,120,.22)}
 .control-help{margin-top:11px;color:var(--muted);font-size:.72rem;text-align:center}
 
 @keyframes arcadeFlow{to{background-position:220% 0}}
-@media(prefers-reduced-motion:reduce){.game-shell::before{animation:none}.reward-card,.game-control,.start-game-button{transition:none}}
+@media(prefers-reduced-motion:reduce){.game-shell::before{animation:none}.reward-card,.game-control,.start-game-button,.fullscreen-button{transition:none}}
 @media(max-width:1050px){.reward-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:790px){.reward-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-header{flex-direction:column}.game-stats{justify-content:flex-start}.game-controls{grid-template-columns:1fr 1fr}.start-game-button{grid-column:1/-1}}
-@media(max-width:520px){.arcade-hero,.game-shell{padding:20px}.reward-grid{grid-template-columns:1fr}.reward-card{min-height:auto}.game-controls{grid-template-columns:1fr 1fr}.game-control,.start-game-button{min-height:52px}}
+@media(max-width:790px){.reward-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-header{flex-direction:column}.game-stats{justify-content:flex-start}.game-controls{grid-template-columns:1fr 1fr}.start-game-button,.fullscreen-button{grid-column:auto}.game-control,.start-game-button,.fullscreen-button{min-height:58px;font-size:1rem}}
+@media(max-width:520px){.arcade-hero,.game-shell{padding:20px}.reward-grid{grid-template-columns:1fr}.reward-card{min-height:auto}.game-controls{grid-template-columns:1fr 1fr}.game-control,.start-game-button,.fullscreen-button{min-height:52px}}
 </style>
 </head>
 <body>
@@ -170,7 +184,7 @@
 <section class="arcade-hero">
 <p class="eyebrow">Learning rewards</p>
 <h1 class="page-title">Quran Academy Arcade</h1>
-<p class="page-description">Every completed level unlocks a different challenge—from block building and racing to mazes, rhythm games, platforming, and pseudo-3D adventures.</p>
+<p class="page-description">Every completed level unlocks a different challenge—from block building and racing to mazes, rhythm games, platforming, and real WebGL 3D adventures.</p>
 <div class="arcade-badges"><span class="arcade-badge">🎮 20 unique games</span><span class="arcade-badge">💾 Progress stays saved</span><span class="arcade-badge">📱 Mobile controls included</span></div>
 </section>
 
@@ -182,13 +196,14 @@
 <div class="game-stats"><span class="game-stat" id="scoreStat">Score: 0</span><span class="game-stat" id="livesStat">Lives: 3</span><span class="game-stat" id="timeStat">Time: 45</span></div>
 </div>
 <div class="game-progress-wrap"><div class="progress-label"><span>Goal progress</span><span id="goalText">0 / 0</span></div><div class="progress-track"><div class="progress-fill" id="goalFill"></div></div></div>
-<div class="game-canvas-wrap"><canvas id="gameCanvas" width="760" height="420" aria-label="Quran Academy reward game"></canvas></div>
+<div class="game-canvas-wrap" id="gameViewport"><canvas id="gameCanvas" width="760" height="420" aria-label="Quran Academy reward game"></canvas><div id="threeContainer" role="img" aria-label="Interactive three-dimensional Quran Academy reward game"></div></div>
 <div class="game-message" id="gameMessage" aria-live="polite">Choose an unlocked reward above.</div>
 <div class="game-controls">
 <button class="game-control" id="leftButton" type="button">◀ Left</button>
 <button class="game-control" id="rightButton" type="button">Right ▶</button>
 <button class="game-control" id="actionButton" type="button">⚡ Action</button>
-<button class="start-game-button" id="startGameButton" type="button" disabled>Start Game</button>
+<button class="start-game-button" id="startGameButton" type="button" disabled aria-label="Start selected game">▶ Start Game</button>
+<button class="fullscreen-button" id="fullscreenButton" type="button" aria-label="Open game in full screen">⛶ Full Screen</button>
 </div>
 <p class="control-help" id="controlHelp">Keyboard: A / D or arrow keys • Space / W for Action</p>
 </section>
@@ -196,6 +211,7 @@
 <div class="emoji-layer" id="emojiLayer"></div>
 <footer class="academy-footer"><img src="quran-academy-icon.png" alt="" aria-hidden="true"><p>Quran Academy • Learn • Understand • Practice</p></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script src="supabase-config.js"></script>
 <script>
 const mobileMenuButton=document.getElementById('mobileMenuButton'),academyNav=document.getElementById('academyNav');
@@ -214,19 +230,20 @@ const GAMES=[
 {level:9,name:'Quran Word Quest',icon:'🗺️',type:'maze',goal:1,description:'Explore a maze and reach the glowing Quran.'},
 {level:10,name:'Meaning Match',icon:'🧠',type:'match',goal:8,description:'Flip cards and match Arabic words to meanings.'},
 {level:11,name:'Mouth Mission',icon:'👄',type:'platform',goal:10,description:'Platform across articulation checkpoints.'},
-{level:12,name:'Throat Trail',icon:'🏎️',type:'race3d',goal:1200,description:'Race through a smooth pseudo-3D throat trail.'},
+{level:12,name:'Throat Trail',icon:'🏎️',type:'race3d',goal:1200,description:'Race through a real WebGL 3D throat trail with depth, lighting, and a moving camera.'},
 {level:13,name:'Heavy Letter Hero',icon:'🛡️',type:'defender',goal:18,description:'Defend the gate from light-letter invaders.'},
 {level:14,name:'Madd Master',icon:'⏱️',type:'rhythm',goal:16,description:'Tap in rhythm for two-, four-, and six-count Madd.'},
 {level:15,name:'Qalqalah Bounce',icon:'⚡',type:'bounce',goal:12,description:'Bounce from platform to platform without falling.'},
 {level:16,name:'Noon Defender',icon:'ن',type:'tower',goal:20,description:'Stop waves of enemies before they cross the path.'},
-{level:17,name:'Meem Maze',icon:'م',type:'maze3d',goal:1,description:'Navigate a first-person-style maze to find Meem.'},
+{level:17,name:'Meem Maze',icon:'م',type:'maze3d',goal:1,description:'Navigate a real first-person 3D maze to find the glowing Meem.'},
 {level:18,name:'Surah Explorer',icon:'📖',type:'asteroids',goal:20,description:'Explore space and collect glowing ayah pages.'},
 {level:19,name:'Tajweed Trials',icon:'🎓',type:'boss',goal:100,description:'Complete a multi-stage boss challenge.'},
 {level:20,name:'Grand Quran Challenge',icon:'👑',type:'grand',goal:5,description:'Five mini-games in one final championship.'}
 ];
 
-const rewardGrid=document.getElementById('rewardGrid'),gameShell=document.getElementById('gameShell'),gameTitle=document.getElementById('gameTitle'),gameDescription=document.getElementById('gameDescription'),scoreStat=document.getElementById('scoreStat'),livesStat=document.getElementById('livesStat'),timeStat=document.getElementById('timeStat'),goalText=document.getElementById('goalText'),goalFill=document.getElementById('goalFill'),gameMessage=document.getElementById('gameMessage'),startGameButton=document.getElementById('startGameButton'),leftButton=document.getElementById('leftButton'),rightButton=document.getElementById('rightButton'),actionButton=document.getElementById('actionButton'),controlHelp=document.getElementById('controlHelp'),canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
+const rewardGrid=document.getElementById('rewardGrid'),gameShell=document.getElementById('gameShell'),gameTitle=document.getElementById('gameTitle'),gameDescription=document.getElementById('gameDescription'),scoreStat=document.getElementById('scoreStat'),livesStat=document.getElementById('livesStat'),timeStat=document.getElementById('timeStat'),goalText=document.getElementById('goalText'),goalFill=document.getElementById('goalFill'),gameMessage=document.getElementById('gameMessage'),startGameButton=document.getElementById('startGameButton'),fullscreenButton=document.getElementById('fullscreenButton'),leftButton=document.getElementById('leftButton'),rightButton=document.getElementById('rightButton'),actionButton=document.getElementById('actionButton'),controlHelp=document.getElementById('controlHelp'),gameViewport=document.getElementById('gameViewport'),threeContainer=document.getElementById('threeContainer'),canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
 let unlocked=[],selected=null,running=false,frame=0,last=0,score=0,lives=3,time=45,state={},keys={left:false,right:false,action:false},particles=[];
+let renderer3D=null,scene3D=null,camera3D=null,player3D=null,threeObjects=[],goal3D=null;
 
 function bg(a='#183451',b='#08745a'){
     const g=ctx.createLinearGradient(0,0,0,420);g.addColorStop(0,a);g.addColorStop(1,b);ctx.fillStyle=g;ctx.fillRect(0,0,760,420);
@@ -238,18 +255,24 @@ function addBurst(x,y,emoji='✨'){for(let i=0;i<9;i++)particles.push({x,y,vx:(M
 function updateParticles(dt){particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=220*dt;p.life-=dt});particles=particles.filter(p=>p.life>0)}
 function drawParticles(){particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/.7);text(p.emoji,p.x,p.y,16);ctx.globalAlpha=1})}
 function stats(){scoreStat.textContent=`Score: ${Math.floor(score)}`;livesStat.textContent=`Lives: ${lives}`;timeStat.textContent=`Time: ${Math.max(0,Math.ceil(time))}`;goalText.textContent=selected?`${Math.floor(score)} / ${selected.goal}`:'0 / 0';goalFill.style.width=selected?`${Math.min(100,score/selected.goal*100)}%`:'0%'}
+function destroy3D(){if(renderer3D){renderer3D.dispose();renderer3D.domElement.remove()}renderer3D=scene3D=camera3D=player3D=goal3D=null;threeObjects=[];threeContainer.innerHTML='';gameViewport.classList.remove('is-3d')}
 function stop(){running=false;cancelAnimationFrame(frame);keys.left=keys.right=keys.action=false}
-function win(){stop();score=Math.max(score,selected.goal);stats();bg('#103e39','#0b6d52');text('You Won! 🎉',380,168,40);text(`${selected.name} complete`,380,222,23,'#f4d56a');text('Choose another game or play again.',380,270,17,'#d9f6ed');gameMessage.textContent=`Amazing! You completed ${selected.name}.`;addBurst(380,210,'✨');drawParticles()}
-function lose(msg='Try again!'){stop();bg('#3b2438','#16263d');text('Game Over',380,170,40);text(msg,380,224,20,'#f4d56a');text('Press Restart Game when you are ready.',380,270,16,'#eadff0');gameMessage.textContent=msg;stats()}
-function updateControls(){if(!selected)return;const type=selected.type;leftButton.textContent=type==='maze'||type==='maze3d'?'↶ Turn Left':'◀ Left';rightButton.textContent=type==='maze'||type==='maze3d'?'Turn Right ↷':'Right ▶';actionButton.textContent=type==='memory'?'● Choice 3':type==='tetris'?'▼ Soft Drop':type==='race3d'?'⚡ Boost':'⚡ Action';controlHelp.textContent=type==='maze'||type==='maze3d'?'Turn with Left/Right • Press Action to move forward':'Keyboard: A / D or arrow keys • Space / W for Action'}
-function selectGame(g){stop();selected=g;score=0;lives=3;time=45;state={};particles=[];gameTitle.textContent=g.name;gameDescription.textContent=g.description;startGameButton.disabled=false;startGameButton.textContent='Start Game';updateControls();stats();drawSplash()}
+function createRenderer3D(){destroy3D();if(!window.THREE){gameMessage.textContent='3D engine could not load. Refresh the page and try again.';return false}gameViewport.classList.add('is-3d');renderer3D=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer3D.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer3D.setSize(760,420,false);renderer3D.shadowMap.enabled=true;renderer3D.outputColorSpace=THREE.SRGBColorSpace;threeContainer.appendChild(renderer3D.domElement);scene3D=new THREE.Scene();scene3D.background=new THREE.Color(0x87c9ef);scene3D.fog=new THREE.Fog(0x87c9ef,28,95);camera3D=new THREE.PerspectiveCamera(62,760/420,.1,180);scene3D.add(new THREE.HemisphereLight(0xffffff,0x294f3c,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(10,18,8);sun.castShadow=true;scene3D.add(sun);return true}
+function box3D(w,h,d,color,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color,roughness:.75,metalness:.05}));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene3D.add(m);threeObjects.push(m);return m}
+function setupRace3D(){if(!createRenderer3D())return;scene3D.background=new THREE.Color(0x8fd0f5);scene3D.fog=new THREE.Fog(0x8fd0f5,35,120);box3D(18,.3,180,0x30343a,0,-.2,-72);for(let z=-5;z>-155;z-=10){box3D(.22,.04,5,0xffffff,0,.02,z);box3D(.25,.15,5,0xf4b942,-9,.03,z);box3D(.25,.15,5,0xf4b942,9,.03,z)}for(let z=-12;z>-150;z-=12){box3D(2,1.4,2,0x0f9d78,-13,.7,z);box3D(2,1.4,2,0x0f9d78,13,.7,z)}player3D=box3D(1.55,.72,3.2,0x2563eb,0,.48,2);box3D(.85,.35,1.2,0xeaf5ff,0,.95,2);camera3D.position.set(0,4.8,9);camera3D.lookAt(0,.5,-12)}
+function setupMaze3D(){if(!createRenderer3D())return;scene3D.background=new THREE.Color(0x09131f);scene3D.fog=new THREE.Fog(0x09131f,8,34);const map=state.map;box3D(map[0].length*4,.2,map.length*4,0x143047,(map[0].length-1)*2,-.1,(map.length-1)*2);for(let y=0;y<map.length;y++)for(let x=0;x<map[y].length;x++)if(map[y][x]==='1')box3D(4,4,4,(x+y)%2?0x0f6f63:0x174a5f,x*4,2,y*4);goal3D=box3D(1.4,2.2,1.4,0xf4b942,10*4,1.1,9*4);camera3D.position.set(state.x*4,1.7,state.y*4);camera3D.rotation.order='YXZ'}
+function render3D(){if(!renderer3D||!scene3D||!camera3D)return;if(selected.type==='race3d'){player3D.position.x=state.x*6.7;camera3D.position.x+=(player3D.position.x*.45-camera3D.position.x)*.08;threeObjects.forEach(o=>{if(o!==player3D&&o.geometry&&o.position.z<5){o.position.z+=state.speed*.018;if(o.position.z>8)o.position.z-=150}})}else if(selected.type==='maze3d'){const a=-state.dir*Math.PI/2;camera3D.position.lerp(new THREE.Vector3(state.x*4,1.7,state.y*4),.22);camera3D.rotation.y=a;if(goal3D){goal3D.rotation.y+=.025;goal3D.position.y=1.15+Math.sin(performance.now()/350)*.18}}renderer3D.render(scene3D,camera3D)}
+function win(){stop();score=Math.max(score,selected.goal);stats();if(selected&&['race3d','maze3d'].includes(selected.type)){gameMessage.textContent=`Amazing! You completed ${selected.name}.`;return}bg('#103e39','#0b6d52');text('You Won! 🎉',380,168,40);text(`${selected.name} complete`,380,222,23,'#f4d56a');text('Choose another game or play again.',380,270,17,'#d9f6ed');gameMessage.textContent=`Amazing! You completed ${selected.name}.`;addBurst(380,210,'✨');drawParticles()}
+function lose(msg='Try again!'){stop();if(selected&&['race3d','maze3d'].includes(selected.type)){gameMessage.textContent=msg;stats();return}bg('#3b2438','#16263d');text('Game Over',380,170,40);text(msg,380,224,20,'#f4d56a');text('Press Restart Game when you are ready.',380,270,16,'#eadff0');gameMessage.textContent=msg;stats()}
+function updateControls(){if(!selected)return;const type=selected.type;leftButton.textContent=type==='maze'||type==='maze3d'?'↶ Turn Left':'◀ Move Left';rightButton.textContent=type==='maze'||type==='maze3d'?'Turn Right ↷':'Move Right ▶';actionButton.textContent=type==='memory'?'● Choose 3':type==='tetris'?'▼ Drop Block':type==='race3d'?'⚡ Turbo Boost':type==='maze3d'?'⬆ Move Forward':'⚡ Action';leftButton.setAttribute('aria-label',leftButton.textContent);rightButton.setAttribute('aria-label',rightButton.textContent);actionButton.setAttribute('aria-label',actionButton.textContent);controlHelp.textContent=type==='maze'||type==='maze3d'?'Accessible controls: turn with the Left and Right buttons, then use Move Forward. Keyboard: arrows or A/D, Space/W to move.':'Accessible controls: use the large buttons below. Keyboard: A/D or arrow keys, Space/W for Action.'}
+function selectGame(g){stop();destroy3D();selected=g;score=0;lives=3;time=45;state={};particles=[];gameTitle.textContent=g.name;gameDescription.textContent=g.description;startGameButton.disabled=false;startGameButton.textContent='▶ Start Game';updateControls();stats();drawSplash()}
 function drawSplash(){bg();const pulse=1+Math.sin(performance.now()/380)*.03;ctx.save();ctx.translate(380,126);ctx.scale(pulse,pulse);text(selected?selected.icon:'🎮',0,0,70);ctx.restore();text(selected?selected.name:'Reward Arcade',380,210,33);text(selected?selected.description:'Choose an unlocked game.',380,260,18,'#d9f6ed');roundedRect(280,305,200,44,14,'rgba(255,255,255,.12)');text(selected?'Press Start Game':'Complete a level to unlock games',380,327,15,'#ffffff')}
-function renderCards(){rewardGrid.innerHTML='';GAMES.forEach(g=>{const open=unlocked.includes(g.name),c=document.createElement('article');c.className=`reward-card ${open?'unlocked':'locked'}`;c.innerHTML=`<span class="reward-level-chip">Level ${g.level}</span><div class="reward-card-icon">${open?g.icon:'🔒'}</div><h3>${g.name}</h3><p>${open?g.description:`Complete Level ${g.level} to unlock this game.`}</p>`;const b=document.createElement('button');b.className=open?'button button-primary':'button button-secondary';b.style.width='100%';b.style.marginTop='15px';b.disabled=!open;b.textContent=open?'▶ Play Game':`🔒 Locked`;b.addEventListener('click',()=>{document.querySelectorAll('.reward-card').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');selectGame(g);gameShell.scrollIntoView({behavior:'smooth',block:'start'})});c.appendChild(b);rewardGrid.appendChild(c)})}
-function start(){if(!selected)return;stop();score=0;lives=3;time=45;state={};particles=[];setup(selected.type);running=true;last=performance.now();startGameButton.textContent='Restart Game';gameMessage.textContent=`Playing ${selected.name}. Reach the goal before time runs out!`;frame=requestAnimationFrame(loop)}
+function renderCards(){rewardGrid.innerHTML='';GAMES.forEach(g=>{const open=unlocked.includes(g.name),c=document.createElement('article');c.className=`reward-card ${open?'unlocked':'locked'}`;c.innerHTML=`<span class="reward-level-chip">Level ${g.level}</span><div class="reward-card-icon">${open?g.icon:'🔒'}</div><h3>${g.name}</h3><p>${open?g.description:`Complete Level ${g.level} to unlock this game.`}</p>`;const b=document.createElement('button');b.className=open?'button button-primary':'button button-secondary';b.style.width='100%';b.style.marginTop='15px';b.disabled=!open;b.textContent=open?'▶ Play Game':`🔒 Locked`;b.setAttribute('aria-label',open?`Play ${g.name}`:`${g.name} is locked until Level ${g.level}`);b.addEventListener('click',()=>{document.querySelectorAll('.reward-card').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');selectGame(g);gameShell.scrollIntoView({behavior:'smooth',block:'start'})});c.appendChild(b);rewardGrid.appendChild(c)})}
+function start(){if(!selected)return;stop();destroy3D();score=0;lives=3;time=45;state={};particles=[];setup(selected.type);running=true;last=performance.now();startGameButton.textContent='↻ Restart Game';gameMessage.textContent=`Playing ${selected.name}. Reach the goal before time runs out!`;frame=requestAnimationFrame(loop)}
 function setup(type){
     if(type==='tetris'){state.board=Array.from({length:20},()=>Array(10).fill(0));state.p={x:4,y:0};state.drop=0}
-    else if(type==='race3d'){state.x=0;state.targetX=0;state.speed=0;state.distance=0;time=60}
-    else if(type==='maze'||type==='maze3d'){state.x=1;state.y=1;state.dir=0;state.map=['111111111111','100000000001','101111011101','101000010001','101011110101','100010000101','111010111101','100010000001','101111111101','100000000001','111111111111']}
+    else if(type==='race3d'){state.x=0;state.targetX=0;state.speed=0;state.distance=0;time=60;setupRace3D()}
+    else if(type==='maze'||type==='maze3d'){state.x=1;state.y=1;state.dir=0;state.map=['111111111111','100000000001','101111011101','101000010001','101011110101','100010000101','111010111101','100010000001','101111111101','100000000001','111111111111'];if(type==='maze3d')setupMaze3D()}
     else if(type==='memory'){state.seq=[Math.floor(Math.random()*3)];state.input=[];time=60}
     else{state.x=120;state.targetX=120;state.y=300;state.vy=0;state.objects=[];state.spawn=0;state.cool=0}
 }
@@ -277,7 +300,7 @@ function update(dt){
     if(score>=selected.goal)win();else if(lives<=0||time<=0)lose('You were close—try one more time!');stats();
 }
 function draw(){
-    const t=selected.type;bg();
+    const t=selected.type;if(t==='race3d'||t==='maze3d'){render3D();return}bg();
     if(t==='tetris'){
         const ox=280,oy=10,s=20;roundedRect(268,0,224,420,18,'rgba(6,25,39,.52)');
         for(let y=0;y<20;y++)for(let x=0;x<10;x++){ctx.fillStyle=state.board[y][x]?'#f4b942':'rgba(255,255,255,.035)';ctx.fillRect(ox+x*s,oy+y*s,s-2,s-2)}
@@ -300,11 +323,14 @@ function draw(){
     drawParticles();
 }
 function loop(now){if(!running)return;const dt=Math.min(.033,(now-last)/1000);last=now;update(dt);draw();if(running)frame=requestAnimationFrame(loop)}
-function bind(btn,key){btn.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true});['pointerup','pointercancel','pointerleave'].forEach(eventName=>btn.addEventListener(eventName,()=>keys[key]=false))}
+function bind(btn,key){btn.addEventListener('pointerdown',()=>{keys[key]=true;btn.setAttribute('aria-pressed','true')});['pointerup','pointercancel','pointerleave'].forEach(eventName=>btn.addEventListener(eventName,()=>{keys[key]=false;btn.setAttribute('aria-pressed','false')}))}
 bind(leftButton,'left');bind(rightButton,'right');bind(actionButton,'action');
 window.addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key))keys.left=true;if(['ArrowRight','d','D'].includes(e.key))keys.right=true;if([' ','ArrowUp','w','W'].includes(e.key)){keys.action=true;e.preventDefault()}});
 window.addEventListener('keyup',e=>{if(['ArrowLeft','a','A'].includes(e.key))keys.left=false;if(['ArrowRight','d','D'].includes(e.key))keys.right=false;if([' ','ArrowUp','w','W'].includes(e.key))keys.action=false});
 startGameButton.addEventListener('click',start);
+fullscreenButton.addEventListener('click',async()=>{try{if(!document.fullscreenElement){await gameViewport.requestFullscreen();fullscreenButton.textContent='⤢ Exit Full Screen';fullscreenButton.setAttribute('aria-label','Exit full screen')}else{await document.exitFullscreen()}}catch(e){gameMessage.textContent='Full screen is not available in this browser.'}});
+document.addEventListener('fullscreenchange',()=>{const on=!!document.fullscreenElement;fullscreenButton.textContent=on?'⤢ Exit Full Screen':'⛶ Full Screen';fullscreenButton.setAttribute('aria-label',on?'Exit full screen':'Open game in full screen');if(renderer3D){const r=threeContainer.getBoundingClientRect();renderer3D.setSize(Math.max(320,r.width),Math.max(180,r.height),false);camera3D.aspect=Math.max(320,r.width)/Math.max(180,r.height);camera3D.updateProjectionMatrix()}});
+window.addEventListener('resize',()=>{if(renderer3D){const r=threeContainer.getBoundingClientRect();if(r.width&&r.height){renderer3D.setSize(r.width,r.height,false);camera3D.aspect=r.width/r.height;camera3D.updateProjectionMatrix()}}});
 
 async function load(){
     try{
