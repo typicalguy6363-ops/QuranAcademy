@@ -853,31 +853,42 @@ function updateTag(dt){
  state.roundTime-=dt;
  state.invuln=Math.max(0,state.invuln-dt);
 
- const turn=((keys.right?1:0)-(keys.left?1:0));
- const forward=((keys.up?1:0)-(keys.down?1:0));
+ const horizontal=((keys.right?1:0)-(keys.left?1:0));
+ const vertical=((keys.up?1:0)-(keys.down?1:0));
  const dash=keys.action?1.65:1;
+ const speed=190*dash;
 
- state.angle=(state.angle||0)+turn*2.35*dt;
+ // Fixed back-facing camera direction:
+ // Up/Down move forward/backward and Left/Right strafe.
+ const forwardX=Math.cos(state.angle);
+ const forwardY=Math.sin(state.angle);
+ const rightX=Math.cos(state.angle+Math.PI/2);
+ const rightY=Math.sin(state.angle+Math.PI/2);
 
- const moveSpeed=185*dash;
- const vx=Math.cos(state.angle)*forward*moveSpeed;
- const vy=Math.sin(state.angle)*forward*moveSpeed;
+ let moveX=forwardX*vertical+rightX*horizontal;
+ let moveY=forwardY*vertical+rightY*horizontal;
 
- const nextX=clamp(state.x+vx*dt,65,895);
- const nextY=clamp(state.y+vy*dt,80,460);
+ if(horizontal&&vertical){
+   moveX*=.707;
+   moveY*=.707;
+ }
 
- state.x=nextX;
- state.y=nextY;
+ state.x=clamp(state.x+moveX*speed*dt,65,895);
+ state.y=clamp(state.y+moveY*speed*dt,80,460);
 
- state.playerFace=1;
- state.playerAnim=(state.playerAnim||0)+(Math.abs(forward)>0?dt*11:dt*2);
+ state.playerAnim=(state.playerAnim||0)+(
+   Math.abs(horizontal)+Math.abs(vertical)>0?dt*11:dt*2
+ );
+ state.playerLean=horizontal;
 
- // Camera is behind the player and follows the same facing angle.
+ // Camera follows with delay. This lets the player's avatar visibly move
+ // around the screen instead of making only the other characters move.
  const followDistance=105;
  const targetCameraX=state.x-Math.cos(state.angle)*followDistance;
  const targetCameraY=state.y-Math.sin(state.angle)*followDistance;
- state.cameraX+=(targetCameraX-state.cameraX)*Math.min(1,dt*5);
- state.cameraY+=(targetCameraY-state.cameraY)*Math.min(1,dt*5);
+
+ state.cameraX+=(targetCameraX-state.cameraX)*Math.min(1,dt*2.15);
+ state.cameraY+=(targetCameraY-state.cameraY)*Math.min(1,dt*2.15);
 
  if(state.playerIsTagger){
    state.players.forEach((p,i)=>{
@@ -895,6 +906,7 @@ function updateTag(dt){
        80,
        460
      );
+
      p.face=awayX<0?-1:1;
      p.anim=(p.anim||0)+dt*8;
 
@@ -936,6 +948,7 @@ function updateTag(dt){
        );
        p.face=awayX<0?-1:1;
      }
+
      p.anim=(p.anim||0)+dt*8;
    });
 
@@ -1115,23 +1128,29 @@ function drawTag(){
    );
  });
 
- // Player stays in the foreground from behind.
+ // The player's real world position is projected into the camera.
+ // This makes your avatar visibly move instead of only moving the AI.
+ const playerView=tagProject(state.x,state.y);
+ const playerScale=clamp(playerView.scale*1.12,.9,1.35);
+ const playerScreenX=clamp(playerView.x,150,W-150);
+ const playerScreenY=clamp(playerView.y+bob,335,475);
+
  drawBackAvatar(
-   W/2,
-   448+bob,
+   playerScreenX,
+   playerScreenY,
    '#f8fafc',
-   1.27,
+   playerScale,
    9,
    state.playerAnim||0,
-   ((keys.right?1:0)-(keys.left?1:0))
+   state.playerLean||0
  );
 
- // Forward indicator.
+ // Marker follows the player.
  ctx.fillStyle='#5eead4';
  ctx.beginPath();
- ctx.moveTo(W/2,382+bob);
- ctx.lineTo(W/2-11,399+bob);
- ctx.lineTo(W/2+11,399+bob);
+ ctx.moveTo(playerScreenX,playerScreenY-58);
+ ctx.lineTo(playerScreenX-11,playerScreenY-41);
+ ctx.lineTo(playerScreenX+11,playerScreenY-41);
  ctx.closePath();
  ctx.fill();
 
@@ -1148,7 +1167,7 @@ function drawTag(){
    22,
    state.playerIsTagger?'#f4b942':'#fff'
  );
- txt('UP/DOWN move • LEFT/RIGHT turn • ACTION dashes',W/2,H-17,15,'#dbeafe');
+ txt('UP/DOWN move • LEFT/RIGHT strafe • ACTION dashes',W/2,H-17,15,'#dbeafe');
 }
 
 function makeAliens(){const a=[];for(let r=0;r<5;r++)for(let c=0;c<9;c++)a.push({x:210+c*68,y:85+r*45,alive:true,row:r});return a}
