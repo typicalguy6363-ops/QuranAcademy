@@ -224,7 +224,7 @@ function selectGame(g){stop();hideEnd();selected=g;score=0;lives=3;time=['maze',
 function updateControls(){
  const t=selected?.type;
  leftButton.disabled=false;rightButton.disabled=false;upButton.disabled=false;downButton.disabled=false;actionButton.disabled=false;leftButton.textContent='◀ Left';rightButton.textContent='Right ▶';upButton.textContent='▲ Up';downButton.textContent='▼ Down';actionButton.textContent='● Action';
- if(t==='maze'||t==='maze2'){leftButton.textContent='↶ Turn';rightButton.textContent='Turn ↷';upButton.textContent='▲ Forward';downButton.textContent='▼ Back';actionButton.textContent='Open / Use';controlHelp.textContent='Maze: A/D or Left/Right turn. W/S or Up/Down move forward and backward.'}
+ if(t==='maze'||t==='maze2'){leftButton.textContent='↶ Turn';rightButton.textContent='Turn ↷';upButton.textContent='▲ Forward';downButton.textContent='▼ Back';actionButton.textContent='Open / Use';controlHelp.textContent='Third-person maze: A/D or Left/Right turn. W/S or Up/Down move forward and backward.'}
  else if(t==='blocks'){upButton.textContent='↻ Rotate';downButton.textContent='▼ Soft Drop';actionButton.textContent='⤓ Hard Drop';controlHelp.textContent='Blocks: Left/Right move, Up rotates, Down soft-drops, Space hard-drops.'}
  else if(t==='crossword'){leftButton.textContent='◀ Cell';rightButton.textContent='Cell ▶';upButton.textContent='▲ Cell';downButton.textContent='Cell ▼';actionButton.textContent='Enter Letter';controlHelp.textContent='Crossword: move between squares with arrows or WASD, then type letters on your keyboard.'}
  else if(t==='crossroads'){actionButton.textContent='Hop';controlHelp.textContent='Crossroads: move one tile at a time with arrows or WASD. Reach the top safely.'}
@@ -366,34 +366,134 @@ function updateMaze(dt){
 }
 function drawMaze(){
  const dark=selected.type==='maze2';
- const ceil=ctx.createLinearGradient(0,0,0,H/2);ceil.addColorStop(0,dark?'#08090d':'#12283a');ceil.addColorStop(1,dark?'#171e29':'#24455e');ctx.fillStyle=ceil;ctx.fillRect(0,0,W,H/2);
- const floor=ctx.createLinearGradient(0,H/2,0,H);floor.addColorStop(0,dark?'#342516':'#344e42');floor.addColorStop(1,dark?'#110d08':'#182c24');ctx.fillStyle=floor;ctx.fillRect(0,H/2,W,H/2);
- for(let y=H/2+10;y<H;y+=18){const a=(y-H/2)/(H/2);line(0,y,W,y,1,`rgba(255,255,255,${.03+a*.04})`)}
- for(let i=-10;i<=10;i++){const x=W/2+i*56;line(W/2,H/2,x,H,1,'rgba(255,255,255,.03)')}
+ const moving=keys.up||keys.down||keys.left||keys.right;
+ const bob=moving?Math.sin(performance.now()/105)*4:0;
+
+ const ceil=ctx.createLinearGradient(0,0,0,H/2);
+ ceil.addColorStop(0,dark?'#07080c':'#102539');
+ ceil.addColorStop(1,dark?'#161d28':'#244963');
+ ctx.fillStyle=ceil;ctx.fillRect(0,0,W,H/2);
+
+ const floor=ctx.createLinearGradient(0,H/2,0,H);
+ floor.addColorStop(0,dark?'#342517':'#40574a');
+ floor.addColorStop(1,dark?'#100c08':'#162a22');
+ ctx.fillStyle=floor;ctx.fillRect(0,H/2,W,H/2);
+
+ // Perspective stone floor.
+ for(let y=H/2+10;y<H;y+=18){
+   const a=(y-H/2)/(H/2);
+   line(0,y,W,y,1,`rgba(255,255,255,${.025+a*.05})`);
+ }
+ for(let i=-11;i<=11;i++){
+   line(W/2,H/2,W/2+i*58,H,1,'rgba(255,255,255,.028)');
+ }
+
  const fov=Math.PI/3,rays=440,sw=W/rays;
  for(let i=0;i<rays;i++){
    const ra=state.a-fov/2+(i/rays)*fov;
-   const raw=castRay(ra),d=raw*Math.cos(ra-state.a);
-   const height=Math.min(H*1.25,720/(d+.001));
-   const top=(H-height)/2,bottom=(H+height)/2;
-   const hitX=state.x+Math.cos(ra)*raw, hitY=state.y+Math.sin(ra)*raw;
-   const hitFrac=Math.abs((Math.abs(Math.cos(ra))>Math.abs(Math.sin(ra))?hitY:hitX)%1);
-   const brickAcross=5, mortarV=(hitFrac<brickAcross*0+0.035)||(hitFrac>.965)||([.2,.4,.6,.8].some(v=>Math.abs(hitFrac-v)<.018));
-   const brickColor=dark?[112,88,67]:[108,116,120];
-   const depth=clamp(1-d/17,.18,1);
-   const tint=((Math.floor(hitX*3)+Math.floor(hitY*3))%2)*10;
-   const r=clamp((brickColor[0]+tint)*depth,12,255),g=clamp((brickColor[1]+tint)*depth,12,255),b=clamp((brickColor[2]+tint)*depth,12,255);
+   const raw=castRay(ra);
+   const d=raw*Math.cos(ra-state.a);
+   const height=Math.min(H*1.3,735/(d+.001));
+   const top=(H-height)/2+bob*.16;
+   const bottom=top+height;
+
+   const hitX=state.x+Math.cos(ra)*raw;
+   const hitY=state.y+Math.sin(ra)*raw;
+   const wallCoord=Math.abs((Math.abs(Math.cos(ra))>Math.abs(Math.sin(ra))?hitY:hitX)%1);
+   const verticalMortar=
+     wallCoord<.025 ||
+     wallCoord>.975 ||
+     [.25,.5,.75].some(v=>Math.abs(wallCoord-v)<.018);
+
+   const depth=clamp(1-d/18,.15,1);
+   const base=dark?[121,91,66]:[135,97,73];
+   const variation=((Math.floor(hitX*4)+Math.floor(hitY*4))%3)*8;
+   const r=clamp((base[0]+variation)*depth,12,255);
+   const g=clamp((base[1]+variation)*depth,12,255);
+   const b=clamp((base[2]+variation)*depth,12,255);
+
    rect(i*sw,top,sw+1,height,`rgb(${r},${g},${b})`);
-   // mortar rows and alternating brick offsets
-   const brickH=30;
-   for(let sy=top+brickH;sy<bottom;sy+=brickH){rect(i*sw,sy,sw+1,1,`rgba(22,16,12,${.26*depth})`)}
-   if(mortarV)rect(i*sw,top,sw+1,height,`rgba(35,27,22,${.22*depth})`);
-   if(i%3===0)rect(i*sw,top,sw+1,Math.max(1,height*.07),`rgba(255,255,255,${.05*depth})`);
+
+   // Real brick mortar: horizontal courses plus offset vertical joints.
+   const course=30;
+   for(let sy=top+course;sy<bottom;sy+=course){
+     rect(i*sw,sy,sw+1,2,`rgba(38,24,18,${.34*depth})`);
+   }
+   if(verticalMortar){
+     rect(i*sw,top,sw+1,height,`rgba(38,24,18,${.27*depth})`);
+   }
+   if(i%4===0){
+     rect(i*sw,top,sw+1,Math.max(1,height*.055),`rgba(255,232,210,${.055*depth})`);
+   }
  }
- const dx=state.exit[0]-state.x,dy=state.exit[1]-state.y;const angleTo=Math.atan2(dy,dx);const diff=((angleTo-state.a+Math.PI*3)%(Math.PI*2))-Math.PI;const exitDist=Math.hypot(dx,dy);
- if(Math.abs(diff)<.45&&exitDist<7){const sx=W/2+(diff/(Math.PI/3))*W;const h=clamp(440/(exitDist+.4),50,230);const glow=ctx.createRadialGradient(sx,H/2,8,sx,H/2,h);glow.addColorStop(0,'rgba(94,234,212,.95)');glow.addColorStop(1,'rgba(94,234,212,0)');ctx.fillStyle=glow;ctx.fillRect(sx-h,H/2-h,h*2,h*2);rect(sx-h*.2,H/2-h*.5,h*.4,h,'#16a085');rect(sx-h*.12,H/2-h*.42,h*.24,h*.84,'#ccfff5')}
- const cx=W/2,cy=H/2;ctx.save();ctx.shadowColor='rgba(0,0,0,.7)';ctx.shadowBlur=5;line(cx-18,cy,cx-7,cy,5,'#07131e');line(cx+7,cy,cx+18,cy,5,'#07131e');line(cx,cy-18,cx,cy-7,5,'#07131e');line(cx,cy+7,cx,cy+18,5,'#07131e');line(cx-17,cy,cx-8,cy,2,'#f8fafc');line(cx+8,cy,cx+17,cy,2,'#f8fafc');line(cx,cy-17,cx,cy-8,2,'#f8fafc');line(cx,cy+8,cx,cy+17,2,'#f8fafc');ctx.strokeStyle='#5eead4';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,4,0,Math.PI*2);ctx.stroke();ctx.restore();
- const scale=6,ox=16,oy=16;rect(ox-6,oy-6,state.map[0].length*scale+12,state.map.length*scale+12,'rgba(2,6,12,.78)');state.map.forEach((row,y)=>[...row].forEach((v,x)=>rect(ox+x*scale,oy+y*scale,scale-1,scale-1,v==='1'?(dark?'#6d5643':'#6c7a80'):'rgba(255,255,255,.08)')));rect(ox+state.x*scale-2,oy+state.y*scale-2,5,5,'#f8fafc');line(ox+state.x*scale,oy+state.y*scale,ox+(state.x+Math.cos(state.a)*1.4)*scale,oy+(state.y+Math.sin(state.a)*1.4)*scale,2,'#f4b942');rect(ox+state.exit[0]*scale-2,oy+state.exit[1]*scale-2,5,5,'#5eead4');txt(`${exitDist.toFixed(1)}m to exit`,W-18,24,17,'#fff','right');
+
+ const dx=state.exit[0]-state.x,dy=state.exit[1]-state.y;
+ const angleTo=Math.atan2(dy,dx);
+ const diff=((angleTo-state.a+Math.PI*3)%(Math.PI*2))-Math.PI;
+ const exitDist=Math.hypot(dx,dy);
+
+ if(Math.abs(diff)<.45&&exitDist<7){
+   const sx=W/2+(diff/(Math.PI/3))*W;
+   const h=clamp(450/(exitDist+.4),52,235);
+   const glow=ctx.createRadialGradient(sx,H/2,8,sx,H/2,h);
+   glow.addColorStop(0,'rgba(94,234,212,.95)');
+   glow.addColorStop(1,'rgba(94,234,212,0)');
+   ctx.fillStyle=glow;ctx.fillRect(sx-h,H/2-h,h*2,h*2);
+   rect(sx-h*.2,H/2-h*.5,h*.4,h,'#0f766e');
+   rect(sx-h*.12,H/2-h*.42,h*.24,h*.84,'#ccfff5');
+ }
+
+ // Third-person player avatar from behind.
+ const avatarY=454+bob;
+ const facing=keys.left?-1:1;
+ pixelPerson(W/2,avatarY,'#0f9d78',1.18,2,facing,performance.now()/100);
+
+ // Shoulder shading makes the camera feel behind the player.
+ const shoulder=ctx.createRadialGradient(W/2,avatarY-10,15,W/2,avatarY-10,100);
+ shoulder.addColorStop(0,'rgba(15,157,120,.2)');
+ shoulder.addColorStop(1,'rgba(15,157,120,0)');
+ ctx.fillStyle=shoulder;ctx.fillRect(W/2-110,avatarY-100,220,150);
+
+ // Crosshair above the avatar.
+ const cx=W/2,cy=238+bob*.1;
+ ctx.save();
+ ctx.shadowColor='rgba(0,0,0,.7)';ctx.shadowBlur=5;
+ line(cx-17,cy,cx-7,cy,5,'#07131e');
+ line(cx+7,cy,cx+17,cy,5,'#07131e');
+ line(cx,cy-17,cx,cy-7,5,'#07131e');
+ line(cx,cy+7,cx,cy+17,5,'#07131e');
+ line(cx-16,cy,cx-8,cy,2,'#f8fafc');
+ line(cx+8,cy,cx+16,cy,2,'#f8fafc');
+ line(cx,cy-16,cx,cy-8,2,'#f8fafc');
+ line(cx,cy+8,cx,cy+16,2,'#f8fafc');
+ ctx.strokeStyle='#5eead4';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,4,0,Math.PI*2);ctx.stroke();
+ ctx.restore();
+
+ // Minimap.
+ const scale=6,ox=16,oy=16;
+ rect(ox-6,oy-6,state.map[0].length*scale+12,state.map.length*scale+12,'rgba(2,6,12,.82)');
+ state.map.forEach((row,y)=>[...row].forEach((v,x)=>{
+   rect(
+     ox+x*scale,
+     oy+y*scale,
+     scale-1,
+     scale-1,
+     v==='1'?(dark?'#745740':'#8a6046'):'rgba(255,255,255,.08)'
+   );
+ }));
+ rect(ox+state.x*scale-2,oy+state.y*scale-2,5,5,'#f8fafc');
+ line(
+   ox+state.x*scale,
+   oy+state.y*scale,
+   ox+(state.x+Math.cos(state.a)*1.4)*scale,
+   oy+(state.y+Math.sin(state.a)*1.4)*scale,
+   2,
+   '#f4b942'
+ );
+ rect(ox+state.exit[0]*scale-2,oy+state.exit[1]*scale-2,5,5,'#5eead4');
+
+ txt('THIRD-PERSON MAZE',W/2,25,18,'#fff');
+ txt(`${exitDist.toFixed(1)}m to exit`,W-18,25,17,'#fff','right');
 }
 
 const SHAPES=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]]];
@@ -614,39 +714,142 @@ function drawCrew(x,y,c,tag=false,variant=0,facing=1,run=0,scale=1){
  ctx.restore();if(tag){ctx.strokeStyle='#f4b942';ctx.lineWidth=Math.max(2,Math.round(scale*3));ctx.strokeRect(x-s(24),y-s(38),s(48),s(69));txt('IT',x,y-s(48),Math.max(12,Math.round(scale*14)),'#f4b942')}}
 
 function drawTag(){
- // ship gradient background
- const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0a1221');bg.addColorStop(1,'#111827');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
- // stars outside windows
- for(let i=0;i<55;i++)rect((i*83)%W,20+(i*47)%120,2,2,'rgba(255,255,255,.5)');
- // windows
- for(let i=0;i<5;i++){rect(60+i*175,26,85,34,'#294865');rect(67+i*175,33,71,20,'#10263d');rect(93+i*175,38,4,4,'#dbeafe')}
- // floor perspective
- const floorTop=150;ctx.beginPath();ctx.moveTo(120,floorTop);ctx.lineTo(W-120,floorTop);ctx.lineTo(W-10,H);ctx.lineTo(10,H);ctx.closePath();ctx.fillStyle='#1f2937';ctx.fill();
- for(let i=0;i<14;i++){const t=i/13;const y=floorTop+(H-floorTop)*t*t;line(140-(t*130),y,W-140+(t*130),y,2,'rgba(255,255,255,.06)')}
- for(let i=-7;i<=7;i++){ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W/2+i*50,floorTop);ctx.lineTo(W/2+i*95,H);ctx.stroke()}
- // room blocks in perspective
- state.rooms.forEach((r,idx)=>{
-   const p1=projectTagPoint(r.x,r.y), p2=projectTagPoint(r.x+r.w,r.y), p3=projectTagPoint(r.x+r.w,r.y+r.h), p4=projectTagPoint(r.x,r.y+r.h);
-   ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.lineTo(p3.x,p3.y);ctx.lineTo(p4.x,p4.y);ctx.closePath();ctx.fillStyle=idx%2?'#24384b':'#1e3442';ctx.fill();
-   ctx.strokeStyle='#5b7082';ctx.lineWidth=2;ctx.stroke();
-   // front walls
-   const wallH=18;ctx.beginPath();ctx.moveTo(p4.x,p4.y);ctx.lineTo(p3.x,p3.y);ctx.lineTo(p3.x,p3.y+wallH);ctx.lineTo(p4.x,p4.y+wallH);ctx.closePath();ctx.fillStyle='#334155';ctx.fill();
+ const moving=keys.up||keys.down||keys.left||keys.right;
+ const bob=moving?Math.sin(performance.now()/105)*4:0;
+
+ // Interior ceiling.
+ const ceiling=ctx.createLinearGradient(0,0,0,175);
+ ceiling.addColorStop(0,'#070d18');
+ ceiling.addColorStop(1,'#162338');
+ ctx.fillStyle=ceiling;ctx.fillRect(0,0,W,180);
+
+ // Interior back wall.
+ rect(0,115,W,205,'#223247');
+ for(let x=0;x<W;x+=96){
+   rect(x+4,123,88,187,x%192===0?'#2e435a':'#293b51');
+   line(x+4,123,x+4,310,3,'#111c2a');
+   line(x+92,123,x+92,310,3,'#41566c');
+ }
+
+ // Windows showing space.
+ for(let i=0;i<5;i++){
+   const wx=40+i*188;
+   rect(wx,48,135,68,'#52657a');
+   rect(wx+7,55,121,54,'#07131e');
+   for(let s=0;s<8;s++){
+     rect(wx+14+(s*37+i*11)%105,61+(s*19)%40,2,2,'rgba(255,255,255,.7)');
+   }
+   if(i===3){
+     ctx.fillStyle='rgba(59,130,246,.35)';
+     ctx.beginPath();ctx.arc(wx+95,78,18,0,Math.PI*2);ctx.fill();
+   }
+ }
+
+ // Ceiling lights.
+ for(let i=0;i<7;i++){
+   rect(54+i*137,18,80,10,'#5eead4');
+   const glow=ctx.createLinearGradient(0,28,0,90);
+   glow.addColorStop(0,'rgba(94,234,212,.12)');
+   glow.addColorStop(1,'rgba(94,234,212,0)');
+   ctx.fillStyle=glow;ctx.fillRect(50+i*137,28,88,65);
+ }
+
+ // Floor in perspective.
+ ctx.beginPath();
+ ctx.moveTo(135,305);
+ ctx.lineTo(W-135,305);
+ ctx.lineTo(W,540);
+ ctx.lineTo(0,540);
+ ctx.closePath();
+ ctx.fillStyle='#1c2635';
+ ctx.fill();
+
+ // Floor panels and center walkway.
+ for(let y=315;y<H;y+=30){
+   line(0,y,W,y,2,'rgba(255,255,255,.055)');
+ }
+ for(let i=-8;i<=8;i++){
+   line(W/2+i*44,305,W/2+i*82,H,1,'rgba(255,255,255,.045)');
+ }
+ ctx.beginPath();
+ ctx.moveTo(385,305);
+ ctx.lineTo(575,305);
+ ctx.lineTo(700,H);
+ ctx.lineTo(260,H);
+ ctx.closePath();
+ ctx.fillStyle='#26384c';
+ ctx.fill();
+ line(385,305,260,H,4,'#3d5369');
+ line(575,305,700,H,4,'#3d5369');
+
+ // Doors, consoles, crates, pipes: clearly inside the ship.
+ for(let i=0;i<4;i++){
+   const x=52+i*230;
+   rect(x,180,128,140,'#172435');
+   rect(x+10,191,108,118,'#2c4055');
+   rect(x+46,208,36,72,'#0c1624');
+   rect(x+57,231,14,8,'#5eead4');
+   rect(x+15,196,18,9,'#f4b942');
+ }
+ for(let i=0;i<3;i++){
+   const x=120+i*330;
+   rect(x,330,92,48,'#39495a');
+   rect(x+8,338,76,32,'#263544');
+   rect(x+14,344,17,7,'#ef4444');
+   rect(x+38,344,17,7,'#22c55e');
+   rect(x+62,344,14,7,'#3b82f6');
+ }
+ rect(25,270,95,64,'#526171');rect(36,280,73,44,'#293848');
+ rect(W-120,270,95,64,'#526171');rect(W-109,280,73,44,'#293848');
+
+ // Translate the world around the player into the interior camera.
+ const worldToScreen=(wx,wy)=>{
+   const dx=wx-state.x;
+   const dy=wy-state.y;
+   const sx=W/2+dx*.88;
+   const sy=325+dy*.48;
+   const scale=clamp(.54+(dy+260)/650,.48,1.08);
+   return{x:sx,y:sy,scale};
+ };
+
+ // Draw AI from farthest to nearest.
+ const actors=state.players
+   .map((p,i)=>({p,i,view:worldToScreen(p.x,p.y)}))
+   .filter(a=>a.view.x>-80&&a.view.x<W+80&&a.view.y>195&&a.view.y<H+60)
+   .sort((a,b)=>a.view.y-b.view.y);
+
+ actors.forEach(({p,i,view})=>{
+   drawCrew(
+     view.x,
+     view.y+bob*.1,
+     p.color,
+     !state.playerIsTagger&&i===state.tagger,
+     p.variant||i,
+     p.face||1,
+     p.anim||0,
+     view.scale
+   );
  });
- // corridors and doors
- [ [300,145,355,145],[605,145,660,145],[210,220,210,310],[490,220,490,300],[775,220,775,300] ].forEach(seg=>{
-   const a=projectTagPoint(seg[0],seg[1]), b=projectTagPoint(seg[2],seg[3]);line(a.x,a.y,b.x,b.y,8,'#475569');
- });
- // sort by depth and draw AI players
- const projected=state.players.map((p,i)=>({p,i,proj:projectTagPoint(p.x,p.y)})).sort((a,b)=>a.proj.y-b.proj.y);
- projected.forEach(({p,i,proj})=>drawCrew(proj.x,proj.y,p.color,!state.playerIsTagger&&i===state.tagger,p.variant||i,p.face||1,p.anim||0,proj.scale));
- // draw player avatar in foreground (third-person)
- drawCrew(W/2,430,'#f8fafc',state.playerIsTagger,9,state.playerFace||1,state.playerAnim||0,1.22);
- // HUD
- rect(18,16,152,34,'rgba(7,19,30,.74)');rect(W-170,16,152,34,'rgba(7,19,30,.74)');
- txt(state.playerIsTagger?'YOU ARE IT':'RUN FROM IT',480,27,22,state.playerIsTagger?'#f4b942':'#fff');
- txt(`${Math.max(0,Math.ceil(state.roundTime))}s`,930,33,20,'#fff','right');
- txt(`Tags ${state.tagsMade}`,30,33,18,'#5eead4','left');
- txt('Third-person spaceship view',480,56,14,'#cbd5e1');
+
+ // Third-person player avatar in front of the camera.
+ drawCrew(
+   W/2,
+   447+bob,
+   '#f8fafc',
+   state.playerIsTagger,
+   9,
+   state.playerFace||1,
+   state.playerAnim||0,
+   1.22
+ );
+
+ // HUD.
+ rect(15,15,180,38,'rgba(4,10,18,.78)');
+ rect(W-195,15,180,38,'rgba(4,10,18,.78)');
+ txt(`Tags ${state.tagsMade}`,30,35,18,'#5eead4','left');
+ txt(`${Math.max(0,Math.ceil(state.roundTime))}s`,W-30,35,20,'#fff','right');
+ txt(state.playerIsTagger?'YOU ARE THE TAGGER':'ESCAPE THE TAGGER',W/2,34,22,state.playerIsTagger?'#f4b942':'#fff');
+ txt('Inside the Quran Academy starship',W/2,76,15,'#cbd5e1');
 }
 
 function makeAliens(){const a=[];for(let r=0;r<5;r++)for(let c=0;c<9;c++)a.push({x:210+c*68,y:85+r*45,alive:true,row:r});return a}
