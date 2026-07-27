@@ -1281,7 +1281,7 @@ function bindHold(button,key){
  button.addEventListener('pointerup',release);
  button.addEventListener('pointercancel',release);
  button.addEventListener('lostpointercapture',()=>{keys[key]=false});
-});['pointerup','pointercancel','pointerleave'].forEach(ev=>button.addEventListener(ev,()=>keys[key]=false))}
+}
 bindHold(leftButton,'left');bindHold(rightButton,'right');bindHold(upButton,'up');bindHold(downButton,'down');bindHold(actionButton,'action');
 
 window.addEventListener('keydown',e=>{
